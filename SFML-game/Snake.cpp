@@ -61,7 +61,7 @@ void Snake::respawn()
 
 	body.clear();
 
-	head.setPosition(490, 490);
+	head.setPosition((960/2)-10, (960/2)-10);
 }
 
 void Snake::despawn()

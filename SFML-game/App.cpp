@@ -8,7 +8,7 @@
 
 App::App()
 {
-	window.create(sf::VideoMode(1000, 1000), "Snake");
+	window.create(sf::VideoMode(960, 960), "Snake");
 	window.setVerticalSyncEnabled(true);
 
 	Machine::Push(new MainMenu(window, event, font));

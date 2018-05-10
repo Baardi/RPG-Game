@@ -15,9 +15,9 @@ public:
 	void loadTexture() override;
 
     // Lazy, but ram is cheap!
-    int tilemap[100][100];
-	AnimationTile animationTilemap[100][100];
-	sf::Sprite textureMap[100][100];
+    int tilemap[30][30];
+	AnimationTile animationTilemap[30][30];
+	sf::Sprite textureMap[30][30];
 
 protected:
 

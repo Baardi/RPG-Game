@@ -30,14 +30,14 @@ void SnakeHead::move(double xVector, double yVector, double speed)
 	yPos = yPos + yVector * speed;
 
 	if (xPos < -10)
-		xPos += 1000;
-	else if (xPos > 990)
-		xPos -= 1000;
+		xPos += 960;
+	else if (xPos > 960-10)
+		xPos -= 960;
 
 	if (yPos < -10)
-		yPos += 1000;
-	else if (yPos > 990)
-		yPos -= 1000;
+		yPos += 960;
+	else if (yPos > 960-10)
+		yPos -= 960;
 
 	shape.setPosition(xPos, yPos);
 }
