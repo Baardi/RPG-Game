@@ -9,7 +9,7 @@
 App::App()
 {
 	window.create(sf::VideoMode(960, 960), "Snake");
-	window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(100); // <-- should be a setting
 
 	Machine::Push(new MainMenu(window, event, font));
 
@@ -56,7 +56,7 @@ bool App::frame()
 
 void App::SwitchState()
 {
-	std::cout << std::to_string(Machine::Size()) + std::string(" -> ");
+	std::cout << std::to_string(Machine::Size()) << std::string(" -> ");
 
 	Machine::GetUI()->pause();
 

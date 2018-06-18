@@ -8,9 +8,12 @@ Map::~Map()
 {
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
+
+	for (auto object : objects) // nothing to delete for now, but might be later
+		delete object;
 }
 
-bool Map::load(std::string filename, std::vector<MapObject*>& objects)
+bool Map::load(const std::string &filename)
 {
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
@@ -42,16 +45,24 @@ bool Map::load(std::string filename, std::vector<MapObject*>& objects)
 	// Read in each layer
 	for (Json::Value& layer: root["layers"])
 	{
-		loadLayer(layer, objects, tileSize);
-		loadObjects(root, layer, objects, tileSize);
+		if (layer["type"].asString() == "tilelayer")
+			loadLayer(layer, objects, tileSize);
+		
+		if (layer["type"].asString() == "objectgroup")
+			loadObjects(layer, objects, tileSize);
 	}
 
 	return true;
 }
 
-void Map::loadLayer(Json::Value& layer, std::vector<MapObject*>& objects, TileSize tileSize)
+void Map::loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize)
 {
-	Layer *tmp = new Layer(tileSize, tileSets, animatedTiles); // Layer needs a reference to the active tilesets
+	Json::Value &data = layer["data"];
+
+	if (!data.size()) // probably an object layer
+		return;
+
+	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles); // TileLayer needs a reference to the active tilesets
 
 	// Store info on layer
 	tmp->width = layer["width"].asInt();
@@ -62,50 +73,58 @@ void Map::loadLayer(Json::Value& layer, std::vector<MapObject*>& objects, TileSi
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
 
 	// Read in tilemap
-	Json::Value &data = layer["data"];
+
 	for (unsigned int i = 0; i < data.size(); i++)
 	{
 		tmp->tilemap[i % tmp->width][i / tmp->width] = data[i].asInt();
 	}
 
-	if (tmp->name=="powerups")
-		powerup_layer = tmp;
-    else if (tmp->name=="barrels")
-		box_layer = tmp;
-    else if (tmp->name=="indestructable")
-		brick_layer = tmp;
-
 	tmp->loadTexture();
-	objects.push_back(tmp);
+	objects.push_back(tmp);				   // vector, so the order is kept
+	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::loadObjects(Json::Value& root, Json::Value& layer, std::vector<MapObject*>& objects, TileSize tileSize)
+void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize)
 {
+	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
+	objectLayer->name = layer["name"].asString();
+
 	// Get all mapObjects from layer
 	for (Json::Value& object: layer["objects"])
 	{
-		Sprite* sprite = new Sprite(tileSize, tileSets, animatedTiles);
+		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles);
 
 		// Load basic object info
 		sprite->x = object["x"].asInt();
 		sprite->y = object["y"].asInt() - sprite->tileSize.y;
 		sprite->id = object["gid"].asInt();
+		sprite->rotation = object["rotation"].asInt();
 
-		sprite->loadTexture();
-		objects.push_back(sprite);
+		objectLayer->objects.emplace_back(sprite);
 	}
+
+	objectLayer->loadTexture();
+	objects.push_back(objectLayer);
+	objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 
-void Map::clear_arrays()
+void Map::draw(sf::RenderWindow &window)
 {
-	for(int i = 0; i<15;i++)
-	{
-		for(int j = 0; j<15;j++)
-		{
-			bombs[i][j]=0;
-			explosion[i][j]=0;
-		}
-	}
+	for (auto object : objects)
+		object->process();
+
+	for (auto object : objects)
+		object->draw(window);
+}
+
+TileLayer *Map::GetTileLayer(const std::string& layerName)
+{
+	return tileMap[layerName];
+}
+
+ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
+{
+	return objectMap[layerName];
 }
 
 void Map::loadTileSets(Json::Value &root) // Loads all the images used by the json file as textures
@@ -132,24 +151,6 @@ void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on
 			int animationTileId = animation["tileid"].asInt();
 			int animationTileDuration = animation["duration"].asInt();
 			
-			tileSetAnimations.push_back(std::make_pair(animationTileId, animationTileDuration));
-		}
-		animatedTiles.try_emplace(firstGid + atoi(tileid.c_str()), tileSetAnimations);
-	}
-}
-
-void Map::loadAnimatedObjects(int firstGid, Json::Value &tileset) // Store info on animated tiles
-{
-	for (Json::ValueIterator it = tileset.begin(); it != tileset.end(); ++it)
-	{
-		std::string tileid = it.key().asString();
-		std::vector<std::pair<int, int>> tileSetAnimations;
-
-		for (Json::Value &animation : tileset[tileid]["animation"])
-		{
-			int animationTileId = animation["tileid"].asInt();
-			int animationTileDuration = animation["duration"].asInt();
-
 			tileSetAnimations.push_back(std::make_pair(animationTileId, animationTileDuration));
 		}
 		animatedTiles.try_emplace(firstGid + atoi(tileid.c_str()), tileSetAnimations);

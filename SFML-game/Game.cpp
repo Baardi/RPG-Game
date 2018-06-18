@@ -17,7 +17,7 @@ Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(wind
 	players.push_back(new Player(window, sf::Keyboard::Left, sf::Keyboard::Right, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
 	
 	if (players.size() < numberOfPlayers)
-		players.push_back(new Player(window, sf::Keyboard::Num1, sf::Keyboard::Num2, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
+		players.push_back(new Player(window, sf::Keyboard::Num1, sf::Keyboard::Num2, sf::Color(rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
 
 	if (players.size() < numberOfPlayers)
 		players.push_back(new Player(window, sf::Keyboard::C, sf::Keyboard::V, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
@@ -29,8 +29,11 @@ Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(wind
 	// Just add 5 items with 3 params as input, and let the new structure handle the rest
 
 	map = new Map();
-	if (!map->load("data/Intro village.json", mapObjects))
+	if (!map->load("data/Intro village.json")) // route 1 is fucked
+	{
 		Machine::Set(Transition::Reset, State::MainMenu);
+		return;
+	}
 
 	pauseText.setPosition(400, 450);
 }
@@ -39,9 +42,6 @@ Game::~Game()
 {
 	for (auto player : players)
 		delete player;
-
-	for (auto object : mapObjects) // nothing to delete for now, but might be later
-		delete object;
 
 	if (map)
 		delete map;
@@ -55,7 +55,7 @@ bool Game::frame()
 {
 	//TODO: tick speed and jump amount to be moved outwards, to config file
 	//framespertick++;
-	if (!paused && clock.getElapsedTime().asMilliseconds() > 12)
+	if (!paused)
 	{
 		//std::cout << framespertick << std::endl;
 		//framespertick = 0;
@@ -134,12 +134,12 @@ void Game::tick()
 	// kill part
 	for (auto player : players)
 	{
-		auto snake = player->snake;
+		auto &snake = player->snake;
 
 		if (snake && !snake->isAlive)
 		{
 			delete snake;
-			player->snake = nullptr;
+			snake = nullptr;
 		}
 	}
 
@@ -147,8 +147,7 @@ void Game::tick()
 
 void Game::draw()
 {
-	for (auto object : mapObjects)
-		object->draw(window);
+	map->draw(window);
 
 	apple.draw();
 

@@ -1,0 +1,23 @@
+#pragma once
+#include "Layer.h"
+#include "ObjectSprite.h"
+
+class ObjectLayer : public Layer
+{
+	// Map needs to access protected/private data
+	friend class Map;
+
+public:
+	ObjectLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
+
+	void process() override;
+	void draw(sf::RenderWindow& window) override;
+	void loadTexture() override;
+
+
+protected:
+
+	std::vector<ObjectSprite *> objects;
+	//todo std::map
+	// Id of first tile
+};

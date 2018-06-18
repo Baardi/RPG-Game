@@ -17,9 +17,9 @@ enum class Transition
 	None = 0,	// Do nothing. Always turns to None after a transition
 	Push = 1,	// Adds a new state to the stack
 	Switch = 2,	// Removes a state from the stack, and push a new one (theoretically the same as pop)
-	Pop = 2,	// Remove a state from the stack, continuing executing the previous Machine in stack
-	Reset = 3,	// Removes all state, then and push a new one (theoretically the same as Exit)
-	Exit = 3	// Removes all state, which causes the program to exit
+	Pop = 2,	// Remove a state from the stack, continuing executing the previous state in stack
+	Reset = 3,	// Removes all states, then and push a new one (theoretically the same as Exit)
+	Exit = 3	// Removes all states, which causes the program to exit
 };
 
 //	Abstract class for initializing new states

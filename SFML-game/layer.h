@@ -1,31 +1,70 @@
 #pragma once
-#include "MapObject.h"
-#include "chronometer.h"
+#include <map>
+#include <SFML/Graphics/Rect.hpp>
+#include <vector>
+#include <unordered_map>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Clock.hpp>
 
-// Class representing a tile layer
-class Layer : public MapObject
+namespace sf
 {
-	// Map needs to access protected/private data
+	class RenderWindow;
+	class Texture;
+}
+
+struct AnimationTileData
+{
+	AnimationTileData(int duration, sf::IntRect intRect) : duration(duration), intRect(intRect) {}
+	int duration;
+	sf::IntRect intRect;
+};
+
+struct AnimationTile
+{
+	int currentFrame = 0;
+	double lastTime = 0;
+	std::vector<AnimationTileData> animationTileData;
+};
+
+// Small helper struct that contains tile size information
+struct TileSize
+{
+	TileSize() = default;
+	TileSize(int size) : x(size), y(size), s(0) {}
+	TileSize(int size, int spacing) : x(size), y(size), s(spacing) {}
+	TileSize(int xSize, int ySize, int spacing) : x(xSize), y(ySize), s(spacing) {}
+	int x; // Width
+	int y; // Height
+	int s; // Spacing
+};
+
+class Layer
+{
 	friend class Map;
-
 public:
-	Layer(TileSize tileSize, std::map<int, sf::Texture *> &tileSets, std::map<int, std::vector<std::pair<int, int>>> animatedTiles) : MapObject(tileSize, tileSets, animatedTiles) { clock.reset(true); }
+	Layer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) :
+		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
 
-	void draw(sf::RenderWindow& window) override;
-	void loadTexture() override;
+	virtual ~Layer() = default;
+	
+	virtual void process() {}
+	virtual void draw(sf::RenderWindow& window) {}
+	virtual void loadTexture() {}
 
-    // Lazy, but ram is cheap!
-    int tilemap[30][30];
-	AnimationTile animationTilemap[30][30];
-	sf::Sprite textureMap[30][30];
+	// Calculate x and y position of given tile in the texture
+	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y);
+	int GetTextureIndex(int tileValue);
+	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sf::Clock &clock);
+	
+	static void LoadSprite(sf::Sprite sprite, int tileid, int x, int y){} // Todo: impl
+
+	const TileSize tileSize;
+	std::unordered_map<int, sf::Texture *> &tileSets;
+	std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles;
 
 protected:
-
-	//void GetTileAnimation();
-
-    // Size in tiles
-	int width, height;
-    std::string name;
-
-	sftools::Chronometer clock;
+	std::string name;
+	//possibly implement later, if decided to be useful
+	//virtual void setPosition();
 };
+

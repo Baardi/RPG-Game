@@ -1,7 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "SnakeHead.h"
-#include "SnakeBodyElem.h"
 #include "Apple.h"
 #include "Snake.h"
 #include "Machine.h"
@@ -44,10 +42,13 @@ private:
 
 	//"Personal" class variables
 	std::vector<Player*> players;
-	std::vector<MapObject*> mapObjects; // conisder adding map <name->layer>, draw from vector though
+	
+	std::unordered_map<std::string, TileLayer*> layerMap;
+	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
+
 	Apple apple;
 
 	sf::Text pauseText;
 	bool pausable = false;
-	Map *map;
+	Map *map = nullptr;
 };

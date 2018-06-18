@@ -1,7 +1,8 @@
 #pragma once
 
-#include "layer.h"
-#include "sprite.h"
+#include "TileLayer.h"
+#include "ObjectLayer.h"
+#include <unordered_map>
 
 namespace Json
 {
@@ -15,29 +16,26 @@ public:
 	Map() = default;
 	~Map();
 	// Load map from Tiled JSON file
-	bool load(std::string filename, std::vector<MapObject*>& objects);
-	void clear_arrays();
-
-    Layer* box_layer = nullptr;
-    Layer* brick_layer = nullptr;
-    Layer* powerup_layer = nullptr;
-
-	int explosion[15][15], bombs[15][15];
+	bool load(const std::string &filename);
+	void draw(sf::RenderWindow &window);
+	TileLayer *GetTileLayer(const std::string &layerName);
+	ObjectLayer *GetObjectLayer(const std::string &layerName);
 
 private:
+	std::vector<Layer*> objects; // also need a std map for easy lookup
+	std::unordered_map<std::string, TileLayer*> tileMap;
+	std::unordered_map<std::string, ObjectLayer*> objectMap;
 
-	std::map<int, sf::Texture *> tileSets;
+	std::unordered_map<int, sf::Texture *> tileSets;
 	void loadTileSets(Json::Value &root);
 
-	// |animationtileid|animationdata|frame|tileid|duration|
-	std::map<int, std::vector<std::pair<int, int>>> animatedTiles;
+	// <animationtileid, animationdata< frame<tileid, duration>> >
+	std::unordered_map<int, std::vector< std::pair<int, int>> > animatedTiles;
 	void loadAnimatedTiles(int firstGid, Json::Value &tileset);
 
-	void loadAnimatedObjects(int firstGid, Json::Value &tileset);
-
     // Handles regular layers
-	void loadLayer(Json::Value& layer, std::vector<MapObject*>& objects, TileSize tileSize);
+	void loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize);
 
 	// Handles object layers
-	void loadObjects(Json::Value& root, Json::Value& layer, std::vector<MapObject*>& objects, TileSize tileSize);
+	void loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize);
 };

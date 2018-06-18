@@ -1,0 +1,21 @@
+#include "stdafx.h"
+#include <SFML/Graphics.hpp>
+#include "ObjectLayer.h"
+
+void ObjectLayer::process()
+{
+	for (auto object : objects)
+		object->process();
+}
+
+void ObjectLayer::draw(sf::RenderWindow& window)
+{
+	for (auto object : objects)
+		object->draw(window);
+}
+
+void ObjectLayer::loadTexture()
+{
+	for (auto object : objects)
+		object->loadTexture();
+}
