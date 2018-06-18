@@ -9,6 +9,7 @@ class ObjectLayer : public Layer
 
 public:
 	ObjectLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
+	~ObjectLayer();
 
 	void process() override;
 	void draw(sf::RenderWindow& window) override;

@@ -2,6 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include "ObjectLayer.h"
 
+ObjectLayer::~ObjectLayer()
+{
+	for (auto object : objects)
+		delete object;
+}
+
 void ObjectLayer::process()
 {
 	for (auto object : objects)

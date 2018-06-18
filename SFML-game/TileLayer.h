@@ -15,9 +15,9 @@ public:
 	void process() override;
 	void loadTexture() override;
 
-    // Lazy, but ram is cheap!
 private:
 
+    // Lazy, but ram is cheap!
     int tilemap[30][30];
 	AnimationTile animationTilemap[30][30];
 	sf::Sprite textureMap[30][30];
