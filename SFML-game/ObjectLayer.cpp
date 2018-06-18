@@ -11,7 +11,10 @@ void ObjectLayer::process()
 void ObjectLayer::draw(sf::RenderWindow& window)
 {
 	for (auto object : objects)
-		object->draw(window);
+	{
+		if (object->visible)
+			object->draw(window);
+	}
 }
 
 void ObjectLayer::loadTexture()

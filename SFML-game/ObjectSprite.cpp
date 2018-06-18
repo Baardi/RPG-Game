@@ -4,7 +4,7 @@
 
 void ObjectSprite::process()
 {
-	if (id == 0)
+	if (gid == 0)
 		return;
 
 	// Update animation
@@ -13,7 +13,7 @@ void ObjectSprite::process()
 
 void ObjectSprite::draw(sf::RenderWindow& window)
 {
-	if (id == 0)
+	if (gid == 0)
 		return;
 
 	window.draw(sprite);
@@ -22,10 +22,10 @@ void ObjectSprite::draw(sf::RenderWindow& window)
 void ObjectSprite::loadTexture()
 {
 	// try loading animation first
-	auto animationTile = animatedTiles[id];
+	auto animationTile = animatedTiles[gid];
 	if (animationTile.size() != 0)
 	{
-		int tileTextureValue = GetTextureIndex(id);
+		int tileTextureValue = GetTextureIndex(gid);
 
 		sf::Texture *spriteTexture = tileSets[tileTextureValue];  // first animationtile decides texture
 		{
@@ -46,14 +46,14 @@ void ObjectSprite::loadTexture()
 		return;
 	}
 
-	int tileTextureValue = GetTextureIndex(id);
+	int tileTextureValue = GetTextureIndex(gid);
 	if (!tileTextureValue) // No texture found
 		return;
 
 	sf::Texture *texture = tileSets[tileTextureValue];
 
 	int tilex, tiley;
-	getTileCoords(texture, id - tileTextureValue, tilex, tiley);
+	getTileCoords(texture, gid - tileTextureValue, tilex, tiley);
 
 	sprite = sf::Sprite(*texture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y)); // flips easy to implement, unreadable code due to stupid way to solve for tiled program
 	sprite.setPosition(float(x), float(y));

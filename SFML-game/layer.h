@@ -64,6 +64,8 @@ public:
 
 protected:
 	std::string name;
+	std::string type;
+	bool visible;
 	//possibly implement later, if decided to be useful
 	//virtual void setPosition();
 };

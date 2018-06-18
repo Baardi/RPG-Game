@@ -16,6 +16,9 @@
     <Filter Include="SnakeGame">
       <UniqueIdentifier>{da45399b-6b94-4822-b54c-cc87199dda43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{9e468ed4-de3c-47da-a66f-a539e78d50f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -60,23 +63,23 @@
     <ClInclude Include="PlayerSelectMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TileLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectLayer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLayer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="ObjectSprite.h">
-      <Filter>Header Files</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,22 +125,20 @@
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TileLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectLayer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="map.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TileLayer.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="ObjectSprite.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Map</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="map.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ObjectLayer.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

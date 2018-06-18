@@ -18,6 +18,5 @@ public:
 protected:
 
 	std::vector<ObjectSprite *> objects;
-	//todo std::map
-	// Id of first tile
+	// todo std::map<int gid, ObjectSprite *>
 };

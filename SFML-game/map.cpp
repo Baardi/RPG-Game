@@ -68,6 +68,7 @@ void Map::loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize t
 	tmp->width = layer["width"].asInt();
 	tmp->height = layer["height"].asInt();
     tmp->name = layer["name"].asString();
+	tmp->visible = layer["visible"].asBool();
 
 	// Clear tilemap
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
@@ -88,6 +89,8 @@ void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize
 {
 	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
 	objectLayer->name = layer["name"].asString();
+	objectLayer->type = layer["type"].asString();
+	objectLayer->visible = layer["visible"].asBool();
 
 	// Get all mapObjects from layer
 	for (Json::Value& object: layer["objects"])
@@ -95,10 +98,13 @@ void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize
 		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles);
 
 		// Load basic object info
+		sprite->name = object["name"].asString();
+		sprite->gid = object["gid"].asInt();
 		sprite->x = object["x"].asInt();
 		sprite->y = object["y"].asInt() - sprite->tileSize.y;
-		sprite->id = object["gid"].asInt();
 		sprite->rotation = object["rotation"].asInt();
+		sprite->type = object["type"].asString();
+		sprite->visible = object["visible"].asBool();
 
 		objectLayer->objects.emplace_back(sprite);
 	}
@@ -114,7 +120,10 @@ void Map::draw(sf::RenderWindow &window)
 		object->process();
 
 	for (auto object : objects)
-		object->draw(window);
+	{
+		if (object->visible)
+			object->draw(window);
+	}
 }
 
 TileLayer *Map::GetTileLayer(const std::string& layerName)

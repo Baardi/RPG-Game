@@ -6,6 +6,7 @@
 class ObjectSprite : public Layer
 {
 	friend class Map;
+	friend class ObjectLayer;
 public:
 	ObjectSprite(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) : Layer(tileSize, tileSets, animatedTiles) {}
 	~ObjectSprite() = default;
@@ -18,12 +19,13 @@ public:
 protected:
 
 	// Id of first tile
-	int id;
+	int gid;
 
 	// Location on screen
 	int x, y;
-
 	int rotation;
+
+	// int width, height; as of now just inherited
 
 	// AnimationData
 	AnimationTile animationTileInfo;
