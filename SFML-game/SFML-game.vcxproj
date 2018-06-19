@@ -153,7 +153,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="Apple.h" />
     <ClInclude Include="chronometer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -164,9 +163,6 @@
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerSelectMenu.h" />
-    <ClInclude Include="Snake.h" />
-    <ClInclude Include="SnakeBodyElem.h" />
-    <ClInclude Include="SnakeHead.h" />
     <ClInclude Include="ObjectLayer.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="stdafx.h" />
@@ -175,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
@@ -189,9 +184,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerSelectMenu.cpp" />
     <ClCompile Include="SFML-game.cpp" />
-    <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="SnakeBodyElem.cpp" />
-    <ClCompile Include="SnakeHead.cpp" />
     <ClCompile Include="ObjectLayer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

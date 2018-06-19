@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SnakeGame">
-      <UniqueIdentifier>{da45399b-6b94-4822-b54c-cc87199dda43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Map">
-      <UniqueIdentifier>{9e468ed4-de3c-47da-a66f-a539e78d50f0}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -29,21 +23,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SnakeHead.h">
-      <Filter>SnakeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="SnakeBodyElem.h">
-      <Filter>SnakeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>SnakeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Apple.h">
-      <Filter>SnakeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Snake.h">
-      <Filter>SnakeGame</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files</Filter>
@@ -94,21 +73,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Apple.cpp">
-      <Filter>SnakeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Snake.cpp">
-      <Filter>SnakeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="SnakeHead.cpp">
-      <Filter>SnakeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="SnakeBodyElem.cpp">
-      <Filter>SnakeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>SnakeGame</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files</Filter>

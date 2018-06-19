@@ -1,7 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Apple.h"
-#include "Snake.h"
 #include "Machine.h"
 #include "chronometer.h"
 #include "UI.h"
@@ -29,9 +27,7 @@ public:
 
 private:
 	//Functions
-	void UpdateScore();
 	void HandleKeyInput();
-	void KillSnake(int pos);
 
 	//int framespertick = 0; // <-- Used for measuring performance
 
@@ -41,12 +37,8 @@ private:
 	sf::Font &font;
 
 	//"Personal" class variables
-	std::vector<Player*> players;
-	
 	std::unordered_map<std::string, TileLayer*> layerMap;
 	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
-
-	Apple apple;
 
 	sf::Text pauseText;
 	bool pausable = false;

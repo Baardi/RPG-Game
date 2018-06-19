@@ -7,24 +7,12 @@
 Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(window, event, font),
                                                        window(window),
                                                        font(font),
-                                                       apple(window),
                                                        pauseText("Paused", font, 50)
 {
 	// Initialize
 	GameInitializer* initializer = dynamic_cast<GameInitializer*>(Machine::GetInitializer());
 	int numberOfPlayers = initializer ? initializer->players : 1;
-
-	players.push_back(new Player(window, sf::Keyboard::Left, sf::Keyboard::Right, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
 	
-	if (players.size() < numberOfPlayers)
-		players.push_back(new Player(window, sf::Keyboard::Num1, sf::Keyboard::Num2, sf::Color(rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
-
-	if (players.size() < numberOfPlayers)
-		players.push_back(new Player(window, sf::Keyboard::C, sf::Keyboard::V, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
-
-	if (players.size() < numberOfPlayers)
-		players.push_back(new Player(window, sf::Keyboard::Numpad8, sf::Keyboard::Numpad9, sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255), font, players.size()));
-		
 	// Color/Keys should (would be nice) be loaded from somewhere (config or struct)
 	// Just add 5 items with 3 params as input, and let the new structure handle the rest
 
@@ -40,9 +28,6 @@ Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(wind
 
 Game::~Game()
 {
-	for (auto player : players)
-		delete player;
-
 	if (map)
 		delete map;
 }
@@ -95,81 +80,14 @@ void Game::toggle()
 void Game::tick()
 {
 
-	// move part
-	for (auto player : players)
-	{
-		auto snake = player->snake;
-
-		if (!snake)
-			continue;
-
-		snake->HandleKeyInput();
-		snake->move();
-	}
-
-	// collision check part
-	for (auto player : players)
-	{
-		auto snake = player->snake;
-
-		if (!snake)
-			continue;
-
-		if (snake->Collides(apple))
-		{
-			apple.respawn();
-			snake->grow();
-			player->SetScore();
-		}
-
-		for (auto otherPlayer : players)
-		{
-			auto otherSnake = otherPlayer->snake;
-
-			if (otherSnake && snake->Collides(*otherSnake))
-				snake->isAlive = false;
-		}
-	}
-
-	// kill part
-	for (auto player : players)
-	{
-		auto &snake = player->snake;
-
-		if (snake && !snake->isAlive)
-		{
-			delete snake;
-			snake = nullptr;
-		}
-	}
-
 }
 
 void Game::draw()
 {
 	map->draw(window);
 
-	apple.draw();
-
-	for (auto player : players)
-	{
-		auto snake = player->snake;
-
-		if (snake)
-			snake->draw();
-	}
-
-	for (auto player : players)
-		player->score.draw();
-
 	if (paused)
 		window.draw(pauseText);
-}
-
-void Game::UpdateScore()
-{
-	for (auto player : players)
-		player->SetScore();
 }
 
 void Game::HandleKeyInput()
@@ -193,10 +111,4 @@ void Game::HandleKeyInput()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();
-}
-
-void Game::KillSnake(int pos)
-{
-	delete players[pos]->snake;
-	players.erase(players.begin() + pos);
 }

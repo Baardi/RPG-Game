@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "SnakeBodyElem.h"
 #include "Menu.h"
 
 class MainMenu : public Menu
