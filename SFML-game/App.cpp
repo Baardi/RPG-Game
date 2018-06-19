@@ -8,7 +8,7 @@
 
 App::App()
 {
-	window.create(sf::VideoMode(960, 960), "Snake");
+	window.create(sf::VideoMode(960, 960), "RPG");
 	window.setFramerateLimit(100); // <-- should be a setting
 
 	Machine::Push(new MainMenu(window, event, font));

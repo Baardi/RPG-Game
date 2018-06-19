@@ -4,6 +4,9 @@
 #include "map.h"
 #include <json/json.h>
 
+#define _USE_MATH_DEFINES
+#include "math.h"
+
 Map::~Map()
 {
 	for (auto tileSet : tileSets)
@@ -105,16 +108,18 @@ void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize
 		// Load basic object info
 		sprite->name = object["name"].asString();
 		sprite->gid = object["gid"].asInt();
-		sprite->x = object["x"].asInt();
-		sprite->y = object["y"].asInt() - sprite->tileSize.y;
-		sprite->rotation = object["rotation"].asInt();
+		sprite->width = object["width"].asFloat();
+		sprite->height = object["height"].asFloat();
+		sprite->rotation = object["rotation"].asFloat();
+		sprite->x = object["x"].asFloat() + sprite->height * sin(sprite->rotation * (M_PI / 180.0));
+		sprite->y = object["y"].asFloat() - sprite->height * cos(sprite->rotation * (M_PI / 180.0));
 		sprite->type = object["type"].asString();
 		sprite->visible = object["visible"].asBool();
-
+		
+		sprite->loadTexture();
 		objectLayer->objects.emplace_back(sprite);
 	}
 
-	objectLayer->loadTexture();
 	objects.push_back(objectLayer);
 	objectMap.try_emplace(objectLayer->name, objectLayer);
 }

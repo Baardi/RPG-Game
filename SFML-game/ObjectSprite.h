@@ -22,10 +22,9 @@ protected:
 	int gid;
 
 	// Location on screen
-	int x, y;
-	int rotation;
-
-	// int width, height; as of now just inherited
+	float x, y;
+	float width, height;
+	float rotation;
 
 	// AnimationData
 	AnimationTile animationTileInfo;

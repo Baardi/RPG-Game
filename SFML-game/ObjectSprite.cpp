@@ -33,8 +33,9 @@ void ObjectSprite::loadTexture()
 			int tilex, tiley;
 			getTileCoords(spriteTexture, animationTile[0].first, tilex, tiley);
 			sprite = sf::Sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
-			sprite.setPosition(float(x), float(y));
+			sprite.setPosition(x, y);
 			sprite.setRotation(rotation);
+			sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
 		}
 
 		for (const auto &tile : animationTile)
@@ -57,6 +58,7 @@ void ObjectSprite::loadTexture()
 	getTileCoords(texture, gid - tileTextureValue, tilex, tiley);
 
 	sprite = sf::Sprite(*texture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y)); // flips easy to implement, unreadable code due to stupid way to solve for tiled program
-	sprite.setPosition(float(x), float(y));
+	sprite.setPosition(x, y);
 	sprite.setRotation(rotation);
+	sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
 }
