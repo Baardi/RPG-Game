@@ -22,7 +22,9 @@ public:
 	ObjectLayer *GetObjectLayer(const std::string &layerName);
 
 private:
-	std::vector<Layer*> objects; // also need a std map for easy lookup
+	// The owner of the Layer-pointers, also used to draw
+	std::vector<Layer*> objects;
+	// Different ordering of objects, used as lookup table
 	std::unordered_map<std::string, TileLayer*> tileMap;
 	std::unordered_map<std::string, ObjectLayer*> objectMap;
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class GameObject
 {
@@ -13,6 +14,6 @@ public:
 
 	//possibly implement later, if decided to be useful
 	//virtual void setPosition();
-	//virtual void draw();
+	virtual void draw(sf::RenderWindow &window) {}
 };
 

@@ -8,7 +8,8 @@ void ObjectSprite::process()
 		return;
 
 	// Update animation
-	ProcessAnimation(sprite, animationTileInfo, clock);
+	if (animationTileInfo.animationTileData.size())
+		ProcessAnimation(sprite, animationTileInfo, clock);
 }
 
 void ObjectSprite::draw(sf::RenderWindow& window)

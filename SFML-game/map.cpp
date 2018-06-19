@@ -9,7 +9,7 @@ Map::~Map()
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
 
-	for (auto object : objects) // nothing to delete for now, but might be later
+	for (auto object : objects)
 		delete object;
 }
 
@@ -17,8 +17,13 @@ bool Map::load(const std::string &filename)
 {
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
-
+	
 	tileSets.clear();
+
+	for (auto object : objects)
+		delete object;
+	
+	objects.clear();
 
 	// Will contain the data we read in
 	Json::Value root;

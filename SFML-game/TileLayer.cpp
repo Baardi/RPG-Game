@@ -19,7 +19,8 @@ void TileLayer::process()
 			AnimationTile &animationTile = animationTilemap[x][y];
 
 			// Update animation
-			ProcessAnimation(sprite, animationTile, clock);
+			if (animationTile.animationTileData.size())
+				ProcessAnimation(sprite, animationTile, clock);
 		}
 	}
 

@@ -27,26 +27,21 @@ int Layer::GetTextureIndex(int tileValue)
 void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sf::Clock& clock)
 {
 	auto &animationTileData = animationTile.animationTileData;
-	if (animationTileData.size())
+	int &currentFrame = animationTile.currentFrame;
+	double &lastTime = animationTile.lastTime;
+
+	double currentDuration = clock.getElapsedTime().asMilliseconds();
+
+	if (int(currentDuration - lastTime) > animationTileData[currentFrame].duration)
 	{
-		int &currentFrame = animationTile.currentFrame;
-		double &lastTime = animationTile.lastTime;
-
-		double currentDuration = clock.getElapsedTime().asMilliseconds();
-
-		if (int(currentDuration - lastTime) > animationTileData[currentFrame].duration)
+		do
 		{
-			int inc = 0; // To skip frames if running too slowly, instead of playing catchup
-			do
-			{
-				inc++;
-				lastTime += animationTileData[currentFrame].duration; // To keep it in sync, just increment by the duration
-			} while (currentDuration > lastTime + animationTileData[currentFrame].duration);
-
-			currentFrame = (currentFrame + inc) % animationTileData.size();
-
-			sf::IntRect &rect = animationTileData[currentFrame].intRect;
-			sprite.setTextureRect(rect);
+			lastTime += animationTileData[currentFrame].duration; // To keep it in sync, just increment by the duration
+			currentFrame = (currentFrame + 1) % animationTileData.size();
 		}
+		while (currentDuration > lastTime + animationTileData[currentFrame].duration);
+
+		sf::IntRect &rect = animationTileData[currentFrame].intRect;
+		sprite.setTextureRect(rect);
 	}
 }

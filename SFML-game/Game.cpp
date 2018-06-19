@@ -85,6 +85,7 @@ void Game::tick()
 void Game::draw()
 {
 	map->draw(window);
+	player.draw(window);
 
 	if (paused)
 		window.draw(pauseText);
@@ -92,6 +93,8 @@ void Game::draw()
 
 void Game::HandleKeyInput()
 {
+	player.HandleKeyInput();
+
 	if (!pausable && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)))
 		pausable = true;
 

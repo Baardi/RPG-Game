@@ -4,6 +4,7 @@
 #include "chronometer.h"
 #include "UI.h"
 #include "map.h"
+#include "Player.h"
 
 class GameInitializer : public Initializer
 {
@@ -37,6 +38,8 @@ private:
 	sf::Font &font;
 
 	//"Personal" class variables
+	Player player;
+
 	std::unordered_map<std::string, TileLayer*> layerMap;
 	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
 
