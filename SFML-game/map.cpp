@@ -120,6 +120,10 @@ void Map::loadObjects(Json::Value& layer, TileSize tileSize)
 		sprite->type = object["type"].asString();
 		sprite->visible = object["visible"].asBool();
 		
+		auto &properties = object["properties"];
+		for (Json::ValueIterator it = properties.begin(); it != properties.end(); ++it)
+			sprite->propertyMap.try_emplace(it.key().asString(), it->asString());
+
 		sprite->loadTexture();
 		objectLayer->objects.emplace_back(sprite);
 	}

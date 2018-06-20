@@ -71,3 +71,8 @@ sf::FloatRect ObjectSprite::GetGlobalBounds()
 {
 	return globalBounds;
 }
+
+std::string ObjectSprite::GetPropertyValue(const std::string &propertyName)
+{
+	return propertyMap[propertyName];
+}

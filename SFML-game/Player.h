@@ -18,6 +18,7 @@ public:
 	~Player();
 	void draw(sf::RenderWindow &window) override;
 	sf::FloatRect GetGlobalBounds() override;
+	void SetPosition(int x, int y) override;
 	
 	void HandleKeyInput();
 

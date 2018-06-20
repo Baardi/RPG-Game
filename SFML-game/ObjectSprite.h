@@ -17,8 +17,9 @@ public:
 	void loadTexture() override;
 
 	sf::FloatRect GetGlobalBounds() override;
+	std::string GetPropertyValue(const std::string &propertyName);
 
-protected:
+private:
 
 	// Id of first tile
 	int gid;
@@ -36,4 +37,6 @@ protected:
 
 	sf::Sprite sprite;
 	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
+
+	std::unordered_map<std::string, std::string> propertyMap;
 };

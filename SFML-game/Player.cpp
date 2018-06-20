@@ -26,6 +26,13 @@ sf::FloatRect Player::GetGlobalBounds()
 	return sprite.getGlobalBounds();
 }
 
+void Player::SetPosition(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+	sprite.setPosition(x, y);
+}
+
 void Player::HandleKeyInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))

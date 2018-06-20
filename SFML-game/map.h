@@ -44,4 +44,6 @@ private:
 
 	// Shared clock for all animated tiles
 	sf::Clock clock;
+
+	// TODO impl: propertymap
 };

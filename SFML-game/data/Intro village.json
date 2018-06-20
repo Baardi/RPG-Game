@@ -316,6 +316,18 @@
                  "height":32,
                  "id":3,
                  "name":"To Intro Map",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Intro map.json",
+                     "SpawnX":"500",
+                     "SpawnY":"500"
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"string",
+                     "SpawnY":"string"
+                    },
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
@@ -327,6 +339,18 @@
                  "height":32,
                  "id":83,
                  "name":"To SomeOtherPlace",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Route 1.json",
+                     "SpawnX":"500",
+                     "SpawnY":"500"
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"string",
+                     "SpawnY":"string"
+                    },
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
@@ -338,6 +362,18 @@
                  "height":32,
                  "id":85,
                  "name":"To IntroVillage House",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Intro house.json",
+                     "SpawnX":"500",
+                     "SpawnY":"500"
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"string",
+                     "SpawnY":"string"
+                    },
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
@@ -353,6 +389,18 @@
         }],
  "nextobjectid":86,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "EntranceTo":"data\/Intro Map",
+     "SpawnX":"500",
+     "SpawnY":"500"
+    },
+ "propertytypes":
+    {
+     "EntranceTo":"string",
+     "SpawnX":"string",
+     "SpawnY":"string"
+    },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",
  "tileheight":32,

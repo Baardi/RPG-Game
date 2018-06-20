@@ -13,7 +13,7 @@ public:
 	bool Intersects(GameObject &object);
 
 	//possibly implement later, if decided to be useful
-	//virtual void setPosition();
+	virtual void SetPosition(int x, int y) {}
 	virtual void draw(sf::RenderWindow &window) {}
 };
 

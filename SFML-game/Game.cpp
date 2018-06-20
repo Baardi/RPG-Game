@@ -79,21 +79,28 @@ void Game::toggle()
 
 void Game::tick()
 {
-	bool loadMap = false;
 	auto entranceLayer = map->GetObjectLayer("Entrance");
+	ObjectSprite *entrance = nullptr;
 	if (entranceLayer)
 	{
 		for (auto object : entranceLayer->objects)
 		{
 			if (player.Intersects(*object))
 			{
-				loadMap = true;
+				entrance = object;
 				break;
 			}
 		}
 
-		if (loadMap)
-			map->load("data/Intro House.json");
+		if (entrance)
+		{
+			std::string mapFileName = entrance->GetPropertyValue("EntranceTo");
+			int x = atoi(entrance->GetPropertyValue("SpawnX").c_str());
+			int y = atoi(entrance->GetPropertyValue("SpawnY").c_str());
+
+			map->load(mapFileName);
+			player.SetPosition(x, y);
+		}
 	}
 }
 

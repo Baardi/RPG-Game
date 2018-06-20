@@ -17,9 +17,10 @@ public:
 private:
 
     // Lazy, but ram is cheap!
-    int tilemap[30][30];
-	AnimationTile animationTilemap[30][30];
-	sf::Sprite textureMap[30][30];
+	// 31x31 isntead of 30x30 temporarily to make Route 1 work
+    int tilemap[31][31];
+	AnimationTile animationTilemap[31][31];
+	sf::Sprite textureMap[31][31];
 
     // Size in tiles
 	int width, height;
