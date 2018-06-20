@@ -9,35 +9,39 @@ namespace Json
 	class Value;
 }
 
-// Class with a single public function that loads a map into an object list
 class Map
 {
 public:
 	Map() = default;
 	~Map();
-	// Load map from Tiled JSON file
-	bool load(const std::string &filename);
-	void draw(sf::RenderWindow &window);
+	
+	void clear();									// Clear the map
+	bool load(const std::string &filename);			// Load map from Tiled JSON file
+	void draw(sf::RenderWindow &window);			// Draw the map
 	TileLayer *GetTileLayer(const std::string &layerName);
 	ObjectLayer *GetObjectLayer(const std::string &layerName);
+	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 
 private:
 	// The owner of the Layer-pointers, also used to draw
 	std::vector<Layer*> objects;
 	// Different ordering of objects, used as lookup table
-	std::unordered_map<std::string, TileLayer*> tileMap;
-	std::unordered_map<std::string, ObjectLayer*> objectMap;
+	std::unordered_map<std::string, TileLayer *> tileMap;
+	std::unordered_map<std::string, ObjectLayer *> objectMap;
 
 	std::unordered_map<int, sf::Texture *> tileSets;
 	void loadTileSets(Json::Value &root);
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
-	std::unordered_map<int, std::vector< std::pair<int, int>> > animatedTiles;
+	AnimationTileMap animatedTiles;
 	void loadAnimatedTiles(int firstGid, Json::Value &tileset);
 
     // Handles regular layers
-	void loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize);
+	void loadLayer(Json::Value& layer, TileSize tileSize);
 
 	// Handles object layers
-	void loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize);
+	void loadObjects(Json::Value& layer, TileSize tileSize);
+
+	// Shared clock for all animated tiles
+	sf::Clock clock;
 };

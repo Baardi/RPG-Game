@@ -8,16 +8,16 @@ class ObjectLayer : public Layer
 	friend class Map;
 
 public:
-	ObjectLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
+	ObjectLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
 	~ObjectLayer();
 
 	void process() override;
 	void draw(sf::RenderWindow& window) override;
 	void loadTexture() override;
 
+	std::vector<ObjectSprite *> objects;
 
 protected:
 
-	std::vector<ObjectSprite *> objects;
 	// todo std::map<int gid, ObjectSprite *>
 };

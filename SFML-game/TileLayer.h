@@ -1,6 +1,5 @@
 #pragma once
 #include "Layer.h"
-#include "chronometer.h"
 
 // Class representing a tile layer
 class TileLayer : public Layer
@@ -9,7 +8,7 @@ class TileLayer : public Layer
 	friend class Map;
 
 public:
-	TileLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) : Layer(tileSize, tileSets, animatedTiles) {  }
+	TileLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {  }
 
 	void draw(sf::RenderWindow& window) override;
 	void process() override;
@@ -25,6 +24,5 @@ private:
     // Size in tiles
 	int width, height;
 
-	// Todo: Make the clock more shared
-	sf::Clock clock;
+	sf::Clock &clock;
 };

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include <iostream>
 
 
 Player::Player() : tilesize(32)
@@ -20,6 +21,11 @@ void Player::draw(sf::RenderWindow &window)
 	window.draw(sprite);
 }
 
+sf::FloatRect Player::GetGlobalBounds()
+{
+	return sprite.getGlobalBounds();
+}
+
 void Player::HandleKeyInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
@@ -32,7 +38,7 @@ void Player::HandleKeyInput()
 		move(Dir::Right);
 	else
 	{
-		counter = 0;
+		counter = counter/counterMax;
 		sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	}
 }
@@ -40,7 +46,7 @@ void Player::HandleKeyInput()
 void Player::move(Dir dir)
 {
 	this->dir = dir;
-	counter = (counter + 1) % 100;
+	counter = (counter + 1) % counterMax;
 
 	switch (dir)
 	{
@@ -61,6 +67,6 @@ void Player::move(Dir dir)
 		break;
 	}
 
-	sprite.setTextureRect(sf::IntRect((counter/25) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	sprite.setTextureRect(sf::IntRect( int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	sprite.setPosition(x, y);
 }

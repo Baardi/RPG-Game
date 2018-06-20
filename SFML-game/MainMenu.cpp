@@ -27,4 +27,3 @@ void MainMenu::SelectEntry()
 		Machine::Set(Transition::Exit);
 	}
 }
-

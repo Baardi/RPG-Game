@@ -32,7 +32,7 @@ void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, s
 
 	double currentDuration = clock.getElapsedTime().asMilliseconds();
 
-	if (int(currentDuration - lastTime) > animationTileData[currentFrame].duration)
+	if (currentDuration > lastTime + animationTileData[currentFrame].duration)
 	{
 		do
 		{

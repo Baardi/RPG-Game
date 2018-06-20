@@ -19,7 +19,7 @@ void TileLayer::process()
 			AnimationTile &animationTile = animationTilemap[x][y];
 
 			// Update animation
-			if (animationTile.animationTileData.size())
+			if (!animationTile.animationTileData.empty())
 				ProcessAnimation(sprite, animationTile, clock);
 		}
 	}
@@ -51,10 +51,9 @@ void TileLayer::loadTexture()
 	{
 		for (int x = 0; x < width; x++)
 		{
-
 			int tileid = tilemap[x][y];
-			if (tileid == 0) // Skip empty tiles
-				continue;
+			if (tileid == 0) 
+				continue;		// Skip empty tiles
 
 			// Specific animated tiles code
 			auto animationTile = animatedTiles[tileid];
@@ -66,6 +65,7 @@ void TileLayer::loadTexture()
 				{
 					int tilex, tiley;
 					getTileCoords(spriteTexture, animationTile[0].first, tilex, tiley);
+
 					sf::Sprite sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 					sprite.setPosition(x*tileSize.x, y*tileSize.y);
 					textureMap[x][y] = sprite;
@@ -91,6 +91,7 @@ void TileLayer::loadTexture()
 			{
 				int tilex, tiley;
 				getTileCoords(spriteTexture, tileid - tileTextureValue, tilex, tiley);
+
 				sf::Sprite sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 				sprite.setPosition(x*tileSize.x, y*tileSize.y);
 				textureMap[x][y] = sprite;
@@ -98,4 +99,3 @@ void TileLayer::loadTexture()
 		}
 	}
 }
-

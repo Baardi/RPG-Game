@@ -40,4 +40,3 @@ void PlayerSelectMenu::SelectEntry()
 		Machine::Set(Transition::Pop);
 	}
 }
-

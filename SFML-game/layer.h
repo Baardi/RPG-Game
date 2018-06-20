@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include <SFML/Graphics/Rect.hpp>
 #include <vector>
 #include <unordered_map>
@@ -11,6 +10,8 @@ namespace sf
 	class RenderWindow;
 	class Texture;
 }
+
+using AnimationTileMap = std::unordered_map<int, std::vector< std::pair<int, int>> >;
 
 struct AnimationTileData
 {
@@ -42,7 +43,7 @@ class Layer
 {
 	friend class Map;
 public:
-	Layer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles) :
+	Layer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
 		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
 
 	virtual ~Layer() = default;
@@ -51,22 +52,21 @@ public:
 	virtual void draw(sf::RenderWindow& window) {}
 	virtual void loadTexture() {}
 
+protected:
+
 	// Calculate x and y position of given tile in the texture
 	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y);
 	int GetTextureIndex(int tileValue);
 	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sf::Clock &clock);
 	
-	static void LoadSprite(sf::Sprite sprite, int tileid, int x, int y){} // Todo: impl
+	// Todo: impl
+	//static void LoadSprite(sf::Sprite sprite, int tileid, int x, int y){}
 
 	const TileSize tileSize;
 	std::unordered_map<int, sf::Texture *> &tileSets;
-	std::unordered_map<int, std::vector<std::pair<int, int>>> animatedTiles;
+	AnimationTileMap &animatedTiles;
 
-protected:
 	std::string name;
 	std::string type;
 	bool visible;
-	//possibly implement later, if decided to be useful
-	//virtual void setPosition();
 };
-

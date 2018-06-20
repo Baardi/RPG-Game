@@ -16,9 +16,9 @@ public:
 
 	bool paused = false;
 
-	sf::Font &font;
 	sf::RenderWindow &window;
 	sf::Event &event;
+	sf::Font &font;
 };
 
 

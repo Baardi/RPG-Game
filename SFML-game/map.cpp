@@ -9,24 +9,28 @@
 
 Map::~Map()
 {
+	clear();
+}
+
+void Map::clear()
+{
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
 
 	for (auto object : objects)
 		delete object;
+
+	tileSets.clear();
+	objects.clear();
+	objectMap.clear();
+	tileMap.clear();
+	animatedTiles.clear();
+	clock.restart();
 }
 
 bool Map::load(const std::string &filename)
 {
-	for (auto tileSet : tileSets)
-		delete tileSet.second;
-	
-	tileSets.clear();
-
-	for (auto object : objects)
-		delete object;
-	
-	objects.clear();
+	clear();
 
 	// Will contain the data we read in
 	Json::Value root;
@@ -54,23 +58,23 @@ bool Map::load(const std::string &filename)
 	for (Json::Value& layer: root["layers"])
 	{
 		if (layer["type"].asString() == "tilelayer")
-			loadLayer(layer, objects, tileSize);
+			loadLayer(layer, tileSize);
 		
 		if (layer["type"].asString() == "objectgroup")
-			loadObjects(layer, objects, tileSize);
+			loadObjects(layer, tileSize);
 	}
 
 	return true;
 }
 
-void Map::loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize)
+void Map::loadLayer(Json::Value& layer, TileSize tileSize)
 {
 	Json::Value &data = layer["data"];
 
-	if (!data.size()) // probably an object layer
+	if (data.empty()) // probably an object layer
 		return;
 
-	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles); // TileLayer needs a reference to the active tilesets
+	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles, clock); // TileLayer needs a reference to the active tilesets
 
 	// Store info on layer
 	tmp->width = layer["width"].asInt();
@@ -93,7 +97,7 @@ void Map::loadLayer(Json::Value& layer, std::vector<Layer*>& objects, TileSize t
 	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize tileSize)
+void Map::loadObjects(Json::Value& layer, TileSize tileSize)
 {
 	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
 	objectLayer->name = layer["name"].asString();
@@ -103,7 +107,7 @@ void Map::loadObjects(Json::Value& layer, std::vector<Layer*>& objects, TileSize
 	// Get all mapObjects from layer
 	for (Json::Value& object: layer["objects"])
 	{
-		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles);
+		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles, clock);
 
 		// Load basic object info
 		sprite->name = object["name"].asString();
@@ -170,8 +174,9 @@ void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on
 			int animationTileId = animation["tileid"].asInt();
 			int animationTileDuration = animation["duration"].asInt();
 			
-			tileSetAnimations.push_back(std::make_pair(animationTileId, animationTileDuration));
+			tileSetAnimations.emplace_back(std::make_pair(animationTileId, animationTileDuration));
 		}
+
 		animatedTiles.try_emplace(firstGid + atoi(tileid.c_str()), tileSetAnimations);
 	}
 }

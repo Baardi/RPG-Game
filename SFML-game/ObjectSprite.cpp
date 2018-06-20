@@ -8,7 +8,7 @@ void ObjectSprite::process()
 		return;
 
 	// Update animation
-	if (animationTileInfo.animationTileData.size())
+	if (!animationTileInfo.animationTileData.empty())
 		ProcessAnimation(sprite, animationTileInfo, clock);
 }
 
@@ -22,6 +22,8 @@ void ObjectSprite::draw(sf::RenderWindow& window)
 
 void ObjectSprite::loadTexture()
 {
+	globalBounds = sf::FloatRect(x, y, width, height);
+
 	// try loading animation first
 	auto animationTile = animatedTiles[gid];
 	if (animationTile.size() != 0)
@@ -32,6 +34,7 @@ void ObjectSprite::loadTexture()
 		{
 			int tilex, tiley;
 			getTileCoords(spriteTexture, animationTile[0].first, tilex, tiley);
+
 			sprite = sf::Sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 			sprite.setPosition(x, y);
 			sprite.setRotation(rotation);
@@ -53,12 +56,18 @@ void ObjectSprite::loadTexture()
 		return;
 
 	sf::Texture *texture = tileSets[tileTextureValue];
+	{
+		int tilex, tiley;
+		getTileCoords(texture, gid - tileTextureValue, tilex, tiley);
 
-	int tilex, tiley;
-	getTileCoords(texture, gid - tileTextureValue, tilex, tiley);
+		sprite = sf::Sprite(*texture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y)); // flips easy to implement, unreadable code due to stupid way to solve for tiled program
+		sprite.setPosition(x, y);
+		sprite.setRotation(rotation);
+		sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
+	}
+}
 
-	sprite = sf::Sprite(*texture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y)); // flips easy to implement, unreadable code due to stupid way to solve for tiled program
-	sprite.setPosition(x, y);
-	sprite.setRotation(rotation);
-	sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
+sf::FloatRect ObjectSprite::GetGlobalBounds()
+{
+	return globalBounds;
 }

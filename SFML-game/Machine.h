@@ -1,6 +1,5 @@
 #pragma once
 #include "UI.h"
-#include "MainMenu.h"
 
 // List of all the States in the application. Setting a state will cause a transition to on of these
 enum class State
@@ -128,4 +127,3 @@ private:
 	Transition transition = Transition::None;
 	Initializer *initializer = nullptr;
 };
-

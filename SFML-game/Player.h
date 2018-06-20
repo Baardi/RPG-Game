@@ -17,15 +17,19 @@ public:
 	Player();
 	~Player();
 	void draw(sf::RenderWindow &window) override;
+	sf::FloatRect GetGlobalBounds() override;
+	
 	void HandleKeyInput();
 
 	Dir dir = Dir::Down;
 	float x = 300, y = 300;
 	float speed = 0.75;
 	int counter = 0;
-
+	const int counterMax = 50;
+	
 private:
 	void move(Dir dir);
+
 	sf::Sprite sprite;
 	sf::Texture texture;
 	TileSize tilesize;

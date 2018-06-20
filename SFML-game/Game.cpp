@@ -79,7 +79,22 @@ void Game::toggle()
 
 void Game::tick()
 {
+	bool loadMap = false;
+	auto entranceLayer = map->GetObjectLayer("Entrance");
+	if (entranceLayer)
+	{
+		for (auto object : entranceLayer->objects)
+		{
+			if (player.Intersects(*object))
+			{
+				loadMap = true;
+				break;
+			}
+		}
 
+		if (loadMap)
+			map->load("data/Intro House.json");
+	}
 }
 
 void Game::draw()
