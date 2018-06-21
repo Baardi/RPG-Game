@@ -28,6 +28,7 @@ private:
 	float x, y;
 	float width, height;
 	float rotation;
+	bool horflip, verflip;
 
 	// AnimationData
 	AnimationTile animationTileInfo;

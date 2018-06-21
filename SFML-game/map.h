@@ -46,4 +46,6 @@ private:
 	sf::Clock clock;
 
 	// TODO impl: propertymap
+
+	const unsigned int flipMultiplier = pow(2, 30);
 };

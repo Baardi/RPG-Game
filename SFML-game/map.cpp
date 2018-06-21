@@ -111,7 +111,12 @@ void Map::loadObjects(Json::Value& layer, TileSize tileSize)
 
 		// Load basic object info
 		sprite->name = object["name"].asString();
-		sprite->gid = object["gid"].asInt();
+		
+		unsigned int _gid = object["gid"].asUInt();
+		sprite->verflip = _gid / (flipMultiplier * 2);
+		sprite->horflip = _gid % (flipMultiplier * 2) > flipMultiplier;
+		sprite->gid = _gid % flipMultiplier;
+
 		sprite->width = object["width"].asFloat();
 		sprite->height = object["height"].asFloat();
 		sprite->rotation = object["rotation"].asFloat();
