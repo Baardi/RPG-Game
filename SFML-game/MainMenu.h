@@ -5,8 +5,9 @@
 class MainMenu : public Menu
 {
 public:
-	MainMenu(sf::RenderWindow &window, sf::Event &event, sf::Font &font);
+	MainMenu();
 	~MainMenu() = default;
+	void init() override;
 
 private:
 	size_t INDEX_NEWGAME = -1;

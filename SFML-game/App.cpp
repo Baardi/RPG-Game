@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "App.h"
 #include <iostream>
-#include "Machine.h"
+#include "State.h"
 #include "Game.h"
 #include "MainMenu.h"
 
@@ -10,7 +10,8 @@ App::App()
 	window.create(sf::VideoMode(960, 960), "RPG");
 	window.setFramerateLimit(100); // <-- should be a setting
 
-	Machine::Push(new MainMenu(window, event, font));
+	State::Setup(&window, &event, &font);
+	State::Set(Transition::Push, new MainMenu);
 
 	if (!font.loadFromFile("data/Asul-regular.ttf"))
 	{
@@ -39,14 +40,14 @@ bool App::frame()
 	window.clear(sf::Color::Black);
 
 	// Todo cooldown for keypress when switching state	
-	if (Machine::GetTransition() != Transition::None)
+	if (State::GetTransition() != Transition::None)
 		SwitchState();
 
-	if (!Machine::IsRunning())
+	if (!State::IsRunning())
 		return false;
 
-	Machine::GetUI()->frame();
-	Machine::GetUI()->HandleWindowEvents();
+	State::GetUI()->frame();
+	State::GetUI()->HandleWindowEvents();
 
 	window.display();
 	
@@ -55,33 +56,15 @@ bool App::frame()
 
 void App::SwitchState()
 {
-	std::cout << std::to_string(Machine::Size()) << std::string(" -> ");
+	std::cout << std::to_string(State::Size()) + std::string(" -> ");
 
-	Machine::GetUI()->pause();
+	if (State::IsRunning())
+		State::GetUI()->pause();
+	
+	State::CompleteTransition();
+	
+	if (State::IsRunning())
+		State::GetUI()->resume();
 
-	if (Machine::GetTransition() == Transition::Pop)
-		Machine::Pop();
-
-	else if (Machine::GetTransition() == Transition::Reset)
-		Machine::Reset();
-
-	switch (Machine::GetState())
-	{
-	case State::Game:
-		Machine::Push(new Game(window, event, font));
-		break;
-
-	case State::MainMenu:
-		Machine::Push(new MainMenu(window, event, font));
-		break;
-
-	default:	// State::None causes no new UI to be pushed
-		break;
-	}
-
-	if (Machine::IsRunning())
-		Machine::GetUI()->resume();
-
-	Machine::Complete();
-	std::cout << std::to_string(Machine::Size()) << std::endl;
+	std::cout << std::to_string(State::Size()) << std::endl;
 }

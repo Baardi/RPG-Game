@@ -163,7 +163,7 @@
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="ObjectLayer.h" />
-    <ClInclude Include="Machine.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UI.h" />

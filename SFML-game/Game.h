@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Machine.h"
+#include "State.h"
 #include <SFML/chronometer.h>
 #include "UI.h"
 #include "map.h"
@@ -16,7 +16,7 @@ public:
 class Game : public UI
 {
 public:
-	Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font);
+	Game();
 	~Game();
 	void init();
 	bool frame() override;
@@ -32,10 +32,8 @@ private:
 
 	//int framespertick = 0; // <-- Used for measuring performance
 
-	//Class object initialized by App
-	sf::RenderWindow &window;
+	//Class object (should be) initialized by App
 	sftools::Chronometer clock;
-	sf::Font &font;
 
 	//"Personal" class variables
 	Player player;

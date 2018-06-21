@@ -1,18 +1,15 @@
 #include "stdafx.h"
 #include "Game.h"
 #include <iostream>
-#include "Machine.h"
+#include "State.h"
+#include "MainMenu.h"
 
-
-Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(window, event, font),
-                                                       window(window),
-                                                       font(font),
-                                                       pauseText("Paused", font, 50)
+Game::Game()
 {
 	map = new Map();
 	if (!map->load("data/Intro village.json")) // route 1 is fucked
 	{
-		Machine::Set(Transition::Reset, State::MainMenu);
+		State::Set(Transition::Reset, new MainMenu);
 		return;
 	}
 
@@ -27,6 +24,11 @@ Game::~Game()
 
 void Game::init()
 {
+	UI::init();
+	
+	pauseText.setString("Paused");
+	pauseText.setFont(*font);
+	pauseText.setCharacterSize(50);
 }
 
 bool Game::frame()
@@ -99,11 +101,11 @@ void Game::tick()
 
 void Game::draw()
 {
-	map->draw(window);
-	player.draw(window);
+	map->draw(*window);
+	player.draw(*window);
 
 	if (paused)
-		window.draw(pauseText);
+		window->draw(pauseText);
 }
 
 void Game::HandleKeyInput()
@@ -115,17 +117,17 @@ void Game::HandleKeyInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
 	{
-		Machine::Set(Transition::Switch, State::MainMenu);
-		Machine::ClearInitializer();
+		State::Set(Transition::Switch, new MainMenu);
+		State::ClearInitializer();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 	{
-		Machine::Set(Transition::Push, State::MainMenu);
-		Machine::ClearInitializer();
+		State::Set(Transition::Push, new MainMenu);
+		State::ClearInitializer();
 	}
 	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
 	{
-		Machine::Set(Transition::Switch, State::Game);
+		State::Set(Transition::Switch, new Game);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();

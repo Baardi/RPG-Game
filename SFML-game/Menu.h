@@ -6,10 +6,10 @@
 class Menu : public UI
 {
 public:
-	Menu(sf::RenderWindow &window, sf::Event &event, sf::Font &font);
+	Menu();
 	virtual ~Menu();
 
-	void init();
+	void init() override;
 	bool frame() override;
 	void pause() override;
 	void resume() override;

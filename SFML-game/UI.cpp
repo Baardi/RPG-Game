@@ -1,19 +1,23 @@
 #include "stdafx.h"
 #include "UI.h"
-#include "Machine.h"
+#include "State.h"
+
+void UI::init()
+{
+}
 
 bool UI::PollEvent(sf::Event::EventType eventType)
 {
 	switch (eventType)
 	{
 	case sf::Event::Closed:
-		Machine::Set(Transition::Exit);
+		State::Set(Transition::Exit);
 		return true;
 
 		// causes an unresumable pause in menus
 		/*		case sf::Event::EventType::LostFocus:
-		if (Machine::IsRunning())
-		Machine::GetUI()->pause();*/
+		if (State::IsRunning())
+		State::GetUI()->pause();*/
 	default:
 		return false;
 	}
@@ -21,8 +25,15 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 
 void UI::HandleWindowEvents()
 {
-	while (window.pollEvent(event))
+	while (window->pollEvent(*event))
 	{
-		PollEvent(event.type);
+		PollEvent(event->type);
 	}
+}
+
+void UI::Setup(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
+{
+	this->window = window;
+	this->event = event;
+	this->font = font;
 }

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "Machine.h"
+#include "State.h"
 #include "Menu.h"
 
-Menu::Menu(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(window, event, font)
+Menu::Menu()
 {
 	clock.toggle();
 }
@@ -13,6 +13,7 @@ Menu::~Menu()
 
 void Menu::init()
 {
+	UI::init();
 }
 
 bool Menu::frame()
@@ -33,7 +34,7 @@ bool Menu::frame()
 		}
 		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
-			Machine::Set(Transition::Pop);
+			State::Set(Transition::Pop);
 		}
 		else if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
 		{
@@ -92,7 +93,7 @@ size_t Menu::AddMenuItem(std::string text)
 {
 	size_t index = menuItems.size();
 
-	sf::Text menuItem(text, font, 40);
+	sf::Text menuItem(text, *font, 40);
 	menuItem.setFillColor(index ? colorUnselect : colorSelect);
 	menuItem.setPosition(400, 400 + 50 * index);
 	menuItems.push_back(menuItem);
@@ -124,7 +125,7 @@ void Menu::HandleKeyEvents()
 
 void Menu::HandleMouseEvents()
 {
-	auto pos = sf::Mouse::getPosition(window);
+	auto pos = sf::Mouse::getPosition(*window);
 	menuIndex = -2; // <-- -2 instead of -1 to avoid conflict with uninitialized menu entries
 
 	for (int index = 0; index< menuItems.size(); index++)
@@ -145,5 +146,5 @@ void Menu::HandleMouseEvents()
 void Menu::draw()
 {
 	for (sf::Text menuItem : menuItems)
-		window.draw(menuItem);
+		window->draw(menuItem);
 }

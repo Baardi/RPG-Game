@@ -1,10 +1,15 @@
 #include "stdafx.h"
 #include "MainMenu.h"
-#include "Machine.h"
+#include "State.h"
+#include "Game.h"
 
-MainMenu::MainMenu(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : Menu(window, event, font)
+MainMenu::MainMenu()
 {
-	if (Machine::IsRunning())
+}
+
+void MainMenu::init()
+{
+	if (State::IsRunning())
 		INDEX_RESUME = AddMenuItem("Resume");
 
 	INDEX_NEWGAME = AddMenuItem("New Game");
@@ -15,14 +20,14 @@ void MainMenu::SelectEntry()
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		Machine::Set(Transition::Switch, State::Game);
+		State::Set(Transition::Push, new Game);
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
-		Machine::Set(Transition::Pop);
+		State::Set(Transition::Pop);
 	}
 	else if (menuIndex == INDEX_EXIT)
 	{
-		Machine::Set(Transition::Exit);
+		State::Set(Transition::Exit);
 	}
 }
