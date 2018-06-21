@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Machine.h"
-#include "chronometer.h"
+#include <SFML/chronometer.h>
 #include "UI.h"
 #include "map.h"
 #include "Player.h"

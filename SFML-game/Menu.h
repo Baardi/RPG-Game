@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "chronometer.h"
+#include <SFML/chronometer.h>
 #include "UI.h"
 
 class Menu : public UI
