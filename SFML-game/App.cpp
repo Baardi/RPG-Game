@@ -22,7 +22,6 @@ App::~App()
 
 void App::init()
 {
-	state.Setup(&window, &event, &font);
 	state.Set(Transition::Push, new MainMenu);
 }
 
@@ -38,7 +37,7 @@ bool App::frame()
 	window.clear(sf::Color::Black);
 
 	// Todo cooldown for keypress when switching state	
-	if (state.GetTransition() != Transition::None)
+	if (bool(state.transition))
 		SwitchState();
 
 	if (!state.IsRunning())
@@ -59,7 +58,7 @@ void App::SwitchState()
 	if (state.IsRunning())
 		state.GetUI()->pause();
 	
-	state.CompleteTransition();
+	state.PerformTransition(&window, &event, &font);
 	
 	if (state.IsRunning())
 		state.GetUI()->resume();

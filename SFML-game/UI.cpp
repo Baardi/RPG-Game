@@ -33,8 +33,8 @@ void UI::HandleWindowEvents()
 
 void UI::Setup(State *state, sf::RenderWindow *window, sf::Event *event, sf::Font *font)
 {
+	this->state = state;
 	this->window = window;
 	this->event = event;
 	this->font = font;
-	this->state = state;
 }

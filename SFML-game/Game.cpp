@@ -6,14 +6,6 @@
 
 Game::Game()
 {
-	map = new Map();
-	if (!map->load("data/Intro village.json")) // route 1 is fucked
-	{
-		state->Set(Transition::Reset, new MainMenu);
-		return;
-	}
-
-	pauseText.setPosition(400, 450);
 }
 
 Game::~Game()
@@ -26,9 +18,14 @@ void Game::init()
 {
 	UI::init();
 	
+	pauseText.setPosition(400, 450);
 	pauseText.setString("Paused");
 	pauseText.setFont(*font);
 	pauseText.setCharacterSize(50);
+
+	map = new Map();
+	if (!map->load("data/Intro village.json"))
+		state->Set(Transition::Switch, new MainMenu);
 }
 
 bool Game::frame()

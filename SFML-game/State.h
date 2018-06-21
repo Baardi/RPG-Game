@@ -23,8 +23,8 @@ public:
 // Class for storing and handling different states in the application
 class State
 {
+	friend class App;
 public:
-
 	State() = default;
 	State(State const&) = delete;
 	void operator=(State const&) = delete;
@@ -35,48 +35,20 @@ public:
 		this->transition = transition;
 		this->queuedState = state;
 	}
-
-	// Completes a queued transition
-	void CompleteTransition()
+	
+	bool IsRunning() const
 	{
-		if (GetTransition() == Transition::Pop)
-			Pop();
-
-		else if (GetTransition() == Transition::Reset)
-			Reset();
-
-		transition = Transition::None;
-
-		if (queuedState)
-		{
-			queuedState->Setup(this, this->window, this->event, this->font);
-			queuedState->init();
-			
-			Push(queuedState);
-			queuedState = nullptr;
-		}
+		return StateStack.size() > 0;
 	}
 
-	Transition GetTransition() const
+	int Size() const
 	{
-		return this->transition;
-	}
-
-	UI *GetUI()
-	{
-		return this->StateStack.back();
-	}
-
-	void Setup(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
-	{
-		this->window = window;
-		this->event = event;
-		this->font = font;
+		return StateStack.size();
 	}
 
 	Initializer *GetInitializer() const
 	{
-		return this->initializer;
+		return initializer;
 	}
 
 	void SetInitializer(Initializer *initializer)
@@ -90,25 +62,39 @@ public:
 
 	void ClearInitializer()
 	{
-		delete this->initializer;
-		this->initializer = nullptr;
-	}
-
-	bool IsRunning() const
-	{
-		return this->StateStack.size() > 0;
-	}
-
-	int Size() const
-	{
-		return this->StateStack.size();
+		delete initializer;
+		initializer = nullptr;
 	}
 
 private:
 	
-	void Push(UI* ui)
+	// Completes a queued transition
+	void PerformTransition(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
 	{
-		StateStack.push_back(ui);
+		if (transition == Transition::Pop)
+			Pop();
+
+		else if (transition == Transition::Reset)
+			Reset();
+
+		transition = Transition::None;
+
+		if (queuedState)
+			PushQueuedState(window, event, font);
+	}
+	
+	UI *GetUI()
+	{
+		return StateStack.back();
+	}
+
+	void PushQueuedState(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
+	{
+		queuedState->Setup(this, window, event, font);
+		queuedState->init();
+
+		StateStack.push_back(queuedState);
+		queuedState = nullptr;
 	}
 	
 	void Pop()
@@ -125,12 +111,9 @@ private:
 		StateStack.clear();
 	}
 
-	sf::RenderWindow *window = nullptr;
-	sf::Event *event = nullptr;
-	sf::Font *font = nullptr;
-
 	std::vector<UI*> StateStack;
 	UI *queuedState = nullptr;
 	Transition transition = Transition::None;
+	
 	Initializer *initializer = nullptr;
 };

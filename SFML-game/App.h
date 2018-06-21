@@ -18,4 +18,3 @@ private:
 	sf::RenderWindow window;
 	State state;
 };
-
