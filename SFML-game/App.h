@@ -1,6 +1,5 @@
 #pragma once
-
-#include <SFML\Graphics.hpp>
+#include "State.h"
 
 class App
 {
@@ -17,5 +16,6 @@ private:
 	sf::Font font;
 	sf::Event event;
 	sf::RenderWindow window;
+	State state;
 };
 

@@ -9,7 +9,7 @@ Game::Game()
 	map = new Map();
 	if (!map->load("data/Intro village.json")) // route 1 is fucked
 	{
-		State::Set(Transition::Reset, new MainMenu);
+		state->Set(Transition::Reset, new MainMenu);
 		return;
 	}
 
@@ -117,17 +117,17 @@ void Game::HandleKeyInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
 	{
-		State::Set(Transition::Switch, new MainMenu);
-		State::ClearInitializer();
+		state->Set(Transition::Switch, new MainMenu);
+		state->ClearInitializer();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 	{
-		State::Set(Transition::Push, new MainMenu);
-		State::ClearInitializer();
+		state->Set(Transition::Push, new MainMenu);
+		state->ClearInitializer();
 	}
 	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
 	{
-		State::Set(Transition::Switch, new Game);
+		state->Set(Transition::Switch, new Game);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();

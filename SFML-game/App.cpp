@@ -9,10 +9,6 @@ App::App()
 {
 	window.create(sf::VideoMode(960, 960), "RPG");
 	window.setFramerateLimit(100); // <-- should be a setting
-
-	State::Setup(&window, &event, &font);
-	State::Set(Transition::Push, new MainMenu);
-
 	if (!font.loadFromFile("data/Asul-regular.ttf"))
 	{
 		std::cout << "file can not be loaded, sorry!" << std::endl;
@@ -26,12 +22,14 @@ App::~App()
 
 void App::init()
 {
+	state.Setup(&window, &event, &font);
+	state.Set(Transition::Push, new MainMenu);
 }
 
 
 void App::run()
 {
-	while(frame()){} //game will exit on false, which is when the window closes
+	while(frame()){} // Game will exit on false, which is when the window closes
 }
 
 
@@ -40,14 +38,14 @@ bool App::frame()
 	window.clear(sf::Color::Black);
 
 	// Todo cooldown for keypress when switching state	
-	if (State::GetTransition() != Transition::None)
+	if (state.GetTransition() != Transition::None)
 		SwitchState();
 
-	if (!State::IsRunning())
+	if (!state.IsRunning())
 		return false;
 
-	State::GetUI()->frame();
-	State::GetUI()->HandleWindowEvents();
+	state.GetUI()->frame();
+	state.GetUI()->HandleWindowEvents();
 
 	window.display();
 	
@@ -56,15 +54,15 @@ bool App::frame()
 
 void App::SwitchState()
 {
-	std::cout << std::to_string(State::Size()) + std::string(" -> ");
+	std::cout << std::to_string(state.Size()) + std::string(" -> ");
 
-	if (State::IsRunning())
-		State::GetUI()->pause();
+	if (state.IsRunning())
+		state.GetUI()->pause();
 	
-	State::CompleteTransition();
+	state.CompleteTransition();
 	
-	if (State::IsRunning())
-		State::GetUI()->resume();
+	if (state.IsRunning())
+		state.GetUI()->resume();
 
-	std::cout << std::to_string(State::Size()) << std::endl;
+	std::cout << std::to_string(state.Size()) << std::endl;
 }

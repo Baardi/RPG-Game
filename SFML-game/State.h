@@ -20,19 +20,24 @@ public:
 	virtual ~Initializer() = default;
 };
 
-// Singleton class storing and setting StateMachine-related information
+// Class for storing and handling different states in the application
 class State
 {
 public:
+
+	State() = default;
+	State(State const&) = delete;
+	void operator=(State const&) = delete;
+
 	// Sets a transition, to be done after current frame
-	static void Set(Transition transition, UI *state = nullptr)
+	void Set(Transition transition, UI *state = nullptr)
 	{
-		Instance().transition = transition;
-		Instance().queuedState = state;
+		this->transition = transition;
+		this->queuedState = state;
 	}
 
-	// Completes a transition, 
-	static void CompleteTransition()
+	// Completes a queued transition
+	void CompleteTransition()
 	{
 		if (GetTransition() == Transition::Pop)
 			Pop();
@@ -40,94 +45,84 @@ public:
 		else if (GetTransition() == Transition::Reset)
 			Reset();
 
-		Instance().transition = Transition::None;
+		transition = Transition::None;
 
-		if (Instance().queuedState)
+		if (queuedState)
 		{
-			Push(Instance().queuedState);
-			Instance().queuedState = nullptr;
+			queuedState->Setup(this, this->window, this->event, this->font);
+			queuedState->init();
 			
-			GetUI()->Setup(Instance().window, Instance().event, Instance().font);
-			GetUI()->init();
+			Push(queuedState);
+			queuedState = nullptr;
 		}
 	}
 
-	static Transition GetTransition()
+	Transition GetTransition() const
 	{
-		return Instance().transition;
+		return this->transition;
 	}
 
-	static UI *GetUI()
+	UI *GetUI()
 	{
-		return Instance().StateStack.back();
+		return this->StateStack.back();
 	}
 
-	static void Setup(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
+	void Setup(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
 	{
-		Instance().window = window;
-		Instance().event = event;
-		Instance().font = font;
+		this->window = window;
+		this->event = event;
+		this->font = font;
 	}
 
-	static Initializer *GetInitializer()
+	Initializer *GetInitializer() const
 	{
-		return Instance().initializer;
+		return this->initializer;
 	}
 
-	static void SetInitializer(Initializer *initializer)
+	void SetInitializer(Initializer *initializer)
 	{
 		// In case clearing is forgotten, don't create memory leaks
-		if (Instance().initializer)
-			delete Instance().initializer;
+		if (this->initializer)
+			delete this->initializer;
 
-		Instance().initializer = initializer;
+		this->initializer = initializer;
 	}
 
-	static void ClearInitializer()
+	void ClearInitializer()
 	{
-		delete Instance().initializer;
-		Instance().initializer = nullptr;
+		delete this->initializer;
+		this->initializer = nullptr;
 	}
 
-	static bool IsRunning()
+	bool IsRunning() const
 	{
-		return Instance().StateStack.size() > 0;
+		return this->StateStack.size() > 0;
 	}
 
-	static int Size()
+	int Size() const
 	{
-		return Instance().StateStack.size();
+		return this->StateStack.size();
 	}
 
 private:
-	State() = default;
-	State(State const&) = delete;
-	void operator=(State const&) = delete;
-
-	static State& Instance()
-	{
-		static State instance;
-		return instance;
-	}
-
 	
-	static void Push(UI* ui)
+	void Push(UI* ui)
 	{
-		Instance().StateStack.push_back(ui);
+		StateStack.push_back(ui);
 	}
 	
-	static void Pop()
+	void Pop()
 	{
-		delete Instance().StateStack.back();
-		Instance().StateStack.pop_back();
+		delete StateStack.back();
+		StateStack.pop_back();
 	}
 
-	static void Reset()
+	void Reset()
 	{
-		for (auto state : Instance().StateStack)
+		for (auto state : StateStack)
 			delete state;
 
-		Instance().StateStack.clear();
+		StateStack.clear();
 	}
 
 	sf::RenderWindow *window = nullptr;

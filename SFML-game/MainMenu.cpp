@@ -9,7 +9,7 @@ MainMenu::MainMenu()
 
 void MainMenu::init()
 {
-	if (State::IsRunning())
+	if (state->IsRunning())
 		INDEX_RESUME = AddMenuItem("Resume");
 
 	INDEX_NEWGAME = AddMenuItem("New Game");
@@ -20,14 +20,14 @@ void MainMenu::SelectEntry()
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		State::Set(Transition::Push, new Game);
+		state->Set(Transition::Reset, new Game);
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
-		State::Set(Transition::Pop);
+		state->Set(Transition::Pop);
 	}
 	else if (menuIndex == INDEX_EXIT)
 	{
-		State::Set(Transition::Exit);
+		state->Set(Transition::Exit);
 	}
 }

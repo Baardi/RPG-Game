@@ -11,7 +11,7 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 	switch (eventType)
 	{
 	case sf::Event::Closed:
-		State::Set(Transition::Exit);
+		state->Set(Transition::Exit);
 		return true;
 
 		// causes an unresumable pause in menus
@@ -31,9 +31,10 @@ void UI::HandleWindowEvents()
 	}
 }
 
-void UI::Setup(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
+void UI::Setup(State *state, sf::RenderWindow *window, sf::Event *event, sf::Font *font)
 {
 	this->window = window;
 	this->event = event;
 	this->font = font;
+	this->state = state;
 }
