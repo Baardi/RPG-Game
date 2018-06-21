@@ -162,7 +162,6 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="PlayerSelectMenu.h" />
     <ClInclude Include="ObjectLayer.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="stdafx.h" />
@@ -183,7 +182,6 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="PlayerSelectMenu.cpp" />
     <ClCompile Include="SFML-game.cpp" />
     <ClCompile Include="ObjectLayer.cpp" />
     <ClCompile Include="stdafx.cpp">

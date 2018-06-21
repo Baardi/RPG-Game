@@ -9,13 +9,6 @@ Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(wind
                                                        font(font),
                                                        pauseText("Paused", font, 50)
 {
-	// Initialize
-	GameInitializer* initializer = dynamic_cast<GameInitializer*>(Machine::GetInitializer());
-	int numberOfPlayers = initializer ? initializer->players : 1;
-	
-	// Color/Keys should (would be nice) be loaded from somewhere (config or struct)
-	// Just add 5 items with 3 params as input, and let the new structure handle the rest
-
 	map = new Map();
 	if (!map->load("data/Intro village.json")) // route 1 is fucked
 	{

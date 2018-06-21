@@ -4,7 +4,6 @@
 #include "Machine.h"
 #include "Game.h"
 #include "MainMenu.h"
-#include "PlayerSelectMenu.h"
 
 App::App()
 {
@@ -74,10 +73,6 @@ void App::SwitchState()
 
 	case State::MainMenu:
 		Machine::Push(new MainMenu(window, event, font));
-		break;
-	
-	case State::SelectionMenu:
-		Machine::Push(new PlayerSelectMenu(window, event, font));
 		break;
 
 	default:	// State::None causes no new UI to be pushed

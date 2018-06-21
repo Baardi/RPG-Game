@@ -6,8 +6,7 @@ enum class State
 {
 	None,		// Push no ui
 	Game,
-	MainMenu,
-	SelectionMenu
+	MainMenu
 };
 
 // The different transition types
