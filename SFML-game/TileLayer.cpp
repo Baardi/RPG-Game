@@ -61,9 +61,9 @@ void TileLayer::loadTexture()
 			{
 				int tileTextureValue = GetTextureIndex(tileid);
 
-				sf::Texture &spriteTexture = *tileSets[tileTextureValue];  
-				LoadSpriteTexture(spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
-				LoadSpriteAnimation(spriteTexture, animationTile, x, y);
+				sf::Texture *spriteTexture = tileSets[tileTextureValue];  
+				LoadSpriteTexture(*spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
+				LoadSpriteAnimation(*spriteTexture, animationTile, x, y);
 				continue;
 			}
 
@@ -71,19 +71,18 @@ void TileLayer::loadTexture()
 			if (tileTextureValue == 0) // No texture found
 				continue;
 
-			sf::Texture &spriteTexture = *tileSets[tileTextureValue];
-			LoadSpriteTexture(spriteTexture, tileid - tileTextureValue, x, y);
+			sf::Texture *spriteTexture = tileSets[tileTextureValue];
+			LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
 		}
 	}
 }
 
 void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y)
 {
-	auto &sprite = textureMap[x][y];
-
 	int tilex, tiley;
 	getTileCoords(&texture, tileid, tilex, tiley);
 
+	auto &sprite = textureMap[x][y];
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));

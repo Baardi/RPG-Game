@@ -33,9 +33,9 @@ void ObjectSprite::loadTexture()
 	{
 		int tileTextureValue = GetTextureIndex(gid);
 
-		sf::Texture &spriteTexture = *tileSets[tileTextureValue];  // first animationtile decides first texture
-		LoadSpriteTexture(spriteTexture, animationTile[0].first);
-		LoadSpriteAnimation(spriteTexture, animationTile);
+		sf::Texture *spriteTexture = tileSets[tileTextureValue];  // first animationtile decides first texture
+		LoadSpriteTexture(*spriteTexture, animationTile[0].first);
+		LoadSpriteAnimation(*spriteTexture, animationTile);
 
 		return;
 	}
@@ -44,8 +44,8 @@ void ObjectSprite::loadTexture()
 	if (!tileTextureValue) // No texture found
 		return;
 
-	sf::Texture &spriteTexture = *tileSets[tileTextureValue];
-	LoadSpriteTexture(spriteTexture, gid - tileTextureValue);
+	sf::Texture *spriteTexture = tileSets[tileTextureValue];
+	LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 }
 
 sf::FloatRect ObjectSprite::GetGlobalBounds()
@@ -65,7 +65,14 @@ void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(verflip ? tilex + tileSize.x : tilex, horflip ? tiley + tileSize.y : tiley, verflip ? -tileSize.x : tileSize.x, horflip ? -tileSize.y : tileSize.y)); // flips easy to implement, unreadable code due to stupid way to solve for tiled program
+
+	// Set texture rect differently depending on flip
+	int txXPos = verflip ? tilex + tileSize.x : tilex;
+	int txYPos = horflip ? tiley + tileSize.y : tiley;
+	int txXSize = verflip ? -tileSize.x : tileSize.x;
+	int txYSize = horflip ? -tileSize.y : tileSize.y;
+	sprite.setTextureRect(sf::IntRect(txXPos, txYPos, txXSize, txYSize));
+
 	sprite.setPosition(x, y);
 	sprite.setRotation(rotation);
 	sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
