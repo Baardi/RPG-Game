@@ -13,6 +13,8 @@ public:
 	void draw(sf::RenderWindow& window) override;
 	void process() override;
 	void loadTexture() override;
+	void LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
+	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
 
 private:
 

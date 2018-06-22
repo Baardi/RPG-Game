@@ -18,6 +18,8 @@ public:
 
 	sf::FloatRect GetGlobalBounds() override;
 	std::string GetPropertyValue(const std::string &propertyName);
+	void LoadSpriteTexture(sf::Texture &texture, int tileid);
+	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
 
 private:
 
