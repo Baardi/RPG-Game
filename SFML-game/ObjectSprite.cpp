@@ -22,10 +22,10 @@ void ObjectSprite::draw(sf::RenderWindow& window)
 
 void ObjectSprite::loadTexture()
 {
+	globalBounds = sf::FloatRect(x, y, width, height);
+	
 	if (gid == 0)
 		return;
-
-	globalBounds = sf::FloatRect(x, y, width, height);
 
 	// try loading animation first
 	auto animationTile = animatedTiles[gid];
@@ -62,17 +62,11 @@ void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
 {
 	int tilex, tiley;
 	getTileCoords(&texture, tileid, tilex, tiley);
+	auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
-
-	// Set texture rect differently depending on flip
-	int txXPos = verflip ? tilex + tileSize.x : tilex;
-	int txYPos = horflip ? tiley + tileSize.y : tiley;
-	int txXSize = verflip ? -tileSize.x : tileSize.x;
-	int txYSize = horflip ? -tileSize.y : tileSize.y;
-	sprite.setTextureRect(sf::IntRect(txXPos, txYPos, txXSize, txYSize));
-
+	sprite.setTextureRect(textureRect);
 	sprite.setPosition(x, y);
 	sprite.setRotation(rotation);
 	sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
@@ -84,6 +78,18 @@ void ObjectSprite::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pa
 	{
 		int tilex, tiley;
 		getTileCoords(&texture, tile.first, tilex, tiley);
-		animationTileInfo.animationTileData.emplace_back(tile.second, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
+		auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
+
+		animationTileInfo.animationTileData.emplace_back(tile.second, textureRect);
 	}
+}
+
+sf::IntRect ObjectSprite::GetTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) // Set texture rect differently depending on flip
+{
+	int txXPos = verflip ? tilex + tileSize.x : tilex;
+	int txYPos = horflip ? tiley + tileSize.y : tiley;
+	int txXSize = verflip ? -tileSize.x : tileSize.x;
+	int txYSize = horflip ? -tileSize.y : tileSize.y;
+
+	return sf::IntRect(txXPos, txYPos, txXSize, txYSize);
 }
