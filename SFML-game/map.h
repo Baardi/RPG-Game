@@ -4,11 +4,6 @@
 #include "ObjectLayer.h"
 #include <unordered_map>
 
-namespace Json
-{
-	class Value;
-}
-
 class Map
 {
 public:

@@ -320,25 +320,25 @@
          "objects":[
                 {
                  "gid":6428,
-                 "height":36,
+                 "height":32,
                  "id":88,
                  "name":"Farmer",
                  "rotation":0,
                  "type":"Npc",
                  "visible":true,
-                 "width":36,
+                 "width":32,
                  "x":767,
                  "y":416
                 }, 
                 {
                  "gid":6348,
-                 "height":36,
+                 "height":32,
                  "id":89,
                  "name":"Gardener",
                  "rotation":0,
                  "type":"Npc",
                  "visible":true,
-                 "width":36,
+                 "width":32,
                  "x":638,
                  "y":655
                 }, 
@@ -498,7 +498,7 @@
  "nextobjectid":110,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.1.4",
+ "tiledversion":"1.1.5",
  "tileheight":32,
  "tilesets":[
         {

@@ -172,12 +172,12 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="ObjectSprite.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ObjectSprite.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="Layer.cpp" />

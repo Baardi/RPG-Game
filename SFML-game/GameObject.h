@@ -1,6 +1,11 @@
 #pragma once
+
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
+
+namespace sf
+{
+	class RenderWindow;
+}
 
 class GameObject
 {
@@ -16,4 +21,3 @@ public:
 	virtual void SetPosition(int x, int y) {}
 	virtual void draw(sf::RenderWindow &window) {}
 };
-

@@ -2,10 +2,10 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include "map.h"
-#include <json/json.h>
 
 #define _USE_MATH_DEFINES
 #include "math.h"
+#undef _USE_MATH_DEFINES
 
 Map::~Map()
 {
