@@ -50,7 +50,7 @@ bool Map::load(const std::string &filename)
 	TileSize tileSize;
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
-	tileSize.s = 0;
+	tileSize.s = root["spacing"].asInt();
 
 	loadTileSets(root);
 
@@ -81,6 +81,7 @@ void Map::loadLayer(Json::Value& layer, TileSize tileSize)
 	tmp->height = layer["height"].asInt();
     tmp->name = layer["name"].asString();
 	tmp->visible = layer["visible"].asBool();
+	tmp->opacity = layer["opacity"].asFloat();
 
 	// Clear tilemap
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
@@ -103,6 +104,7 @@ void Map::loadObjects(Json::Value& layer, TileSize tileSize)
 	objectLayer->name = layer["name"].asString();
 	objectLayer->type = layer["type"].asString();
 	objectLayer->visible = layer["visible"].asBool();
+	objectLayer->opacity = layer["opacity"].asFloat();
 
 	// Get all mapObjects from layer
 	for (Json::Value& object: layer["objects"])
@@ -124,6 +126,7 @@ void Map::loadObjects(Json::Value& layer, TileSize tileSize)
 		sprite->y = object["y"].asFloat() - sprite->height * cos(sprite->rotation * (M_PI / 180.0));
 		sprite->type = object["type"].asString();
 		sprite->visible = object["visible"].asBool();
+		sprite->opacity = layer["opacity"].asFloat();
 		
 		auto &propertytypes = object["propertytypes"];
 		auto &properties = object["properties"];

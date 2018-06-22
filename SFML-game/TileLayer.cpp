@@ -66,9 +66,11 @@ void TileLayer::loadTexture()
 					int tilex, tiley;
 					getTileCoords(spriteTexture, animationTile[0].first, tilex, tiley);
 
-					sf::Sprite sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
+					auto &sprite = textureMap[x][y];
+					sprite.setColor(sf::Color(255,255,255,(256*opacity)-1));
+					sprite.setTexture(*spriteTexture);
+					sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 					sprite.setPosition(x*tileSize.x, y*tileSize.y);
-					textureMap[x][y] = sprite;
 				}
 
 				auto &animationTileInfo = animationTilemap[x][y];
@@ -92,9 +94,11 @@ void TileLayer::loadTexture()
 				int tilex, tiley;
 				getTileCoords(spriteTexture, tileid - tileTextureValue, tilex, tiley);
 
-				sf::Sprite sprite(*spriteTexture, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
+				auto &sprite = textureMap[x][y];
+				sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
+				sprite.setTexture(*spriteTexture);
+				sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 				sprite.setPosition(x*tileSize.x, y*tileSize.y);
-				textureMap[x][y] = sprite;
 			}
 		}
 	}

@@ -69,4 +69,5 @@ protected:
 	std::string name;
 	std::string type;
 	bool visible;
+	float opacity;
 };
