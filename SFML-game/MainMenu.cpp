@@ -15,7 +15,7 @@ void MainMenu::SelectEntry()
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		Machine::Set(Transition::Push, State::Game);
+		Machine::Set(Transition::Switch, State::Game);
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
