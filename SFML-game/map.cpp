@@ -47,7 +47,6 @@ bool Map::load(const std::string &filename)
 		return false;
 
 	// Get tile size information
-	TileSize tileSize;
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
 	tileSize.s = root["spacing"].asInt();
@@ -58,16 +57,16 @@ bool Map::load(const std::string &filename)
 	for (Json::Value& layer: root["layers"])
 	{
 		if (layer["type"].asString() == "tilelayer")
-			loadLayer(layer, tileSize);
+			loadLayer(layer);
 		
 		if (layer["type"].asString() == "objectgroup")
-			loadObjects(layer, tileSize);
+			loadObjects(layer);
 	}
 
 	return true;
 }
 
-void Map::loadLayer(Json::Value& layer, TileSize tileSize)
+void Map::loadLayer(Json::Value& layer)
 {
 	Json::Value &data = layer["data"];
 
@@ -98,7 +97,7 @@ void Map::loadLayer(Json::Value& layer, TileSize tileSize)
 	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::loadObjects(Json::Value& layer, TileSize tileSize)
+void Map::loadObjects(Json::Value& layer)
 {
 	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
 	objectLayer->name = layer["name"].asString();

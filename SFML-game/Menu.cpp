@@ -105,7 +105,9 @@ void Menu::HandleKeyEvents()
 	if (menuIndex >= menuItems.size())
 	{
 		menuIndex = 0;
-		menuItems[menuIndex].setFillColor(colorSelect);
+
+		if (!menuItems.empty())
+			menuItems[menuIndex].setFillColor(colorSelect);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -127,7 +129,7 @@ void Menu::HandleMouseEvents()
 	auto pos = sf::Mouse::getPosition(window);
 	menuIndex = -2; // <-- -2 instead of -1 to avoid conflict with uninitialized menu entries
 
-	for (int index = 0; index< menuItems.size(); index++)
+	for (int index = 0; index < menuItems.size(); index++)
 	{
 		auto &menuItem = menuItems[index];
 		menuItem.setFillColor(colorUnselect);

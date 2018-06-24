@@ -8,9 +8,7 @@
 App::App()
 {
 	window.create(sf::VideoMode(960, 960), "RPG");
-	window.setFramerateLimit(100); // <-- should be a setting
-
-	Machine::Push(new MainMenu(window, event, font));
+	window.setFramerateLimit(50); // <-- should be a setting
 
 	if (!font.loadFromFile("data/Asul-regular.ttf"))
 	{
@@ -25,6 +23,7 @@ App::~App()
 
 void App::init()
 {
+	Machine::Set(Transition::Push, State::MainMenu);
 }
 
 
@@ -57,7 +56,8 @@ void App::SwitchState()
 {
 	std::cout << std::to_string(Machine::Size()) << std::string(" -> ");
 
-	Machine::GetUI()->pause();
+	if (Machine::IsRunning())
+		Machine::GetUI()->pause();
 
 	if (Machine::GetTransition() == Transition::Pop)
 		Machine::Pop();
@@ -67,6 +67,7 @@ void App::SwitchState()
 
 	switch (Machine::GetState())
 	{
+
 	case State::Game:
 		Machine::Push(new Game(window, event, font));
 		break;

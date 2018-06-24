@@ -29,6 +29,8 @@ private:
 	std::unordered_map<std::string, TileLayer *> tileMap;
 	std::unordered_map<std::string, ObjectLayer *> objectMap;
 
+	TileSize tileSize;
+
 	std::unordered_map<int, sf::Texture *> tileSets;
 	void loadTileSets(Json::Value &root);
 
@@ -37,10 +39,10 @@ private:
 	void loadAnimatedTiles(int firstGid, Json::Value &tileset);
 
     // Handles regular layers
-	void loadLayer(Json::Value& layer, TileSize tileSize);
+	void loadLayer(Json::Value& layer);
 
 	// Handles object layers
-	void loadObjects(Json::Value& layer, TileSize tileSize);
+	void loadObjects(Json::Value& layer);
 
 	// Shared clock for all animated tiles
 	sf::Clock clock;

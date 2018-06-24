@@ -43,7 +43,7 @@ class Layer
 {
 	friend class Map;
 public:
-	Layer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
+	Layer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
 		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
 
 	virtual ~Layer() = default;
@@ -59,10 +59,7 @@ protected:
 	int GetTextureIndex(int tileValue);
 	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sf::Clock &clock);
 	
-	// Todo: impl
-	//static void LoadSprite(sf::Sprite sprite, int tileid, int x, int y){}
-
-	const TileSize tileSize;
+	const TileSize &tileSize;
 	std::unordered_map<int, sf::Texture *> &tileSets;
 	AnimationTileMap &animatedTiles;
 
