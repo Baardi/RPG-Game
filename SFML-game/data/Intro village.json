@@ -319,8 +319,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro map.json",
-                     "SpawnX":"500",
-                     "SpawnY":"500"
+                     "SpawnX":"436",
+                     "SpawnY":"384"
                     },
                  "propertytypes":
                     {
@@ -365,8 +365,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro house.json",
-                     "SpawnX":"500",
-                     "SpawnY":"500"
+                     "SpawnX":"447",
+                     "SpawnY":"860"
                     },
                  "propertytypes":
                     {
@@ -402,7 +402,7 @@
      "SpawnY":"string"
     },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.4",
  "tileheight":32,
  "tilesets":[
         {

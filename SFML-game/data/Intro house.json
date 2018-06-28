@@ -25,17 +25,29 @@
         }, 
         {
          "draworder":"topdown",
-         "name":"Exit",
+         "name":"Entrance",
          "objects":[
                 {
                  "height":32,
                  "id":86,
                  "name":"Exit",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Intro village.json",
+                     "SpawnX":"512",
+                     "SpawnY":"778"
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"string",
+                     "SpawnY":"string"
+                    },
                  "rotation":0,
-                 "type":"Exit",
+                 "type":"Entrance",
                  "visible":true,
-                 "width":64,
-                 "x":416.5,
+                 "width":128,
+                 "x":384,
                  "y":927
                 }],
          "opacity":1,
