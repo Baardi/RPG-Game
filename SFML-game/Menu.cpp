@@ -40,8 +40,7 @@ bool Menu::frame()
 			ControlKeyPressed = false;
 		}
 	}
-
-	draw();
+	
 	return true;
 }
 

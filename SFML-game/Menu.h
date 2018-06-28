@@ -15,7 +15,7 @@ public:
 	void resume() override;
 	bool PollEvent(sf::Event::EventType eventType) override;
 	void tick();
-	void draw();
+	void draw() override;
 
 protected:
 	size_t AddMenuItem(std::string text);

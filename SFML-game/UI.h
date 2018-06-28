@@ -7,6 +7,7 @@ public:
 	UI(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : window(window), event(event), font(font) {}
 	virtual ~UI(){}
 	virtual bool frame() { return false; }
+	virtual void draw() {}
 	virtual void pause(){}
 	virtual void resume(){}
 	virtual void toggle(){}

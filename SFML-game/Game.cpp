@@ -43,7 +43,6 @@ bool Game::frame()
 	}
 
 	HandleKeyInput();
-	draw();
 
 	return true;
 }

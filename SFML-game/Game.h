@@ -19,12 +19,15 @@ public:
 	Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font);
 	~Game();
 	void init();
+	
+	// Todo: frame/tick needs some kind of merge
 	bool frame() override;
+	void tick();
+
 	void pause() override;
 	void resume() override;
 	void toggle() override;
-	void tick();
-	void draw();
+	void draw() override;
 
 private:
 	//Functions

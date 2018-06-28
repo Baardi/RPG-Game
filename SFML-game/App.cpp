@@ -35,18 +35,22 @@ void App::run()
 
 bool App::frame()
 {
-	window.clear(sf::Color::Black);
-
 	// Todo cooldown for keypress when switching state	
+	
+	// Handle transitions
 	if (Machine::GetTransition() != Transition::None)
 		SwitchState();
 
 	if (!Machine::IsRunning())
 		return false;
 
+	// Game loop
 	Machine::GetUI()->frame();
 	Machine::GetUI()->HandleWindowEvents();
 
+	// Drawing (needs it's own thread, and should stop being singleton)
+	window.clear(sf::Color::Black);
+	Machine::GetUI()->draw();
 	window.display();
 	
 	return true;
