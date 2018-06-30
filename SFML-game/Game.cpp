@@ -7,7 +7,8 @@
 Game::Game(sf::RenderWindow &window, sf::Event &event, sf::Font &font) : UI(window, event, font),
                                                        window(window),
                                                        font(font),
-                                                       pauseText("Paused", font, 50)
+                                                       pauseText("Paused", font, 50),
+													   player(clock)
 {
 	map = new Map();
 	if (!map->load("data/Intro village.json")) // route 1 is fucked
