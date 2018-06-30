@@ -28,7 +28,7 @@ void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, s
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;
-	double &lastTime = animationTile.lastTime;
+	sf::Int32 &lastTime = animationTile.lastTime;
 
 	double currentDuration = clock.getElapsedTime().asMilliseconds();
 

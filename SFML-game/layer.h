@@ -23,7 +23,7 @@ struct AnimationTileData
 struct AnimationTile
 {
 	int currentFrame = 0;
-	double lastTime = 0;
+	sf::Int32 lastTime = 0;
 	std::vector<AnimationTileData> animationTileData;
 };
 
