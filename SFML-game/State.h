@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.h"
+#include <iostream>
 
 // The different transition types
 enum class Transition
@@ -78,12 +79,14 @@ public:
 		Instance().initializer = nullptr;
 	}
 
+	static bool IsCurrent(UI *state)
+	{
+		return GetUI() == state;
+	}
+
 protected:
 	// Methods for UI and App
-	
-	State() = default;
-	State(State const&) = delete;
-	void operator=(State const&) = delete;
+
 	static State& Instance()
 	{
 		static State instance;
@@ -105,6 +108,11 @@ protected:
 	// Completes a queued transition
 	static void PerformTransition()
 	{
+		std::cout << std::to_string(Size()) + std::string(" -> ");
+
+		if (IsRunning())
+			GetUI()->pause();
+
 		if (Instance().transition == Transition::Pop)
 			Instance().Pop();
 
@@ -118,10 +126,19 @@ protected:
 
 		if (Instance().IsRunning())
 			Instance().GetUI()->setDrawOrder();
+
+		if (IsRunning())
+			GetUI()->resume();
+
+		std::cout << std::to_string(Size()) << std::endl;
 	}
 
 private:
-	// Inner methods, used inside Instance
+	// Inner methods called by public and protected methods
+
+	State() = default;
+	State(State const&) = delete;
+	void operator=(State const&) = delete;
 
 	void PushQueuedState()
 	{

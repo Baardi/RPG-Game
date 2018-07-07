@@ -156,8 +156,10 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GamePopupMenu.h" />
     <ClInclude Include="ObjectSprite.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PopupMenu.h" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="map.h" />
@@ -173,11 +175,13 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GamePopupMenu.cpp" />
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PopupMenu.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="map.cpp" />

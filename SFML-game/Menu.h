@@ -23,6 +23,9 @@ protected:
 	std::vector<sf::Text> menuItems;
 	size_t menuIndex = 0;
 
+	int x = 400, y = 400;
+	int spacing = 50;
+
 private:
 
 	void HandleKeyEvents();

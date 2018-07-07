@@ -94,7 +94,7 @@ size_t Menu::AddMenuItem(std::string text)
 
 	sf::Text menuItem(text, font, 40);
 	menuItem.setFillColor(index ? colorUnselect : colorSelect);
-	menuItem.setPosition(400, 400 + 50 * index);
+	menuItem.setPosition(x, y + spacing * index);
 	menuItems.push_back(menuItem);
 
 	return index;

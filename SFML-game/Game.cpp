@@ -3,6 +3,7 @@
 #include <iostream>
 #include "State.h"
 #include "MainMenu.h"
+#include "GamePopupMenu.h"
 
 Game::Game(): player(clock)
 {
@@ -101,7 +102,7 @@ void Game::draw()
 	map->draw(window);
 	player.draw(window);
 
-	if (paused)
+	if (paused && State::IsCurrent(this))
 		window.draw(pauseText);
 }
 
@@ -125,6 +126,10 @@ void Game::HandleKeyInput()
 	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
 	{
 		State::Set(Transition::Switch, new Game);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+	{
+		State::SetChild(new GamePopupMenu);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();
