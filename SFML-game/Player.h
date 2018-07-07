@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <sfml/chronometer.h>
 #include "TileLayer.h"
 #include "GameObject.h"
 
@@ -14,7 +15,7 @@ enum class Dir
 class Player : public GameObject
 {
 public:
-	Player();
+	Player(sftools::Chronometer &clock);
 	~Player();
 	void draw(sf::RenderWindow &window) override;
 	sf::FloatRect GetGlobalBounds() override;
@@ -24,10 +25,12 @@ public:
 
 	Dir dir = Dir::Down;
 	float x = 300, y = 300;
-	float speed = 0.75;
+	float speed = 1.5;
 	int counter = 0;
-	const int counterMax = 50;
-	
+	const int counterMax = 25;
+	sftools::Chronometer &clock;
+	sf::Int32 lastTime;
+
 private:
 	void move(Dir dir);
 

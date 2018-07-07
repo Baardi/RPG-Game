@@ -23,7 +23,7 @@ struct AnimationTileData
 struct AnimationTile
 {
 	int currentFrame = 0;
-	double lastTime = 0;
+	sf::Int32 lastTime = 0;
 	std::vector<AnimationTileData> animationTileData;
 };
 
@@ -43,7 +43,7 @@ class Layer
 {
 	friend class Map;
 public:
-	Layer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
+	Layer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
 		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
 
 	virtual ~Layer() = default;
@@ -55,14 +55,11 @@ public:
 protected:
 
 	// Calculate x and y position of given tile in the texture
-	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y);
-	int GetTextureIndex(int tileValue);
+	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const;
+	int GetTextureIndex(int tileValue) const;
 	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sf::Clock &clock);
 	
-	// Todo: impl
-	//static void LoadSprite(sf::Sprite sprite, int tileid, int x, int y){}
-
-	const TileSize tileSize;
+	const TileSize &tileSize;
 	std::unordered_map<int, sf::Texture *> &tileSets;
 	AnimationTileMap &animatedTiles;
 

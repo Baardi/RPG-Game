@@ -2,6 +2,12 @@
 #include "UI.h"
 #include "State.h"
 
+UI::UI() : window(*State::Instance().window),
+			event(*State::Instance().event),
+			font(*State::Instance().font)
+{
+}
+
 void UI::init()
 {
 }
@@ -11,7 +17,7 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 	switch (eventType)
 	{
 	case sf::Event::Closed:
-		state->Set(Transition::Exit);
+		State::Set(Transition::Exit);
 		return true;
 
 		// causes an unresumable pause in menus
@@ -25,16 +31,8 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 
 void UI::HandleWindowEvents()
 {
-	while (window->pollEvent(*event))
+	while (window.pollEvent(event))
 	{
-		PollEvent(event->type);
+		PollEvent(event.type);
 	}
-}
-
-void UI::Setup(State *state, sf::RenderWindow *window, sf::Event *event, sf::Font *font)
-{
-	this->state = state;
-	this->window = window;
-	this->event = event;
-	this->font = font;
 }

@@ -3,9 +3,11 @@
 #include <iostream>
 
 
-Player::Player() : tilesize(32)
+Player::Player(sftools::Chronometer &clock) : clock(clock)
 {
 	texture.loadFromFile("data/player_red.png");
+	tilesize.x = texture.getSize().x / 4;
+	tilesize.y = texture.getSize().y / 4;
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));

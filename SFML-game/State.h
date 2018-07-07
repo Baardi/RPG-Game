@@ -24,75 +24,97 @@ public:
 class State
 {
 	friend class App;
+	friend class UI;
 public:
+	// To be used from any Ui
+
+	// Sets a transition, to be done after current frame
+	static void Set(Transition transition, UI *state = nullptr)
+	{
+		Instance().transition = transition;
+		Instance().queuedState = state;
+	}
+	
+	static bool IsRunning()
+	{
+		return Instance().StateStack.size() > 0;
+	}
+
+	static bool IsInTransition()
+	{
+		return bool(Instance().transition);
+	}
+
+	static int Size()
+	{
+		return Instance().StateStack.size();
+	}
+
+	static Initializer *GetInitializer()
+	{
+		return Instance().initializer;
+	}
+
+	static void SetInitializer(Initializer *initializer)
+	{
+		// In case clearing is forgotten, don't create memory leaks
+		if (Instance().initializer)
+			delete Instance().initializer;
+
+		Instance().initializer = initializer;
+	}
+
+	static void ClearInitializer()
+	{
+		delete Instance().initializer;
+		Instance().initializer = nullptr;
+	}
+
+protected:
+	// Methods for UI and App
+	
 	State() = default;
 	State(State const&) = delete;
 	void operator=(State const&) = delete;
-
-	// Sets a transition, to be done after current frame
-	void Set(Transition transition, UI *state = nullptr)
+	static State& Instance()
 	{
-		this->transition = transition;
-		this->queuedState = state;
-	}
-	
-	bool IsRunning() const
-	{
-		return StateStack.size() > 0;
+		static State instance;
+		return instance;
 	}
 
-	int Size() const
+	static void Setup(sf::RenderWindow &window, sf::Event &event, sf::Font &font)
 	{
-		return StateStack.size();
+		Instance().window = &window;
+		Instance().event = &event;
+		Instance().font = &font;
 	}
 
-	Initializer *GetInitializer() const
+	static UI *GetUI()
 	{
-		return initializer;
+		return Instance().StateStack.back();
 	}
 
-	void SetInitializer(Initializer *initializer)
+	// Completes a queued transition
+	static void PerformTransition()
 	{
-		// In case clearing is forgotten, don't create memory leaks
-		if (this->initializer)
-			delete this->initializer;
+		if (Instance().transition == Transition::Pop)
+			Instance().Pop();
 
-		this->initializer = initializer;
-	}
+		else if (Instance().transition == Transition::Reset)
+			Instance().Reset();
 
-	void ClearInitializer()
-	{
-		delete initializer;
-		initializer = nullptr;
+		Instance().transition = Transition::None;
+
+		if (Instance().queuedState)
+			Instance().PushQueuedState();
 	}
 
 private:
-	
-	// Completes a queued transition
-	void PerformTransition(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
+	// Inner methods, used inside Instance
+
+	void PushQueuedState()
 	{
-		if (transition == Transition::Pop)
-			Pop();
-
-		else if (transition == Transition::Reset)
-			Reset();
-
-		transition = Transition::None;
-
-		if (queuedState)
-			PushQueuedState(window, event, font);
-	}
-	
-	UI *GetUI()
-	{
-		return StateStack.back();
-	}
-
-	void PushQueuedState(sf::RenderWindow *window, sf::Event *event, sf::Font *font)
-	{
-		queuedState->Setup(this, window, event, font);
 		queuedState->init();
-
 		StateStack.push_back(queuedState);
 		queuedState = nullptr;
 	}
@@ -114,6 +136,10 @@ private:
 	std::vector<UI*> StateStack;
 	UI *queuedState = nullptr;
 	Transition transition = Transition::None;
+
+	sf::RenderWindow *window;
+	sf::Event *event;
+	sf::Font *font;
 	
 	Initializer *initializer = nullptr;
 };

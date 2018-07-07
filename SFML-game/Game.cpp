@@ -4,7 +4,7 @@
 #include "State.h"
 #include "MainMenu.h"
 
-Game::Game()
+Game::Game(): player(clock)
 {
 }
 
@@ -20,12 +20,12 @@ void Game::init()
 	
 	pauseText.setPosition(400, 450);
 	pauseText.setString("Paused");
-	pauseText.setFont(*font);
+	pauseText.setFont(font);
 	pauseText.setCharacterSize(50);
 
 	map = new Map();
 	if (!map->load("data/Intro village.json"))
-		state->Set(Transition::Switch, new MainMenu);
+		State::Set(Transition::Switch, new MainMenu);
 }
 
 bool Game::frame()
@@ -98,11 +98,11 @@ void Game::tick()
 
 void Game::draw()
 {
-	map->draw(*window);
-	player.draw(*window);
+	map->draw(window);
+	player.draw(window);
 
 	if (paused)
-		window->draw(pauseText);
+		window.draw(pauseText);
 }
 
 void Game::HandleKeyInput()
@@ -114,17 +114,17 @@ void Game::HandleKeyInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
 	{
-		state->Set(Transition::Switch, new MainMenu);
-		state->ClearInitializer();
+		State::Set(Transition::Switch, new MainMenu);
+		State::ClearInitializer();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 	{
-		state->Set(Transition::Push, new MainMenu);
-		state->ClearInitializer();
+		State::Set(Transition::Push, new MainMenu);
+		State::ClearInitializer();
 	}
 	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
 	{
-		state->Set(Transition::Switch, new Game);
+		State::Set(Transition::Switch, new Game);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();

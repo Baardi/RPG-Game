@@ -16,5 +16,4 @@ private:
 	sf::Font font;
 	sf::Event event;
 	sf::RenderWindow window;
-	State state;
 };

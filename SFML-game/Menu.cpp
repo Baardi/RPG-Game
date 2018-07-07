@@ -34,15 +34,14 @@ bool Menu::frame()
 		}
 		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
-			state->Set(Transition::Pop);
+			State::Set(Transition::Pop);
 		}
 		else if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
 		{
 			ControlKeyPressed = false;
 		}
 	}
-
-	draw();
+	
 	return true;
 }
 
@@ -93,7 +92,7 @@ size_t Menu::AddMenuItem(std::string text)
 {
 	size_t index = menuItems.size();
 
-	sf::Text menuItem(text, *font, 40);
+	sf::Text menuItem(text, font, 40);
 	menuItem.setFillColor(index ? colorUnselect : colorSelect);
 	menuItem.setPosition(400, 400 + 50 * index);
 	menuItems.push_back(menuItem);
@@ -106,7 +105,9 @@ void Menu::HandleKeyEvents()
 	if (menuIndex >= menuItems.size())
 	{
 		menuIndex = 0;
-		menuItems[menuIndex].setFillColor(colorSelect);
+
+		if (!menuItems.empty())
+			menuItems[menuIndex].setFillColor(colorSelect);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -125,10 +126,10 @@ void Menu::HandleKeyEvents()
 
 void Menu::HandleMouseEvents()
 {
-	auto pos = sf::Mouse::getPosition(*window);
+	auto pos = sf::Mouse::getPosition(window);
 	menuIndex = -2; // <-- -2 instead of -1 to avoid conflict with uninitialized menu entries
 
-	for (int index = 0; index< menuItems.size(); index++)
+	for (int index = 0; index < menuItems.size(); index++)
 	{
 		auto &menuItem = menuItems[index];
 		menuItem.setFillColor(colorUnselect);
@@ -146,5 +147,5 @@ void Menu::HandleMouseEvents()
 void Menu::draw()
 {
 	for (sf::Text menuItem : menuItems)
-		window->draw(menuItem);
+		window.draw(menuItem);
 }

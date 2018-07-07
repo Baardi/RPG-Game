@@ -27,24 +27,22 @@ void ObjectSprite::loadTexture()
 	if (gid == 0)
 		return;
 
-	// try loading animation first
-	auto animationTile = animatedTiles[gid];
-	if (animationTile.size() != 0)
-	{
-		int tileTextureValue = GetTextureIndex(gid);
-
-		sf::Texture *spriteTexture = tileSets[tileTextureValue];  // first animationtile decides first texture
-		LoadSpriteTexture(*spriteTexture, animationTile[0].first);
-		LoadSpriteAnimation(*spriteTexture, animationTile);
-
-		return;
-	}
-
 	int tileTextureValue = GetTextureIndex(gid);
 	if (!tileTextureValue) // No texture found
 		return;
 
 	sf::Texture *spriteTexture = tileSets[tileTextureValue];
+
+	// try loading animation first
+	auto animationTile = animatedTiles[gid];
+	if (animationTile.size() != 0)
+	{
+		LoadSpriteTexture(*spriteTexture, animationTile[0].first);// first animationtile decides first texturerect
+		LoadSpriteAnimation(*spriteTexture, animationTile);
+
+		return;
+	}
+
 	LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 }
 

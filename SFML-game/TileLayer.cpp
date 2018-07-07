@@ -55,23 +55,22 @@ void TileLayer::loadTexture()
 			if (tileid == 0) 
 				continue;		// Skip empty tiles
 
-			// Specific animated tiles code
-			auto animationTile = animatedTiles[tileid];
-			if (animationTile.size() != 0)
-			{
-				int tileTextureValue = GetTextureIndex(tileid);
-
-				sf::Texture *spriteTexture = tileSets[tileTextureValue];  
-				LoadSpriteTexture(*spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
-				LoadSpriteAnimation(*spriteTexture, animationTile, x, y);
-				continue;
-			}
-
 			int tileTextureValue = GetTextureIndex(tileid);
 			if (tileTextureValue == 0) // No texture found
 				continue;
 
 			sf::Texture *spriteTexture = tileSets[tileTextureValue];
+
+			// Specific animated tiles code
+			auto animationTile = animatedTiles[tileid];
+			if (animationTile.size() != 0)
+			{
+				LoadSpriteTexture(*spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
+				LoadSpriteAnimation(*spriteTexture, animationTile, x, y);
+
+				continue;
+			}
+
 			LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
 		}
 	}

@@ -8,7 +8,7 @@ class ObjectLayer : public Layer
 	friend class Map;
 
 public:
-	ObjectLayer(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
+	ObjectLayer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
 	~ObjectLayer();
 
 	void process() override;

@@ -13,5 +13,5 @@ private:
 	size_t INDEX_RESUME = -1;
 	size_t INDEX_EXIT = -1;
 
-	void SelectEntry() override;
+	void SelectEntry() const override;
 };

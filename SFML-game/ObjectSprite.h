@@ -9,7 +9,7 @@ class ObjectSprite : public Layer, public GameObject
 	friend class Map;
 	friend class ObjectLayer;
 public:
-	ObjectSprite(TileSize tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
+	ObjectSprite(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
 	~ObjectSprite() = default;
 
 	void process() override;

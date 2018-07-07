@@ -9,25 +9,25 @@ MainMenu::MainMenu()
 
 void MainMenu::init()
 {
-	if (state->IsRunning())
+	if (State::IsRunning())
 		INDEX_RESUME = AddMenuItem("Resume");
 
 	INDEX_NEWGAME = AddMenuItem("New Game");
 	INDEX_EXIT = AddMenuItem("Exit");
 }
 
-void MainMenu::SelectEntry()
+void MainMenu::SelectEntry() const
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		state->Set(Transition::Reset, new Game);
+		State::Set(Transition::Reset, new Game);
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
-		state->Set(Transition::Pop);
+		State::Set(Transition::Pop);
 	}
 	else if (menuIndex == INDEX_EXIT)
 	{
-		state->Set(Transition::Exit);
+		State::Set(Transition::Exit);
 	}
 }
