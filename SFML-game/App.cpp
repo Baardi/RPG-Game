@@ -48,7 +48,7 @@ bool App::frame()
 
 	// Drawing (needs it's own thread, and should stop being singleton)
 	window.clear(sf::Color::Black);
-	State::GetUI()->draw();
+	State::GetUI()->drawAll();
 	window.display();
 	
 	return true;

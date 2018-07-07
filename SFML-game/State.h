@@ -34,7 +34,15 @@ public:
 		Instance().transition = transition;
 		Instance().queuedState = state;
 	}
-	
+
+	static void SetChild(UI *state)
+	{
+		state->SetParent(GetUI());
+		
+		Instance().transition = Transition::Push;
+		Instance().queuedState = state;
+	}
+
 	static bool IsRunning()
 	{
 		return Instance().StateStack.size() > 0;
@@ -107,6 +115,9 @@ protected:
 
 		if (Instance().queuedState)
 			Instance().PushQueuedState();
+
+		if (Instance().IsRunning())
+			Instance().GetUI()->setDrawOrder();
 	}
 
 private:
@@ -135,6 +146,7 @@ private:
 
 	std::vector<UI*> StateStack;
 	UI *queuedState = nullptr;
+	UI *queuedParent = nullptr;
 	Transition transition = Transition::None;
 
 	sf::RenderWindow *window;

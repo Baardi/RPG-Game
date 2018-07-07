@@ -12,6 +12,20 @@ void UI::init()
 {
 }
 
+void UI::setDrawOrder()
+{
+	drawStack.clear();
+	for (auto curr = this; curr; curr = curr->parent)
+		drawStack.push_back(curr);
+
+}
+
+void UI::drawAll()
+{
+	for (auto curr = drawStack.rbegin(); curr != drawStack.rend(); ++curr)
+		(**curr).draw();
+}
+
 bool UI::PollEvent(sf::Event::EventType eventType)
 {
 	switch (eventType)
