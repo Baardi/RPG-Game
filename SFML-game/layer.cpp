@@ -2,7 +2,7 @@
 #include "Layer.h"
 #include <SFML/Graphics.hpp>
 
-void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y)
+void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const
 {
 	int tileXcount = texture->getSize().x / (tileSize.x + tileSize.s);
 
@@ -10,7 +10,7 @@ void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y)
 	y = (tile / tileXcount) * (tileSize.x + tileSize.s);
 }
 
-int Layer::GetTextureIndex(int tileValue)
+int Layer::GetTextureIndex(int tileValue) const
 {
 	int tileTextureValue = 0;
 

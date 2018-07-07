@@ -19,7 +19,7 @@ public:
 
 protected:
 	size_t AddMenuItem(std::string text);
-	virtual void SelectEntry() {}
+	virtual void SelectEntry() const {}
 
 	std::vector<sf::Text> menuItems;
 	size_t menuIndex = 0;

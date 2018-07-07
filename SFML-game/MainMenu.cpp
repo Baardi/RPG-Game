@@ -11,7 +11,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, sf::Event &event, sf::Font &font) :
 	INDEX_EXIT = AddMenuItem("Exit");
 }
 
-void MainMenu::SelectEntry()
+void MainMenu::SelectEntry() const
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
