@@ -135,13 +135,11 @@ void Menu::HandleMouseEvents()
 		menuItem.setFillColor(colorUnselect);
 
 		if (menuItem.getGlobalBounds().contains(pos.x, pos.y))
-		{
-			menuItem.setFillColor(colorSelect);
 			menuIndex = index;
-
-			break;
-		}
 	}
+
+	if (menuIndex < menuItems.size())
+		menuItems[menuIndex].setFillColor(colorSelect);
 }
 
 void Menu::draw()
