@@ -72,6 +72,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -104,9 +107,6 @@
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -124,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Container.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ public:
 	void draw() override;
 
 protected:
-	size_t AddMenuItem(std::string text);
+	size_t AddMenuItem(const std::string &text);
 	virtual void SelectEntry() const {}
 
 	std::vector<sf::Text> menuItems;
@@ -25,6 +25,7 @@ protected:
 
 	int x = 400, y = 400;
 	int spacing = 50;
+	int textSize = 40;
 
 private:
 
@@ -38,5 +39,5 @@ private:
 	const sf::Color colorUnselect = sf::Color::White;
 
 	bool ControlKeyPressed = true;
-	bool mouseControl = true;
+	bool mouseControl = false;
 };

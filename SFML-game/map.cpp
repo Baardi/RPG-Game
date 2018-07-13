@@ -78,7 +78,7 @@ void Map::loadLayer(Json::Value& layer)
 	// Store info on layer
 	tmp->width = layer["width"].asInt();
 	tmp->height = layer["height"].asInt();
-    tmp->name = layer["name"].asString();
+	tmp->name = layer["name"].asString();
 	tmp->visible = layer["visible"].asBool();
 	tmp->opacity = layer["opacity"].asFloat();
 

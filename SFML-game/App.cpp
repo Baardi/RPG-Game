@@ -50,7 +50,6 @@ bool App::frame()
 	window.clear(sf::Color::Black);
 	State::GetUI()->drawAll();
 	window.display();
-	
+
 	return true;
 }
-

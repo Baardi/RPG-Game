@@ -5,6 +5,11 @@
 
 void GamePopupMenu::init()
 {
+	x = 70;
+	y = 120;
+	map = new Map;
+	map->load("data/PopupMenu.json");
+
 	if (State::IsRunning())
 		INDEX_RESUME = AddMenuItem("Resume");
 

@@ -63,7 +63,6 @@ bool Menu::PollEvent(sf::Event::EventType eventType)
 
 	switch (eventType)
 	{
-
 	case sf::Event::MouseMoved:
 		mouseControl = true;
 		return true;
@@ -77,9 +76,9 @@ bool Menu::PollEvent(sf::Event::EventType eventType)
 			SelectEntry();
 
 		return true;
+
 	default:
 		return false;
-
 	}
 }
 
@@ -88,14 +87,13 @@ void Menu::tick()
 	mouseControl ? HandleMouseEvents() : HandleKeyEvents();
 }
 
-size_t Menu::AddMenuItem(std::string text)
+size_t Menu::AddMenuItem(const std::string &text)
 {
 	size_t index = menuItems.size();
 
-	sf::Text menuItem(text, font, 40);
-	menuItem.setFillColor(index ? colorUnselect : colorSelect);
-	menuItem.setPosition(x, y + spacing * index);
-	menuItems.push_back(menuItem);
+	menuItems.emplace_back(text, font, textSize);
+	menuItems.back().setFillColor(index ? colorUnselect : colorSelect);
+	menuItems.back().setPosition(x, y + spacing * index);
 
 	return index;
 }
@@ -144,6 +142,6 @@ void Menu::HandleMouseEvents()
 
 void Menu::draw()
 {
-	for (sf::Text menuItem : menuItems)
+	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
 }

@@ -10,7 +10,6 @@ public:
 	void run();  //run the game loop
 
 private:
-	void SwitchState(); //will probably become bool
 	bool frame(); //Draws one gameframe. Returns false if window is closed, which will end the gameloop
 
 	sf::Font font;

@@ -82,7 +82,7 @@ void ObjectSprite::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pa
 	}
 }
 
-sf::IntRect ObjectSprite::GetTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) // Set texture rect differently depending on flip
+sf::IntRect ObjectSprite::GetTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) const // Set texture rect differently depending on flip
 {
 	int txXPos = verflip ? tilex + tileSize.x : tilex;
 	int txYPos = horflip ? tiley + tileSize.y : tiley;

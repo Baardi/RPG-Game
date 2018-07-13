@@ -17,13 +17,13 @@ void UI::setDrawOrder()
 	drawStack.clear();
 	for (auto curr = this; curr; curr = curr->parent)
 		drawStack.push_back(curr);
-
 }
 
 void UI::drawAll()
 {
-	for (auto curr = drawStack.rbegin(); curr != drawStack.rend(); ++curr)
-		(**curr).draw();
+	// Reverse iteration, so the parent is drawn in backround
+	for (auto it = drawStack.rbegin(); it != drawStack.rend(); ++it)
+		(*it)->draw();
 }
 
 bool UI::PollEvent(sf::Event::EventType eventType)

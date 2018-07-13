@@ -37,14 +37,34 @@ void Player::SetPosition(int x, int y)
 
 void Player::HandleKeyInput()
 {
+	bool isMoving = false;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	{
 		move(Dir::Down);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+		isMoving = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	{
 		move(Dir::Up);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+		isMoving = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	{
 		move(Dir::Left);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+		isMoving = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+	{
 		move(Dir::Right);
+		isMoving = true;
+	}
+
+	if (isMoving)
+	{
+		counter = (counter + 1) % counterMax;
+		sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	}
 	else
 	{
 		counter = counter/counterMax;
@@ -55,7 +75,6 @@ void Player::HandleKeyInput()
 void Player::move(Dir dir)
 {
 	this->dir = dir;
-	counter = (counter + 1) % counterMax;
 
 	switch (dir)
 	{
@@ -76,6 +95,5 @@ void Player::move(Dir dir)
 		break;
 	}
 
-	sprite.setTextureRect(sf::IntRect( int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	sprite.setPosition(x, y);
 }

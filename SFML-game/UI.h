@@ -13,16 +13,15 @@ public:
 	virtual void pause(){}
 	virtual void resume(){}
 	virtual void toggle(){}
-
-	void setDrawOrder();
-	void drawAll();
-	virtual void draw() {}
-	
 	virtual bool PollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
 	void HandleWindowEvents();
+
+	virtual void draw() {}
+	void setDrawOrder();
+	void drawAll();
 	
 	void SetParent(UI *parent) { this->parent = parent; } // To stack Ui's upon each other
-
+	
 	bool paused = false;
 
 protected:

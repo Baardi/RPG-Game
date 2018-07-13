@@ -5,8 +5,9 @@
 #include "MainMenu.h"
 #include "GamePopupMenu.h"
 
-Game::Game(): player(clock)
+Game::Game(): player(clock), pauseText("Paused", font, 50)
 {
+	pauseText.setPosition(400, 450);
 }
 
 Game::~Game()
@@ -19,11 +20,6 @@ void Game::init()
 {
 	UI::init();
 	
-	pauseText.setPosition(400, 450);
-	pauseText.setString("Paused");
-	pauseText.setFont(font);
-	pauseText.setCharacterSize(50);
-
 	map = new Map();
 	if (!map->load("data/Intro village.json"))
 		State::Set(Transition::Switch, new MainMenu);

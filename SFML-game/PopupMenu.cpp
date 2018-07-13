@@ -4,19 +4,18 @@
 
 PopupMenu::PopupMenu()
 {
-	x = 70;
-	y = 120;
-	map = new Map;
-	map->load("data/PopupMenu.json");
 }
 
 PopupMenu::~PopupMenu()
 {
-	delete map;
+	if (map)
+		delete map;
 }
 
 void PopupMenu::draw()
 {
-	map->draw(window);
+	if (map)
+		map->draw(window);
+
 	Menu::draw();
 }

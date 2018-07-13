@@ -8,7 +8,9 @@ class TileLayer : public Layer
 	friend class Map;
 
 public:
-	TileLayer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {  }
+	TileLayer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock)
+	{
+	}
 
 	void draw(sf::RenderWindow& window) override;
 	void process() override;
