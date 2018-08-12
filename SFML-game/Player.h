@@ -19,20 +19,20 @@ public:
 	~Player();
 	void draw(sf::RenderWindow &window) override;
 	sf::FloatRect GetGlobalBounds() override;
-	void SetPosition(int x, int y) override;
+	void SetPosition(double x, double y) override;
 	
-	void HandleKeyInput();
+	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;
-	float x = 300, y = 300;
-	float speed = 1.5;
+	double x = 300, y = 300;
+	double speed = 1.5;
 	int counter = 0;
 	const int counterMax = 25;
 	sftools::Chronometer &clock;
 	sf::Int32 lastTime;
 
 private:
-	void move(Dir dir);
+	void move(Dir dir, double &newX, double &newY) const;
 
 	sf::Sprite sprite;
 	sf::Texture texture;

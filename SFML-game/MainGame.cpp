@@ -20,21 +20,17 @@ void MainGame::init()
 {
 	UI::init();
 	
-	map = new Map();
-	if (!map->load("data/Intro village.json"))
-		State::Set<MainMenu>(Transition::Switch);
+	map = new Map;
+	map->load("data/Intro village.json");
+	// Need a better solution
+		//State::Set<MainMenu>(Transition::Switch);
 }
 
 bool MainGame::frame()
 {
-	//TODO: tick speed and jump amount to be moved outwards, to config file
-	//framespertick++;
 	if (!paused)
 	{
-		//std::cout << framespertick << std::endl;
-		//framespertick = 0;
-
-		tick();
+		gameTick();
 		clock.reset(true);
 	}
 
@@ -66,7 +62,50 @@ void MainGame::toggle()
 	pausable = false;
 }
 
-void MainGame::tick()
+void MainGame::gameTick()
+{
+	player.HandleKeyInput(*map);
+	HandleEntranceIntersections();
+}
+
+void MainGame::draw()
+{
+	map->splitDraw(window, "Character", Map::DrawType::Back);
+	player.draw(window);
+	map->splitDraw(window, "Character", Map::DrawType::Front);
+
+	if (paused && State::IsCurrent(this))
+		window.draw(pauseText);
+}
+
+void MainGame::HandleKeyInput()
+{
+	if (!pausable && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)))
+		pausable = true;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
+	{
+		State::Set<MainMenu>(Transition::Switch);
+		State::ClearInitializer();
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+	{
+		State::Set<MainMenu>();
+		State::ClearInitializer();
+	}
+	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
+	{
+		State::Set<MainGame>(Transition::Switch);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+	{
+		State::SetChild<GamePopupMenu>();
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+		toggle();
+}
+
+void MainGame::HandleEntranceIntersections()
 {
 	auto entranceLayer = map->GetObjectLayer("Entrance");
 	ObjectSprite *entrance = nullptr;
@@ -91,42 +130,4 @@ void MainGame::tick()
 			player.SetPosition(x, y);
 		}
 	}
-}
-
-void MainGame::draw()
-{
-	map->draw(window);
-	player.draw(window);
-
-	if (paused && State::IsCurrent(this))
-		window.draw(pauseText);
-}
-
-void MainGame::HandleKeyInput()
-{
-	player.HandleKeyInput();
-
-	if (!pausable && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)))
-		pausable = true;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
-	{
-		State::Set<MainMenu>(Transition::Switch);
-		State::ClearInitializer();
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-	{
-		State::Set<MainMenu>();
-		State::ClearInitializer();
-	}
-	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
-	{
-		State::Set<MainGame>(Transition::Switch);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
-	{
-		State::SetChild<GamePopupMenu>();
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
-		toggle();
 }

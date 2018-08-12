@@ -20,9 +20,9 @@ public:
 	~MainGame();
 	void init() override;
 	
-	// Todo: frame/tick needs some kind of merge
+	// Todo: frame/gameTick needs some kind of merge
 	bool frame() override;
-	void tick();
+	void gameTick();
 
 	void pause() override;
 	void resume() override;
@@ -32,6 +32,7 @@ public:
 private:
 	//Functions
 	void HandleKeyInput();
+	void HandleEntranceIntersections();
 
 	//int framespertick = 0; // <-- Used for measuring performance
 
@@ -42,7 +43,7 @@ private:
 	Player player;
 
 	std::unordered_map<std::string, TileLayer*> layerMap;
-	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
+	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
 
 	sf::Text pauseText;
 	bool pausable = false;

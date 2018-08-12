@@ -18,6 +18,6 @@ public:
 	bool Intersects(GameObject &object);
 
 	//possibly implement later, if decided to be useful
-	virtual void SetPosition(int x, int y) {}
+	virtual void SetPosition(double x, double y) {}
 	virtual void draw(sf::RenderWindow &window) {}
 };

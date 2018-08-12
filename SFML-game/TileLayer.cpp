@@ -117,3 +117,17 @@ void TileLayer::initArrays()
 	animationTilemap = new AnimationTile[width*height];
 	textureMap = new sf::Sprite[width*height];
 }
+
+template <class T>
+T& TileLayer::get(T* arr, int x, int y)
+{
+	return arr[x + y * width];
+}
+
+bool TileLayer::containsTexture(int x, int y) const
+{
+	if (x > width || y > height)
+		return false; // Out of bounds
+
+	return bool(tilemap[x + y * width]); // if (value is 0) => false, else => true
+}

@@ -21,8 +21,12 @@ private:
 
 	void initArrays(); // Allocates memory according to width/height of layer
 	
+	// Should only be used internally
 	template <class T>
-	T& get(T *arr, int x, int y) { return arr[x + y * width]; }
+	T& get(T* arr, int x, int y);
+
+	// Safe to use from map, safe in case of breaking the bounds of the layer array
+	bool containsTexture(int x, int y) const;
 
     // Use get (array, x, y) to access the map
     int *tilemap;

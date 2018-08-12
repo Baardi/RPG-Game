@@ -17,11 +17,14 @@ void Map::clear()
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
 
-	for (auto object : objects)
+	for (auto object : layers)
 		delete object;
+	
+	if (walkables)
+		delete[] walkables;
 
 	tileSets.clear();
-	objects.clear();
+	layers.clear();
 	objectMap.clear();
 	tileMap.clear();
 	animatedTiles.clear();
@@ -50,6 +53,8 @@ bool Map::load(const std::string &filename)
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
 	tileSize.s = root["spacing"].asInt();
+	width = root["width"].asInt();
+	height = root["height"].asInt();
 
 	loadTileSets(root);
 
@@ -62,6 +67,7 @@ bool Map::load(const std::string &filename)
 		if (layer["type"].asString() == "objectgroup")
 			loadObjects(layer);
 	}
+	SetWalkables();
 
 	return true;
 }
@@ -81,7 +87,7 @@ void Map::loadLayer(Json::Value& layer)
 	tmp->name = layer["name"].asString();
 	tmp->visible = layer["visible"].asBool();
 	tmp->opacity = layer["opacity"].asFloat();
-
+	
 	// Prepare tilemap
 	tmp->initArrays();
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
@@ -93,7 +99,7 @@ void Map::loadLayer(Json::Value& layer)
 	}
 
 	tmp->loadTexture();
-	objects.push_back(tmp);				   // vector, so the order is kept
+	layers.push_back(tmp);				   // vector, so the order is kept
 	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
 }
 
@@ -139,19 +145,41 @@ void Map::loadObjects(Json::Value& layer)
 		objectLayer->objects.emplace_back(sprite);
 	}
 
-	objects.push_back(objectLayer);
+	layers.push_back(objectLayer);
 	objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 
 void Map::draw(sf::RenderWindow &window)
 {
-	for (auto object : objects)
-		object->process();
+	for (auto layer : layers)
+		drawLayer(window, layer);
+}
 
-	for (auto object : objects)
+void Map::drawLayer(sf::RenderWindow& window, Layer* layer)
+{
+	layer->process();
+
+	if (layer->visible)
+		layer->draw(window);
+}
+
+void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawType drawType)
+{
+	bool isDrawing = drawType == DrawType::Back ? true : false;
+
+	for (auto layer : layers)
 	{
-		if (object->visible)
-			object->draw(window);
+		if (layer->name == byLayer)
+		{
+			if (isDrawing)
+				break;
+			
+			isDrawing = true;
+			continue;
+		}
+
+		if (isDrawing)
+			drawLayer(window, layer);
 	}
 }
 
@@ -163,6 +191,35 @@ TileLayer *Map::GetTileLayer(const std::string& layerName)
 ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
 {
 	return objectMap[layerName];
+}
+
+// Assumes tilesize is similar for the entire game
+
+bool Map::isWalkableTileCoords(int xPos, int yPos)
+{
+	return get(walkables, xPos, yPos) 
+	&& get(walkables, xPos, yPos + 1)
+	&& get(walkables, xPos + 1, yPos)
+	&& get(walkables, xPos + 1, yPos + 1);
+}
+
+// Need conversion method or so to account for spacing
+bool Map::isWalkableScreenCoords(int xCoord, int yCoord)
+{
+	return get(walkables, xCoord / tileSize.x, yCoord / tileSize.y)
+	&& get(walkables, 1 + xCoord / tileSize.x, yCoord / tileSize.y)
+	&& get(walkables, xCoord / tileSize.x, 1 + yCoord / tileSize.y)
+	&& get(walkables, 1 + xCoord / tileSize.x, 1 + yCoord / tileSize.y);
+}
+
+void Map::SetWalkables()
+{
+	walkables = new bool[width*height];
+	auto unwalkables = GetTileLayer("Unwalkables");
+
+	for (int x = 0; x < width; x++)
+		for (int y = 0;y < height; y++)
+			get(walkables, x, y) = !unwalkables->containsTexture(x, y);
 }
 
 void Map::loadTileSets(Json::Value &root) // Loads all the images used by the json file as textures

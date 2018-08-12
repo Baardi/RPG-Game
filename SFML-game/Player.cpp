@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
-#include <iostream>
-
+#include "map.h"
 
 Player::Player(sftools::Chronometer &clock) : clock(clock)
 {
@@ -11,7 +10,7 @@ Player::Player(sftools::Chronometer &clock) : clock(clock)
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
-	sprite.setPosition(x, y);
+	Player::SetPosition(x, y);
 }
 
 Player::~Player()
@@ -28,40 +27,47 @@ sf::FloatRect Player::GetGlobalBounds()
 	return sprite.getGlobalBounds();
 }
 
-void Player::SetPosition(int x, int y)
+void Player::SetPosition(double x, double y)
 {
 	this->x = x;
 	this->y = y;
 	sprite.setPosition(x, y);
 }
 
-void Player::HandleKeyInput()
+void Player::HandleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 	{
-		move(Dir::Down);
+		dir = Dir::Down;
 		isMoving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 	{
-		move(Dir::Up);
+		dir = Dir::Up;
 		isMoving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
 	{
-		move(Dir::Left);
+		dir = Dir::Left;
 		isMoving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
 	{
-		move(Dir::Right);
+		dir = Dir::Right;
 		isMoving = true;
 	}
+	
 
 	if (isMoving)
 	{
+		double newX, newY;
+		move(dir, newX, newY);
+
+		if (map.isWalkableScreenCoords(newX, newY))
+			SetPosition(newX, newY);
+		
 		counter = (counter + 1) % counterMax;
 		sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	}
@@ -72,28 +78,27 @@ void Player::HandleKeyInput()
 	}
 }
 
-void Player::move(Dir dir)
+void Player::move(Dir dir, double &newX, double &newY) const
 {
-	this->dir = dir;
+	newX = x;
+	newY = y;
 
 	switch (dir)
 	{
 	case Dir::Down:
-		y += speed;
+		newY += speed;
 		break;
 
 	case Dir::Up:
-		y -= speed;
+		newY -= speed;
 		break;
 
 	case Dir::Left:
-		x -= speed;
+		newX -= speed;
 		break;
 
 	case Dir::Right:
-		x += speed;
+		newX += speed;
 		break;
 	}
-
-	sprite.setPosition(x, y);
 }
