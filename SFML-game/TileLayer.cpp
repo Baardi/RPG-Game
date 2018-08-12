@@ -2,6 +2,18 @@
 #include <SFML/Graphics.hpp>
 #include "TileLayer.h"
 
+TileLayer::TileLayer(const TileSize& tileSize, std::unordered_map<int, sf::Texture*>& tileSets, AnimationTileMap& animatedTiles, sf::Clock& clock):
+	Layer(tileSize, tileSets, animatedTiles), clock(clock)
+{
+}
+
+TileLayer::~TileLayer()
+{
+	delete[] tilemap;
+	delete[] animationTilemap;
+	delete[] textureMap;
+}
+
 void TileLayer::process()
 {
 	// Render each tile
@@ -9,14 +21,14 @@ void TileLayer::process()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = tilemap[x][y];
+			int tileid = get(tilemap, x, y);
 
 			// Skip empty tiles
 			if (tileid == 0)
 				continue;
 
-			sf::Sprite &sprite = textureMap[x][y];
-			AnimationTile &animationTile = animationTilemap[x][y];
+			sf::Sprite &sprite = get(textureMap, x, y);
+			AnimationTile &animationTile = get(animationTilemap, x, y);
 
 			// Update animation
 			if (!animationTile.animationTileData.empty())
@@ -33,13 +45,13 @@ void TileLayer::draw(sf::RenderWindow& window)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = tilemap[x][y];
+			int tileid = get(tilemap, x, y);
 
 			// Skip empty tiles
 			if (tileid == 0)
 				continue;
 
-			sf::Sprite &sprite = textureMap[x][y];
+			sf::Sprite &sprite = get(textureMap, x, y);
 			window.draw(sprite);
 		}
 	}
@@ -51,7 +63,7 @@ void TileLayer::loadTexture()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = tilemap[x][y];
+			int tileid = get(tilemap, x, y);
 			if (tileid == 0) 
 				continue;		// Skip empty tiles
 
@@ -81,7 +93,7 @@ void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y
 	int tilex, tiley;
 	getTileCoords(&texture, tileid, tilex, tiley);
 
-	auto &sprite = textureMap[x][y];
+	auto &sprite = get(textureMap, x, y);
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
@@ -90,11 +102,18 @@ void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y
 
 void TileLayer::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y)
 {
-	auto &animationTileInfo = animationTilemap[x][y];
+	auto &animationTileInfo = get(animationTilemap, x, y);
 	for (const auto &tile : animationTile)
 	{
 		int tilex, tiley;
 		getTileCoords(&texture, tile.first, tilex, tiley);
 		animationTileInfo.animationTileData.emplace_back(tile.second, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 	}
+}
+
+void TileLayer::initArrays()
+{
+	tilemap = new int[width*height];
+	animationTilemap = new AnimationTile[width*height];
+	textureMap = new sf::Sprite[width*height];
 }

@@ -82,14 +82,14 @@ void Map::loadLayer(Json::Value& layer)
 	tmp->visible = layer["visible"].asBool();
 	tmp->opacity = layer["opacity"].asFloat();
 
-	// Clear tilemap
+	// Prepare tilemap
+	tmp->initArrays();
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
 
 	// Read in tilemap
-
 	for (unsigned int i = 0; i < data.size(); i++)
 	{
-		tmp->tilemap[i % tmp->width][i / tmp->width] = data[i].asInt();
+		tmp->tilemap[i] = data[i].asInt();
 	}
 
 	tmp->loadTexture();

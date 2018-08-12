@@ -8,23 +8,26 @@ class TileLayer : public Layer
 	friend class Map;
 
 public:
-	TileLayer(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock)
-	{
-	}
+	TileLayer(const TileSize& tileSize, std::unordered_map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sf::Clock& clock);
+	~TileLayer();
 
 	void draw(sf::RenderWindow& window) override;
 	void process() override;
+
+private:
 	void loadTexture() override;
 	void LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
 
-private:
+	void initArrays(); // Allocates memory according to width/height of layer
+	
+	template <class T>
+	T& get(T *arr, int x, int y) { return arr[x + y * width]; }
 
-    // Lazy, but ram is cheap!
-	// 31x31 isntead of 30x30 temporarily to make Route 1 work
-    int tilemap[31][31];
-	AnimationTile animationTilemap[31][31];
-	sf::Sprite textureMap[31][31];
+    // Use get (array, x, y) to access the map
+    int *tilemap;
+	AnimationTile *animationTilemap;
+	sf::Sprite *textureMap;
 
     // Size in tiles
 	int width, height;

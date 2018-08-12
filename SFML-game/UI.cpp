@@ -21,9 +21,13 @@ void UI::setDrawOrder()
 
 void UI::drawAll()
 {
+	window.clear(sf::Color::Black);
+
 	// Reverse iteration, so the parent is drawn in backround
 	for (auto it = drawStack.rbegin(); it != drawStack.rend(); ++it)
 		(*it)->draw();
+	
+	window.display();
 }
 
 bool UI::PollEvent(sf::Event::EventType eventType)

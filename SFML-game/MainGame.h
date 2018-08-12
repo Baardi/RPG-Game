@@ -1,23 +1,36 @@
-
+#pragma once
+#include <SFML/Graphics.hpp>
+#include "State.h"
+#include <SFML/chronometer.h>
+#include "map.h"
 #include "Player.h"
+#include "game.h"
 
-class Game : public UI
+class GameInitializer : public Initializer
 {
 public:
-	Game() = default;
-	~Game() = default;
+	GameInitializer(int players) : players(players){}
+	int players;
+};
 
+class MainGame : public Game
+{
+public:
+	MainGame();
+	~MainGame();
+	void init() override;
+	
 	// Todo: frame/tick needs some kind of merge
-	/*bool frame() override;
+	bool frame() override;
 	void tick();
 
 	void pause() override;
 	void resume() override;
 	void toggle() override;
-	void draw() override;*/
+	void draw() override;
 
 private:
-/*	//Functions
+	//Functions
 	void HandleKeyInput();
 
 	//int framespertick = 0; // <-- Used for measuring performance
@@ -33,5 +46,5 @@ private:
 
 	sf::Text pauseText;
 	bool pausable = false;
-	Map *map = nullptr;*/
+	Map *map = nullptr;
 };

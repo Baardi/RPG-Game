@@ -30,18 +30,24 @@ public:
 	// To be used from any Ui
 
 	// Sets a transition, to be done after current frame
-	static void Set(Transition transition, UI *state = nullptr)
+	template <class T>
+	static void Set(Transition transition = Transition::Push)
 	{
 		Instance().transition = transition;
-		Instance().queuedState = state;
+		Instance().queuedState = new T;
 	}
 
-	static void SetChild(UI *state)
+	static void Set(Transition transition)
 	{
-		state->SetParent(GetUI());
-		
+		Instance().transition = transition;
+	}
+
+	template <class T>
+	static void SetChild(Transition transition = Transition::Push)
+	{
 		Instance().transition = Transition::Push;
-		Instance().queuedState = state;
+		Instance().queuedState = new T;
+		Instance().queuedState->SetParent(GetUI());
 	}
 
 	static bool IsRunning()
@@ -124,8 +130,8 @@ protected:
 		if (Instance().queuedState)
 			Instance().PushQueuedState();
 
-		if (Instance().IsRunning())
-			Instance().GetUI()->setDrawOrder();
+		if (IsRunning())
+			GetUI()->setDrawOrder();
 
 		if (IsRunning())
 			GetUI()->resume();
@@ -163,7 +169,6 @@ private:
 
 	std::vector<UI*> StateStack;
 	UI *queuedState = nullptr;
-	UI *queuedParent = nullptr;
 	Transition transition = Transition::None;
 
 	sf::RenderWindow *window;

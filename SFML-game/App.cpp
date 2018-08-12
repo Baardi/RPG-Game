@@ -5,10 +5,10 @@
 #include "Game.h"
 #include "MainMenu.h"
 
+
 App::App()
 {
 }
-
 
 App::~App()
 {
@@ -24,14 +24,13 @@ void App::init()
 	}
 
 	State::Setup(window, event, font);
-	State::Set(Transition::Push, new MainMenu);
+	State::Set<MainMenu>();
 }
-
 
 void App::run()
 {
 	init();
-	while(frame()){} // Game will exit on false, which is when the window closes
+	while (frame()) {} // Game will exit on false, which is when the window closes
 }
 
 bool App::frame()
@@ -45,11 +44,7 @@ bool App::frame()
 
 	State::GetUI()->frame();
 	State::GetUI()->HandleWindowEvents();
-
-	// Drawing (needs it's own thread, and should stop being singleton)
-	window.clear(sf::Color::Black);
 	State::GetUI()->drawAll();
-	window.display();
 
 	return true;
 }

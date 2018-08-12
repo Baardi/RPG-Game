@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MainMenu.h"
 #include "State.h"
-#include "Game.h"
+#include "MainGame.h"
 
 MainMenu::MainMenu()
 {
@@ -20,7 +20,7 @@ void MainMenu::SelectEntry() const
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		State::Set(Transition::Reset, new Game);
+		State::Set<MainGame>(Transition::Reset);
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{

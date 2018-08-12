@@ -72,7 +72,7 @@
     <ClInclude Include="GameObject.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="Container.h">
+    <ClInclude Include="MainGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Container.cpp">
+    <ClCompile Include="MainGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
