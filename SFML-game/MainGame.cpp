@@ -5,7 +5,7 @@
 #include "MainMenu.h"
 #include "GamePopupMenu.h"
 
-MainGame::MainGame(): player(clock), pauseText("Paused", font, 50)
+MainGame::MainGame(): player(clock, 400, 400), pauseText("Paused", font, 50)
 {
 	pauseText.setPosition(400, 450);
 }

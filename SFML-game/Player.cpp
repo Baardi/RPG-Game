@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "map.h"
 
-Player::Player(sftools::Chronometer &clock) : clock(clock)
+Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
 	texture.loadFromFile("data/player_red.png");
 	tilesize.x = texture.getSize().x / 4;
@@ -10,6 +10,13 @@ Player::Player(sftools::Chronometer &clock) : clock(clock)
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	
+	// Map keys to directions for the player
+	dirMap.emplace(sf::Keyboard::Key::Left, Dir::Left);
+	dirMap.emplace(sf::Keyboard::Key::Right, Dir::Right);
+	dirMap.emplace(sf::Keyboard::Key::Up, Dir::Up);
+	dirMap.emplace(sf::Keyboard::Key::Down, Dir::Down);
+	
 	Player::SetPosition(x, y);
 }
 
@@ -38,34 +45,23 @@ void Player::HandleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	for (auto kvPair : dirMap)
 	{
-		dir = Dir::Down;
-		isMoving = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-	{
-		dir = Dir::Up;
-		isMoving = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-	{
-		dir = Dir::Left;
-		isMoving = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-	{
-		dir = Dir::Right;
-		isMoving = true;
+		if (sf::Keyboard::isKeyPressed(kvPair.first))
+		{
+			dir = kvPair.second;
+			isMoving = true;
+			break;
+		}
 	}
 	
-
 	if (isMoving)
 	{
 		double newX, newY;
-		move(dir, newX, newY);
+		move(dir, x, y, newX, newY);
 
-		if (map.isWalkableScreenCoords(newX, newY))
+		if (!map.GetTileLayer("Unwalkables")->containsTexture(newX, newY)
+			|| map.GetTileLayer("Walkables")->containsTexture(newX, newY))
 			SetPosition(newX, newY);
 		
 		counter = (counter + 1) % counterMax;
@@ -78,10 +74,10 @@ void Player::HandleKeyInput(Map &map)
 	}
 }
 
-void Player::move(Dir dir, double &newX, double &newY) const
+void Player::move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const
 {
-	newX = x;
-	newY = y;
+	newX = prevX;
+	newY = prevY;
 
 	switch (dir)
 	{

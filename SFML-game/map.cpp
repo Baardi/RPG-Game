@@ -20,9 +20,6 @@ void Map::clear()
 	for (auto object : layers)
 		delete object;
 	
-	if (walkables)
-		delete[] walkables;
-
 	tileSets.clear();
 	layers.clear();
 	objectMap.clear();
@@ -67,7 +64,6 @@ bool Map::load(const std::string &filename)
 		if (layer["type"].asString() == "objectgroup")
 			loadObjects(layer);
 	}
-	SetWalkables();
 
 	return true;
 }
@@ -191,35 +187,6 @@ TileLayer *Map::GetTileLayer(const std::string& layerName)
 ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
 {
 	return objectMap[layerName];
-}
-
-// Assumes tilesize is similar for the entire game
-
-bool Map::isWalkableTileCoords(int xPos, int yPos)
-{
-	return get(walkables, xPos, yPos) 
-	&& get(walkables, xPos, yPos + 1)
-	&& get(walkables, xPos + 1, yPos)
-	&& get(walkables, xPos + 1, yPos + 1);
-}
-
-// Need conversion method or so to account for spacing
-bool Map::isWalkableScreenCoords(int xCoord, int yCoord)
-{
-	return get(walkables, xCoord / tileSize.x, yCoord / tileSize.y)
-	&& get(walkables, 1 + xCoord / tileSize.x, yCoord / tileSize.y)
-	&& get(walkables, xCoord / tileSize.x, 1 + yCoord / tileSize.y)
-	&& get(walkables, 1 + xCoord / tileSize.x, 1 + yCoord / tileSize.y);
-}
-
-void Map::SetWalkables()
-{
-	walkables = new bool[width*height];
-	auto unwalkables = GetTileLayer("Unwalkables");
-
-	for (int x = 0; x < width; x++)
-		for (int y = 0;y < height; y++)
-			get(walkables, x, y) = !unwalkables->containsTexture(x, y);
 }
 
 void Map::loadTileSets(Json::Value &root) // Loads all the images used by the json file as textures

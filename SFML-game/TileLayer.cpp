@@ -124,10 +124,16 @@ T& TileLayer::get(T* arr, int x, int y)
 	return arr[x + y * width];
 }
 
-bool TileLayer::containsTexture(int x, int y) const
+bool TileLayer::containsTextureTileCoords(int x, int y) const
 {
 	if (x > width || y > height)
 		return false; // Out of bounds
 
 	return bool(tilemap[x + y * width]); // if (value is 0) => false, else => true
+}
+
+bool TileLayer::containsTexture(double x, double y) const
+{
+	// Checks the tile the centre of the player is in
+	return containsTextureTileCoords(0.5 + x / (tileSize.x + tileSize.s), 0.5 + y / (tileSize.y + tileSize.s));
 }

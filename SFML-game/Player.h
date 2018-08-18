@@ -4,6 +4,10 @@
 #include "TileLayer.h"
 #include "GameObject.h"
 
+
+class Player : public GameObject
+{
+public:
 enum class Dir
 {
 	Down = 0,
@@ -11,11 +15,7 @@ enum class Dir
 	Left = 2,
 	Right = 3
 };
-
-class Player : public GameObject
-{
-public:
-	Player(sftools::Chronometer &clock);
+	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderWindow &window) override;
 	sf::FloatRect GetGlobalBounds() override;
@@ -32,9 +32,10 @@ public:
 	sf::Int32 lastTime;
 
 private:
-	void move(Dir dir, double &newX, double &newY) const;
+	void move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const;
 
 	sf::Sprite sprite;
 	sf::Texture texture;
 	TileSize tilesize;
+	std::map<sf::Keyboard::Key, Dir> dirMap;
 };

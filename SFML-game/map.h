@@ -24,18 +24,11 @@ public:
 
 	// The owner of the Layer-pointers, used to draw, check intersections etc.
 	std::vector<Layer *> layers;
-	bool isWalkableTileCoords(int xPos, int yPos);
-	bool isWalkableScreenCoords(int xCoord, int yCoord);
-	void SetWalkables();
 
 private:
 	// Different ordering of layers, used as lookup table
 	std::unordered_map<std::string, TileLayer *> tileMap;
 	std::unordered_map<std::string, ObjectLayer *> objectMap;
-	
-	template <class T>
-	T& get(T *arr, int x, int y) { return arr[x + y * width]; }
-	bool *walkables = nullptr; // Need to go through the layers afterwards and assign true/false
 
 	TileSize tileSize;
 
@@ -58,5 +51,5 @@ private:
 	// Map bounds
 	int width, height;
 
-	const unsigned int flipMultiplier = pow(2, 30);
+	static constexpr unsigned int flipMultiplier = 1073741824; /*std::pow(2, 30)*/
 };
