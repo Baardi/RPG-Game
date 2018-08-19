@@ -247,6 +247,23 @@
                  "width":32,
                  "x":594,
                  "y":228
+                }, 
+                {
+                 "height":19,
+                 "id":111,
+                 "name":"",
+                 "rotation":0,
+                 "text":
+                    {
+                     "color":"#ffffff",
+                     "text":"Hello World",
+                     "wrap":true
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":83,
+                 "x":289.5,
+                 "y":417.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -504,7 +521,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":111,
+ "nextobjectid":112,
  "orientation":"orthogonal",
  "properties":
     {
