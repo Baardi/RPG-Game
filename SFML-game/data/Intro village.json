@@ -141,18 +141,6 @@
                  "y":214
                 }, 
                 {
-                 "gid":3221229821,
-                 "height":146.121077075785,
-                 "id":73,
-                 "name":"Pig",
-                 "rotation":-239.866748004836,
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":255.98866547804,
-                 "x":451.637377041664,
-                 "y":674.635773924391
-                }, 
-                {
                  "gid":1073746173,
                  "height":32,
                  "id":74,
@@ -175,8 +163,92 @@
                  "width":32,
                  "x":833,
                  "y":130
+                }, 
+                {
+                 "gid":4245,
+                 "height":32,
+                 "id":104,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":509,
+                 "y":168
+                }, 
+                {
+                 "gid":4245,
+                 "height":32,
+                 "id":105,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":611,
+                 "y":167
+                }, 
+                {
+                 "gid":4245,
+                 "height":32,
+                 "id":106,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":652,
+                 "y":140
+                }, 
+                {
+                 "gid":4245,
+                 "height":32,
+                 "id":107,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":717,
+                 "y":76
+                }, 
+                {
+                 "gid":4246,
+                 "height":32,
+                 "id":108,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":752,
+                 "y":146
+                }, 
+                {
+                 "gid":4246,
+                 "height":32,
+                 "id":109,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":609,
+                 "y":78
+                }, 
+                {
+                 "gid":4246,
+                 "height":32,
+                 "id":110,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":594,
+                 "y":228
                 }],
-         "opacity":0.5,
+         "opacity":1,
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -244,6 +316,52 @@
                  "y":672
                 }],
          "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"Ghost",
+         "objects":[
+                {
+                 "gid":4994,
+                 "height":102.054,
+                 "id":101,
+                 "name":"",
+                 "rotation":-19.2655,
+                 "type":"",
+                 "visible":true,
+                 "width":102.054,
+                 "x":140.08745,
+                 "y":499.9485
+                }, 
+                {
+                 "gid":4866,
+                 "height":102.054,
+                 "id":102,
+                 "name":"",
+                 "rotation":-19.2655,
+                 "type":"",
+                 "visible":true,
+                 "width":102.054,
+                 "x":104.72015,
+                 "y":495.4185
+                }, 
+                {
+                 "gid":4872,
+                 "height":102.054,
+                 "id":103,
+                 "name":"",
+                 "rotation":-19.2655,
+                 "type":"",
+                 "visible":true,
+                 "width":102.054,
+                 "x":193.22585,
+                 "y":477.9975
+                }],
+         "opacity":0.6,
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -386,7 +504,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":86,
+ "nextobjectid":111,
  "orientation":"orthogonal",
  "properties":
     {
