@@ -87,7 +87,7 @@ void Menu::tick()
 	mouseControl ? HandleMouseEvents() : HandleKeyEvents();
 }
 
-size_t Menu::AddMenuItem(const std::string &text)
+size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
 {
 	size_t index = menuItems.size();
 
@@ -95,7 +95,15 @@ size_t Menu::AddMenuItem(const std::string &text)
 	menuItems.back().setFillColor(index ? colorUnselect : colorSelect);
 	menuItems.back().setPosition(x, y + spacing * index);
 
+	actions.emplace_back(action);
+
 	return index;
+}
+
+void Menu::SelectEntry() const
+{
+	if (menuIndex < actions.size())
+		actions[menuIndex]();
 }
 
 void Menu::HandleKeyEvents()
@@ -145,3 +153,4 @@ void Menu::draw()
 	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
 }
+

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/chronometer.h>
 #include "UI.h"
+#include <functional>
 
 class Menu : public UI
 {
@@ -17,10 +18,11 @@ public:
 	void draw() override;
 
 protected:
-	size_t AddMenuItem(const std::string &text);
-	virtual void SelectEntry() const {}
+	size_t AddMenuItem(const std::string &text, std::function<void()> action);
+	void SelectEntry() const;
 
 	std::vector<sf::Text> menuItems;
+	std::vector<std::function<void()>> actions;
 	size_t menuIndex = 0;
 
 	int x = 400, y = 400;

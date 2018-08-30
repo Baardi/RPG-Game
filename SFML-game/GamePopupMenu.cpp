@@ -10,19 +10,7 @@ void GamePopupMenu::init()
 	menuBackground.load("data/PopupMenu.json");
 
 	if (State::IsRunning())
-		INDEX_RESUME = AddMenuItem("Resume");
+		AddMenuItem("Resume", &State::Reset<MainGame>);
 
-	INDEX_NEWGAME = AddMenuItem("New Game");
-}
-
-void GamePopupMenu::SelectEntry() const
-{
-	if (menuIndex == INDEX_NEWGAME)
-	{
-		State::Reset<MainGame>();
-	}
-	else if (menuIndex == INDEX_RESUME)
-	{
-		State::Pop();
-	}
+	AddMenuItem("New Game", &State::Pop);
 }
