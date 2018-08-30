@@ -16,16 +16,17 @@ void Map::clear()
 {
 	for (auto tileSet : tileSets)
 		delete tileSet.second;
+	tileSets.clear();
 
 	for (auto object : layers)
 		delete object;
-	
-	tileSets.clear();
 	layers.clear();
+	
 	objectMap.clear();
 	tileMap.clear();
 	animatedTiles.clear();
-	clock.restart();
+	
+	clock.reset(true);
 }
 
 bool Map::load(const std::string &filename)
@@ -99,6 +100,29 @@ void Map::loadLayer(Json::Value& layer)
 	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
 }
 
+void Map::LoadProperties(ObjectSprite* sprite, Json::Value &object)
+{
+	auto &propertytypes = object["propertytypes"];
+	auto &properties = object["properties"];
+	for (Json::ValueIterator it = properties.begin(); it != properties.end(); ++it)
+	{
+		auto propertyName = it.key().asString();
+		auto propertyType = propertytypes[propertyName].asString();
+
+		if (propertyType == "string" || propertyType == "file" || propertyName == "color") // todo: map to sf::color and std::filesystem
+			sprite->propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
+
+		else if (propertyType == "int")
+			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<int>(it->asInt()));
+
+		if (propertyType == "float")
+			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<float>(it->asFloat())); // where are the doubles? :(
+
+		if (propertyType == "bool")
+			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<bool>(it->asBool()));
+	}
+}
+
 void Map::loadObjects(Json::Value& layer)
 {
 	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
@@ -129,13 +153,7 @@ void Map::loadObjects(Json::Value& layer)
 		sprite->visible = object["visible"].asBool();
 		sprite->opacity = layer["opacity"].asFloat();
 		
-		auto &propertytypes = object["propertytypes"];
-		auto &properties = object["properties"];
-		for (Json::ValueIterator it = properties.begin(); it != properties.end(); ++it)
-		{
-			if (propertytypes[it.key().asString()] == "string")
-				sprite->propertyMap.try_emplace(it.key().asString(), it->asString());
-		}
+		LoadProperties(sprite, object);
 
 		sprite->loadTexture();
 		objectLayer->objects.emplace_back(sprite);
@@ -187,6 +205,16 @@ TileLayer *Map::GetTileLayer(const std::string& layerName)
 ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
 {
 	return objectMap[layerName];
+}
+
+void Map::pause()
+{
+	clock.pause();
+}
+
+void Map::resume()
+{
+	clock.resume();
 }
 
 void Map::loadTileSets(Json::Value &root) // Loads all the images used by the json file as textures

@@ -24,7 +24,7 @@ void App::init()
 	}
 
 	State::Setup(window, event, font);
-	State::Set<MainMenu>();
+	State::Push<MainMenu>();
 }
 
 void App::run()

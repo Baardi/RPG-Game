@@ -21,16 +21,17 @@ public:
 	void drawAll();
 	
 	void SetParent(UI *parent) { this->parent = parent; } // To stack Ui's upon each other
-	
+	UI *GetParent() const { return parent; }
+
 	bool paused = false;
 
 protected:
 	sf::RenderWindow &window;
 	sf::Event &event;
-	sf::Font &font;
+	sf::Font font;
 
-	UI *parent = nullptr;
-
+	// arghelper
 private:
+	UI *parent = nullptr;
 	std::vector<UI *> drawStack;
 };

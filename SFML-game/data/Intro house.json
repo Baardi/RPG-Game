@@ -34,14 +34,14 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro village.json",
-                     "SpawnX":"512",
-                     "SpawnY":"778"
+                     "SpawnX":512,
+                     "SpawnY":778
                     },
                  "propertytypes":
                     {
                      "EntranceTo":"string",
-                     "SpawnX":"string",
-                     "SpawnY":"string"
+                     "SpawnX":"int",
+                     "SpawnY":"int"
                     },
                  "rotation":0,
                  "type":"Entrance",

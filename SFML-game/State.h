@@ -31,23 +31,80 @@ public:
 
 	// Sets a transition, to be done after current frame
 	template <class T>
-	static void Set(Transition transition = Transition::Push)
+	static void Set(Transition transition)
 	{
 		Instance().transition = transition;
 		Instance().queuedState = new T;
 	}
-
-	static void Set(Transition transition)
+	
+	static void Set(Transition transition, UI *state = nullptr)
 	{
-		Instance().transition = transition;
+		Instance().transition = Transition::Push;
+		Instance().queuedState = state;
 	}
 
 	template <class T>
-	static void SetChild(Transition transition = Transition::Push)
+	static void Push()
+	{
+		Instance().transition = Transition::Push;
+		Instance().queuedState = new T;
+	}
+
+	static void Push(UI *state)
+	{
+		Instance().transition = Transition::Push;
+		Instance().queuedState = state;
+	}
+
+	template <class T>
+	static void Switch()
+	{
+		Instance().transition = Transition::Switch;
+		Instance().queuedState = new T;
+	}
+
+	static void Switch(UI *state)
+	{
+		Instance().transition = Transition::Switch;
+		Instance().queuedState = state;
+	}
+
+	template <class T>
+	static void Reset()
+	{
+		Instance().transition = Transition::Reset;
+		Instance().queuedState = new T;
+	}
+
+	static void Reset(UI *state)
+	{
+		Instance().transition = Transition::Reset;
+		Instance().queuedState = state;
+	}
+
+	template <class T>
+	static void PushChild()
 	{
 		Instance().transition = Transition::Push;
 		Instance().queuedState = new T;
 		Instance().queuedState->SetParent(GetUI());
+	}
+
+	static void PushChild(UI *state)
+	{
+		Instance().transition = Transition::Push;
+		Instance().queuedState = state;
+		Instance().queuedState->SetParent(GetUI());
+	}
+
+	static void Pop()
+	{
+		Instance().transition = Transition::Pop;
+	}
+
+	static void Exit()
+	{
+		Instance().transition = Transition::Exit;
 	}
 
 	static bool IsRunning()
@@ -120,10 +177,10 @@ protected:
 			GetUI()->pause();
 
 		if (Instance().transition == Transition::Pop)
-			Instance().Pop();
+			Instance().IPop();
 
 		else if (Instance().transition == Transition::Reset)
-			Instance().Reset();
+			Instance().IReset();
 
 		Instance().transition = Transition::None;
 
@@ -153,13 +210,13 @@ private:
 		queuedState = nullptr;
 	}
 	
-	void Pop()
+	void IPop()
 	{
 		delete StateStack.back();
 		StateStack.pop_back();
 	}
 
-	void Reset()
+	void IReset()
 	{
 		for (auto state : StateStack)
 			delete state;

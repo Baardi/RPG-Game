@@ -1,7 +1,7 @@
 #pragma once
+#include <any>
 #include "Layer.h"
-#include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/chronometer.h>
 #include "GameObject.h"
 
 class ObjectSprite : public Layer, public GameObject
@@ -9,7 +9,7 @@ class ObjectSprite : public Layer, public GameObject
 	friend class Map;
 	friend class ObjectLayer;
 public:
-	ObjectSprite(const TileSize &tileSize, std::unordered_map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sf::Clock &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
+	ObjectSprite(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
 	~ObjectSprite() = default;
 
 	void process() override;
@@ -17,7 +17,12 @@ public:
 	void loadTexture() override;
 
 	sf::FloatRect GetGlobalBounds() override;
-	std::string GetPropertyValue(const std::string &propertyName);
+
+	template <class T>
+	T GetProperty(const std::string &propertyName)
+	{
+		return std::any_cast<T>(propertyMap.find(propertyName)->second);
+	}
 	void LoadSpriteTexture(sf::Texture &texture, int tileid);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
 	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
@@ -37,10 +42,10 @@ private:
 	AnimationTile animationTileInfo;
 
 	// Times the animation
-	sf::Clock &clock;
+	sftools::Chronometer &clock;
 
 	sf::Sprite sprite;
 	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 
-	std::unordered_map<std::string, std::string> propertyMap;
+	std::map<std::string, std::any> propertyMap;
 };

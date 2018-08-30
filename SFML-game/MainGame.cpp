@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MainGame.h"
-#include <iostream>
+#include "ObjectSprite.h"
 #include "State.h"
 #include "MainMenu.h"
 #include "GamePopupMenu.h"
@@ -12,16 +12,13 @@ MainGame::MainGame(): player(clock, 400, 400), pauseText("Paused", font, 50)
 
 MainGame::~MainGame()
 {
-	if (map)
-		delete map;
 }
 
 void MainGame::init()
 {
 	UI::init();
-	
-	map = new Map;
-	map->load("data/Intro village.json");
+
+	map.load("data/Intro village.json");
 	// Need a better solution
 		//State::Set<MainMenu>(Transition::Switch);
 }
@@ -42,12 +39,16 @@ bool MainGame::frame()
 
 void MainGame::pause()
 {
+	map.pause();
+
 	clock.pause();
 	paused = true;
 }
 
 void MainGame::resume()
 {
+	map.resume();
+
 	clock.resume();
 	paused = false;
 	pausable = false;
@@ -64,15 +65,15 @@ void MainGame::toggle()
 
 void MainGame::gameTick()
 {
-	player.HandleKeyInput(*map);
+	player.HandleKeyInput(map);
 	HandleEntranceIntersections();
 }
 
 void MainGame::draw()
 {
-	map->splitDraw(window, "Character", Map::DrawType::Back);
+	map.splitDraw(window, "Character", Map::DrawType::Back);
 	player.draw(window);
-	map->splitDraw(window, "Character", Map::DrawType::Front);
+	map.splitDraw(window, "Character", Map::DrawType::Front);
 
 	if (paused && State::IsCurrent(this))
 		window.draw(pauseText);
@@ -85,21 +86,19 @@ void MainGame::HandleKeyInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
 	{
-		State::Set<MainMenu>(Transition::Switch);
-		State::ClearInitializer();
+		State::Reset<MainMenu>();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 	{
-		State::Set<MainMenu>();
-		State::ClearInitializer();
+		State::Push<MainMenu>();
 	}
 	else if (pausable && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
 	{
-		State::Set<MainGame>(Transition::Switch);
+		State::Switch<MainGame>();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
 	{
-		State::SetChild<GamePopupMenu>();
+		State::PushChild<GamePopupMenu>();
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();
@@ -107,7 +106,7 @@ void MainGame::HandleKeyInput()
 
 void MainGame::HandleEntranceIntersections()
 {
-	auto entranceLayer = map->GetObjectLayer("Entrance");
+	auto entranceLayer = map.GetObjectLayer("Entrance");
 	ObjectSprite *entrance = nullptr;
 	if (entranceLayer)
 	{
@@ -122,11 +121,10 @@ void MainGame::HandleEntranceIntersections()
 
 		if (entrance)
 		{
-			std::string mapFileName = entrance->GetPropertyValue("EntranceTo");
-			int x = atoi(entrance->GetPropertyValue("SpawnX").c_str());
-			int y = atoi(entrance->GetPropertyValue("SpawnY").c_str());
-
-			map->load(mapFileName);
+			std::string mapFileName = entrance->GetProperty<std::string>("EntranceTo");
+			int x = entrance->GetProperty<int>("SpawnX");
+			int y = entrance->GetProperty<int>("SpawnY");
+			map.load(mapFileName);
 			player.SetPosition(x, y);
 		}
 	}

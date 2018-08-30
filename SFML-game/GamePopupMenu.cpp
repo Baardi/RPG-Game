@@ -7,8 +7,7 @@ void GamePopupMenu::init()
 {
 	x = 70;
 	y = 120;
-	map = new Map;
-	map->load("data/PopupMenu.json");
+	menuBackground.load("data/PopupMenu.json");
 
 	if (State::IsRunning())
 		INDEX_RESUME = AddMenuItem("Resume");
@@ -20,10 +19,10 @@ void GamePopupMenu::SelectEntry() const
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		State::Set<MainGame>(Transition::Reset);
+		State::Reset<MainGame>();
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
-		State::Set(Transition::Pop);
+		State::Pop();
 	}
 }

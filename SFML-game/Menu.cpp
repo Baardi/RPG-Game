@@ -34,7 +34,7 @@ bool Menu::frame()
 		}
 		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
-			State::Set(Transition::Pop);
+			State::Pop();
 		}
 		else if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
 		{

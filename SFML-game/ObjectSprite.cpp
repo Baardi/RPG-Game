@@ -12,7 +12,7 @@ void ObjectSprite::process()
 		ProcessAnimation(sprite, animationTileInfo, clock);
 }
 
-void ObjectSprite::draw(sf::RenderWindow& window)
+void ObjectSprite::draw(sf::RenderWindow &window)
 {
 	if (gid == 0)
 		return;
@@ -22,7 +22,7 @@ void ObjectSprite::draw(sf::RenderWindow& window)
 
 void ObjectSprite::loadTexture()
 {
-	globalBounds = sf::FloatRect(x, y, width, height);
+	globalBounds = sf::FloatRect(x, y, width * std::cos(rotation), height * std::cos(rotation));
 	
 	if (gid == 0)
 		return;
@@ -33,27 +33,23 @@ void ObjectSprite::loadTexture()
 
 	sf::Texture *spriteTexture = tileSets[tileTextureValue];
 
-	// try loading animation first
+	// Check if theres animation
 	auto animationTile = animatedTiles[gid];
-	if (animationTile.size() != 0)
+	if (animationTile.size() == 0)
 	{
-		LoadSpriteTexture(*spriteTexture, animationTile[0].first);// first animationtile decides first texturerect
-		LoadSpriteAnimation(*spriteTexture, animationTile);
-
-		return;
+		LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 	}
-
-	LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
+	else 
+	{
+		// First animationtile decides first texturerect
+		LoadSpriteTexture(*spriteTexture, animationTile[0].first);
+		LoadSpriteAnimation(*spriteTexture, animationTile);
+	}
 }
 
 sf::FloatRect ObjectSprite::GetGlobalBounds()
 {
 	return globalBounds;
-}
-
-std::string ObjectSprite::GetPropertyValue(const std::string &propertyName)
-{
-	return propertyMap[propertyName];
 }
 
 void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)

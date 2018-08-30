@@ -442,14 +442,14 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro map.json",
-                     "SpawnX":"436",
-                     "SpawnY":"384"
+                     "SpawnX":436,
+                     "SpawnY":384
                     },
                  "propertytypes":
                     {
                      "EntranceTo":"string",
-                     "SpawnX":"string",
-                     "SpawnY":"string"
+                     "SpawnX":"int",
+                     "SpawnY":"int"
                     },
                  "rotation":0,
                  "type":"Entrance",
@@ -465,14 +465,14 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Route 1.json",
-                     "SpawnX":"500",
-                     "SpawnY":"500"
+                     "SpawnX":500,
+                     "SpawnY":500
                     },
                  "propertytypes":
                     {
                      "EntranceTo":"string",
-                     "SpawnX":"string",
-                     "SpawnY":"string"
+                     "SpawnX":"int",
+                     "SpawnY":"int"
                     },
                  "rotation":0,
                  "type":"Entrance",
@@ -488,14 +488,14 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro house.json",
-                     "SpawnX":"447",
-                     "SpawnY":"860"
+                     "SpawnX":447,
+                     "SpawnY":860
                     },
                  "propertytypes":
                     {
                      "EntranceTo":"string",
-                     "SpawnX":"string",
-                     "SpawnY":"string"
+                     "SpawnX":"int",
+                     "SpawnY":"int"
                     },
                  "rotation":0,
                  "type":"Entrance",

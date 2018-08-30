@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Layer.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/chronometer.h>
 
 void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const
 {
@@ -24,7 +25,7 @@ int Layer::GetTextureIndex(int tileValue) const
 	return tileTextureValue;
 }
 
-void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sf::Clock& clock)
+void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sftools::Chronometer& clock)
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;

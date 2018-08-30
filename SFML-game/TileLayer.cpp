@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "TileLayer.h"
 
-TileLayer::TileLayer(const TileSize& tileSize, std::unordered_map<int, sf::Texture*>& tileSets, AnimationTileMap& animatedTiles, sf::Clock& clock):
+TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock):
 	Layer(tileSize, tileSets, animatedTiles), clock(clock)
 {
 }

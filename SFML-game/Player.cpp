@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "map.h"
+#include "State.h"
+#include "GamePopupMenu.h"
+#include "InventoryUI.h"
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
@@ -12,11 +15,14 @@ Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	
 	// Map keys to directions for the player
-	dirMap.emplace(sf::Keyboard::Key::Left, Dir::Left);
-	dirMap.emplace(sf::Keyboard::Key::Right, Dir::Right);
-	dirMap.emplace(sf::Keyboard::Key::Up, Dir::Up);
-	dirMap.emplace(sf::Keyboard::Key::Down, Dir::Down);
+	dirMap.emplace(Dir::Left, sf::Keyboard::Key::Left);
+	dirMap.emplace(Dir::Right, sf::Keyboard::Key::Right);
+	dirMap.emplace(Dir::Up, sf::Keyboard::Key::Up);
+	dirMap.emplace(Dir::Down, sf::Keyboard::Key::Down);
 	
+	// Map keys for actions (such as open inventory)
+	actionMap.emplace(Action::Inventory, sf::Keyboard::Key::I);
+
 	Player::SetPosition(x, y);
 }
 
@@ -47,21 +53,29 @@ void Player::HandleKeyInput(Map &map)
 
 	for (auto kvPair : dirMap)
 	{
-		if (sf::Keyboard::isKeyPressed(kvPair.first))
+		if (sf::Keyboard::isKeyPressed(kvPair.second))
 		{
-			dir = kvPair.second;
+			dir = kvPair.first;
 			isMoving = true;
 			break;
 		}
 	}
 	
+	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory])) // Inventory &inventory = dynamic_cast<Game *>(GetParent())->GetPlayer()->GetInventory() should be used inside Ui header
+		/*State::PushChild<InventoryUI>()*/; // Inventory popup
+	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
+		;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
+
 	if (isMoving)
 	{
+		auto unWalkables = map.GetTileLayer("Unwalkables");
+		auto Walkables = map.GetTileLayer("Walkables");
+
 		double newX, newY;
 		move(dir, x, y, newX, newY);
 
-		if (!map.GetTileLayer("Unwalkables")->containsTexture(newX, newY)
-			|| map.GetTileLayer("Walkables")->containsTexture(newX, newY))
+		if (! (unWalkables && unWalkables->containsTexture(newX, newY))
+			|| (Walkables &&  Walkables->containsTexture(newX, newY)) )
 			SetPosition(newX, newY);
 		
 		counter = (counter + 1) % counterMax;

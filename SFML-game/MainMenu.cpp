@@ -20,14 +20,14 @@ void MainMenu::SelectEntry() const
 {
 	if (menuIndex == INDEX_NEWGAME)
 	{
-		State::Set<MainGame>(Transition::Reset);
+		State::Reset<MainGame>();
 	}
 	else if (menuIndex == INDEX_RESUME)
 	{
-		State::Set(Transition::Pop);
+		State::Pop();
 	}
 	else if (menuIndex == INDEX_EXIT)
 	{
-		State::Set(Transition::Exit);
+		State::Exit();
 	}
 }

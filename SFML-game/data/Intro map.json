@@ -67,14 +67,14 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro village.json",
-                     "SpawnX":"784",
-                     "SpawnY":"768"
+                     "SpawnX":784,
+                     "SpawnY":768
                     },
                  "propertytypes":
                     {
                      "EntranceTo":"string",
-                     "SpawnX":"string",
-                     "SpawnY":"string"
+                     "SpawnX":"int",
+                     "SpawnY":"int"
                     },
                  "rotation":0,
                  "type":"Entrance",

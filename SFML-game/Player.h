@@ -15,6 +15,12 @@ enum class Dir
 	Left = 2,
 	Right = 3
 };
+
+enum class Action
+{
+	Talk, // Right?
+	Inventory
+};
 	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderWindow &window) override;
@@ -37,5 +43,7 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	TileSize tilesize;
-	std::map<sf::Keyboard::Key, Dir> dirMap;
+
+	std::map<Dir, sf::Keyboard::Key> dirMap;
+	std::map<Action, sf::Keyboard::Key> actionMap;
 };

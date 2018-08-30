@@ -8,7 +8,7 @@ class TileLayer : public Layer
 	friend class Map;
 
 public:
-	TileLayer(const TileSize& tileSize, std::unordered_map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sf::Clock& clock);
+	TileLayer(const TileSize& tileSize, std::map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sftools::Chronometer &clock);
 	~TileLayer();
 
 	void draw(sf::RenderWindow& window) override;
@@ -28,7 +28,7 @@ private:
 	
 	// Should only be used internally, as there's no boundary check
 	template <class T>
-	static T& get(T* arr, int x, int y);
+	T& get(T* arr, int x, int y);
 
     // Use get (array, x, y) to access the map
     int *tilemap;
@@ -38,5 +38,5 @@ private:
     // Size in tiles
 	int width, height;
 
-	sf::Clock &clock;
+	sftools::Chronometer &clock;
 };

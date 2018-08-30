@@ -42,10 +42,10 @@ private:
 	//"Personal" class variables
 	Player player;
 
-	std::unordered_map<std::string, TileLayer*> layerMap;
-	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
+	std::map<std::string, TileLayer*> layerMap;
+	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
 
 	sf::Text pauseText;
 	bool pausable = false;
-	Map *map = nullptr;
+	Map map;
 };
