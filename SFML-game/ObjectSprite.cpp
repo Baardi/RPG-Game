@@ -22,8 +22,6 @@ void ObjectSprite::draw(sf::RenderWindow &window)
 
 void ObjectSprite::loadTexture()
 {
-	globalBounds = sf::FloatRect(x, y, width * std::cos(rotation), height * std::cos(rotation));
-	
 	if (gid == 0)
 		return;
 
