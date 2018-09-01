@@ -367,13 +367,13 @@
                  "y":415
                 }, 
                 {
-                 "height":192,
+                 "height":174,
                  "id":92,
                  "name":"Gate Guardian",
                  "rotation":0,
                  "type":"Npc",
                  "visible":true,
-                 "width":32,
+                 "width":16,
                  "x":0,
                  "y":382
                 }],
@@ -446,7 +446,7 @@
          "name":"Entrance",
          "objects":[
                 {
-                 "height":32,
+                 "height":16,
                  "id":93,
                  "name":"To Intro village",
                  "properties":
@@ -464,34 +464,34 @@
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
-                 "width":128,
-                 "x":448,
-                 "y":961
+                 "width":96,
+                 "x":462,
+                 "y":976
                 }, 
                 {
-                 "height":32,
+                 "height":16,
                  "id":94,
                  "name":"",
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
-                 "width":128,
-                 "x":449,
-                 "y":2
+                 "width":96,
+                 "x":462,
+                 "y":0
                 }, 
                 {
-                 "height":128,
+                 "height":96,
                  "id":95,
                  "name":"",
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
-                 "width":32,
-                 "x":961,
-                 "y":449
+                 "width":16,
+                 "x":976,
+                 "y":462
                 }, 
                 {
-                 "height":128,
+                 "height":108,
                  "id":110,
                  "name":"To Palace",
                  "properties":
@@ -509,7 +509,7 @@
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
-                 "width":32,
+                 "width":16,
                  "x":0,
                  "y":448
                 }],

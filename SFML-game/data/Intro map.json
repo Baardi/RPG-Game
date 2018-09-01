@@ -63,12 +63,12 @@
                 {
                  "height":32,
                  "id":1,
-                 "name":"",
+                 "name":"To Intro Village",
                  "properties":
                     {
                      "EntranceTo":"data\/Intro village.json",
                      "SpawnX":784,
-                     "SpawnY":768
+                     "SpawnY":778
                     },
                  "propertytypes":
                     {
@@ -81,7 +81,7 @@
                  "visible":true,
                  "width":64,
                  "x":415,
-                 "y":384
+                 "y":352
                 }],
          "opacity":1,
          "type":"objectgroup",
