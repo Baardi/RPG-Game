@@ -374,8 +374,8 @@
                  "type":"Npc",
                  "visible":true,
                  "width":32,
-                 "x":1,
-                 "y":383
+                 "x":0,
+                 "y":382
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -448,7 +448,19 @@
                 {
                  "height":32,
                  "id":93,
-                 "name":"To intro village",
+                 "name":"To Intro village",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Intro village.json",
+                     "SpawnX":500,
+                     "SpawnY":500
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"int",
+                     "SpawnY":"int"
+                    },
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
@@ -480,13 +492,25 @@
                 }, 
                 {
                  "height":128,
-                 "id":97,
-                 "name":"",
+                 "id":110,
+                 "name":"To Palace",
+                 "properties":
+                    {
+                     "EntranceTo":"data\/Palace.json",
+                     "SpawnX":500,
+                     "SpawnY":500
+                    },
+                 "propertytypes":
+                    {
+                     "EntranceTo":"string",
+                     "SpawnX":"int",
+                     "SpawnY":"int"
+                    },
                  "rotation":0,
                  "type":"Entrance",
                  "visible":true,
                  "width":32,
-                 "x":1,
+                 "x":0,
                  "y":448
                 }],
          "opacity":1,
@@ -495,7 +519,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":110,
+ "nextobjectid":111,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.5",
