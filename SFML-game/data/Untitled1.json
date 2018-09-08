@@ -1,0 +1,34 @@
+{
+"nodes":
+	[{
+	"label":"MessageNode",
+	"x":-281.9958190917969,
+	"y":-236.87969970703125,
+	"id":"1",
+	"attributes":
+	{
+		"Message":"",
+		"Conditional":"False",
+		"NextNode":"2"
+	},
+	"color":"rgb(0,0,0)",
+	"size":10.0
+	}
+	,
+	{
+	"label":"MessageNode",
+	"x":56.9267578125,
+	"y":-14.9678955078125,
+	"id":"0",
+	"attributes":
+	{
+		"Message":"Hi. My name is Kjell",
+		"Conditional":"True",
+		"NextNode":"1"
+	},
+	"color":"rgb(0,0,0)"
+	,"size":10.0
+	}
+	]
+,"edges":[]
+}

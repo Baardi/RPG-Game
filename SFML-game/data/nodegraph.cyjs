@@ -1,0 +1,55 @@
+{
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.6.1",
+  "target_cytoscapejs_version" : "~2.1",
+  "data" : {
+    "shared_name" : "MessageTreeDummy",
+    "name" : "MessageTreeDummy",
+    "SUID" : 1475,
+    "__Annotations" : [ ],
+    "selected" : true
+  },
+  "elements" : {
+    "nodes" : [ {
+      "data" : {
+        "id" : "1489",
+        "shared_name" : "Node 2",
+        "name" : "Node 2",
+        "SUID" : 1489,
+        "selected" : false
+      },
+      "position" : {
+        "x" : 850.3898276491284,
+        "y" : -142.566162109375
+      },
+      "selected" : false
+    }, {
+      "data" : {
+        "id" : "1487",
+        "shared_name" : "Node 1",
+        "name" : "Node 1",
+        "SUID" : 1487,
+        "selected" : false
+      },
+      "position" : {
+        "x" : 619.076904296875,
+        "y" : -76.66867658936532
+      },
+      "selected" : false
+    } ],
+    "edges" : [ {
+      "data" : {
+        "id" : "1491",
+        "source" : "1487",
+        "target" : "1489",
+        "shared_name" : "Node 1 (interacts with) Node 2",
+        "name" : "Node 1 (interacts with) Node 2",
+        "interaction" : "interacts with",
+        "SUID" : 1491,
+        "shared_interaction" : "interacts with",
+        "selected" : false
+      },
+      "selected" : false
+    } ]
+  }
+}
