@@ -33,6 +33,7 @@ private:
 	//Functions
 	void HandleKeyInput();
 	void HandleEntranceIntersections();
+	void LoadMusic();
 
 	//int framespertick = 0; // <-- Used for measuring performance
 
@@ -44,7 +45,7 @@ private:
 
 	std::map<std::string, TileLayer*> layerMap;
 	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
-	sf::Music music;
+	std::unique_ptr<sf::Music> music;
 
 	sf::Text pauseText;
 	bool pausable = false;

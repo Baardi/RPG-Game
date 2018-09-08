@@ -20,8 +20,7 @@ void MainGame::init()
 	UI::init();
 
 	map.load("data/Intro village.json");
-	music.openFromFile(map.GetProperty<std::filesystem::path>("Music").string());
-	music.play();
+	LoadMusic();
 	// Need a better solution
 		//State::Set<MainMenu>(Transition::Switch);
 }
@@ -42,16 +41,20 @@ bool MainGame::frame()
 
 void MainGame::pause()
 {
-	map.pause();
+	if (music)
+		music->pause();
 
+	map.pause();
 	clock.pause();
 	paused = true;
 }
 
 void MainGame::resume()
 {
+	if (music)
+		music->play();
+	
 	map.resume();
-
 	clock.resume();
 	paused = false;
 	pausable = false;
@@ -128,12 +131,20 @@ void MainGame::HandleEntranceIntersections()
 			auto x = entrance->GetProperty<int>("SpawnX");
 			auto y = entrance->GetProperty<int>("SpawnY");
 			map.load(mapFileName);
-
-			auto musicFile = map.GetProperty<std::filesystem::path>("Music");
-			music.openFromFile(musicFile.string());
-			music.play();
+			LoadMusic();
 
 			player.SetPosition(x, y);
 		}
 	}
+}
+
+void MainGame::LoadMusic()
+{
+	music = std::make_unique<sf::Music>();
+	auto musicFile = map.GetProperty<std::filesystem::path>("Music");
+
+	if (music->openFromFile(musicFile.string()))
+		music->play();
+	else
+		music.reset();
 }
