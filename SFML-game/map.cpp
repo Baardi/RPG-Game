@@ -27,7 +27,8 @@ void Map::clear()
 	objectMap.clear();
 	tileMap.clear();
 	animatedTiles.clear();
-	
+	propertyMap.clear();
+
 	clock.reset(true);
 }
 
