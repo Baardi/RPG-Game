@@ -22,7 +22,7 @@ enum class Action
 	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderWindow &window) override;
-	sf::FloatRect GetGlobalBounds() override;
+	sf::DoubleRect GetGlobalBounds() override;
 	void SetPosition(double x, double y) override;
 	
 	void HandleKeyInput(Map &map);

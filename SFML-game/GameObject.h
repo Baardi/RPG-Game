@@ -1,12 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics/Rect.hpp>
-
-namespace sf
-{
-	class RenderWindow;
-}
-
 class GameObject
 {
 	friend class Map;
@@ -14,7 +7,7 @@ public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
-	virtual sf::FloatRect GetGlobalBounds();
+	virtual sf::DoubleRect GetGlobalBounds();
 	bool Intersects(GameObject &object);
 
 	//possibly implement later, if decided to be useful

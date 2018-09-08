@@ -49,7 +49,7 @@ void ObjectSprite::loadTexture()
 	}
 }
 
-sf::FloatRect ObjectSprite::GetGlobalBounds()
+sf::DoubleRect ObjectSprite::GetGlobalBounds()
 {
 	return globalBounds;
 }

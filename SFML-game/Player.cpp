@@ -32,7 +32,7 @@ void Player::draw(sf::RenderWindow &window)
 	window.draw(sprite);
 }
 
-sf::FloatRect Player::GetGlobalBounds()
+sf::DoubleRect Player::GetGlobalBounds()
 {
 	return sprite.getGlobalBounds();
 }
