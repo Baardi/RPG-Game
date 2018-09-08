@@ -146,7 +146,7 @@ void Map::loadObjects(Json::Value& layer)
 	{
 		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles, clock);
 
-		sprite->globalBounds = sf::FloatRect(object["x"].asFloat(), object["y"].asFloat(), object["width"].asFloat(), object["height"].asFloat());
+		sprite->globalBounds = sf::DoubleRect(object["x"].asFloat(), object["y"].asFloat(), object["width"].asFloat(), object["height"].asFloat());
 
 		// Load basic object info
 		sprite->name = object["name"].asString();

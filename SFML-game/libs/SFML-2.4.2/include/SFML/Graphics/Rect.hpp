@@ -195,6 +195,9 @@ bool operator !=(const Rect<T>& left, const Rect<T>& right);
 // Create typedefs for the most common types
 typedef Rect<int>   IntRect;
 typedef Rect<float> FloatRect;
+using DoubleRect = Rect<double>;
+using BoolRect = Rect<bool>;
+using LongRect = Rect<long>;
 
 } // namespace sf
 

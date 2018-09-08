@@ -142,9 +142,12 @@ void MainGame::LoadMusic()
 {
 	music = std::make_unique<sf::Music>();
 	music->setLoop(true);
-	auto musicFile = map.GetProperty<std::filesystem::path>("Music");
+	std::filesystem::path musicFile;
 
-	if (music->openFromFile(musicFile.string()))
+	if (map.ContainsProperty("Music"))
+		musicFile = map.GetProperty<std::filesystem::path>("Music");
+
+	if (musicFile.has_filename() && music->openFromFile(musicFile.string()))
 		music->play();
 	else
 		music.reset();
