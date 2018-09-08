@@ -147,7 +147,7 @@ void MainGame::LoadMusic()
 	if (map.ContainsProperty("Music"))
 		musicFile = map.GetProperty<std::filesystem::path>("Music");
 
-	if (music->openFromFile(musicFile.string()))
+	if (musicFile.has_filename() && music->openFromFile(musicFile.string()))
 		music->play();
 	else
 		music.reset();
