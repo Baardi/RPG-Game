@@ -4,6 +4,7 @@
 #include "State.h"
 #include "MainMenu.h"
 #include "GamePopupMenu.h"
+#include <filesystem>
 
 MainGame::MainGame(): player(clock, 400, 400), pauseText("Paused", font, 50)
 {
@@ -19,6 +20,8 @@ void MainGame::init()
 	UI::init();
 
 	map.load("data/Intro village.json");
+	music.openFromFile(map.GetProperty<std::filesystem::path>("Music").string());
+	music.play();
 	// Need a better solution
 		//State::Set<MainMenu>(Transition::Switch);
 }
@@ -121,10 +124,15 @@ void MainGame::HandleEntranceIntersections()
 
 		if (entrance)
 		{
-			std::string mapFileName = entrance->GetProperty<std::string>("EntranceTo");
-			int x = entrance->GetProperty<int>("SpawnX");
-			int y = entrance->GetProperty<int>("SpawnY");
+			auto mapFileName = entrance->GetProperty<std::string>("EntranceTo");
+			auto x = entrance->GetProperty<int>("SpawnX");
+			auto y = entrance->GetProperty<int>("SpawnY");
 			map.load(mapFileName);
+
+			auto musicFile = map.GetProperty<std::filesystem::path>("Music");
+			music.openFromFile(musicFile.string());
+			music.play();
+
 			player.SetPosition(x, y);
 		}
 	}

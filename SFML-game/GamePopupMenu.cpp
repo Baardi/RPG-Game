@@ -3,10 +3,14 @@
 #include "State.h"
 #include "MainGame.h"
 
-void GamePopupMenu::init()
+GamePopupMenu::GamePopupMenu()
 {
 	x = 70;
 	y = 120;
+}
+
+void GamePopupMenu::init()
+{
 	menuBackground.load("data/PopupMenu.json");
 
 	if (State::IsRunning())

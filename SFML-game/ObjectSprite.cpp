@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ObjectSprite.h"
-#include <SFML/Graphics/RenderWindow.hpp>
 
 void ObjectSprite::process()
 {
@@ -15,7 +14,12 @@ void ObjectSprite::process()
 void ObjectSprite::draw(sf::RenderWindow &window)
 {
 	if (gid == 0)
+	{
+		if (text)
+			window.draw(*text);
+
 		return;
+	}
 
 	window.draw(sprite);
 }

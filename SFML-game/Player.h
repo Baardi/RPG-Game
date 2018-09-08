@@ -1,6 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <sfml/chronometer.h>
 #include "TileLayer.h"
 #include "GameObject.h"
 
