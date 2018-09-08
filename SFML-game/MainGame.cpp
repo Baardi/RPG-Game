@@ -141,6 +141,7 @@ void MainGame::HandleEntranceIntersections()
 void MainGame::LoadMusic()
 {
 	music = std::make_unique<sf::Music>();
+	music->setLoop(true);
 	auto musicFile = map.GetProperty<std::filesystem::path>("Music");
 
 	if (music->openFromFile(musicFile.string()))
