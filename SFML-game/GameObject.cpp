@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-sf::FloatRect GameObject::GetGlobalBounds()
+sf::DoubleRect GameObject::GetGlobalBounds()
 {
-	return sf::FloatRect();
+	return sf::DoubleRect();
 }
 
 bool GameObject::Intersects(GameObject &object)

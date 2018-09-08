@@ -15,7 +15,7 @@ public:
 	void draw(sf::RenderWindow& window) override;
 	void loadTexture() override;
 
-	sf::FloatRect GetGlobalBounds() override;
+	sf::DoubleRect GetGlobalBounds() override;
 
 	template <class T>
 	T GetProperty(const std::string &propertyName)
@@ -46,7 +46,7 @@ private:
 	sftools::Chronometer &clock;
 
 	sf::Sprite sprite;
-	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
+	sf::DoubleRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 
 	std::map<std::string, std::any> propertyMap;
 };
