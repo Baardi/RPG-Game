@@ -26,6 +26,11 @@ public:
 	{
 		return std::any_cast<T>(propertyMap.find(propertyName)->second);
 	}
+
+	bool ContainsProperty(const std::string &propertyName)
+	{
+		return propertyMap.find(propertyName) != propertyMap.end();
+	}
 	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 
 	void pause();
