@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/chronometer.h>
 #include "UI.h"
 #include <functional>
 
@@ -9,36 +8,37 @@ public:
 	Menu();
 	virtual ~Menu();
 
+protected:
+	// Overrides from UI
 	void init() override;
 	bool frame() override;
-	void pause() override;
-	void resume() override;
 	bool PollEvent(sf::Event::EventType eventType) override;
-	void tick();
 	void draw() override;
 
-protected:
+	// Methods used by derived classes
 	size_t AddMenuItem(const std::string &text, std::function<void()> action);
-	void SelectEntry() const;
-
-	std::vector<sf::Text> menuItems;
-	std::vector<std::function<void()>> actions;
-	size_t menuIndex = 0;
-
+	
+	// Data members changable by derived classes
 	int x = 400, y = 400;
 	int spacing = 50;
 	int textSize = 40;
+	sf::Color colorSelect = sf::Color::Yellow;
+	sf::Color colorUnselect = sf::Color::White;
 
 private:
 
+	void tick();
+	void SelectEntry() const;
 	void HandleKeyEvents();
 	void HandleMouseEvents();
 
 	//"Personal" class variables
 	sftools::Chronometer clock;
+	
+	std::vector<sf::Text> menuItems;
+	std::vector<std::function<void()>> actions;
+	size_t menuIndex = 0;
 
-	const sf::Color colorSelect = sf::Color::Yellow;
-	const sf::Color colorUnselect = sf::Color::White;
 
 	bool ControlKeyPressed = true;
 	bool mouseControl = false;

@@ -146,6 +146,11 @@ public:
 	{
 		return GetUI() == state;
 	}
+	
+	static const sf::Font &Font()
+	{
+		return *Instance().font;
+	}
 
 protected:
 	// Methods for UI and App

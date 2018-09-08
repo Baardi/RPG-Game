@@ -44,6 +44,7 @@ private:
 
 	std::map<std::string, TileLayer*> layerMap;
 	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
+	sf::Music music;
 
 	sf::Text pauseText;
 	bool pausable = false;

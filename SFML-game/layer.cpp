@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "Layer.h"
-#include <SFML/Graphics.hpp>
-#include <SFML/chronometer.h>
 
 void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const
 {

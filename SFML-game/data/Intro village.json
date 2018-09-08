@@ -249,21 +249,22 @@
                  "y":228
                 }, 
                 {
-                 "height":19,
+                 "gid":4246,
+                 "height":20.0922617719747,
                  "id":111,
                  "name":"",
-                 "rotation":0,
+                 "rotation":10,
                  "text":
                     {
-                     "color":"#ffffff",
+                     "color":"#c87bff0f",
                      "text":"Hello World",
                      "wrap":true
                     },
                  "type":"",
                  "visible":true,
-                 "width":83,
-                 "x":289.5,
-                 "y":417.5
+                 "width":92.1621969587196,
+                 "x":493.5,
+                 "y":113.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -548,13 +549,13 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "EntranceTo":"data\/Intro Map",
+     "Music":"DungeonCrawl_ProjectUtumnoTileset.png",
      "SpawnX":"500",
      "SpawnY":"500"
     },
  "propertytypes":
     {
-     "EntranceTo":"string",
+     "Music":"file",
      "SpawnX":"string",
      "SpawnY":"string"
     },

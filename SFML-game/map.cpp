@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include <fstream>
-#include <SFML/Graphics.hpp>
 #include "map.h"
+#include <filesystem>
+#include "Utility.h"
+#include "State.h"
 
 #define _USE_MATH_DEFINES
 #include "math.h"
@@ -55,6 +57,7 @@ bool Map::load(const std::string &filename)
 	height = root["height"].asInt();
 
 	loadTileSets(root);
+	LoadProperties(propertyMap, root);
 
 	// Read in each layer
 	for (Json::Value& layer: root["layers"])
@@ -97,10 +100,10 @@ void Map::loadLayer(Json::Value& layer)
 
 	tmp->loadTexture();
 	layers.push_back(tmp);				   // vector, so the order is kept
-	tileMap.try_emplace(tmp->name, tmp); // so the layer can be retrieved later (e.g by game-class)
+	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::LoadProperties(ObjectSprite* sprite, Json::Value &object)
+void Map::LoadProperties(std::map<std::string, std::any> &propertyMap, Json::Value &object)
 {
 	auto &propertytypes = object["propertytypes"];
 	auto &properties = object["properties"];
@@ -109,17 +112,23 @@ void Map::LoadProperties(ObjectSprite* sprite, Json::Value &object)
 		auto propertyName = it.key().asString();
 		auto propertyType = propertytypes[propertyName].asString();
 
-		if (propertyType == "string" || propertyType == "file" || propertyName == "color") // todo: map to sf::color and std::filesystem
-			sprite->propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
+		if (propertyType == "string")
+			propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
+
+		else if (propertyType == "file")
+			propertyMap.try_emplace(propertyName, std::make_any<std::filesystem::path>(it->asString()));
+
+		else if (propertyType == "color") 
+			propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::Utility::parseColor(it->asString())));
 
 		else if (propertyType == "int")
-			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<int>(it->asInt()));
+			propertyMap.try_emplace(it.key().asString(), std::make_any<int>(it->asInt()));
 
-		if (propertyType == "float")
-			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<float>(it->asFloat())); // where are the doubles? :(
+		else if (propertyType == "float")
+			propertyMap.try_emplace(it.key().asString(), std::make_any<float>(it->asFloat()));
 
-		if (propertyType == "bool")
-			sprite->propertyMap.try_emplace(it.key().asString(), std::make_any<bool>(it->asBool()));
+		else if (propertyType == "bool")
+			propertyMap.try_emplace(it.key().asString(), std::make_any<bool>(it->asBool()));
 	}
 }
 
@@ -154,8 +163,24 @@ void Map::loadObjects(Json::Value& layer)
 		sprite->type = object["type"].asString();
 		sprite->visible = object["visible"].asBool();
 		sprite->opacity = layer["opacity"].asFloat();
-		
-		LoadProperties(sprite, object);
+
+		auto textValue = object["text"];
+		if (!textValue.empty())
+		{
+			sprite->text = std::make_unique<sf::Text>();
+			auto &text = *sprite->text.get();
+
+			text.setFillColor(sf::Utility::parseColor(textValue["color"].asString()));
+			text.setString(textValue["text"].asString());
+			text.setCharacterSize(16);
+			text.setFont(State::Font());
+			auto text_x = object["x"].asFloat();
+			auto text_y = object["y"].asFloat();
+			text.setPosition(text_x, text_y);
+			text.setRotation(sprite->rotation);
+		}
+
+		LoadProperties(sprite->propertyMap, object);
 
 		sprite->loadTexture();
 		objectLayer->objects.emplace_back(sprite);

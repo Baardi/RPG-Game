@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "map.h"
-#include "State.h"
-#include "GamePopupMenu.h"
-#include "InventoryUI.h"
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {

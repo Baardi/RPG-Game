@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <SFML/Graphics.hpp>
 #include "TileLayer.h"
 
 TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock):

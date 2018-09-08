@@ -3,7 +3,7 @@
 class GamePopupMenu : public PopupMenu
 {
 public:
-	GamePopupMenu() = default;
+	GamePopupMenu();
 	~GamePopupMenu() = default;
 	void init() override;
 };

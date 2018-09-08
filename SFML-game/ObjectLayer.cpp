@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <SFML/Graphics.hpp>
 #include "ObjectLayer.h"
 
 ObjectLayer::~ObjectLayer()

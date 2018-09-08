@@ -1,7 +1,6 @@
 #pragma once
 #include <any>
 #include "Layer.h"
-#include <SFML/chronometer.h>
 #include "GameObject.h"
 
 class ObjectSprite : public Layer, public GameObject
@@ -37,6 +36,8 @@ private:
 	float width, height;
 	float rotation;
 	bool horflip, verflip;
+
+	std::unique_ptr<sf::Text> text;
 
 	// AnimationData
 	AnimationTile animationTileInfo;
