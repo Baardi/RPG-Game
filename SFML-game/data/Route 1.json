@@ -521,6 +521,14 @@
         }],
  "nextobjectid":111,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "Music":"data\/Music\/Grassy World.ogg"
+    },
+ "propertytypes":
+    {
+     "Music":"file"
+    },
  "renderorder":"right-down",
  "tiledversion":"1.1.5",
  "tileheight":32,
