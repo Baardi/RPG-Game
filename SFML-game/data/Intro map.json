@@ -119,7 +119,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"snowWIP.png",
+         "image":"Tilesets\/snowWIP.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -132,7 +132,7 @@
         {
          "columns":16,
          "firstgid":257,
-         "image":"mountain_landscape.png",
+         "image":"Tilesets\/mountain_landscape.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,

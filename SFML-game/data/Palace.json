@@ -179,7 +179,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"snowWIP.png",
+         "image":"Tilesets\/snowWIP.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -192,7 +192,7 @@
         {
          "columns":64,
          "firstgid":257,
-         "image":"ProjectUtumno_full.png",
+         "image":"Tilesets\/ProjectUtumno_full.png",
          "imageheight":3040,
          "imagewidth":2048,
          "margin":0,
@@ -205,7 +205,7 @@
         {
          "columns":21,
          "firstgid":6337,
-         "image":"tileSetComplete v5.png",
+         "image":"Tilesets\/tileSetComplete v5.png",
          "imageheight":561,
          "imagewidth":688,
          "margin":0,
@@ -542,7 +542,7 @@
         {
          "columns":16,
          "firstgid":6694,
-         "image":"mountain_landscape.png",
+         "image":"Tilesets\/mountain_landscape.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -555,7 +555,7 @@
         {
          "columns":8,
          "firstgid":6950,
-         "image":"tileset_town_multi_v002.png",
+         "image":"Tilesets\/tileset_town_multi_v002.png",
          "imageheight":2240,
          "imagewidth":256,
          "margin":0,
