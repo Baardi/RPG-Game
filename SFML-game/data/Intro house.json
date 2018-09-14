@@ -240,8 +240,16 @@
         }],
  "nextobjectid":99,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "Music":"data\/Music\/Theme of Agrual.ogg"
+    },
+ "propertytypes":
+    {
+     "Music":"file"
+    },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.6",
  "tileheight":32,
  "tilesets":[
         {

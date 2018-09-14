@@ -477,8 +477,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Palace.json",
-                     "SpawnX":500,
-                     "SpawnY":500
+                     "SpawnX":64,
+                     "SpawnY":866
                     },
                  "propertytypes":
                     {
@@ -523,8 +523,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Route 1.json",
-                     "SpawnX":500,
-                     "SpawnY":500
+                     "SpawnX":510,
+                     "SpawnY":906
                     },
                  "propertytypes":
                     {
@@ -560,7 +560,7 @@
      "SpawnY":"string"
     },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.6",
  "tileheight":32,
  "tilesets":[
         {

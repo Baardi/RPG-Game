@@ -117,8 +117,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Intro village.json",
-                     "SpawnX":500,
-                     "SpawnY":500
+                     "SpawnX":80,
+                     "SpawnY":192
                     },
                  "propertytypes":
                     {
@@ -130,7 +130,7 @@
                  "type":"Entrance",
                  "visible":true,
                  "width":32,
-                 "x":63,
+                 "x":64,
                  "y":832
                 }, 
                 {
@@ -140,8 +140,8 @@
                  "properties":
                     {
                      "EntranceTo":"data\/Route 1.json",
-                     "SpawnX":500,
-                     "SpawnY":500
+                     "SpawnX":20,
+                     "SpawnY":480
                     },
                  "propertytypes":
                     {
@@ -173,7 +173,7 @@
      "Music":"file"
     },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.6",
  "tileheight":32,
  "tilesets":[
         {

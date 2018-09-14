@@ -4,7 +4,7 @@
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
-	texture.loadFromFile("data/player_red.png");
+	texture.loadFromFile("data/Player Sprites/player_red.png");
 	tilesize.x = texture.getSize().x / 4;
 	tilesize.y = texture.getSize().y / 4;
 

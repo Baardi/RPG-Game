@@ -28,7 +28,7 @@ enum class Action
 	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;
-	double x = 300, y = 300;
+	double x = 400, y = 400;
 	double speed = 1.5;
 	int counter = 0;
 	const int counterMax = 25;

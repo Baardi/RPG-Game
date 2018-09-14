@@ -112,8 +112,16 @@
         }],
  "nextobjectid":3,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "Music":"c:\/Users\/jonak\/source\/repos\/rpg\/RPG-Game\/SFML-game\/data\/data\/Music\/The Fall of Arcana.ogg"
+    },
+ "propertytypes":
+    {
+     "Music":"file"
+    },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.6",
  "tileheight":32,
  "tilesets":[
         {
