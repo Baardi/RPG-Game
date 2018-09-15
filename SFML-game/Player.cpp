@@ -9,7 +9,7 @@ Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 	tilesize.y = texture.getSize().y / 4;
 
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	
 	// Map keys to directions for the player
 	dirMap.emplace(Dir::Left, sf::Keyboard::Key::Left);
