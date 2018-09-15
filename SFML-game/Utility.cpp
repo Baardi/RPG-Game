@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Utility.h"
 
-sf::Color sf::Utility::parseColor(const std::string &colorCode)
+sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
 	// A really lame method that parses color codes from tiled into sf::color.
 	// Throws exception if the length isn't 7 or 9

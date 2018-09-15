@@ -4,7 +4,7 @@
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
-	texture.loadFromFile("data/Player Sprites/player_red.png");
+	texture.loadFromFile("data/Player Sprites/Mage.png");
 	tilesize.x = texture.getSize().x / 4;
 	tilesize.y = texture.getSize().y / 4;
 
@@ -62,7 +62,6 @@ void Player::HandleKeyInput(Map &map)
 		/*State::PushChild<InventoryUI>()*/; // Inventory popup
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
 		;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
-
 	if (isMoving)
 	{
 		auto unWalkables = map.GetTileLayer("Unwalkables");
@@ -81,7 +80,7 @@ void Player::HandleKeyInput(Map &map)
 	else
 	{
 		counter = counter/counterMax;
-		sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+		sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	}
 }
 

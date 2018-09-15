@@ -125,7 +125,7 @@ void MainGame::HandleEntranceIntersections()
 			}
 		}
 
-		if (entrance)
+		if (entrance && entrance->ContainsProperty("EntranceTo"))
 		{
 			auto mapFileName = entrance->GetProperty<std::string>("EntranceTo");
 			auto x = entrance->GetProperty<int>("SpawnX");
@@ -140,10 +140,11 @@ void MainGame::HandleEntranceIntersections()
 
 void MainGame::LoadMusic()
 {
-	music = std::make_unique<sf::Music>();
+	if (!music)
+		music = std::make_unique<sf::Music>();
 	music->setLoop(true);
+	
 	std::filesystem::path musicFile;
-
 	if (map.ContainsProperty("Music"))
 		musicFile = map.GetProperty<std::filesystem::path>("Music");
 

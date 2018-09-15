@@ -1,10 +1,10 @@
 #pragma once
 
-#include <map>
 #include "TileLayer.h"
 #include "ObjectLayer.h"
+#include "MapProperties.h"
 
-class Map
+class Map : public MapProperties
 {
 public:
 	enum class DrawType{ Front, Back };
@@ -21,16 +21,6 @@ public:
 	TileLayer *GetTileLayer(const std::string &layerName);
 	ObjectLayer *GetObjectLayer(const std::string &layerName);
 	
-	template <class T>
-	T GetProperty(const std::string &propertyName)
-	{
-		return std::any_cast<T>(propertyMap.find(propertyName)->second);
-	}
-
-	bool ContainsProperty(const std::string &propertyName)
-	{
-		return propertyMap.find(propertyName) != propertyMap.end();
-	}
 	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 
 	void pause();
@@ -43,7 +33,6 @@ private:
 	// Different ordering of layers, used as lookup table
 	std::map<std::string, TileLayer *> tileMap;
 	std::map<std::string, ObjectLayer *> objectMap;
-	std::map<std::string, std::any> propertyMap;
 	TileSize tileSize;
 
 	std::map<int, sf::Texture *> tileSets;
@@ -56,7 +45,6 @@ private:
     // Handles regular layers
 	void loadLayer(Json::Value& layer);
 
-	void LoadProperties(std::map<std::string, std::any> &propertyMap, Json::Value &object);
 	// Handles object layers
 	void loadObjects(Json::Value& layer);
 

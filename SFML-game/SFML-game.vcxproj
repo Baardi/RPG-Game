@@ -158,6 +158,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePopupMenu.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MapProperties.h" />
     <ClInclude Include="ObjectSprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopupMenu.h" />
@@ -182,6 +183,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MapProperties.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />

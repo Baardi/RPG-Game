@@ -78,6 +78,9 @@
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MapProperties.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapProperties.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

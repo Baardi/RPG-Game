@@ -2,8 +2,9 @@
 #include <any>
 #include "Layer.h"
 #include "GameObject.h"
+#include "MapProperties.h"
 
-class ObjectSprite : public Layer, public GameObject
+class ObjectSprite : public Layer, public GameObject, public MapProperties
 {
 	friend class Map;
 	friend class ObjectLayer;
@@ -17,11 +18,6 @@ public:
 
 	sf::DoubleRect GetGlobalBounds() override;
 
-	template <class T>
-	T GetProperty(const std::string &propertyName)
-	{
-		return std::any_cast<T>(propertyMap.find(propertyName)->second);
-	}
 	void LoadSpriteTexture(sf::Texture &texture, int tileid);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
 	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;

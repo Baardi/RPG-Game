@@ -1,8 +1,9 @@
 #pragma once
 #include "Layer.h"
+#include "MapProperties.h"
 
 // Class representing a tile layer
-class TileLayer : public Layer
+class TileLayer : public Layer, public MapProperties
 {
 	// Map needs to access protected/private data
 	friend class Map;

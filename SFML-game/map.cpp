@@ -2,7 +2,7 @@
 #include <fstream>
 #include "map.h"
 #include <filesystem>
-#include "Utility.h"
+#include "utility.h"
 #include "State.h"
 
 #define _USE_MATH_DEFINES
@@ -58,7 +58,7 @@ bool Map::load(const std::string &filename)
 	height = root["height"].asInt();
 
 	loadTileSets(root);
-	LoadProperties(propertyMap, root);
+	LoadProperties(root);
 
 	// Read in each layer
 	for (Json::Value& layer: root["layers"])
@@ -77,9 +77,6 @@ void Map::loadLayer(Json::Value& layer)
 {
 	Json::Value &data = layer["data"];
 
-	if (data.empty()) // probably an object layer
-		return;
-
 	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles, clock); // TileLayer needs a reference to the active tilesets
 
 	// Store info on layer
@@ -88,7 +85,7 @@ void Map::loadLayer(Json::Value& layer)
 	tmp->name = layer["name"].asString();
 	tmp->visible = layer["visible"].asBool();
 	tmp->opacity = layer["opacity"].asFloat();
-	
+
 	// Prepare tilemap
 	tmp->initArrays();
 	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
@@ -100,37 +97,9 @@ void Map::loadLayer(Json::Value& layer)
 	}
 
 	tmp->loadTexture();
+	tmp->LoadProperties(layer);
 	layers.push_back(tmp);				   // vector, so the order is kept
 	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
-}
-
-void Map::LoadProperties(std::map<std::string, std::any> &propertyMap, Json::Value &object)
-{
-	auto &propertytypes = object["propertytypes"];
-	auto &properties = object["properties"];
-	for (Json::ValueIterator it = properties.begin(); it != properties.end(); ++it)
-	{
-		auto propertyName = it.key().asString();
-		auto propertyType = propertytypes[propertyName].asString();
-
-		if (propertyType == "string")
-			propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
-
-		else if (propertyType == "file")
-			propertyMap.try_emplace(propertyName, std::make_any<std::filesystem::path>(it->asString()));
-
-		else if (propertyType == "color") 
-			propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::Utility::parseColor(it->asString())));
-
-		else if (propertyType == "int")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<int>(it->asInt()));
-
-		else if (propertyType == "float")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<float>(it->asFloat()));
-
-		else if (propertyType == "bool")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<bool>(it->asBool()));
-	}
 }
 
 void Map::loadObjects(Json::Value& layer)
@@ -140,6 +109,7 @@ void Map::loadObjects(Json::Value& layer)
 	objectLayer->type = layer["type"].asString();
 	objectLayer->visible = layer["visible"].asBool();
 	objectLayer->opacity = layer["opacity"].asFloat();
+	objectLayer->LoadProperties(layer);
 
 	// Get all mapObjects from layer
 	for (Json::Value& object: layer["objects"])
@@ -171,7 +141,7 @@ void Map::loadObjects(Json::Value& layer)
 			sprite->text = std::make_unique<sf::Text>();
 			auto &text = *sprite->text.get();
 
-			text.setFillColor(sf::Utility::parseColor(textValue["color"].asString()));
+			text.setFillColor(sf::utility::parseColor(textValue["color"].asString()));
 			text.setString(textValue["text"].asString());
 			text.setCharacterSize(16);
 			text.setFont(State::Font());
@@ -181,7 +151,7 @@ void Map::loadObjects(Json::Value& layer)
 			text.setRotation(sprite->rotation);
 		}
 
-		LoadProperties(sprite->propertyMap, object);
+		sprite->LoadProperties(object);
 
 		sprite->loadTexture();
 		objectLayer->objects.emplace_back(sprite);

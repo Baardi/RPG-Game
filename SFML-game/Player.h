@@ -9,9 +9,9 @@ public:
 enum class Dir
 {
 	Down = 0,
-	Up = 1,
-	Left = 2,
-	Right = 3
+	Left = 1,
+	Right = 2,
+	Up = 3,
 };
 
 enum class Action

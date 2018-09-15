@@ -2,7 +2,7 @@
 #include "Layer.h"
 #include "ObjectSprite.h"
 
-class ObjectLayer : public Layer
+class ObjectLayer : public Layer, public MapProperties
 {
 	// Map needs to access protected/private data
 	friend class Map;
@@ -16,8 +16,6 @@ public:
 	void loadTexture() override;
 
 	std::vector<ObjectSprite *> objects;
-
-protected:
 
 	// todo std::map<int gid, ObjectSprite *>
 };

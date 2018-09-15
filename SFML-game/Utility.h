@@ -1,5 +1,5 @@
 #pragma once
-namespace sf::Utility
+namespace sf::utility
 {
 	Color parseColor(const std::string &colorCode);
 }
