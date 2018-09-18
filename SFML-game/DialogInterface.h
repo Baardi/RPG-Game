@@ -1,14 +1,11 @@
 #pragma once
 #include "PopupMenu.h"
 
-class DialogInterface : public Menu
+class DialogInterface : public PopupMenu
 {
 public:
 	DialogInterface();
 	~DialogInterface();
 	void init() override;
-
-private:
-	Map menuBackground;
 };
 

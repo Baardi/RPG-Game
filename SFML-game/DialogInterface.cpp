@@ -14,11 +14,11 @@ DialogInterface::~DialogInterface()
 
 void DialogInterface::init()
 {
-	x = 120;
-	y = 800;
+	x = 240;
+	y = 780;
 	colorSelect = sf::Color::Blue;
 	colorUnselect = sf::Color::Black;
-	menuBackground.load("data/messagebox");
+	menuBackground.load("data/MessageBox.json");
 
 	AddMenuItem("This is a dummy message", State::Pop);
 }
