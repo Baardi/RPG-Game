@@ -22,6 +22,7 @@ Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 	
 	// Map keys for actions (such as open inventory)
 	actionMap.emplace(Action::Inventory, sf::Keyboard::Key::I);
+	actionMap.emplace(Action::Talk, sf::Keyboard::Key::T);
 
 	Player::SetPosition(x, y);
 }
