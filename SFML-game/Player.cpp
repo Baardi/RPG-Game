@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "map.h"
+#include "State.h"
+#include "InventoryUI.h"
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
@@ -44,6 +46,11 @@ void Player::SetPosition(double x, double y)
 	sprite.setPosition(x, y);
 }
 
+void Player::TakeItem(int gid, const std::string &itemName)
+{
+	inventory.AddItem(gid, itemName);
+}
+
 void Player::HandleKeyInput(Map &map)
 {
 	bool isMoving = false;
@@ -58,8 +65,13 @@ void Player::HandleKeyInput(Map &map)
 		}
 	}
 	
-	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory])) // Inventory &inventory = dynamic_cast<Game *>(GetParent())->GetPlayer()->GetInventory() should be used inside Ui header
-		/*State::PushChild<InventoryUI>()*/; // Inventory popup
+	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory]))
+	{
+		State::PushChild<InventoryUI>(); // Inventory popup
+		InventoryInitializer *initializer = new InventoryInitializer;
+		initializer->inventory = &inventory;
+		State::SetInitializer(initializer);
+	}
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
 		;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 

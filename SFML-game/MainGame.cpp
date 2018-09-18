@@ -73,6 +73,7 @@ void MainGame::gameTick()
 {
 	player.HandleKeyInput(map);
 	HandleEntranceIntersections();
+	HandleItemIntersections();
 }
 
 void MainGame::draw()
@@ -108,6 +109,29 @@ void MainGame::HandleKeyInput()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		toggle();
+}
+
+void MainGame::HandleItemIntersections()
+{
+	auto itemLayer = map.GetObjectLayer("Items");
+	ObjectSprite *item = nullptr;
+	if (itemLayer)
+	{
+		for (auto object : itemLayer->objects)
+		{
+			if (player.Intersects(*object))
+			{
+				item = object;
+				break;
+			}
+		}
+
+		if (item)
+		{
+			player.TakeItem(item->gid, item->name);
+			itemLayer->RemoveSprite(item);
+		}
+	}
 }
 
 void MainGame::HandleEntranceIntersections()

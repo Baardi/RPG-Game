@@ -14,7 +14,7 @@ void GamePopupMenu::init()
 	menuBackground.load("data/PopupMenu.json");
 
 	if (State::IsRunning())
-		AddMenuItem("Resume", &State::Pop);
+		AddMenuItem("Resume", State::Pop);
 
-	AddMenuItem("New Game", &State::Reset<MainGame>);
+	AddMenuItem("New Game", State::Reset<MainGame>);
 }

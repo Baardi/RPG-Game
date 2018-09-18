@@ -1,6 +1,7 @@
 #pragma once
 #include "TileLayer.h"
 #include "GameObject.h"
+#include "Inventory.h"
 
 
 class Player : public GameObject
@@ -24,7 +25,7 @@ enum class Action
 	void draw(sf::RenderWindow &window) override;
 	sf::DoubleRect GetGlobalBounds() override;
 	void SetPosition(double x, double y) override;
-	
+	void TakeItem(int gid, const std::string &itemName);
 	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;
@@ -41,6 +42,7 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	TileSize tilesize;
+	Inventory inventory;
 
 	std::map<Dir, sf::Keyboard::Key> dirMap;
 	std::map<Action, sf::Keyboard::Key> actionMap;

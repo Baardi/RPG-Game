@@ -90,6 +90,52 @@
         }, 
         {
          "draworder":"topdown",
+         "name":"Items",
+         "objects":[
+                {
+                 "gid":323,
+                 "height":32,
+                 "id":123,
+                 "name":"Statuette",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":343,
+                 "y":237
+                }, 
+                {
+                 "gid":323,
+                 "height":32,
+                 "id":124,
+                 "name":"Statuette",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":411,
+                 "y":171
+                }, 
+                {
+                 "gid":263,
+                 "height":32,
+                 "id":125,
+                 "name":"Chest",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":401,
+                 "y":89
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "name":"Enemies",
          "objects":[
                 {
@@ -545,7 +591,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":114,
+ "nextobjectid":128,
  "orientation":"orthogonal",
  "properties":
     {

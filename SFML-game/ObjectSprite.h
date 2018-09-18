@@ -22,10 +22,10 @@ public:
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
 	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
-private:
 
 	// Id of first tile
 	int gid;
+private:
 
 	// Location on screen
 	float x, y;

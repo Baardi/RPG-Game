@@ -14,6 +14,7 @@ public:
 	void process() override;
 	void draw(sf::RenderWindow& window) override;
 	void loadTexture() override;
+	void RemoveSprite(ObjectSprite *sprite);
 
 	std::vector<ObjectSprite *> objects;
 

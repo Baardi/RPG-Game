@@ -2,6 +2,7 @@
 #include "InventoryUI.h"
 #include "State.h"
 #include "MainMenu.h"
+#include "Inventory.h"
 
 
 InventoryUI::InventoryUI()
@@ -9,7 +10,6 @@ InventoryUI::InventoryUI()
 	x = 70;
 	y = 120;
 	menuBackground.load("data/PopupMenu.json");
-	INDEX_EXITGAME = AddMenuItem("Hei");
 }
 
 InventoryUI::~InventoryUI()
@@ -17,12 +17,17 @@ InventoryUI::~InventoryUI()
 
 }
 
-void InventoryUI::SelectEntry() const
+void InventoryUI::init()
 {
-	if (menuIndex == INDEX_EXITGAME)
+	AddMenuItem("Back", State::Pop);
+
+	InventoryInitializer *inventoryInitializer = dynamic_cast<InventoryInitializer *>(State::GetInitializer());
+	if (!inventoryInitializer)
+		throw;
+
+	Inventory *inventory = inventoryInitializer->inventory;
+	for (auto item : inventory->Items())
 	{
-		const_cast<Map&>(menuBackground).load("data/Intro village.json");
+		AddMenuItem(item.first->Name() + "  x" + std::to_string(item.second), []() {});
 	}
 }
-
-

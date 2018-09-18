@@ -6,8 +6,8 @@
 void MainMenu::init()
 {
 	if (State::IsRunning())
-		AddMenuItem("Resume", &State::Pop);
+		AddMenuItem("Resume", State::Pop);
 
-	AddMenuItem("New Game", &State::Reset<MainGame>);
-	AddMenuItem("Exit", &State::Exit);
+	AddMenuItem("New Game", State::Reset<MainGame>);
+	AddMenuItem("Exit", State::Exit);
 }

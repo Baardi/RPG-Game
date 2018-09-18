@@ -32,6 +32,7 @@ public:
 private:
 	//Functions
 	void HandleKeyInput();
+	void HandleItemIntersections();
 	void HandleEntranceIntersections();
 	void LoadMusic();
 

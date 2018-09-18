@@ -51,6 +51,7 @@ public:
 	virtual void draw(sf::RenderWindow& window) {}
 	virtual void loadTexture() {}
 
+	std::string name;
 protected:
 
 	// Calculate x and y position of given tile in the texture
@@ -62,7 +63,6 @@ protected:
 	std::map<int, sf::Texture *> &tileSets;
 	AnimationTileMap &animatedTiles;
 
-	std::string name;
 	std::string type;
 	bool visible;
 	float opacity;
