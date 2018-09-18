@@ -13,7 +13,7 @@ public:
 	~Map();
 	
 	void clear();									// Clear the map
-	bool load(const std::string &filename);			// Load map from Tiled JSON file
+	bool load(const std::string &filename, std::map<std::string, sf::Texture*> &textures);			// Load map from Tiled JSON file
 	void draw(sf::RenderWindow &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderWindow &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
 	static void drawLayer(sf::RenderWindow &window, Layer *layer); // Draws a single layer in a window
@@ -36,7 +36,7 @@ private:
 	TileSize tileSize;
 
 	std::map<int, sf::Texture *> tileSets;
-	void loadTileSets(Json::Value &root);
+	void loadTileSets(Json::Value &root, std::map<std::string, sf::Texture*> &textures);
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
 	AnimationTileMap animatedTiles;

@@ -11,12 +11,12 @@ Inventory::~Inventory()
 {
 }
 
-void Inventory::AddItem(int gid, const std::string& itemName)
+void Inventory::AddItem(ObjectSprite *sprite)
 {
 	GameItem *itemFound = nullptr;
 	for (auto &item : items)
 	{
-		if (item.first->Name() == itemName)
+		if (item.first->name() == sprite->name)
 		{
 			itemFound = item.first;
 			item.second++;
@@ -25,5 +25,9 @@ void Inventory::AddItem(int gid, const std::string& itemName)
 	}
 	
 	if (!itemFound)
-		items.emplace_back(std::make_pair(new GameItem(gid, itemName), 1));
+	{
+		auto pair = std::make_pair(new GameItem(sprite->gid, sprite->name), 1);
+		pair.first->SetSprite(sprite->sprite);
+		items.emplace_back(pair);
+	}
 }

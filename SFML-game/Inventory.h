@@ -1,5 +1,6 @@
 #pragma once
 #include "GameItem.h"
+#include "ObjectSprite.h"
 
 class Inventory
 {
@@ -7,7 +8,7 @@ public:
 	Inventory();
 	~Inventory();
 
-	void AddItem(int gid, const std::string &itemName);
+	void AddItem(ObjectSprite *sprite);
 	std::vector<std::pair<GameItem *, int>> Items() const { return items; }
 
 private:

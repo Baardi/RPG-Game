@@ -2,6 +2,7 @@
 #include "TileLayer.h"
 #include "GameObject.h"
 #include "Inventory.h"
+#include "ObjectSprite.h"
 
 
 class Player : public GameObject
@@ -25,7 +26,7 @@ enum class Action
 	void draw(sf::RenderWindow &window) override;
 	sf::DoubleRect GetGlobalBounds() override;
 	void SetPosition(double x, double y) override;
-	void TakeItem(int gid, const std::string &itemName);
+	void TakeItem(ObjectSprite *item);
 	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;

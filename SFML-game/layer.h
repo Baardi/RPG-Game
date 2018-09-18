@@ -67,3 +67,5 @@ protected:
 	bool visible;
 	float opacity;
 };
+
+void g_getTileCoords(sf::Texture *texture, int tile, int& x, int& y, const TileSize tileSize);

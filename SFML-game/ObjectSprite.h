@@ -22,9 +22,10 @@ public:
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
 	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
-
 	// Id of first tile
 	int gid;
+
+	sf::Sprite sprite;
 private:
 
 	// Location on screen
@@ -41,7 +42,6 @@ private:
 	// Times the animation
 	sftools::Chronometer &clock;
 
-	sf::Sprite sprite;
 	sf::DoubleRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 
 	std::map<std::string, std::any> propertyMap;

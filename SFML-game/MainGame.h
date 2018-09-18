@@ -45,6 +45,7 @@ private:
 	Player player;
 
 	std::map<std::string, TileLayer*> layerMap;
+
 	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
 	std::unique_ptr<sf::Music> music;
 

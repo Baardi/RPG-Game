@@ -152,6 +152,11 @@ public:
 		return *Instance().font;
 	}
 
+	static std::map<std::string, sf::Texture*> &Textures()
+	{
+		return Instance().textures;
+	}
+
 protected:
 	// Methods for UI and App
 
@@ -205,8 +210,19 @@ private:
 	// Inner methods called by public and protected methods
 
 	State() = default;
+	~State()
+	{
+		if (initializer)
+			delete initializer;
+
+		for (auto &entry : textures)
+			delete entry.second;
+	}
+
 	State(State const&) = delete;
+	State(State const&&) = delete;
 	void operator=(State const&) = delete;
+	void operator=(State const&&) = delete;
 
 	void PushQueuedState()
 	{
@@ -237,5 +253,6 @@ private:
 	sf::Event *event;
 	sf::Font *font;
 	
+	std::map<std::string, sf::Texture*> textures;
 	Initializer *initializer = nullptr;
 };

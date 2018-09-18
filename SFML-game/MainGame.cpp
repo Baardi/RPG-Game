@@ -19,7 +19,7 @@ void MainGame::init()
 {
 	UI::init();
 
-	map.load("data/Intro village.json");
+	map.load("data/Intro village.json", State::Textures());
 	LoadMusic();
 	// Need a better solution
 		//State::Set<MainMenu>(Transition::Switch);
@@ -128,7 +128,7 @@ void MainGame::HandleItemIntersections()
 
 		if (item)
 		{
-			player.TakeItem(item->gid, item->name);
+			player.TakeItem(item);
 			itemLayer->RemoveSprite(item);
 		}
 	}
@@ -154,7 +154,7 @@ void MainGame::HandleEntranceIntersections()
 			auto mapFileName = entrance->GetProperty<std::string>("EntranceTo");
 			auto x = entrance->GetProperty<int>("SpawnX");
 			auto y = entrance->GetProperty<int>("SpawnY");
-			map.load(mapFileName);
+			map.load(mapFileName, State::Textures());
 			LoadMusic();
 
 			player.SetPosition(x, y);

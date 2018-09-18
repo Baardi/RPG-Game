@@ -4,11 +4,15 @@
 
 GameItem::GameItem(int gid, const std::string &name)
 {
-	this->name = name;
-	this->gid = gid;
+	m_name = name;
+	m_gid = gid;
 }
-
 
 GameItem::~GameItem()
 {
+}
+
+void GameItem::SetSprite(sf::Sprite &sprite)
+{
+	m_sprite = sprite;
 }

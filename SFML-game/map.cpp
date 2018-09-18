@@ -16,14 +16,11 @@ Map::~Map()
 
 void Map::clear()
 {
-	for (auto tileSet : tileSets)
-		delete tileSet.second;
-	tileSets.clear();
-
 	for (auto object : layers)
 		delete object;
 	layers.clear();
 	
+	tileSets.clear();
 	objectMap.clear();
 	tileMap.clear();
 	animatedTiles.clear();
@@ -32,7 +29,7 @@ void Map::clear()
 	clock.reset(true);
 }
 
-bool Map::load(const std::string &filename)
+bool Map::load(const std::string &filename, std::map<std::string, sf::Texture*> &textures)
 {
 	clear();
 
@@ -57,7 +54,7 @@ bool Map::load(const std::string &filename)
 	width = root["width"].asInt();
 	height = root["height"].asInt();
 
-	loadTileSets(root);
+	loadTileSets(root, textures);
 	LoadProperties(root);
 
 	// Read in each layer
@@ -223,15 +220,25 @@ void Map::resume()
 	clock.resume();
 }
 
-void Map::loadTileSets(Json::Value &root) // Loads all the images used by the json file as textures
+void Map::loadTileSets(Json::Value &root, std::map<std::string, sf::Texture*> &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{
-		sf::Texture *tileSet = new sf::Texture();
-		tileSet->loadFromFile("data/" + val["image"].asString());
-		tileSets.try_emplace(val["firstgid"].asInt(), tileSet);
+		std::string image = "data/" + val["image"].asString();
+		int firstgid = val["firstgid"].asInt();
+		auto it = textures.find(image);
 
-		loadAnimatedTiles(val["firstgid"].asInt(), val["tiles"]);
+		if (it == textures.end())
+		{
+			sf::Texture *tileSet = new sf::Texture();
+			tileSet->loadFromFile(image);
+			textures.try_emplace(image, tileSet);
+			tileSets.try_emplace(firstgid, tileSet);
+		}
+		else
+			tileSets.try_emplace(firstgid, it->second);
+		
+		loadAnimatedTiles(firstgid, val["tiles"]);
 	}
 }
 

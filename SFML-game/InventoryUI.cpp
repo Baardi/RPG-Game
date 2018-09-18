@@ -9,11 +9,17 @@ InventoryUI::InventoryUI()
 {
 	x = 70;
 	y = 120;
-	menuBackground.load("data/PopupMenu.json");
+	menuBackground.load("data/PopupMenu.json", State::Textures());
 }
 
 InventoryUI::~InventoryUI()
 {
+}
+
+void InventoryUI::AddMenuSprite(const sf::Sprite& sprite)
+{
+	menusprites.emplace_back(sprite); // Yes I want a copy
+	menusprites.back().setPosition(x + 220, y + spacing * menusprites.size());
 }
 
 void InventoryUI::init()
@@ -24,9 +30,17 @@ void InventoryUI::init()
 	if (!inventoryInitializer)
 		throw;
 
-	Inventory *inventory = inventoryInitializer->inventory;
+	inventory = inventoryInitializer->inventory;
 	for (auto item : inventory->Items())
 	{
-		AddMenuItem(item.first->Name() + "  x" + std::to_string(item.second));
+		AddMenuItem(item.first->name() + "  x" + std::to_string(item.second));
+		AddMenuSprite(item.first->Sprite());
 	}
+}
+
+void InventoryUI::draw()
+{
+	PopupMenu::draw();
+	for (auto &item : menusprites)
+		window.draw(item);
 }

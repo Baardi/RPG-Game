@@ -48,9 +48,9 @@ void Player::SetPosition(double x, double y)
 	sprite.setPosition(x, y);
 }
 
-void Player::TakeItem(int gid, const std::string &itemName)
+void Player::TakeItem(ObjectSprite *item)
 {
-	inventory.AddItem(gid, itemName);
+	inventory.AddItem(item);
 }
 
 void Player::HandleKeyInput(Map &map)
