@@ -3,6 +3,7 @@
 #include "map.h"
 #include "State.h"
 #include "InventoryUI.h"
+#include "DialogInterface.h"
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
@@ -73,7 +74,7 @@ void Player::HandleKeyInput(Map &map)
 		State::SetInitializer(initializer);
 	}
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
-		;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
+		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 
 	if (isMoving)
 	{

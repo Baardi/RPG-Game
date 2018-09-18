@@ -16,7 +16,7 @@ protected:
 	void draw() override;
 
 	// Methods used by derived classes
-	size_t AddMenuItem(const std::string &text, std::function<void()> action);
+	size_t AddMenuItem(const std::string &text, std::function<void()> action = [](){});
 	
 	// Data members changable by derived classes
 	int x = 400, y = 400;

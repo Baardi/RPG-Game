@@ -14,7 +14,6 @@ InventoryUI::InventoryUI()
 
 InventoryUI::~InventoryUI()
 {
-
 }
 
 void InventoryUI::init()
@@ -28,6 +27,6 @@ void InventoryUI::init()
 	Inventory *inventory = inventoryInitializer->inventory;
 	for (auto item : inventory->Items())
 	{
-		AddMenuItem(item.first->Name() + "  x" + std::to_string(item.second), []() {});
+		AddMenuItem(item.first->Name() + "  x" + std::to_string(item.second));
 	}
 }

@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="DialogInterface.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameObject.h" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="DialogInterface.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />
