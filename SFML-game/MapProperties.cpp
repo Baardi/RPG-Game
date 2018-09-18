@@ -22,12 +22,12 @@ void MapProperties::LoadProperties(Json::Value &object)
 			propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::utility::parseColor(it->asString())));
 
 		else if (propertyType == "int")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<int>(it->asInt()));
+			propertyMap.try_emplace(propertyName, std::make_any<int>(it->asInt()));
 
 		else if (propertyType == "float")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<float>(it->asFloat()));
+			propertyMap.try_emplace(propertyName, std::make_any<float>(it->asFloat()));
 
 		else if (propertyType == "bool")
-			propertyMap.try_emplace(it.key().asString(), std::make_any<bool>(it->asBool()));
+			propertyMap.try_emplace(propertyName, std::make_any<bool>(it->asBool()));
 	}
 }

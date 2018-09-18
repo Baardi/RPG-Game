@@ -62,16 +62,14 @@ void Player::HandleKeyInput(Map &map)
 		/*State::PushChild<InventoryUI>()*/; // Inventory popup
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
 		;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
+
 	if (isMoving)
 	{
-		auto unWalkables = map.GetTileLayer("Unwalkables");
-		auto Walkables = map.GetTileLayer("Walkables");
-
 		double newX, newY;
 		move(dir, x, y, newX, newY);
 
-		if (! (unWalkables && unWalkables->containsTexture(newX, newY))
-			|| (Walkables &&  Walkables->containsTexture(newX, newY)) )
+		auto unWalkables = map.GetTileLayer("Unwalkables");
+		if (!(unWalkables && unWalkables->containsTexture(newX, newY)))
 			SetPosition(newX, newY);
 		
 		counter = (counter + 1) % counterMax;

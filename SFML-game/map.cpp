@@ -197,12 +197,20 @@ void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawTy
 
 TileLayer *Map::GetTileLayer(const std::string& layerName)
 {
-	return tileMap[layerName];
+	auto it = tileMap.find(layerName);
+	if (it != tileMap.end())
+		return it->second;
+
+	return nullptr;
 }
 
 ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
 {
-	return objectMap[layerName];
+	auto it = objectMap.find(layerName);
+	if (it != objectMap.end())
+		return it->second;
+
+	return nullptr;
 }
 
 void Map::pause()
@@ -242,6 +250,6 @@ void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on
 			tileSetAnimations.emplace_back(std::make_pair(animationTileId, animationTileDuration));
 		}
 
-		animatedTiles.try_emplace(firstGid + atoi(tileid.c_str()), tileSetAnimations);
+		animatedTiles.try_emplace(firstGid + std::atoi(tileid.c_str()), tileSetAnimations);
 	}
 }

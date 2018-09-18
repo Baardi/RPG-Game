@@ -5,7 +5,7 @@ class MapProperties
 {
 public:
 	MapProperties() = default;
-	~MapProperties() = default;	
+	virtual ~MapProperties() {}
 	
 	template <class T>
 	T GetProperty(const std::string &propertyName)

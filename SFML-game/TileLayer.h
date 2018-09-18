@@ -32,9 +32,9 @@ private:
 	T& get(T* arr, int x, int y);
 
     // Use get (array, x, y) to access the map
-    int *tilemap;
-	AnimationTile *animationTilemap;
-	sf::Sprite *textureMap;
+    int *tilemap = nullptr;
+	AnimationTile *animationTilemap = nullptr;
+	sf::Sprite *textureMap = nullptr;
 
     // Size in tiles
 	int width, height;

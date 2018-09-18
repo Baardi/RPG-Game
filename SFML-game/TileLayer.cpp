@@ -8,9 +8,14 @@ TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tile
 
 TileLayer::~TileLayer()
 {
-	delete[] tilemap;
-	delete[] animationTilemap;
-	delete[] textureMap;
+	if (tilemap)
+		delete[] tilemap;
+	
+	if (animationTilemap)
+		delete[] animationTilemap;
+	
+	if (textureMap)
+		delete[] textureMap;
 }
 
 void TileLayer::process()
@@ -125,8 +130,8 @@ T& TileLayer::get(T* arr, int x, int y)
 
 bool TileLayer::containsTextureTileCoords(int x, int y) const
 {
-	if (x > width || y > height)
-		return false; // Out of bounds
+	if (x >= width || y >= height || x < 0 || y < 0)
+		return true; // Out of bounds
 
 	return bool(tilemap[x + y * width]); // if (value is 0) => false, else => true
 }
