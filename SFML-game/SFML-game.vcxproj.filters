@@ -93,6 +93,12 @@
     <ClInclude Include="DialogInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TypeMapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -165,6 +171,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DialogInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DerivedTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
