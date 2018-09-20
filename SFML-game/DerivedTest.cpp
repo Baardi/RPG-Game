@@ -3,6 +3,7 @@
 #include <iostream>
 
 REGISTER_TYPE(DerivedTest)
+REGISTER_TYPE(DerivedTest2)
 
 DerivedTest::DerivedTest()
 {
