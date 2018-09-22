@@ -19,7 +19,7 @@ void MainGame::init()
 {
 	UI::init();
 
-	map.load("data/Intro village.json", State::Textures());
+	map.load("data/Maps/Intro village.json", State::Textures());
 	LoadMusic();
 	// Need a better solution
 		//State::Set<MainMenu>(Transition::Switch);

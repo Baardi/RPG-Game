@@ -9,7 +9,7 @@ public:
 	~Inventory();
 
 	void AddItem(ObjectSprite *sprite);
-	std::vector<std::pair<GameItem *, int>> Items() const { return items; }
+	auto Items() const { return items; }
 
 private:
 	std::vector<std::pair<GameItem *, int>> items;

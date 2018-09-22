@@ -9,7 +9,7 @@ InventoryUI::InventoryUI()
 {
 	x = 70;
 	y = 120;
-	menuBackground.load("data/PopupMenu.json", State::Textures());
+	menuBackground.load("data/Menus/Inventory.json", State::Textures());
 }
 
 InventoryUI::~InventoryUI()
