@@ -25,6 +25,7 @@ void Map::clear()
 	tileMap.clear();
 	animatedTiles.clear();
 	propertyMap.clear();
+	relativePath = "";
 
 	clock.reset(true);
 }
@@ -32,6 +33,8 @@ void Map::clear()
 bool Map::load(const std::string &filename, TextureMap &textures)
 {
 	clear();
+
+	relativePath = std::filesystem::path(filename).parent_path();
 
 	// Will contain the data we read in
 	Json::Value root;
@@ -68,6 +71,11 @@ bool Map::load(const std::string &filename, TextureMap &textures)
 	}
 
 	return true;
+}
+
+bool Map::loadRelative(const std::string& filename, TextureMap &textures)
+{
+	return load((relativePath / filename).string(), textures);
 }
 
 void Map::loadLayer(Json::Value& layer)
@@ -113,16 +121,10 @@ void Map::loadObjects(Json::Value& layer)
 	{
 		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles, clock);
 
-		sprite->globalBounds = sf::DoubleRect(object["x"].asFloat(), object["y"].asFloat(), object["width"].asFloat(), object["height"].asFloat());
 
 		// Load basic object info
 		sprite->name = object["name"].asString();
 		
-		unsigned int _gid = object["gid"].asUInt();
-		sprite->verflip = _gid / (flipMultiplier * 2);
-		sprite->horflip = _gid % (flipMultiplier * 2) > flipMultiplier;
-		sprite->gid = _gid % flipMultiplier;
-
 		sprite->width = object["width"].asFloat();
 		sprite->height = object["height"].asFloat();
 		sprite->rotation = object["rotation"].asFloat();
@@ -131,6 +133,16 @@ void Map::loadObjects(Json::Value& layer)
 		sprite->type = object["type"].asString();
 		sprite->visible = object["visible"].asBool();
 		sprite->opacity = layer["opacity"].asFloat();
+
+		unsigned int gid = object["gid"].asUInt();
+		sprite->verflip = gid / (flipMultiplier * 2);
+		sprite->horflip = gid % (flipMultiplier * 2) > flipMultiplier;
+		sprite->gid = gid % flipMultiplier;
+
+		if (gid)
+			sprite->globalBounds = sf::DoubleRect(sprite->x, sprite->y, sprite->width, sprite->height);
+		else
+			sprite->globalBounds = sf::DoubleRect(object["x"].asFloat(), object["y"].asFloat(), object["width"].asFloat(), object["height"].asFloat());
 
 		auto textValue = object["text"];
 		if (!textValue.empty())
@@ -224,7 +236,7 @@ void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the
 {
 	for (auto &val : root["tilesets"])
 	{
-		auto image = std::filesystem::path("data/Maps") / val["image"].asString();
+		auto image = relativePath / val["image"].asString();
 		int firstgid = val["firstgid"].asInt();
 		auto it = textures.find(image.string());
 

@@ -11,7 +11,7 @@ GamePopupMenu::GamePopupMenu()
 
 void GamePopupMenu::init()
 {
-	menuBackground.load("data/PopupMenu.json", State::Textures());
+	menuBackground.load("data/Maps/PopupMenu.json", State::Textures());
 
 	if (State::IsRunning())
 		AddMenuItem("Resume", State::Pop);

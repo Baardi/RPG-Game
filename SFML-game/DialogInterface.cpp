@@ -18,7 +18,7 @@ void DialogInterface::init()
 	y = 780;
 	colorSelect = sf::Color::Blue;
 	colorUnselect = sf::Color::Black;
-	menuBackground.load("data/MessageBox.json", State::Textures());
+	menuBackground.load("data/Maps/MessageBox.json", State::Textures());
 
 	AddMenuItem("This is a dummy message", State::Pop);
 }

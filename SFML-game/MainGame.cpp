@@ -151,10 +151,10 @@ void MainGame::HandleEntranceIntersections()
 
 		if (entrance && entrance->ContainsProperty("EntranceTo"))
 		{
-			auto mapFile = std::filesystem::path("data/Maps") / entrance->GetProperty<std::string>("EntranceTo");
+			auto mapFile = entrance->GetProperty<std::string>("EntranceTo");
 			auto x = entrance->GetProperty<int>("SpawnX");
 			auto y = entrance->GetProperty<int>("SpawnY");
-			map.load(mapFile.string(), State::Textures());
+			map.loadRelative(mapFile, State::Textures());
 			LoadMusic();
 
 			player.SetPosition(x, y);
@@ -170,7 +170,7 @@ void MainGame::LoadMusic()
 	
 	std::filesystem::path musicFile;
 	if (map.ContainsProperty("Music"))
-		musicFile = std::filesystem::path("data/Maps") / map.GetProperty<std::filesystem::path>("Music");
+		musicFile = map.GetRelativePath() / map.GetProperty<std::filesystem::path>("Music");
 
 	if (musicFile.has_filename() && music->openFromFile(musicFile.string()))
 		music->play();

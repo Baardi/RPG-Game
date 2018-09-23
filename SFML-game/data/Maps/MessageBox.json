@@ -39,7 +39,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"GUI\/GUI0.png",
+         "image":"..\/GUI\/GUI0.png",
          "imageheight":608,
          "imagewidth":512,
          "margin":0,
@@ -52,7 +52,7 @@
         {
          "columns":64,
          "firstgid":305,
-         "image":"Tilesets\/ProjectUtumno_full.png",
+         "image":"..\/Tilesets\/ProjectUtumno_full.png",
          "imageheight":3040,
          "imagewidth":2048,
          "margin":0,
