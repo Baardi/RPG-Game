@@ -224,7 +224,7 @@ void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the
 {
 	for (auto &val : root["tilesets"])
 	{
-		auto image = std::filesystem::path("data") / val["image"].asString();
+		auto image = std::filesystem::path("data/Maps") / val["image"].asString();
 		int firstgid = val["firstgid"].asInt();
 		auto it = textures.find(image.string());
 

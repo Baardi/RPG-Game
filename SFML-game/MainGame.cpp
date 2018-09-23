@@ -151,7 +151,7 @@ void MainGame::HandleEntranceIntersections()
 
 		if (entrance && entrance->ContainsProperty("EntranceTo"))
 		{
-			auto mapFile = std::filesystem::path("data") / entrance->GetProperty<std::string>("EntranceTo");
+			auto mapFile = std::filesystem::path("data/Maps") / entrance->GetProperty<std::string>("EntranceTo");
 			auto x = entrance->GetProperty<int>("SpawnX");
 			auto y = entrance->GetProperty<int>("SpawnY");
 			map.load(mapFile.string(), State::Textures());
