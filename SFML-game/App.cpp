@@ -2,7 +2,6 @@
 #include "App.h"
 #include <iostream>
 #include "State.h"
-#include "Game.h"
 #include "MainMenu.h"
 
 
@@ -24,7 +23,7 @@ void App::init()
 	}
 
 	State::Setup(window, event, font);
-	State::Set<MainMenu>();
+	State::Push<MainMenu>();
 }
 
 void App::run()

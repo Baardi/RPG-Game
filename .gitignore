@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /SFML-game/SFML-game.exe
 /SFML-game/SFML-game.zip
+*.exe

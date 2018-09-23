@@ -4,7 +4,7 @@
 
 Menu::Menu()
 {
-	clock.toggle();
+	clock.resume();
 }
 
 Menu::~Menu()
@@ -34,7 +34,7 @@ bool Menu::frame()
 		}
 		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
-			State::Set(Transition::Pop);
+			State::Pop();
 		}
 		else if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
 		{
@@ -45,22 +45,8 @@ bool Menu::frame()
 	return true;
 }
 
-void Menu::pause()
-{
-	clock.pause();
-}
-
-void Menu::resume()
-{
-	clock.resume();
-	ControlKeyPressed = true;
-}
-
 bool Menu::PollEvent(sf::Event::EventType eventType)
 {
-	if (UI::PollEvent(eventType))
-		return true;
-
 	switch (eventType)
 	{
 	case sf::Event::MouseMoved:
@@ -72,13 +58,13 @@ bool Menu::PollEvent(sf::Event::EventType eventType)
 		return true;
 
 	case sf::Event::MouseButtonPressed:
-		if (mouseControl && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menuIndex < menuItems.size())
+		if (mouseControl && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			SelectEntry();
 
 		return true;
 
 	default:
-		return false;
+		return UI::PollEvent(eventType);
 	}
 }
 
@@ -87,7 +73,7 @@ void Menu::tick()
 	mouseControl ? HandleMouseEvents() : HandleKeyEvents();
 }
 
-size_t Menu::AddMenuItem(const std::string &text)
+size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
 {
 	size_t index = menuItems.size();
 
@@ -95,7 +81,15 @@ size_t Menu::AddMenuItem(const std::string &text)
 	menuItems.back().setFillColor(index ? colorUnselect : colorSelect);
 	menuItems.back().setPosition(x, y + spacing * index);
 
+	actions.emplace_back(action);
+
 	return index;
+}
+
+void Menu::SelectEntry() const
+{
+	if (menuIndex < actions.size())
+		actions[menuIndex]();
 }
 
 void Menu::HandleKeyEvents()
@@ -125,19 +119,22 @@ void Menu::HandleKeyEvents()
 void Menu::HandleMouseEvents()
 {
 	auto pos = sf::Mouse::getPosition(window);
-	menuIndex = -2; // <-- -2 instead of -1 to avoid conflict with uninitialized menu entries
+	menuIndex = -1;
 
 	for (int index = 0; index < menuItems.size(); index++)
 	{
 		auto &menuItem = menuItems[index];
-		menuItem.setFillColor(colorUnselect);
 
 		if (menuItem.getGlobalBounds().contains(pos.x, pos.y))
+		{
 			menuIndex = index;
+			menuItems[menuIndex].setFillColor(colorSelect);
+		}
+		else
+		{
+			menuItem.setFillColor(colorUnselect);
+		}
 	}
-
-	if (menuIndex < menuItems.size())
-		menuItems[menuIndex].setFillColor(colorSelect);
 }
 
 void Menu::draw()
@@ -145,3 +142,4 @@ void Menu::draw()
 	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
 }
+

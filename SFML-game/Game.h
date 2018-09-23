@@ -28,8 +28,8 @@ private:
 	//"Personal" class variables
 	Player player;
 
-	std::unordered_map<std::string, TileLayer*> layerMap;
-	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
+	std::map<std::string, TileLayer*> layerMap;
+	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
 
 	sf::Text pauseText;
 	bool pausable = false;

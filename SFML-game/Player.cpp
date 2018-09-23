@@ -1,17 +1,30 @@
 #include "stdafx.h"
 #include "Player.h"
-#include <iostream>
+#include "map.h"
+#include "State.h"
+#include "InventoryUI.h"
+#include "DialogInterface.h"
 
-
-Player::Player(sftools::Chronometer &clock) : clock(clock)
+Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
-	texture.loadFromFile("data/player_red.png");
+	texture.loadFromFile("data/Player Sprites/Mage.png");
 	tilesize.x = texture.getSize().x / 4;
 	tilesize.y = texture.getSize().y / 4;
 
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
-	sprite.setPosition(x, y);
+	sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	
+	// Map keys to directions for the player
+	dirMap.emplace(Dir::Left, sf::Keyboard::Key::Left);
+	dirMap.emplace(Dir::Right, sf::Keyboard::Key::Right);
+	dirMap.emplace(Dir::Up, sf::Keyboard::Key::Up);
+	dirMap.emplace(Dir::Down, sf::Keyboard::Key::Down);
+	
+	// Map keys for actions (such as open inventory)
+	actionMap.emplace(Action::Inventory, sf::Keyboard::Key::I);
+	actionMap.emplace(Action::Talk, sf::Keyboard::Key::T);
+
+	Player::SetPosition(x, y);
 }
 
 Player::~Player()
@@ -23,77 +36,87 @@ void Player::draw(sf::RenderWindow &window)
 	window.draw(sprite);
 }
 
-sf::FloatRect Player::GetGlobalBounds()
+sf::DoubleRect Player::GetGlobalBounds()
 {
-	return sprite.getGlobalBounds();
+	return static_cast<sf::DoubleRect>(sprite.getGlobalBounds());
 }
 
-void Player::SetPosition(int x, int y)
+void Player::SetPosition(double x, double y)
 {
 	this->x = x;
 	this->y = y;
 	sprite.setPosition(x, y);
 }
 
-void Player::HandleKeyInput()
+void Player::TakeItem(ObjectSprite *item)
+{
+	inventory.AddItem(item);
+}
+
+void Player::HandleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	for (auto kvPair : dirMap)
 	{
-		move(Dir::Down);
-		isMoving = true;
+		if (sf::Keyboard::isKeyPressed(kvPair.second))
+		{
+			dir = kvPair.first;
+			isMoving = true;
+			break;
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	
+	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory]))
 	{
-		move(Dir::Up);
-		isMoving = true;
+		State::PushChild<InventoryUI>(); // Inventory popup
+		InventoryInitializer *initializer = new InventoryInitializer;
+		initializer->inventory = &inventory;
+		State::SetInitializer(initializer);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-	{
-		move(Dir::Left);
-		isMoving = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-	{
-		move(Dir::Right);
-		isMoving = true;
-	}
+	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
+		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 
 	if (isMoving)
 	{
+		double newX, newY;
+		move(dir, x, y, newX, newY);
+
+		auto unWalkables = map.GetTileLayer("Unwalkables");
+		if (!(unWalkables && unWalkables->containsTexture(newX, newY)))
+			SetPosition(newX, newY);
+		
 		counter = (counter + 1) % counterMax;
 		sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	}
 	else
 	{
 		counter = counter/counterMax;
-		sprite.setTextureRect(sf::IntRect(tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+		sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	}
 }
 
-void Player::move(Dir dir)
+void Player::move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const
 {
-	this->dir = dir;
+	newX = prevX;
+	newY = prevY;
 
 	switch (dir)
 	{
 	case Dir::Down:
-		y += speed;
+		newY += speed;
 		break;
 
 	case Dir::Up:
-		y -= speed;
+		newY -= speed;
 		break;
 
 	case Dir::Left:
-		x -= speed;
+		newX -= speed;
 		break;
 
 	case Dir::Right:
-		x += speed;
+		newX += speed;
 		break;
 	}
-
-	sprite.setPosition(x, y);
 }

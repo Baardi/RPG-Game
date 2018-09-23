@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <SFML/Graphics.hpp>
 #include "ObjectLayer.h"
 
 ObjectLayer::~ObjectLayer()
@@ -27,4 +26,17 @@ void ObjectLayer::loadTexture()
 {
 	for (auto object : objects)
 		object->loadTexture();
+}
+
+void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
+{
+	auto it = std::find(objects.begin(), objects.end(), sprite);
+
+	if (it != objects.end())
+	{
+		delete *it;
+		objects.erase(it);
+	}
+	else
+		throw;
 }

@@ -1,40 +1,50 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <sfml/chronometer.h>
 #include "TileLayer.h"
 #include "GameObject.h"
+#include "Inventory.h"
+#include "ObjectSprite.h"
 
-enum class Dir
-{
-	Down = 0,
-	Up = 1,
-	Left = 2,
-	Right = 3
-};
 
 class Player : public GameObject
 {
 public:
-	Player(sftools::Chronometer &clock);
+enum class Dir
+{
+	Down = 0,
+	Left = 1,
+	Right = 2,
+	Up = 3,
+};
+
+enum class Action
+{
+	Talk, // Right?
+	Inventory
+};
+	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderWindow &window) override;
-	sf::FloatRect GetGlobalBounds() override;
-	void SetPosition(int x, int y) override;
-	
-	void HandleKeyInput();
+	sf::DoubleRect GetGlobalBounds() override;
+	void SetPosition(double x, double y) override;
+	void TakeItem(ObjectSprite *item);
+	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;
-	float x = 300, y = 300;
-	float speed = 1.5;
+	double x = 400, y = 400;
+	double speed = 1.5;
 	int counter = 0;
 	const int counterMax = 25;
 	sftools::Chronometer &clock;
 	sf::Int32 lastTime;
 
 private:
-	void move(Dir dir);
+	void move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const;
 
 	sf::Sprite sprite;
 	sf::Texture texture;
 	TileSize tilesize;
+	Inventory inventory;
+
+	std::map<Dir, sf::Keyboard::Key> dirMap;
+	std::map<Action, sf::Keyboard::Key> actionMap;
 };

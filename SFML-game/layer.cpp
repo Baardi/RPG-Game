@@ -1,13 +1,9 @@
 #include "stdafx.h"
 #include "Layer.h"
-#include <SFML/Graphics.hpp>
 
 void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const
 {
-	int tileXcount = texture->getSize().x / (tileSize.x + tileSize.s);
-
-	x = (tile % tileXcount) * (tileSize.x + tileSize.s);
-	y = (tile / tileXcount) * (tileSize.x + tileSize.s);
+	g_getTileCoords(texture, tile, x, y, tileSize);
 }
 
 int Layer::GetTextureIndex(int tileValue) const
@@ -24,7 +20,7 @@ int Layer::GetTextureIndex(int tileValue) const
 	return tileTextureValue;
 }
 
-void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sf::Clock& clock)
+void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sftools::Chronometer& clock)
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;
@@ -44,4 +40,12 @@ void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, s
 		sf::IntRect &rect = animationTileData[currentFrame].intRect;
 		sprite.setTextureRect(rect);
 	}
+}
+
+void g_getTileCoords(sf::Texture* texture, int tile, int& x, int& y, const TileSize tileSize)
+{
+	int tileXcount = texture->getSize().x / (tileSize.x + tileSize.s);
+
+	x = (tile % tileXcount) * (tileSize.x + tileSize.s);
+	y = (tile / tileXcount) * (tileSize.x + tileSize.s);
 }

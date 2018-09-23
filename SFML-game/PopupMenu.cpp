@@ -8,14 +8,10 @@ PopupMenu::PopupMenu()
 
 PopupMenu::~PopupMenu()
 {
-	if (map)
-		delete map;
 }
 
 void PopupMenu::draw()
 {
-	if (map)
-		map->draw(window);
-
+	menuBackground.draw(window);
 	Menu::draw();
 }

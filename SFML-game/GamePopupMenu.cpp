@@ -3,27 +3,18 @@
 #include "State.h"
 #include "MainGame.h"
 
-void GamePopupMenu::init()
+GamePopupMenu::GamePopupMenu()
 {
 	x = 70;
 	y = 120;
-	map = new Map;
-	map->load("data/PopupMenu.json");
-
-	if (State::IsRunning())
-		INDEX_RESUME = AddMenuItem("Resume");
-
-	INDEX_NEWGAME = AddMenuItem("New Game");
 }
 
-void GamePopupMenu::SelectEntry() const
+void GamePopupMenu::init()
 {
-	if (menuIndex == INDEX_NEWGAME)
-	{
-		State::Set<MainGame>(Transition::Reset);
-	}
-	else if (menuIndex == INDEX_RESUME)
-	{
-		State::Set(Transition::Pop);
-	}
+	menuBackground.load("data/PopupMenu.json", State::Textures());
+
+	if (State::IsRunning())
+		AddMenuItem("Resume", State::Pop);
+
+	AddMenuItem("New Game", State::Reset<MainGame>);
 }

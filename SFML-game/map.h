@@ -2,32 +2,42 @@
 
 #include "TileLayer.h"
 #include "ObjectLayer.h"
-#include <unordered_map>
+#include "MapProperties.h"
+#include "State.h"
 
-class Map
+class Map : public MapProperties
 {
 public:
+	enum class DrawType{ Front, Back };
+	
 	Map() = default;
 	~Map();
 	
 	void clear();									// Clear the map
-	bool load(const std::string &filename);			// Load map from Tiled JSON file
-	void draw(sf::RenderWindow &window);			// Draw the map
+	bool load(const std::string &filename, std::map<std::string, sf::Texture*> &textures);			// Load map from Tiled JSON file
+	void draw(sf::RenderWindow &window);			// Draws the entire map right away
+	void splitDraw(sf::RenderWindow &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
+	static void drawLayer(sf::RenderWindow &window, Layer *layer); // Draws a single layer in a window
+	
 	TileLayer *GetTileLayer(const std::string &layerName);
 	ObjectLayer *GetObjectLayer(const std::string &layerName);
+	
 	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 
-private:
-	// The owner of the Layer-pointers, also used to draw
-	std::vector<Layer*> objects;
-	// Different ordering of objects, used as lookup table
-	std::unordered_map<std::string, TileLayer *> tileMap;
-	std::unordered_map<std::string, ObjectLayer *> objectMap;
+	void pause();
+	void resume();
 
+	// The owner of the Layer-pointers, used to draw, check intersections etc.
+	std::vector<Layer *> layers;
+
+private:
+	// Different ordering of layers, used as lookup table
+	std::map<std::string, TileLayer *> tileMap;
+	std::map<std::string, ObjectLayer *> objectMap;
 	TileSize tileSize;
 
-	std::unordered_map<int, sf::Texture *> tileSets;
-	void loadTileSets(Json::Value &root);
+	std::map<int, sf::Texture *> tileSets;
+	void loadTileSets(Json::Value &root, TextureMap &textures);
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
 	AnimationTileMap animatedTiles;
@@ -40,9 +50,10 @@ private:
 	void loadObjects(Json::Value& layer);
 
 	// Shared clock for all animated tiles
-	sf::Clock clock;
+	 sftools::Chronometer clock;
 
-	// TODO impl: propertymap
+	// Map bounds
+	int width, height;
 
-	const unsigned int flipMultiplier = pow(2, 30);
+	static constexpr unsigned int flipMultiplier = 1073741824; /*std::pow(2, 30)*/
 };

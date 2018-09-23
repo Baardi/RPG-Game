@@ -20,9 +20,9 @@ public:
 	~MainGame();
 	void init() override;
 	
-	// Todo: frame/tick needs some kind of merge
+	// Todo: frame/gameTick needs some kind of merge
 	bool frame() override;
-	void tick();
+	void gameTick();
 
 	void pause() override;
 	void resume() override;
@@ -32,6 +32,9 @@ public:
 private:
 	//Functions
 	void HandleKeyInput();
+	void HandleItemIntersections();
+	void HandleEntranceIntersections();
+	void LoadMusic();
 
 	//int framespertick = 0; // <-- Used for measuring performance
 
@@ -41,10 +44,12 @@ private:
 	//"Personal" class variables
 	Player player;
 
-	std::unordered_map<std::string, TileLayer*> layerMap;
-	//std::unordered_map<int, ObjectLayer*> spriteMap; todo: group "sub"-objects
+	std::map<std::string, TileLayer*> layerMap;
+
+	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
+	std::unique_ptr<sf::Music> music;
 
 	sf::Text pauseText;
 	bool pausable = false;
-	Map *map = nullptr;
+	Map map;
 };

@@ -1,17 +1,21 @@
 #include "stdafx.h"
-#include <SFML/Graphics.hpp>
 #include "TileLayer.h"
 
-TileLayer::TileLayer(const TileSize& tileSize, std::unordered_map<int, sf::Texture*>& tileSets, AnimationTileMap& animatedTiles, sf::Clock& clock):
+TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock):
 	Layer(tileSize, tileSets, animatedTiles), clock(clock)
 {
 }
 
 TileLayer::~TileLayer()
 {
-	delete[] tilemap;
-	delete[] animationTilemap;
-	delete[] textureMap;
+	if (tilemap)
+		delete[] tilemap;
+	
+	if (animationTilemap)
+		delete[] animationTilemap;
+	
+	if (textureMap)
+		delete[] textureMap;
 }
 
 void TileLayer::process()
@@ -75,15 +79,15 @@ void TileLayer::loadTexture()
 
 			// Specific animated tiles code
 			auto animationTile = animatedTiles[tileid];
-			if (animationTile.size() != 0)
+			if (animationTile.size() == 0)
+			{
+				LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
+			}
+			else
 			{
 				LoadSpriteTexture(*spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
 				LoadSpriteAnimation(*spriteTexture, animationTile, x, y);
-
-				continue;
 			}
-
-			LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
 		}
 	}
 }
@@ -116,4 +120,24 @@ void TileLayer::initArrays()
 	tilemap = new int[width*height];
 	animationTilemap = new AnimationTile[width*height];
 	textureMap = new sf::Sprite[width*height];
+}
+
+template <class T>
+T& TileLayer::get(T* arr, int x, int y)
+{
+	return arr[x + y * width];
+}
+
+bool TileLayer::containsTextureTileCoords(int x, int y) const
+{
+	if (x >= width || y >= height || x < 0 || y < 0)
+		return true; // Out of bounds
+
+	return bool(tilemap[x + y * width]); // if (value is 0) => false, else => true
+}
+
+bool TileLayer::containsTexture(double x, double y) const
+{
+	// Checks the tile the centre of the player is in
+	return containsTextureTileCoords(0.5 + x / (tileSize.x + tileSize.s), 0.5 + y / (tileSize.y + tileSize.s));
 }

@@ -35,13 +35,15 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 	switch (eventType)
 	{
 	case sf::Event::Closed:
-		State::Set(Transition::Exit);
+		State::Exit();
 		return true;
 
-		// causes an unresumable pause in menus
-		/*		case sf::Event::EventType::LostFocus:
+	case sf::Event::LostFocus:
 		if (State::IsRunning())
-		State::GetUI()->pause();*/
+			State::GetUI()->pause();
+
+		return true;
+
 	default:
 		return false;
 	}
