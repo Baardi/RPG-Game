@@ -219,10 +219,10 @@ private:
 			delete entry.second;
 	}
 
-	State(State const&) = delete;
-	State(State const&&) = delete;
-	void operator=(State const&) = delete;
-	void operator=(State const&&) = delete;
+	State(const State &) = delete;
+	State(State &&) = delete;
+	State &operator=(const State &) = delete;
+	State &operator=(State &&) = delete;
 
 	void PushQueuedState()
 	{

@@ -69,7 +69,8 @@ private:
         { \
             Object::registerType(#klass, this); \
         } \
-        Object *create() override { \
+        Object *create() override \
+		{ \
             return new klass; \
         } \
     }; \
