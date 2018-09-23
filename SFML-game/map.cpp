@@ -29,7 +29,7 @@ void Map::clear()
 	clock.reset(true);
 }
 
-bool Map::load(const std::string &filename, std::map<std::string, sf::Texture*> &textures)
+bool Map::load(const std::string &filename, TextureMap &textures)
 {
 	clear();
 
@@ -220,19 +220,19 @@ void Map::resume()
 	clock.resume();
 }
 
-void Map::loadTileSets(Json::Value &root, std::map<std::string, sf::Texture*> &textures) // Loads all the images used by the json file as textures
+void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{
-		std::string image = "data/" + val["image"].asString();
+		auto image = std::filesystem::path("data") / val["image"].asString();
 		int firstgid = val["firstgid"].asInt();
-		auto it = textures.find(image);
+		auto it = textures.find(image.string());
 
 		if (it == textures.end())
 		{
 			sf::Texture *tileSet = new sf::Texture();
-			tileSet->loadFromFile(image);
-			textures.try_emplace(image, tileSet);
+			tileSet->loadFromFile(image.string());
+			textures.try_emplace(image.string(), tileSet);
 			tileSets.try_emplace(firstgid, tileSet);
 		}
 		else

@@ -3,6 +3,7 @@
 #include "TileLayer.h"
 #include "ObjectLayer.h"
 #include "MapProperties.h"
+#include "State.h"
 
 class Map : public MapProperties
 {
@@ -36,7 +37,7 @@ private:
 	TileSize tileSize;
 
 	std::map<int, sf::Texture *> tileSets;
-	void loadTileSets(Json::Value &root, std::map<std::string, sf::Texture*> &textures);
+	void loadTileSets(Json::Value &root, TextureMap &textures);
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
 	AnimationTileMap animatedTiles;

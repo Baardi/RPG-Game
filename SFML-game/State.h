@@ -21,6 +21,8 @@ public:
 	virtual ~Initializer() = default;
 };
 
+using TextureMap = std::map<std::string, sf::Texture*>;
+
 // Class for storing and handling different states in the application
 class State
 {
@@ -151,8 +153,7 @@ public:
 	{
 		return *Instance().font;
 	}
-
-	static std::map<std::string, sf::Texture*> &Textures()
+	static TextureMap &Textures()
 	{
 		return Instance().textures;
 	}
@@ -253,6 +254,6 @@ private:
 	sf::Event *event;
 	sf::Font *font;
 	
-	std::map<std::string, sf::Texture*> textures;
+	TextureMap textures;
 	Initializer *initializer = nullptr;
 };
