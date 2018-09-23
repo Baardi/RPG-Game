@@ -79,15 +79,15 @@ void TileLayer::loadTexture()
 
 			// Specific animated tiles code
 			auto animationTile = animatedTiles[tileid];
-			if (animationTile.size() != 0)
+			if (animationTile.size() == 0)
+			{
+				LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
+			}
+			else
 			{
 				LoadSpriteTexture(*spriteTexture, animationTile[0].first, x, y); // first animationtile decides first texture
 				LoadSpriteAnimation(*spriteTexture, animationTile, x, y);
-
-				continue;
 			}
-
-			LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
 		}
 	}
 }
