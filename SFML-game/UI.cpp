@@ -56,3 +56,21 @@ void UI::HandleWindowEvents()
 		PollEvent(event.type);
 	}
 }
+
+void UI::pause()
+{
+	if (pausable)
+		paused = true;
+}
+
+void UI::resume()
+{
+	if (pausable)
+		paused = false;
+}
+
+void UI::toggle()
+{
+	if (pausable)
+		paused ? resume() : pause();
+}

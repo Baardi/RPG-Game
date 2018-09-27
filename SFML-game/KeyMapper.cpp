@@ -31,13 +31,27 @@ bool KeyMapper::isControlKeyPressed()
 
 void KeyMapper::HandleKeyInput()
 {
+	bool controlKeyPressedNow = false;
+
 	for (auto &entry : actionMap)
 	{
-		if (sf::Keyboard::isKeyPressed(entry.first))
+		auto key = entry.first;
+		auto &action = entry.second;
+
+		if (sf::Keyboard::isKeyPressed(key))
 		{
-			entry.second();
+			if (std::find(controlKeys.begin(), controlKeys.end(), key) != std::end(controlKeys))
+			{
+				controlKeyPressedNow = true;
+				if (controlKeyWasPressed)
+					break;
+			}
+
+			action();
 			break;
 		}
 	}
+
+	controlKeyWasPressed = controlKeyPressedNow;
 }
 

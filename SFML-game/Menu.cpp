@@ -4,7 +4,6 @@
 
 Menu::Menu()
 {
-	clock.resume();
 }
 
 Menu::~Menu()
@@ -14,6 +13,8 @@ Menu::~Menu()
 void Menu::init()
 {
 	UI::init();
+	clock.resume();
+	pausable = false;
 }
 
 bool Menu::frame()
@@ -21,7 +22,6 @@ bool Menu::frame()
 	if (!UI::frame())
 		return false;
 	
-	resume();
 	HandleWindowEvents();
 
 	if (clock.getElapsedTime().asMilliseconds() > 100)

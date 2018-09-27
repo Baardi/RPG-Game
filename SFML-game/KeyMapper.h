@@ -15,6 +15,7 @@ public:
 	bool isControlKeyPressed();
 
 private:
+	bool controlKeyWasPressed = true;
 	std::vector<sf::Keyboard::Key> controlKeys;
 	std::map<sf::Keyboard::Key, std::function<void()>> actionMap;
 };

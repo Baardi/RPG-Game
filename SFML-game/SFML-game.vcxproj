@@ -156,14 +156,13 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="DerivedTest.h" />
     <ClInclude Include="DialogInterface.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePopupMenu.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="KeyMapper.h" />
-    <ClInclude Include="MainGame.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="MapProperties.h" />
     <ClInclude Include="ObjectSprite.h" />
     <ClInclude Include="Player.h" />
@@ -185,7 +184,6 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="DerivedTest.cpp" />
     <ClCompile Include="DialogInterface.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePopupMenu.cpp" />
@@ -195,7 +193,7 @@
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="MapProperties.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />

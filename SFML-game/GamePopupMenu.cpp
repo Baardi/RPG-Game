@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GamePopupMenu.h"
 #include "State.h"
-#include "MainGame.h"
+#include "Game.h"
 
 GamePopupMenu::GamePopupMenu()
 {
@@ -16,5 +16,5 @@ void GamePopupMenu::init()
 	if (State::IsRunning())
 		AddMenuItem("Resume", State::Pop);
 
-	AddMenuItem("New Game", State::Reset<MainGame>);
+	AddMenuItem("New Game", State::Reset<Game>);
 }
