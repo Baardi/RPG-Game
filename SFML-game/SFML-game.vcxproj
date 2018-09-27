@@ -162,6 +162,7 @@
     <ClInclude Include="GamePopupMenu.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
+    <ClInclude Include="KeyMapper.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MapProperties.h" />
     <ClInclude Include="ObjectSprite.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="GamePopupMenu.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />
+    <ClCompile Include="KeyMapper.cpp" />
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

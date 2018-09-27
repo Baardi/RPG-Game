@@ -105,13 +105,13 @@
                  "name":"To Intro Village",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro village.json",
+                     "EntranceTo":"Intro village.json",
                      "SpawnX":80,
                      "SpawnY":192
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
@@ -128,13 +128,13 @@
                  "name":"To Route 1",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Route 1.json",
+                     "EntranceTo":"Route 1.json",
                      "SpawnX":20,
                      "SpawnY":480
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },

@@ -15,9 +15,10 @@ public:
 	~Map();
 	
 	void clear();									// Clear the map
-	bool load(const std::string &filename, TextureMap &textures);			// Load map from Tiled JSON file
-	bool loadRelative(const std::string &filename, TextureMap &textures);
-	auto GetRelativePath() const { return relativePath; }
+	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
+	bool loadRelative(const std::filesystem::path &filename, TextureMap &textures);
+	auto GetPath() const { return currentPath; }
+	std::filesystem::path GetPathProperty(const std::string &propertyName);
 	void draw(sf::RenderWindow &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderWindow &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
 	static void drawLayer(sf::RenderWindow &window, Layer *layer); // Draws a single layer in a window
@@ -58,7 +59,7 @@ private:
 	// Map bounds
 	int width, height;
 
-	std::filesystem::path relativePath;
+	std::filesystem::path currentPath;
 	
 	static constexpr unsigned int flipMultiplier = 1073741824; /*std::pow(2, 30)*/
 };

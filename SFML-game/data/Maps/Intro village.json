@@ -478,13 +478,13 @@
                  "name":"To Intro Map",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro map.json",
+                     "EntranceTo":"Intro map.json",
                      "SpawnX":436,
                      "SpawnY":384
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
@@ -501,13 +501,13 @@
                  "name":"To SomeOtherPlace",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Palace.json",
+                     "EntranceTo":"Palace.json",
                      "SpawnX":64,
                      "SpawnY":866
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
@@ -524,13 +524,13 @@
                  "name":"To IntroVillage House",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro house.json",
+                     "EntranceTo":"Intro house.json",
                      "SpawnX":447,
                      "SpawnY":860
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
@@ -547,13 +547,13 @@
                  "name":"To Route 1",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Route 1.json",
+                     "EntranceTo":"Route 1.json",
                      "SpawnX":510,
                      "SpawnY":906
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },

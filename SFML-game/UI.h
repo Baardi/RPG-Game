@@ -8,10 +8,9 @@ public:
 	
 	virtual void init();
 	
-	virtual bool frame() { return false; }
-	virtual void pause(){}
-	virtual void resume(){}
-	virtual void toggle(){}
+	virtual bool frame() { return true; }
+	virtual void pause() { paused = true; }
+	virtual void resume() { paused = false; }
 	virtual bool PollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
 	void HandleWindowEvents();
 

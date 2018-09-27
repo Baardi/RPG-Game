@@ -99,6 +99,9 @@
     <ClInclude Include="DerivedTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyMapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -174,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DerivedTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

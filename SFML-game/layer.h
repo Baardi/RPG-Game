@@ -1,14 +1,4 @@
 #pragma once
-#include <SFML/Graphics/Rect.hpp>
-#include <vector>
-#include <map>
-#include <SFML/Graphics/Sprite.hpp>
-
-namespace sf
-{
-	class RenderWindow;
-	class Texture;
-}
 
 using AnimationTileMap = std::map<int, std::vector< std::pair<int, int>> >;
 

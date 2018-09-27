@@ -68,18 +68,18 @@ void TileLayer::loadTexture()
 		for (int x = 0; x < width; x++)
 		{
 			int tileid = get(tilemap, x, y);
-			if (tileid == 0) 
+			if (!tileid) 
 				continue;		// Skip empty tiles
 
 			int tileTextureValue = GetTextureIndex(tileid);
-			if (tileTextureValue == 0) // No texture found
+			if (!tileTextureValue) // No texture found
 				continue;
 
 			sf::Texture *spriteTexture = tileSets[tileTextureValue];
 
 			// Check if theres animation
 			auto animationTile = animatedTiles[tileid];
-			if (animationTile.size() == 0)
+			if (animationTile.empty())
 			{
 				LoadSpriteTexture(*spriteTexture, tileid - tileTextureValue, x, y);
 			}

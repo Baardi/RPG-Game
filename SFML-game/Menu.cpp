@@ -18,6 +18,10 @@ void Menu::init()
 
 bool Menu::frame()
 {
+	if (!UI::frame())
+		return false;
+	
+	resume();
 	HandleWindowEvents();
 
 	if (clock.getElapsedTime().asMilliseconds() > 100)
@@ -28,6 +32,9 @@ bool Menu::frame()
 
 	if (!mouseControl)
 	{
+		if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
+			ControlKeyPressed = false;
+
 		if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 		{
 			SelectEntry();
@@ -35,10 +42,6 @@ bool Menu::frame()
 		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			State::Pop();
-		}
-		else if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
-		{
-			ControlKeyPressed = false;
 		}
 	}
 	
@@ -94,12 +97,13 @@ void Menu::SelectEntry() const
 
 void Menu::HandleKeyEvents()
 {
+	if (menuItems.empty())
+		return;
+
 	if (menuIndex >= menuItems.size())
 	{
 		menuIndex = 0;
-
-		if (!menuItems.empty())
-			menuItems[menuIndex].setFillColor(colorSelect);
+		menuItems[menuIndex].setFillColor(colorSelect);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))

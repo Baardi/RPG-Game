@@ -30,13 +30,10 @@ void ObjectLayer::loadTexture()
 
 void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
 {
-	auto it = std::find(objects.begin(), objects.end(), sprite);
-
-	if (it != objects.end())
-	{
-		delete *it;
-		objects.erase(it);
-	}
-	else
+	auto it = find(objects.begin(), objects.end(), sprite);
+	if (it == objects.end())
 		throw;
+	
+	delete *it;
+	objects.erase(it);
 }

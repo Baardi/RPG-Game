@@ -451,13 +451,13 @@
                  "name":"To Intro village",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro village.json",
+                     "EntranceTo":"Intro village.json",
                      "SpawnX":864,
                      "SpawnY":20
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
@@ -496,13 +496,13 @@
                  "name":"To Palace",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Palace.json",
+                     "EntranceTo":"Palace.json",
                      "SpawnX":912,
                      "SpawnY":896
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },

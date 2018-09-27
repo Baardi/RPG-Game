@@ -66,13 +66,13 @@
                  "name":"To Intro Village",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro village.json",
+                     "EntranceTo":"Intro village.json",
                      "SpawnX":784,
                      "SpawnY":778
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },

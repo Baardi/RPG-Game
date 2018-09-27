@@ -13,20 +13,15 @@ void ObjectSprite::process()
 
 void ObjectSprite::draw(sf::RenderWindow &window)
 {
-	if (gid == 0)
-	{
-		if (text)
-			window.draw(*text);
-
-		return;
-	}
-
-	window.draw(sprite);
+	if (gid) 
+		window.draw(sprite);
+	else if (text)
+		window.draw(*text);
 }
 
 void ObjectSprite::loadTexture()
 {
-	if (gid == 0)
+	if (!gid)
 		return;
 
 	int tileTextureValue = GetTextureIndex(gid);
@@ -37,7 +32,7 @@ void ObjectSprite::loadTexture()
 
 	// Check if theres animation
 	auto animationTile = animatedTiles[gid];
-	if (animationTile.size() == 0)
+	if (animationTile.empty())
 	{
 		LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 	}

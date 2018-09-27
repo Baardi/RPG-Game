@@ -26,12 +26,11 @@ public:
 
 	void pause() override;
 	void resume() override;
-	void toggle() override;
+	//void toggle() override;
 	void draw() override;
 
 private:
 	//Functions
-	void HandleKeyInput();
 	void HandleItemIntersections();
 	void HandleEntranceIntersections();
 	void LoadMusic();
@@ -50,6 +49,5 @@ private:
 	std::unique_ptr<sf::Music> music;
 
 	sf::Text pauseText;
-	bool pausable = false;
 	Map map;
 };

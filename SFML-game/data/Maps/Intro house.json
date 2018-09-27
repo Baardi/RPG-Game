@@ -33,13 +33,13 @@
                  "name":"Exit",
                  "properties":
                     {
-                     "EntranceTo":"..\/Maps\/Intro village.json",
+                     "EntranceTo":"Intro village.json",
                      "SpawnX":512,
                      "SpawnY":778
                     },
                  "propertytypes":
                     {
-                     "EntranceTo":"string",
+                     "EntranceTo":"file",
                      "SpawnX":"int",
                      "SpawnY":"int"
                     },
