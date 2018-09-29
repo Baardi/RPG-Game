@@ -182,11 +182,11 @@ protected:
 	// Completes a queued transition
 	static void PerformTransition()
 	{
-		std::cout << std::to_string(Size()) + std::string(" -> ");
 
 		if (IsRunning())
 			GetUI()->pause();
 
+		std::cout << std::to_string(Size()) + std::string(" -> ");
 		if (Instance().transition == Transition::Pop)
 			Instance().IPop();
 
@@ -194,6 +194,7 @@ protected:
 			Instance().IReset();
 
 		Instance().transition = Transition::None;
+		std::cout << std::to_string(Size()) << std::endl;
 
 		if (Instance().queuedState)
 			Instance().PushQueuedState();
@@ -204,7 +205,6 @@ protected:
 		if (IsRunning())
 			GetUI()->resume();
 
-		std::cout << std::to_string(Size()) << std::endl;
 	}
 
 private:

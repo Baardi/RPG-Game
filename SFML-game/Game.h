@@ -5,6 +5,7 @@
 #include "map.h"
 #include "Player.h"
 #include "KeyMapper.h"
+#include "IntersectionHandler.h"
 
 class GameInitializer : public Initializer
 {
@@ -22,7 +23,6 @@ public:
 	
 	// Todo: frame/gameTick needs some kind of merge
 	bool frame() override;
-	void gameTick();
 
 	void pause() override;
 	void resume() override;
@@ -31,10 +31,10 @@ public:
 
 private:
 	//Functions
-	void HandleItemIntersections();
-	void HandleEntranceIntersections();
-	void LoadMusic();
-
+	void HandleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
+	void HandleEntranceIntersections(ObjectLayer *layer, ObjectSprite *entrance);
+	void LoadMusic(const Map& map);
+	void LoadProperties(const Map &map);
 	//int framespertick = 0; // <-- Used for measuring performance
 
 	//Class object (should be) initialized by App
@@ -51,4 +51,5 @@ private:
 	sf::Text pauseText;
 	Map map;
 	KeyMapper keyMapper;
+	IntersectionHandler intersectionHandler;
 };

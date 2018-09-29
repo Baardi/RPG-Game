@@ -16,7 +16,7 @@ public:
 	void draw(sf::RenderWindow& window) override;
 	void loadTexture() override;
 
-	sf::DoubleRect GetGlobalBounds() override;
+	sf::DoubleRect GetGlobalBounds() const override;
 
 	void LoadSpriteTexture(sf::Texture &texture, int tileid);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);

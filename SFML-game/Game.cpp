@@ -19,14 +19,17 @@ void Game::init()
 {
 	UI::init();
 
-	map.load("data/Maps/Intro village.json", State::Textures());
-	LoadMusic();
+	keyMapper.AddActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::Q,      ControlKey::No,  State::Reset<MainMenu>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::No,  State::PushChild<GamePopupMenu>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
+
+	intersectionHandler.Register("Entrance", std::bind(&Game::HandleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
+	intersectionHandler.Register("Items",    std::bind(&Game::HandleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	
-	keyMapper.AddActionKey(sf::Keyboard::Escape, ControlKey::No, State::Push<MainMenu>);
-	keyMapper.AddActionKey(sf::Keyboard::Key::Q, ControlKey::No, State::Reset<MainMenu>);
-	keyMapper.AddActionKey(sf::Keyboard::Key::Z, ControlKey::No, State::PushChild<GamePopupMenu>);
-	keyMapper.AddActionKey(sf::Keyboard::Key::P, ControlKey::Yes, std::bind(&UI::toggle, this));
-	keyMapper.AddActionKey(sf::Keyboard::Key::R, ControlKey::Yes, State::Switch<Game>);
+	map.load("data/Maps/Intro village.json", State::Textures());
+	LoadProperties(map);
 }
 
 bool Game::frame()
@@ -38,7 +41,8 @@ bool Game::frame()
 
 	if (!paused)
 	{
-		gameTick();
+		player.HandleKeyInput(map);
+		intersectionHandler.HandleIntersections(map, player);
 		clock.reset(true);
 	}
 
@@ -67,13 +71,6 @@ void Game::resume()
 	clock.resume();
 }
 
-void Game::gameTick()
-{
-	player.HandleKeyInput(map);
-	HandleEntranceIntersections();
-	HandleItemIntersections();
-}
-
 void Game::draw()
 {
 	map.splitDraw(window, "Character", Map::DrawType::Back);
@@ -84,58 +81,12 @@ void Game::draw()
 		window.draw(pauseText);
 }
 
-void Game::HandleItemIntersections()
+void Game::LoadProperties(const Map& map)
 {
-	auto itemLayer = map.GetObjectLayer("Items");
-	ObjectSprite *item = nullptr;
-	if (itemLayer)
-	{
-		for (auto object : itemLayer->objects)
-		{
-			if (player.Intersects(*object))
-			{
-				item = object;
-				break;
-			}
-		}
-
-		if (item)
-		{
-			player.TakeItem(item);
-			itemLayer->RemoveSprite(item);
-		}
-	}
+	LoadMusic(map);
 }
 
-void Game::HandleEntranceIntersections()
-{
-	auto entranceLayer = map.GetObjectLayer("Entrance");
-	ObjectSprite *entrance = nullptr;
-	if (entranceLayer)
-	{
-		for (auto object : entranceLayer->objects)
-		{
-			if (player.Intersects(*object))
-			{
-				entrance = object;
-				break;
-			}
-		}
-
-		if (entrance && entrance->ContainsProperty("EntranceTo"))
-		{
-			auto mapFile = entrance->GetProperty<std::filesystem::path>("EntranceTo");
-			auto x = entrance->GetProperty<int>("SpawnX");
-			auto y = entrance->GetProperty<int>("SpawnY");
-			map.loadRelative(mapFile, State::Textures());
-			LoadMusic();
-
-			player.SetPosition(x, y);
-		}
-	}
-}
-
-void Game::LoadMusic()
+void Game::LoadMusic(const Map& map)
 {
 	if (!music)
 		music = std::make_unique<sf::Music>();
@@ -149,4 +100,21 @@ void Game::LoadMusic()
 		music->play();
 	else
 		music.reset();
+}
+
+void Game::HandleItemIntersections(ObjectLayer* layer, ObjectSprite* item)
+{
+	player.TakeItem(item);
+	layer->RemoveSprite(item);
+}
+
+void Game::HandleEntranceIntersections(ObjectLayer* layer, ObjectSprite* entrance)
+{
+	auto mapFile = entrance->GetProperty<std::filesystem::path>("EntranceTo");
+	auto x = entrance->GetProperty<int>("SpawnX");
+	auto y = entrance->GetProperty<int>("SpawnY");
+	map.loadRelative(mapFile, State::Textures());
+	LoadProperties(map);
+
+	player.SetPosition(x, y);
 }

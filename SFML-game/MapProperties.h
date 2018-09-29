@@ -8,12 +8,12 @@ public:
 	virtual ~MapProperties() {}
 	
 	template <class T>
-	T GetProperty(const std::string &propertyName)
+	T GetProperty(const std::string &propertyName) const
 	{
 		return std::any_cast<T>(propertyMap.find(propertyName)->second);
 	}
 
-	bool ContainsProperty(const std::string &propertyName)
+	bool ContainsProperty(const std::string &propertyName) const
 	{
 		return propertyMap.find(propertyName) != propertyMap.end();
 	}

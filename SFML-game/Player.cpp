@@ -36,7 +36,7 @@ void Player::draw(sf::RenderWindow &window)
 	window.draw(sprite);
 }
 
-sf::DoubleRect Player::GetGlobalBounds()
+sf::DoubleRect Player::GetGlobalBounds() const
 {
 	return static_cast<sf::DoubleRect>(sprite.getGlobalBounds());
 }

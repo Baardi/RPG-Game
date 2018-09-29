@@ -159,6 +159,7 @@
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePopupMenu.h" />
+    <ClInclude Include="IntersectionHandler.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="KeyMapper.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePopupMenu.cpp" />
+    <ClCompile Include="IntersectionHandler.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="KeyMapper.cpp" />

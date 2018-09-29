@@ -78,7 +78,7 @@ bool Map::loadRelative(const std::filesystem::path& filename, TextureMap &textur
 	return load(canonical(currentPath / filename), textures);
 }
 
-std::filesystem::path Map::GetPathProperty(const std::string &propertyName)
+std::filesystem::path Map::GetPathProperty(const std::string &propertyName) const
 {
 	return canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
 }
