@@ -1,5 +1,58 @@
 #include "stdafx.h"
 #include "ObjectSprite.h"
+#include "State.h"
+#include "sfUtility.h"
+#include <corecrt_math_defines.h>
+#include "map.h"
+
+void ObjectSprite::load(Json::Value& layer, Json::Value& object)
+{
+	// Load basic object info
+	name = object["name"].asString();
+
+	width = object["width"].asFloat();
+	height = object["height"].asFloat();
+	rotation = object["rotation"].asFloat();
+	type = object["type"].asString();
+	visible = object["visible"].asBool();
+	opacity = layer["opacity"].asFloat();
+
+	unsigned int json_gid = object["gid"].asUInt();
+	verflip = json_gid / (Map::flipMultiplier * 2);
+	horflip = json_gid % (Map::flipMultiplier * 2) > Map::flipMultiplier;
+	gid = json_gid % Map::flipMultiplier;
+
+	x = object["x"].asFloat();
+	y = object["y"].asFloat();
+
+	if (gid)
+	{
+		x += height * sin(rotation * (M_PI / 180.0));
+		y -= height * cos(rotation * (M_PI / 180.0));
+	}
+
+	globalBounds = sf::DoubleRect(x, y, width, height);
+
+	auto textValue = object["text"];
+	if (!textValue.empty() && !gid)
+		loadText(textValue);
+
+	LoadProperties(object);
+	loadTexture();
+}
+
+void ObjectSprite::loadText(Json::Value &textValue)
+{
+	text.emplace();
+
+	text->setFillColor(sf::utility::parseColor(textValue["color"].asString()));
+	text->setString(textValue["text"].asString());
+	text->setCharacterSize(textValue["pixelsize"].asInt());
+	text->setFont(State::Font());
+	text->setPosition(x, y);
+	text->setRotation(rotation);
+	text->setStyle(sf::utility::parseTextStyle(textValue));
+}
 
 void ObjectSprite::process()
 {
@@ -60,7 +113,7 @@ void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
 	sprite.setTextureRect(textureRect);
 	sprite.setPosition(x, y);
 	sprite.setRotation(rotation);
-	sprite.setScale(width / float(tileSize.x), height / float(tileSize.y));
+	sprite.setScale(width / static_cast<float>(tileSize.x), height / static_cast<float>(tileSize.y));
 }
 
 void ObjectSprite::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile)

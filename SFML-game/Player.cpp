@@ -7,7 +7,7 @@
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
-	texture.loadFromFile("data/Player Sprites/Mage.png");
+	texture.loadFromFile("data/Player Sprites/Warrior.png");
 	tilesize.x = texture.getSize().x / 4;
 	tilesize.y = texture.getSize().y / 4;
 
@@ -15,14 +15,14 @@ Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 	sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
 	
 	// Map keys to directions for the player
-	dirMap.emplace(Dir::Left, sf::Keyboard::Key::Left);
-	dirMap.emplace(Dir::Right, sf::Keyboard::Key::Right);
-	dirMap.emplace(Dir::Up, sf::Keyboard::Key::Up);
-	dirMap.emplace(Dir::Down, sf::Keyboard::Key::Down);
+	dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
+	dirMap.emplace(Dir::Right,	 sf::Keyboard::Key::Right);
+	dirMap.emplace(Dir::Up,		 sf::Keyboard::Key::Up);
+	dirMap.emplace(Dir::Down,	 sf::Keyboard::Key::Down);
 	
 	// Map keys for actions (such as open inventory)
-	actionMap.emplace(Action::Inventory, sf::Keyboard::Key::I);
-	actionMap.emplace(Action::Talk, sf::Keyboard::Key::T);
+	actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
+	actionMap.emplace(Action::Talk,			sf::Keyboard::Key::T);
 
 	Player::SetPosition(x, y);
 }
@@ -70,9 +70,7 @@ void Player::HandleKeyInput(Map &map)
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory]))
 	{
 		State::PushChild<InventoryUI>(); // Inventory popup
-		InventoryInitializer *initializer = new InventoryInitializer;
-		initializer->inventory = &inventory;
-		State::SetInitializer(initializer);
+		State::SetInitializer(new InventoryInitializer(inventory));
 	}
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
 		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
@@ -83,7 +81,9 @@ void Player::HandleKeyInput(Map &map)
 		move(dir, x, y, newX, newY);
 
 		auto unWalkables = map.GetTileLayer("Unwalkables");
-		if (!(unWalkables && unWalkables->containsTexture(newX, newY)))
+		auto Walkables = map.GetTileLayer("Walkables");
+		if (!(unWalkables && unWalkables->containsTexture(newX, newY)) ||
+			 (  Walkables &&   Walkables->containsTexture(newX, newY)))
 			SetPosition(newX, newY);
 		
 		counter = (counter + 1) % counterMax;

@@ -4,6 +4,10 @@
 
 Menu::Menu()
 {
+	clock.resume();
+
+	keyMapper.AddActionKey(sf::Keyboard::Return, ControlKey::Yes, std::bind(&Menu::SelectEntry, this));
+	keyMapper.AddActionKey(sf::Keyboard::Escape, ControlKey::Yes, State::Pop);
 }
 
 Menu::~Menu()
@@ -13,7 +17,6 @@ Menu::~Menu()
 void Menu::init()
 {
 	UI::init();
-	clock.resume();
 	pausable = false;
 }
 
@@ -22,8 +25,6 @@ bool Menu::frame()
 	if (!UI::frame())
 		return false;
 	
-	HandleWindowEvents();
-
 	if (clock.getElapsedTime().asMilliseconds() > 100)
 	{
 		tick();
@@ -31,19 +32,7 @@ bool Menu::frame()
 	}
 
 	if (!mouseControl)
-	{
-		if (ControlKeyPressed && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))))
-			ControlKeyPressed = false;
-
-		if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-		{
-			SelectEntry();
-		}
-		else if (!ControlKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			State::Pop();
-		}
-	}
+		keyMapper.HandleKeyInput();
 	
 	return true;
 }
@@ -80,9 +69,9 @@ size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
 {
 	size_t index = menuItems.size();
 
-	menuItems.emplace_back(text, font, textSize);
-	menuItems.back().setFillColor(index ? colorUnselect : colorSelect);
-	menuItems.back().setPosition(x, y + spacing * index);
+	auto &itemInserted = menuItems.emplace_back(text, font, textSize);
+	itemInserted.setFillColor(index ? colorUnselect : colorSelect);
+	itemInserted.setPosition(x, y + spacing * index);
 
 	actions.emplace_back(action);
 
@@ -125,14 +114,14 @@ void Menu::HandleMouseEvents()
 	auto pos = sf::Mouse::getPosition(window);
 	menuIndex = -1;
 
-	for (int index = 0; index < menuItems.size(); index++)
+	for (int index = menuItems.size() - 1; index >= 0; --index)
 	{
 		auto &menuItem = menuItems[index];
 
 		if (menuItem.getGlobalBounds().contains(pos.x, pos.y))
 		{
 			menuIndex = index;
-			menuItems[menuIndex].setFillColor(colorSelect);
+			menuItem.setFillColor(colorSelect);
 		}
 		else
 		{
@@ -146,4 +135,3 @@ void Menu::draw()
 	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
 }
-

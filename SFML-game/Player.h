@@ -1,9 +1,10 @@
 #pragma once
-#include "TileLayer.h"
 #include "GameObject.h"
 #include "Inventory.h"
 #include "ObjectSprite.h"
 
+
+class Map;
 
 class Player : public GameObject
 {

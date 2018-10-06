@@ -1,6 +1,7 @@
 #pragma once
 #include "UI.h"
 #include <functional>
+#include "KeyMapper.h"
 
 class Menu : public UI
 {
@@ -39,7 +40,7 @@ private:
 	std::vector<std::function<void()>> actions;
 	size_t menuIndex = 0;
 
-
+	KeyMapper keyMapper;
 	bool ControlKeyPressed = true;
 	bool mouseControl = false;
 };

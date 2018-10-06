@@ -30,7 +30,6 @@ struct TileSize
 
 class Layer
 {
-	friend class Map;
 public:
 	Layer(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
 		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
@@ -42,6 +41,7 @@ public:
 	virtual void loadTexture() {}
 
 	std::string name;
+	bool visible;
 protected:
 
 	// Calculate x and y position of given tile in the texture
@@ -54,7 +54,6 @@ protected:
 	AnimationTileMap &animatedTiles;
 
 	std::string type;
-	bool visible;
 	float opacity;
 };
 

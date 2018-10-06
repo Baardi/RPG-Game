@@ -3,15 +3,16 @@
 #include "Layer.h"
 #include "GameObject.h"
 #include "MapProperties.h"
+#include <optional>
 
 class ObjectSprite : public Layer, public GameObject, public MapProperties
 {
-	friend class Map;
-	friend class ObjectLayer;
 public:
 	ObjectSprite(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
 	~ObjectSprite() = default;
 
+	void load(Json::Value &layer, Json::Value &object);
+	void loadText(Json::Value &textValue);
 	void process() override;
 	void draw(sf::RenderWindow& window) override;
 	void loadTexture() override;
@@ -34,7 +35,7 @@ private:
 	float rotation;
 	bool horflip, verflip;
 
-	std::unique_ptr<sf::Text> text;
+	std::optional<sf::Text> text;
 
 	// AnimationData
 	AnimationTile animationTileInfo;
@@ -43,6 +44,4 @@ private:
 	sftools::Chronometer &clock;
 
 	sf::DoubleRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
-
-	std::map<std::string, std::any> propertyMap;
 };

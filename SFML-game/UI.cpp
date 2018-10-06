@@ -39,9 +39,12 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 		return true;
 
 	case sf::Event::LostFocus:
-		if (State::IsRunning())
-			State::GetUI()->pause();
-
+		pause();
+		makeRespondable(false);
+		return true;
+		
+	case sf::Event::GainedFocus:
+		makeRespondable(true);
 		return true;
 
 	default:
@@ -53,7 +56,12 @@ void UI::HandleWindowEvents()
 {
 	while (window.pollEvent(event))
 	{
-		PollEvent(event.type);
+		if (respondable)
+			// Normal virtual pollevent, overriding ui's can hook into
+			PollEvent(event.type);
+		else
+			// Don't call the virtual method, just check if the window is in a respondable state
+			UI::PollEvent(event.type); 
 	}
 }
 

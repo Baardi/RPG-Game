@@ -5,13 +5,11 @@
 // Class representing a tile layer
 class TileLayer : public Layer, public MapProperties
 {
-	// Map needs to access protected/private data
-	friend class Map;
-
 public:
 	TileLayer(const TileSize& tileSize, std::map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sftools::Chronometer &clock);
 	~TileLayer();
 
+	void load(Json::Value& layer);
 	void draw(sf::RenderWindow& window) override;
 	void process() override;
 
@@ -19,7 +17,7 @@ public:
 	bool containsTexture(double x, double y) const;
 
 private:
-	void initArrays(); // Allocates memory according to width/height of layer
+	void initArrays(int size); // Resizes vector according to width/height of layer
 	
 	void loadTexture() override;
 	void LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
@@ -29,12 +27,12 @@ private:
 	
 	// Should only be used internally, as there's no boundary check
 	template <class T>
-	T& get(T* arr, int x, int y);
+	T& getValue(std::vector<T> &arr, int x, int y);
 
     // Use get (array, x, y) to access the map
-    int *tilemap = nullptr;
-	AnimationTile *animationTilemap = nullptr;
-	sf::Sprite *textureMap = nullptr;
+    std::vector<int> tilemap;
+	std::vector<AnimationTile> animationTilemap;
+	std::vector<sf::Sprite> textureMap;
 
     // Size in tiles
 	int width, height;

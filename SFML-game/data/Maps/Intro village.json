@@ -17,6 +17,14 @@
          "height":30,
          "name":"Water",
          "opacity":1,
+         "properties":
+            {
+             "Type":"Unwalkable"
+            },
+         "propertytypes":
+            {
+             "Type":"string"
+            },
          "type":"tilelayer",
          "visible":true,
          "width":30,
@@ -28,6 +36,14 @@
          "height":30,
          "name":"Unwalkables",
          "opacity":1,
+         "properties":
+            {
+             "Type":"Unwalkable"
+            },
+         "propertytypes":
+            {
+             "Type":"string"
+            },
          "type":"tilelayer",
          "visible":true,
          "width":30,
@@ -61,6 +77,14 @@
          "height":30,
          "name":"Walkables",
          "opacity":1,
+         "properties":
+            {
+             "Walkable":""
+            },
+         "propertytypes":
+            {
+             "Walkable":"string"
+            },
          "type":"tilelayer",
          "visible":true,
          "width":30,
@@ -296,22 +320,27 @@
                  "y":228
                 }, 
                 {
-                 "gid":4246,
-                 "height":20.0922617719747,
+                 "height":212.151411757645,
                  "id":111,
                  "name":"",
                  "rotation":10,
                  "text":
                     {
+                     "bold":true,
                      "color":"#c87bff0f",
+                     "halign":"right",
+                     "pixelsize":24,
+                     "strikeout":true,
                      "text":"Hello World",
+                     "underline":true,
+                     "valign":"bottom",
                      "wrap":true
                     },
                  "type":"",
                  "visible":true,
-                 "width":92.1621969587196,
-                 "x":493.5,
-                 "y":113.5
+                 "width":281.387678611646,
+                 "x":460.149278600729,
+                 "y":302.641339942822
                 }],
          "opacity":1,
          "type":"objectgroup",

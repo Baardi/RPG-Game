@@ -1,14 +1,14 @@
 #pragma once
 #include <functional>
 #include "ObjectSprite.h"
+#include "map.h"
 
 class IntersectionHandler
 {
 public:
-	IntersectionHandler();
-	~IntersectionHandler();
+	IntersectionHandler() = default;
+	~IntersectionHandler() = default;
 
-	static ObjectSprite* GetIntersectedObject(const ObjectLayer* layer, const GameObject &intersected);
 	void HandleIntersections(const Map &map, GameObject &object);
 	void Register(const std::string &name, std::function<void(ObjectLayer *, ObjectSprite *)> action);
 

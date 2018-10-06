@@ -2,7 +2,6 @@
 
 class GameObject
 {
-	friend class Map;
 public:
 	GameObject() = default;
 	virtual ~GameObject() = default;

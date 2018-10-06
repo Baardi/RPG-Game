@@ -24,8 +24,7 @@ void Inventory::AddItem(ObjectSprite *sprite)
 	
 	if (!itemFound)
 	{
-		auto pair = std::make_pair(new GameItem(sprite->gid, sprite->name), 1);
-		pair.first->SetSprite(sprite->sprite);
-		items.emplace_back(pair);
+		auto &itemInserted = items.emplace_back(new GameItem(sprite->gid, sprite->name), 1).first;
+		itemInserted->SetSprite(sprite->sprite);
 	}
 }

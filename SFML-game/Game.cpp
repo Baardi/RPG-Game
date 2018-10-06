@@ -20,10 +20,11 @@ void Game::init()
 	UI::init();
 
 	keyMapper.AddActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
-	keyMapper.AddActionKey(sf::Keyboard::Key::Q,      ControlKey::No,  State::Reset<MainMenu>);
-	keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::No,  State::PushChild<GamePopupMenu>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
+	keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
+	keyMapper.AddActionKey(sf::Keyboard::Key::M,      ControlKey::Yes, std::bind(&Game::mute, this));
 
 	intersectionHandler.Register("Entrance", std::bind(&Game::HandleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	intersectionHandler.Register("Items",    std::bind(&Game::HandleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
@@ -81,15 +82,26 @@ void Game::draw()
 		window.draw(pauseText);
 }
 
-void Game::LoadProperties(const Map& map)
+void Game::mute()
+{
+	if (!music || paused)
+		return;
+
+	if (music->getStatus() == sf::SoundSource::Playing)
+		music->pause();
+	else
+		music->play();
+}
+
+void Game::LoadProperties(const Map &map)
 {
 	LoadMusic(map);
 }
 
-void Game::LoadMusic(const Map& map)
+void Game::LoadMusic(const Map &map)
 {
 	if (!music)
-		music = std::make_unique<sf::Music>();
+		music.emplace();
 	music->setLoop(true);
 	
 	std::filesystem::path musicFile;

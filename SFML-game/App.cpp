@@ -41,9 +41,11 @@ bool App::frame()
 	if (!State::IsRunning())
 		return false;
 
-	State::GetUI()->frame();
 	State::GetUI()->HandleWindowEvents();
 	State::GetUI()->drawAll();
+	
+	if (State::GetUI()->isRespondable())
+		State::GetUI()->frame();
 
 	return true;
 }

@@ -31,13 +31,14 @@ public:
 	void pause();
 	void resume();
 
-	// The owner of the Layer-pointers, used to draw, check intersections etc.
+	// The owner of the Layer-pointers, used to draws
 	std::vector<Layer *> layers;
 
-private:
-	// Different ordering of layers, used as lookup table
-	std::map<std::string, TileLayer *> tileMap;
+	// Sorted collection of layers
 	std::map<std::string, ObjectLayer *> objectMap;
+	std::map<std::string, TileLayer *> tileMap;
+
+private:
 	TileSize tileSize;
 
 	std::map<int, sf::Texture *> tileSets;
@@ -60,6 +61,6 @@ private:
 	int width, height;
 
 	std::filesystem::path currentPath;
-	
+public:
 	static constexpr unsigned int flipMultiplier = 1073741824; /*std::pow(2, 30)*/
 };

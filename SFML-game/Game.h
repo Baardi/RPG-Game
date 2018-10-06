@@ -29,6 +29,8 @@ public:
 	//void toggle() override;
 	void draw() override;
 
+	void mute();
+
 private:
 	//Functions
 	void HandleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
@@ -46,7 +48,7 @@ private:
 	std::map<std::string, TileLayer*> layerMap;
 
 	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
-	std::unique_ptr<sf::Music> music;
+	std::optional<sf::Music> music;
 
 	sf::Text pauseText;
 	Map map;

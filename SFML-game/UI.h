@@ -1,4 +1,5 @@
 #pragma once
+#include <thread>
 
 class UI
 {
@@ -11,6 +12,9 @@ public:
 	virtual bool frame() { return true; }
 	virtual bool PollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
 	void HandleWindowEvents();
+
+	// Possibly belongs to state
+	bool isRespondable() const { return respondable; }
 
 	virtual void pause();
 	virtual void resume();
@@ -33,6 +37,9 @@ protected:
 
 	// arghelper
 private:
+	void makeRespondable(bool respondable) { this->respondable = respondable; }
+
+	bool respondable = true; // Maybe need a test to see if it's valid on ui creation
 	UI *parent = nullptr;
 	std::vector<UI *> drawStack;
 };

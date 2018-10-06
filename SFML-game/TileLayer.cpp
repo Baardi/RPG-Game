@@ -8,14 +8,28 @@ TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tile
 
 TileLayer::~TileLayer()
 {
-	if (tilemap)
-		delete[] tilemap;
-	
-	if (animationTilemap)
-		delete[] animationTilemap;
-	
-	if (textureMap)
-		delete[] textureMap;
+}
+
+void TileLayer::load(Json::Value& layer)
+{
+	width = layer["width"].asInt();
+	height = layer["height"].asInt();
+	name = layer["name"].asString();
+	visible = layer["visible"].asBool();
+	opacity = layer["opacity"].asFloat();
+
+	// Prepare tilemap
+	Json::Value &data = layer["data"];
+	initArrays(data.size());
+
+	// Read in tilemap
+	for (unsigned int i = 0; i < data.size(); i++)
+	{
+		tilemap[i] = data[i].asInt();
+	}
+
+	loadTexture();
+	LoadProperties(layer);
 }
 
 void TileLayer::process()
@@ -25,21 +39,20 @@ void TileLayer::process()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = get(tilemap, x, y);
+			int tileid = getValue(tilemap, x, y);
 
 			// Skip empty tiles
 			if (tileid == 0)
 				continue;
 
-			sf::Sprite &sprite = get(textureMap, x, y);
-			AnimationTile &animationTile = get(animationTilemap, x, y);
+			sf::Sprite &sprite = getValue(textureMap, x, y);
+			AnimationTile &animationTile = getValue(animationTilemap, x, y);
 
 			// Update animation
 			if (!animationTile.animationTileData.empty())
 				ProcessAnimation(sprite, animationTile, clock);
 		}
 	}
-
 }
 
 void TileLayer::draw(sf::RenderWindow& window)
@@ -49,13 +62,13 @@ void TileLayer::draw(sf::RenderWindow& window)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = get(tilemap, x, y);
+			int tileid = getValue(tilemap, x, y);
 
 			// Skip empty tiles
 			if (tileid == 0)
 				continue;
 
-			sf::Sprite &sprite = get(textureMap, x, y);
+			sf::Sprite &sprite = getValue(textureMap, x, y);
 			window.draw(sprite);
 		}
 	}
@@ -67,13 +80,13 @@ void TileLayer::loadTexture()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int tileid = get(tilemap, x, y);
+			int tileid = getValue(tilemap, x, y);
 			if (!tileid) 
 				continue;		// Skip empty tiles
 
 			int tileTextureValue = GetTextureIndex(tileid);
-			if (!tileTextureValue) // No texture found
-				continue;
+			if (!tileTextureValue) 
+				continue;		// No texture found
 
 			sf::Texture *spriteTexture = tileSets[tileTextureValue];
 
@@ -98,7 +111,7 @@ void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y
 	int tilex, tiley;
 	getTileCoords(&texture, tileid, tilex, tiley);
 
-	auto &sprite = get(textureMap, x, y);
+	auto &sprite = getValue(textureMap, x, y);
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
@@ -107,7 +120,7 @@ void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y
 
 void TileLayer::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y)
 {
-	auto &animationTileInfo = get(animationTilemap, x, y);
+	auto &animationTileInfo = getValue(animationTilemap, x, y);
 	for (const auto &tile : animationTile)
 	{
 		int tilex, tiley;
@@ -116,15 +129,15 @@ void TileLayer::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<
 	}
 }
 
-void TileLayer::initArrays()
+void TileLayer::initArrays(int size)
 {
-	tilemap = new int[width*height];
-	animationTilemap = new AnimationTile[width*height];
-	textureMap = new sf::Sprite[width*height];
+	tilemap.resize(size);
+	animationTilemap.resize(size);
+	textureMap.resize(size);
 }
 
 template <class T>
-T& TileLayer::get(T* arr, int x, int y)
+T& TileLayer::getValue(std::vector<T> &arr, int x, int y)
 {
 	return arr[x + y * width];
 }

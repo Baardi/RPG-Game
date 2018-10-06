@@ -26,11 +26,11 @@ void InventoryUI::init()
 {
 	AddMenuItem("Back", State::Pop);
 
-	InventoryInitializer *inventoryInitializer = dynamic_cast<InventoryInitializer *>(State::GetInitializer());
+	auto inventoryInitializer = State::GetInitializer<InventoryInitializer>();
 	if (!inventoryInitializer)
 		throw;
 
-	inventory = inventoryInitializer->inventory;
+	inventory = &inventoryInitializer->inventory;
 	for (auto item : inventory->Items())
 	{
 		AddMenuItem(item.first->name() + "  x" + std::to_string(item.second));

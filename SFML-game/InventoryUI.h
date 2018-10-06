@@ -6,7 +6,8 @@
 class InventoryInitializer : public Initializer
 {
 public:
-	Inventory *inventory;
+	InventoryInitializer(Inventory &inventory) : inventory(inventory) {}
+	Inventory &inventory;
 };
 
 class InventoryUI : public PopupMenu

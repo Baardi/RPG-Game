@@ -1,57 +1,32 @@
 #include "stdafx.h"
 #include "KeyMapper.h"
 
-
-KeyMapper::KeyMapper()
+void KeyMapper::AddActionKey(sf::Keyboard::Key key, ControlKey isControlKey, std::function<void()> action)
 {
-}
-
-
-KeyMapper::~KeyMapper()
-{
-}
-
-void KeyMapper::AddActionKey(sf::Keyboard::Key key, ControlKey controlKey, std::function<void()> action)
-{
-	actionMap.try_emplace(key, action);
-
-	if (bool(controlKey))
-		controlKeys.emplace_back(key);
-}
-
-bool KeyMapper::isControlKeyPressed()
-{
-	for (auto key : controlKeys)
-	{
-		if (sf::Keyboard::isKeyPressed(key))
-			return true;
-	}
-	return false;
+	keys.emplace_back(key);
+	actions.emplace_back(action);
+	controlKeys.emplace_back(static_cast<bool>(isControlKey));
 }
 
 void KeyMapper::HandleKeyInput()
 {
 	bool controlKeyPressedNow = false;
 
-	for (auto &entry : actionMap)
+	for (int i = keys.size() - 1 ; i >= 0; --i)
 	{
-		auto key = entry.first;
-		auto &action = entry.second;
+		if (!sf::Keyboard::isKeyPressed(keys[i]))
+			continue;
 
-		if (sf::Keyboard::isKeyPressed(key))
+		if (controlKeys[i])
 		{
-			if (std::find(controlKeys.begin(), controlKeys.end(), key) != std::end(controlKeys))
-			{
-				controlKeyPressedNow = true;
-				if (controlKeyWasPressed)
-					break;
-			}
-
-			action();
-			break;
+			controlKeyPressedNow = true;
+			if (controlKeyWasPressed)
+				break;
 		}
+
+		actions[i]();
+		break;
 	}
 
 	controlKeyWasPressed = controlKeyPressedNow;
 }
-

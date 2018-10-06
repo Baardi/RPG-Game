@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Utility.h"
+#include "sfUtility.h"
 
 sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
@@ -30,5 +30,19 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 		alpha = std::stoi(buf, nullptr, 16);	// Copy alpha component
 	}
 
-	return Color(red, green, blue, alpha);			// Constructor the color
+	return Color(red, green, blue, alpha);			// Construct the color
+}
+
+unsigned int sf::utility::parseTextStyle(Json::Value &value)
+{
+	// Todo: test possibility to throw if error
+
+	unsigned int style = Text::Regular;
+
+	if (value["bold"].asBool())      style |= Text::Bold;
+	if (value["italic"].asBool())    style |= Text::Italic;
+	if (value["strikeout"].asBool()) style |= Text::StrikeThrough;
+	if (value["underline"].asBool()) style |= Text::Underlined;
+
+	return style;
 }

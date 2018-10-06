@@ -2,12 +2,7 @@
 #include <fstream>
 #include "map.h"
 #include <filesystem>
-#include "utility.h"
 #include "State.h"
-
-#define _USE_MATH_DEFINES
-#include "math.h"
-#undef _USE_MATH_DEFINES
 
 Map::~Map()
 {
@@ -47,8 +42,8 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	bool parsingSuccessful = reader.parse(file, root);
 	if (!parsingSuccessful)
 		throw;
-	
-	currentPath = canonical(filename).parent_path();
+
+	currentPath = std::filesystem::canonical(filename).parent_path();
 
 	// Get tile size information
 	tileSize.x = root["tilewidth"].asInt();
@@ -66,7 +61,7 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 		if (layer["type"].asString() == "tilelayer")
 			loadLayer(layer);
 		
-		if (layer["type"].asString() == "objectgroup")
+		else if (layer["type"].asString() == "objectgroup")
 			loadObjects(layer);
 	}
 
@@ -75,39 +70,21 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 
 bool Map::loadRelative(const std::filesystem::path& filename, TextureMap &textures)
 {
-	return load(canonical(currentPath / filename), textures);
+	return load(std::filesystem::canonical(currentPath / filename), textures);
 }
 
 std::filesystem::path Map::GetPathProperty(const std::string &propertyName) const
 {
-	return canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
+	return std::filesystem::canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
 }
 
 void Map::loadLayer(Json::Value& layer)
 {
-	Json::Value &data = layer["data"];
-
 	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles, clock); // TileLayer needs a reference to the active tilesets
 
 	// Store info on layer
-	tmp->width = layer["width"].asInt();
-	tmp->height = layer["height"].asInt();
-	tmp->name = layer["name"].asString();
-	tmp->visible = layer["visible"].asBool();
-	tmp->opacity = layer["opacity"].asFloat();
+	tmp->load(layer);
 
-	// Prepare tilemap
-	tmp->initArrays();
-	memset(tmp->tilemap, 0, sizeof(tmp->tilemap));
-
-	// Read in tilemap
-	for (unsigned int i = 0; i < data.size(); i++)
-	{
-		tmp->tilemap[i] = data[i].asInt();
-	}
-
-	tmp->loadTexture();
-	tmp->LoadProperties(layer);
 	layers.push_back(tmp);				   // vector, so the order is kept
 	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
@@ -115,64 +92,9 @@ void Map::loadLayer(Json::Value& layer)
 void Map::loadObjects(Json::Value& layer)
 {
 	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
-	objectLayer->name = layer["name"].asString();
-	objectLayer->type = layer["type"].asString();
-	objectLayer->visible = layer["visible"].asBool();
-	objectLayer->opacity = layer["opacity"].asFloat();
-	objectLayer->LoadProperties(layer);
-
-	// Get all mapObjects from layer
-	for (Json::Value& object: layer["objects"])
-	{
-		ObjectSprite* sprite = new ObjectSprite(tileSize, tileSets, animatedTiles, clock);
-
-		// Load basic object info
-		sprite->name = object["name"].asString();
-		
-		sprite->width = object["width"].asFloat();
-		sprite->height = object["height"].asFloat();
-		sprite->rotation = object["rotation"].asFloat();
-		sprite->type = object["type"].asString();
-		sprite->visible = object["visible"].asBool();
-		sprite->opacity = layer["opacity"].asFloat();
-
-		unsigned int gid = object["gid"].asUInt();
-		sprite->verflip = gid / (flipMultiplier * 2);
-		sprite->horflip = gid % (flipMultiplier * 2) > flipMultiplier;
-		sprite->gid = gid % flipMultiplier;
-
-		sprite->x = object["x"].asFloat();
-		sprite->y = object["y"].asFloat();
-
-		if (gid)
-		{
-			sprite->x += sprite->height * sin(sprite->rotation * (M_PI / 180.0));
-			sprite->y -= sprite->height * cos(sprite->rotation * (M_PI / 180.0));
-		}
-		
-		sprite->globalBounds = sf::DoubleRect(sprite->x, sprite->y, sprite->width, sprite->height);
-
-		auto textValue = object["text"];
-		if (!textValue.empty())
-		{
-			sprite->text = std::make_unique<sf::Text>();
-			auto &text = *sprite->text.get();
-
-			text.setFillColor(sf::utility::parseColor(textValue["color"].asString()));
-			text.setString(textValue["text"].asString());
-			text.setCharacterSize(16);
-			text.setFont(State::Font());
-			auto text_x = object["x"].asFloat();
-			auto text_y = object["y"].asFloat();
-			text.setPosition(text_x, text_y);
-			text.setRotation(sprite->rotation);
-		}
-
-		sprite->LoadProperties(object);
-
-		sprite->loadTexture();
-		objectLayer->objects.emplace_back(sprite);
-	}
+	
+	// Store info on layer
+	objectLayer->load(layer, clock);
 
 	layers.push_back(objectLayer);
 	objectMap.try_emplace(objectLayer->name, objectLayer);
@@ -194,7 +116,7 @@ void Map::drawLayer(sf::RenderWindow& window, Layer* layer)
 
 void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawType drawType)
 {
-	bool isDrawing = drawType == DrawType::Back ? true : false;
+	bool isDrawing = drawType == DrawType::Back;
 
 	for (auto layer : layers)
 	{
@@ -264,7 +186,7 @@ void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the
 
 void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on animated tiles
 {
-	for (Json::ValueIterator it = tileset.begin(); it != tileset.end(); ++it)
+	for (auto it = tileset.begin(); it != tileset.end(); ++it)
 	{
 		std::string tileid = it.key().asString();
 		std::vector<std::pair<int, int>> tileSetAnimations;
@@ -274,7 +196,7 @@ void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on
 			int animationTileId = animation["tileid"].asInt();
 			int animationTileDuration = animation["duration"].asInt();
 			
-			tileSetAnimations.emplace_back(std::make_pair(animationTileId, animationTileDuration));
+			tileSetAnimations.emplace_back(animationTileId, animationTileDuration);
 		}
 
 		animatedTiles.try_emplace(firstGid + std::atoi(tileid.c_str()), tileSetAnimations);
