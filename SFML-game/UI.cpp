@@ -40,11 +40,11 @@ bool UI::PollEvent(sf::Event::EventType eventType)
 
 	case sf::Event::LostFocus:
 		pause();
-		makeRespondable(false);
+		respondable = false;
 		return true;
 		
 	case sf::Event::GainedFocus:
-		makeRespondable(true);
+		respondable = true;
 		return true;
 
 	default:

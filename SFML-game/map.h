@@ -32,7 +32,7 @@ public:
 	void resume();
 
 	// The owner of the Layer-pointers, used to draws
-	std::vector<Layer *> layers;
+	std::vector<std::unique_ptr<Layer>> layers;
 
 	// Sorted collection of layers
 	std::map<std::string, ObjectLayer *> objectMap;

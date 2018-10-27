@@ -4,8 +4,6 @@
 
 ObjectLayer::~ObjectLayer()
 {
-	for (auto object : objects)
-		delete object;
 }
 
 void ObjectLayer::load(Json::Value& layer, sftools::Chronometer &clock)
@@ -19,9 +17,9 @@ void ObjectLayer::load(Json::Value& layer, sftools::Chronometer &clock)
 	// Get all mapObjects from layer
 	for (Json::Value& object : layer["objects"])
 	{
-		ObjectSprite *sprite = new ObjectSprite(tileSize, tileSets, animatedTiles, clock);
+		auto &sprite = objects.emplace_back(
+			std::make_unique<ObjectSprite>(tileSize, tileSets, animatedTiles, clock));
 		sprite->load(layer, object);
-		objects.emplace_back(sprite);
 	}
 }
 
@@ -48,7 +46,10 @@ void ObjectLayer::loadTexture()
 
 void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
 {
-	auto it = std::find(objects.begin(), objects.end(), sprite);
+	auto it = std::find_if(objects.begin(), objects.end(), 
+		[sprite](const std::unique_ptr<ObjectSprite> &object)
+		{ return object.get() == sprite;});
+
 	if (it == objects.end())
 		throw;
 	
@@ -57,10 +58,10 @@ void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
 
 ObjectSprite *ObjectLayer::GetIntersectedObject(const GameObject& other)
 {
-	for (auto object : objects)
+	for (auto &object : objects)
 	{
 		if (object->Intersects(other))
-			return object;
+			return object.get();
 	}
 
 	return nullptr;

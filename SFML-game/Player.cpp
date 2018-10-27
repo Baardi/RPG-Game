@@ -70,7 +70,7 @@ void Player::HandleKeyInput(Map &map)
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory]))
 	{
 		State::PushChild<InventoryUI>(); // Inventory popup
-		State::SetInitializer(new InventoryInitializer(inventory));
+		State::SetInitializer<InventoryInitializer>(inventory);
 	}
 	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
 		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters

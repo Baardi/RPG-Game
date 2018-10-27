@@ -17,11 +17,11 @@ enum class Transition
 class Initializer
 {
 public:
-	Initializer() = default;
-	virtual ~Initializer() = default;
+	virtual ~Initializer() = 0;
 };
+inline Initializer::~Initializer() {}
 
-using TextureMap = std::map<std::string, sf::Texture*>;
+using TextureMap = std::map<std::string, sf::Texture>;
 
 // Class for storing and handling different states in the application
 class State
@@ -32,81 +32,66 @@ public:
 	// To be used from any Ui
 
 	// Sets a transition, to be done after current frame
-	template <class T>
+
 	static void Set(Transition transition)
 	{
 		Instance().transition = transition;
-		Instance().queuedState = new T;
+		Instance().queuedState.reset();
 	}
 	
-	static void Set(Transition transition, UI *state = nullptr)
+	static void Set(Transition transition, std::unique_ptr<UI> &&state)
 	{
-		Instance().transition = Transition::Push;
-		Instance().queuedState = state;
+		Instance().transition = transition;
+		Instance().queuedState = std::move(state);
 	}
 
 	template <class T>
 	static void Push()
 	{
-		Instance().transition = Transition::Push;
-		Instance().queuedState = new T;
-	}
-
-	static void Push(UI *state)
-	{
-		Instance().transition = Transition::Push;
-		Instance().queuedState = state;
-	}
-
-	template <class T>
-	static void Switch()
-	{
-		Instance().transition = Transition::Switch;
-		Instance().queuedState = new T;
-	}
-
-	static void Switch(UI *state)
-	{
-		Instance().transition = Transition::Switch;
-		Instance().queuedState = state;
-	}
-
-	template <class T>
-	static void Reset()
-	{
-		Instance().transition = Transition::Reset;
-		Instance().queuedState = new T;
-	}
-
-	static void Reset(UI *state)
-	{
-		Instance().transition = Transition::Reset;
-		Instance().queuedState = state;
+		Set(Transition::Push, std::make_unique<T>());
 	}
 
 	template <class T>
 	static void PushChild()
 	{
-		Instance().transition = Transition::Push;
-		Instance().queuedState = new T;
+		Push<T>();
 		Instance().queuedState->SetParent(GetUI());
 	}
 
-	static void PushChild(UI *state)
+	template <class T>
+	static void Switch()
 	{
-		Instance().transition = Transition::Push;
-		Instance().queuedState = state;
+		Set(Transition::Switch, std::make_unique<T>());
+	}
+
+	template <class T>
+	static void SwitchChild()
+	{
+		Switch<T>();
+		Instance().queuedState->SetParent(GetUI());
+	}
+
+	template <class T>
+	static void Reset()
+	{
+		Set(Transition::Reset, std::make_unique<T>());
+	}
+
+	template <class T>
+	static void ResetChild()
+	{
+		Reset<T>();
 		Instance().queuedState->SetParent(GetUI());
 	}
 
 	static void Pop()
 	{
-		Instance().transition = Transition::Pop;
+		Set(Transition::Pop);
 	}
 
 	static void Exit()
 	{
-		Instance().transition = Transition::Exit;
+		Set(Transition::Exit);
 	}
 
 	static bool IsRunning()
@@ -116,7 +101,7 @@ public:
 
 	static bool IsInTransition()
 	{
-		return bool(Instance().transition);
+		return static_cast<bool>(Instance().transition);
 	}
 
 	static int Size()
@@ -124,25 +109,28 @@ public:
 		return Instance().StateStack.size();
 	}
 
+	
+	template<class T, class... _Valty>
+	static void SetInitializer(_Valty&&... _Val)
+	{
+		Instance().initializer = std::make_unique<T>(
+			std::forward<_Valty>(_Val)...);
+	}
+
+	static void SetInitializer(std::unique_ptr<Initializer> &&initializer)
+	{
+		Instance().initializer = std::move(initializer);
+	}
+
 	template <class T>
 	static T *GetInitializer()
 	{
-		return dynamic_cast<T *>(Instance().initializer);
-	}
-
-	static void SetInitializer(Initializer *initializer)
-	{
-		// In case clearing is forgotten, don't create memory leaks
-		if (Instance().initializer)
-			delete Instance().initializer;
-
-		Instance().initializer = initializer;
+		return dynamic_cast<T *>(Instance().initializer.get());
 	}
 
 	static void ClearInitializer()
 	{
-		delete Instance().initializer;
-		Instance().initializer = nullptr;
+		Instance().initializer.reset();
 	}
 
 	static bool IsCurrent(UI *state)
@@ -177,7 +165,7 @@ protected:
 
 	static UI *GetUI()
 	{
-		return Instance().StateStack.back();
+		return Instance().StateStack.back().get();
 	}
 
 	// Completes a queued transition
@@ -212,14 +200,7 @@ private:
 	// Inner methods called by public and protected methods
 
 	State() = default;
-	~State()
-	{
-		if (initializer)
-			delete initializer;
-
-		for (auto &entry : textures)
-			delete entry.second;
-	}
+	~State() = default;
 
 	State(const State &) = delete;
 	State(State &&) = delete;
@@ -229,26 +210,21 @@ private:
 	void PushQueuedState()
 	{
 		queuedState->init();
-		StateStack.push_back(queuedState);
-		queuedState = nullptr;
+		StateStack.emplace_back(std::move(queuedState));
 	}
 	
 	void IPop()
 	{
-		delete StateStack.back();
 		StateStack.pop_back();
 	}
 
 	void IReset()
 	{
-		for (auto state : StateStack)
-			delete state;
-
 		StateStack.clear();
 	}
 
-	std::vector<UI*> StateStack;
-	UI *queuedState = nullptr;
+	std::vector<std::unique_ptr<UI>> StateStack;
+	std::unique_ptr<UI> queuedState;
 	Transition transition = Transition::None;
 
 	sf::RenderWindow *window;
@@ -256,5 +232,5 @@ private:
 	sf::Font *font;
 	
 	TextureMap textures;
-	Initializer *initializer = nullptr;
+	std::unique_ptr<Initializer> initializer;
 };

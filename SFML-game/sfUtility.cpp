@@ -33,7 +33,7 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 	return Color(red, green, blue, alpha);			// Construct the color
 }
 
-unsigned int sf::utility::parseTextStyle(Json::Value &value)
+unsigned int sf::utility::parseTextStyle(const Json::Value &value)
 {
 	// Todo: test possibility to throw if error
 

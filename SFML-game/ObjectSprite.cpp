@@ -84,14 +84,15 @@ void ObjectSprite::loadTexture()
 	sf::Texture *spriteTexture = tileSets[tileTextureValue];
 
 	// Check if theres animation
-	auto animationTile = animatedTiles[gid];
-	if (animationTile.empty())
+	auto it = animatedTiles.find(gid);
+	if (it == animatedTiles.end())
 	{
 		LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 	}
 	else 
 	{
 		// First animationtile decides first texturerect
+		auto &animationTile = it->second;
 		LoadSpriteTexture(*spriteTexture, animationTile[0].first);
 		LoadSpriteAnimation(*spriteTexture, animationTile);
 	}

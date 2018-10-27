@@ -18,8 +18,8 @@ InventoryUI::~InventoryUI()
 
 void InventoryUI::AddMenuSprite(const sf::Sprite& sprite)
 {
-	menusprites.emplace_back(sprite); // Yes I want a copy
-	menusprites.back().setPosition(x + 220, y + spacing * menusprites.size());
+	auto &addedSprite = menusprites.emplace_back(sprite); // Yes I want a copy
+	addedSprite.setPosition(x + 220, y + spacing * menusprites.size());
 }
 
 void InventoryUI::init()

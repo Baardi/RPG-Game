@@ -37,8 +37,6 @@ protected:
 
 	// arghelper
 private:
-	void makeRespondable(bool respondable) { this->respondable = respondable; }
-
 	bool respondable = true; // Maybe need a test to see if it's valid on ui creation
 	UI *parent = nullptr;
 	std::vector<UI *> drawStack;

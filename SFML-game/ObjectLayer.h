@@ -2,6 +2,15 @@
 #include "Layer.h"
 #include "ObjectSprite.h"
 
+template <class T>
+class uniquepointerFinder
+{
+	bool operator()(T *lhs, T *rhs) const
+	{
+		return lhs() < rhs.get();
+	}
+};
+
 class ObjectLayer : public Layer, public MapProperties
 {
 public:
@@ -15,7 +24,7 @@ public:
 	void RemoveSprite(ObjectSprite *sprite);
 	ObjectSprite *GetIntersectedObject(const GameObject &other);
 
-	std::vector<ObjectSprite *> objects;
+	std::vector<std::unique_ptr<ObjectSprite>> objects;
 
 	// todo std::map<int gid, ObjectSprite *>
 };

@@ -6,15 +6,11 @@
 
 Map::~Map()
 {
-	clear();
 }
 
 void Map::clear()
 {
-	for (auto object : layers)
-		delete object;
 	layers.clear();
-	
 	tileSets.clear();
 	objectMap.clear();
 	tileMap.clear();
@@ -80,30 +76,30 @@ std::filesystem::path Map::GetPathProperty(const std::string &propertyName) cons
 
 void Map::loadLayer(Json::Value& layer)
 {
-	TileLayer *tmp = new TileLayer(tileSize, tileSets, animatedTiles, clock); // TileLayer needs a reference to the active tilesets
-
 	// Store info on layer
-	tmp->load(layer);
+	auto tmp = static_cast<TileLayer *>(layers.emplace_back(
+		std::make_unique<TileLayer>(tileSize, tileSets, animatedTiles, clock))
+		.get());				   // vector, so the order is kept
 
-	layers.push_back(tmp);				   // vector, so the order is kept
+	tmp->load(layer);
 	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
 
 void Map::loadObjects(Json::Value& layer)
 {
-	ObjectLayer *objectLayer = new ObjectLayer(tileSize, tileSets, animatedTiles);
+	auto objectLayer = static_cast<ObjectLayer *>(layers.emplace_back(
+		std::make_unique<ObjectLayer>(tileSize, tileSets, animatedTiles))
+		.get());
 	
 	// Store info on layer
 	objectLayer->load(layer, clock);
-
-	layers.push_back(objectLayer);
 	objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 
 void Map::draw(sf::RenderWindow &window)
 {
-	for (auto layer : layers)
-		drawLayer(window, layer);
+	for (auto &layer : layers)
+		drawLayer(window, layer.get());
 }
 
 void Map::drawLayer(sf::RenderWindow& window, Layer* layer)
@@ -118,7 +114,7 @@ void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawTy
 {
 	bool isDrawing = drawType == DrawType::Back;
 
-	for (auto layer : layers)
+	for (auto &layer : layers)
 	{
 		if (layer->name == byLayer)
 		{
@@ -130,7 +126,7 @@ void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawTy
 		}
 
 		if (isDrawing)
-			drawLayer(window, layer);
+			drawLayer(window, layer.get());
 	}
 }
 
@@ -172,13 +168,16 @@ void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the
 
 		if (it == textures.end())
 		{
-			sf::Texture *tileSet = new sf::Texture();
-			tileSet->loadFromFile(image.string());
-			textures.try_emplace(image.string(), tileSet);
-			tileSets.try_emplace(firstgid, tileSet);
+			auto inserted = textures.try_emplace(image.string(), sf::Texture());
+			if (inserted.second) // Whether it succeeded
+			{
+				sf::Texture &tileSet = inserted.first->second;
+				tileSet.loadFromFile(image.string());
+				tileSets.try_emplace(firstgid, &tileSet);
+			}
 		}
 		else
-			tileSets.try_emplace(firstgid, it->second);
+			tileSets.try_emplace(firstgid, &it->second);
 		
 		loadAnimatedTiles(firstgid, val["tiles"]);
 	}
