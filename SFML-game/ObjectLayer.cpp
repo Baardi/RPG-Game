@@ -32,10 +32,8 @@ void ObjectLayer::process()
 void ObjectLayer::draw(sf::RenderWindow& window)
 {
 	for (auto &object : objects)
-	{
 		if (object->visible)
 			object->draw(window);
-	}
 }
 
 void ObjectLayer::loadTexture()
@@ -47,8 +45,7 @@ void ObjectLayer::loadTexture()
 void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
 {
 	auto it = std::find_if(objects.begin(), objects.end(), 
-		[sprite](const std::unique_ptr<ObjectSprite> &object)
-		{ return object.get() == sprite;});
+		[sprite](auto &object) { return object.get() == sprite;});
 
 	if (it == objects.end())
 		throw;

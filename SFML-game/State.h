@@ -45,42 +45,45 @@ public:
 		Instance().queuedState = std::move(state);
 	}
 
-	template <class T>
-	static void Push()
+	template<class T, class... _Valty>
+	static void Push(_Valty&&... _Val)
 	{
-		Set(Transition::Push, std::make_unique<T>());
+		Set(Transition::Push, std::make_unique<T>(
+			std::forward<_Valty>(_Val)...));
 	}
 
-	template <class T>
-	static void PushChild()
+	template<class T, class... _Valty>
+	static void PushChild(_Valty&&... _Val)
 	{
-		Push<T>();
+		Push<T>(std::forward<_Valty>(_Val)...);
 		Instance().queuedState->SetParent(GetUI());
 	}
 
-	template <class T>
-	static void Switch()
+	template<class T, class... _Valty>
+	static void Switch(_Valty&&... _Val)
 	{
-		Set(Transition::Switch, std::make_unique<T>());
+		Set(Transition::Switch, std::make_unique<T>(
+			std::forward<_Valty>(_Val)...));
 	}
 
-	template <class T>
-	static void SwitchChild()
+	template<class T, class... _Valty>
+	static void SwitchChild(_Valty&&... _Val)
 	{
-		Switch<T>();
+		Switch<T>(std::forward<_Valty>(_Val)...);
 		Instance().queuedState->SetParent(GetUI());
 	}
 
-	template <class T>
-	static void Reset()
+	template<class T, class... _Valty>
+	static void Reset(_Valty&&... _Val)
 	{
-		Set(Transition::Reset, std::make_unique<T>());
+		Set(Transition::Reset, std::make_unique<T>(
+			std::forward<_Valty>(_Val)...));
 	}
 
-	template <class T>
-	static void ResetChild()
+	template<class T, class... _Valty>
+	static void ResetChild(_Valty&&... _Val)
 	{
-		Reset<T>();
+		Reset<T>(std::forward<_Valty>(_Val)...);
 		Instance().queuedState->SetParent(GetUI());
 	}
 

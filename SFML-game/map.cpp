@@ -49,15 +49,16 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	height = root["height"].asInt();
 
 	loadTileSets(root, textures);
+
 	LoadProperties(root);
 
 	// Read in each layer
 	for (Json::Value& layer: root["layers"])
 	{
-		if (layer["type"].asString() == "tilelayer")
+		if (layer["type"] == "tilelayer")
 			loadLayer(layer);
 		
-		else if (layer["type"].asString() == "objectgroup")
+		else if (layer["type"] == "objectgroup")
 			loadObjects(layer);
 	}
 

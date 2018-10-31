@@ -34,9 +34,16 @@ void App::run()
 
 bool App::frame()
 {
-	// Todo cooldown for keypress when switching state	
+	// Todo cooldown for keypress when switching state
+	
+	sftools::Chronometer clock;
+	clock.reset(true);
+
 	if (State::IsInTransition())
+	{
 		State::PerformTransition();
+		std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+	}
 
 	if (!State::IsRunning())
 		return false;
