@@ -38,6 +38,7 @@ bool App::frame()
 	
 	sftools::Chronometer clock;
 	clock.reset(true);
+	
 
 	if (State::IsInTransition())
 	{

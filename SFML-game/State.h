@@ -95,6 +95,7 @@ public:
 	static void Exit()
 	{
 		Set(Transition::Exit);
+		Instance().window->close();
 	}
 
 	static bool IsRunning()
@@ -120,9 +121,11 @@ public:
 			std::forward<_Valty>(_Val)...);
 	}
 
-	static void SetInitializer(std::unique_ptr<Initializer> &&initializer)
+	template<class T>
+	static void SetInitializer(T&& initializer)
 	{
-		Instance().initializer = std::move(initializer);
+		Instance().initializer = std::make_unique<T>(
+			std::forward<T>(initializer));
 	}
 
 	template <class T>
@@ -168,7 +171,7 @@ protected:
 
 	static UI *GetUI()
 	{
-		return Instance().StateStack.back().get();
+		return Instance().currentUi;
 	}
 
 	// Completes a queued transition
@@ -189,6 +192,8 @@ protected:
 
 		if (Instance().queuedState)
 			Instance().PushQueuedState();
+
+		Instance().currentUi = Instance().StateStack.back().get();
 
 		if (IsRunning())
 			GetUI()->setDrawOrder();
@@ -228,12 +233,13 @@ private:
 
 	std::vector<std::unique_ptr<UI>> StateStack;
 	std::unique_ptr<UI> queuedState;
+	UI *currentUi = nullptr;
 	Transition transition = Transition::None;
 
 	sf::RenderWindow *window;
 	sf::Event *event;
 	sf::Font *font;
-	
+
 	TextureMap textures;
 	std::unique_ptr<Initializer> initializer;
 };

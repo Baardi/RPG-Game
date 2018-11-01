@@ -88,13 +88,13 @@ void Map::loadLayer(Json::Value& layer)
 
 void Map::loadObjects(Json::Value& layer)
 {
+	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(layers.emplace_back(
 		std::make_unique<ObjectLayer>(tileSize, tileSets, animatedTiles))
-		.get());
+		.get());				   // vector, so the order is kept
 	
-	// Store info on layer
 	objectLayer->load(layer, clock);
-	objectMap.try_emplace(objectLayer->name, objectLayer);
+	objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
 }
 
 void Map::draw(sf::RenderWindow &window)
