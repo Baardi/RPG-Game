@@ -2,15 +2,6 @@
 #include "Music.hpp"
 #include <iostream>
 
-Music::Music()
-{
-}
-
-
-Music::~Music()
-{
-}
-
 bool Music::load(const std::filesystem::path &file)
 {
 	m_music.setLoop(true);

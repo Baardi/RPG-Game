@@ -1,17 +1,14 @@
 #pragma once
-
-#include <optional>
 #include <filesystem>
 
 class Music
+{
 /**
 * Wrapper for sf::Music class
 */
-
-{
 public:
-	Music();
-	~Music();
+	Music() = default;
+	~Music() = default;
 
 	bool load(const std::filesystem::path &file);
 	void play();
