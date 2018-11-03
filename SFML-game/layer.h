@@ -37,7 +37,7 @@ public:
 	virtual ~Layer() = default;
 	
 	virtual void process() {}
-	virtual void draw(sf::RenderWindow& window) {}
+	virtual void draw(sf::RenderTarget& window) {}
 	virtual void loadTexture() {}
 
 	std::string name;

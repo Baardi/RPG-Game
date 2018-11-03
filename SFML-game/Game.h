@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "KeyMapper.h"
 #include "IntersectionHandler.h"
+#include "Music.hpp"
 
 class GameInitializer : public Initializer
 {
@@ -29,14 +30,12 @@ public:
 	//void toggle() override;
 	void draw() override;
 
-	void mute();
-
 private:
 	//Functions
 	void HandleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
 	void HandleEntranceIntersections(ObjectLayer *layer, ObjectSprite *entrance);
-	void LoadMusic(const Map& map);
-	void LoadProperties(const Map &map);
+	void LoadMusic(const MapProperties &map, Music &music);
+	void LoadProperties(const MapProperties &map);
 	//int framespertick = 0; // <-- Used for measuring performance
 
 	//Class object (should be) initialized by App
@@ -46,9 +45,9 @@ private:
 	Player player;
 
 	std::map<std::string, TileLayer*> layerMap;
-
 	//std::map<int, ObjectLayer*> spriteMap; todo: group "sub"-layers
-	std::optional<sf::Music> music;
+
+	Music m_music;
 
 	sf::Text pauseText;
 	Map map;

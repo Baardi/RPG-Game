@@ -193,13 +193,13 @@ protected:
 		if (Instance().queuedState)
 			Instance().PushQueuedState();
 
-		Instance().currentUi = Instance().StateStack.back().get();
-
 		if (IsRunning())
+		{
+			Instance().currentUi = Instance().StateStack.back().get();
 			GetUI()->setDrawOrder();
-
-		if (IsRunning())
 			GetUI()->resume();
+		}
+
 
 		std::cout << std::to_string(Size()) << std::endl;
 	}

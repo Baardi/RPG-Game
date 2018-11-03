@@ -73,19 +73,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(SolutionDir)/SFML-game/libs/fmt-master/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(SolutionDir)/SFML-game/libs/fmt-master/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(SolutionDir)/SFML-game/libs/fmt-master/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/SFML-game/libs/json;$(SolutionDir)/SFML-game/libs/fmt-master/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -176,9 +176,11 @@
     <ClInclude Include="KeyMapper.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MapProperties.h" />
+    <ClInclude Include="Music.hpp" />
     <ClInclude Include="ObjectSprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopupMenu.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="map.h" />
@@ -211,6 +213,7 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MapProperties.cpp" />
+    <ClCompile Include="Music.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />

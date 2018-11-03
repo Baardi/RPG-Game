@@ -29,7 +29,7 @@ void ObjectLayer::process()
 		object->process();
 }
 
-void ObjectLayer::draw(sf::RenderWindow& window)
+void ObjectLayer::draw(sf::RenderTarget& window)
 {
 	for (auto &object : objects)
 		if (object->visible)

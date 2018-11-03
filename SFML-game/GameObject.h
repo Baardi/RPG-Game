@@ -12,5 +12,5 @@ public:
 
 	//possibly implement later, if decided to be useful
 	virtual void SetPosition(double x, double y) {}
-	virtual void draw(sf::RenderWindow &window) {}
+	virtual void draw(sf::RenderTarget &window) {}
 };

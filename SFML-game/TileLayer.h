@@ -10,7 +10,7 @@ public:
 	~TileLayer();
 
 	void load(Json::Value& layer);
-	void draw(sf::RenderWindow& window) override;
+	void draw(sf::RenderTarget& window) override;
 	void process() override;
 
 	// Safe to use from map, safe in case of breaking the bounds of the layer array

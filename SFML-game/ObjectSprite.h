@@ -14,7 +14,7 @@ public:
 	void load(Json::Value &layer, Json::Value &object);
 	void loadText(Json::Value &textValue);
 	void process() override;
-	void draw(sf::RenderWindow& window) override;
+	void draw(sf::RenderTarget& window) override;
 	void loadTexture() override;
 
 	sf::DoubleRect GetGlobalBounds() const override;

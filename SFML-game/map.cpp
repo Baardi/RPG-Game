@@ -70,9 +70,12 @@ bool Map::loadRelative(const std::filesystem::path& filename, TextureMap &textur
 	return load(std::filesystem::canonical(currentPath / filename), textures);
 }
 
-std::filesystem::path Map::GetPathProperty(const std::string &propertyName) const
+bool Map::GetPathProperty(const std::string &propertyName, std::filesystem::path &property) const
 {
-	return std::filesystem::canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
+	if (!GetProperty<std::filesystem::path>(propertyName, property))
+		return false;
+		
+	property = std::filesystem::canonical(currentPath / property);
 }
 
 void Map::loadLayer(Json::Value& layer)
@@ -97,13 +100,13 @@ void Map::loadObjects(Json::Value& layer)
 	objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::draw(sf::RenderWindow &window)
+void Map::draw(sf::RenderTarget &window)
 {
 	for (auto &layer : layers)
 		drawLayer(window, layer.get());
 }
 
-void Map::drawLayer(sf::RenderWindow& window, Layer* layer)
+void Map::drawLayer(sf::RenderTarget& window, Layer* layer)
 {
 	layer->process();
 
@@ -111,7 +114,7 @@ void Map::drawLayer(sf::RenderWindow& window, Layer* layer)
 		layer->draw(window);
 }
 
-void Map::splitDraw(sf::RenderWindow &window, const std::string& byLayer, DrawType drawType)
+void Map::splitDraw(sf::RenderTarget &window, const std::string& byLayer, DrawType drawType)
 {
 	bool isDrawing = drawType == DrawType::Back;
 

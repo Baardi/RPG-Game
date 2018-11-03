@@ -19,7 +19,7 @@ public:
 
 	void load(Json::Value &layer, sftools::Chronometer &clock);
 	void process() override;
-	void draw(sf::RenderWindow& window) override;
+	void draw(sf::RenderTarget& window) override;
 	void loadTexture() override;
 	void RemoveSprite(ObjectSprite *sprite);
 	ObjectSprite *GetIntersectedObject(const GameObject &other);

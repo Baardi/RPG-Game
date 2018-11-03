@@ -18,13 +18,12 @@ Game::~Game()
 void Game::init()
 {
 	UI::init();
-
 	keyMapper.AddActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
-	keyMapper.AddActionKey(sf::Keyboard::Key::M,      ControlKey::Yes, std::bind(&Game::mute, this));
+	keyMapper.AddActionKey(sf::Keyboard::Key::M,      ControlKey::Yes, std::bind(&Music::toggle, &m_music));
 
 	intersectionHandler.Register("Entrance", std::bind(&Game::HandleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	intersectionHandler.Register("Items",    std::bind(&Game::HandleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
@@ -53,10 +52,7 @@ bool Game::frame()
 void Game::pause()
 {
 	UI::pause();
-
-	if (music)
-		music->pause();
-
+	m_music.pause();
 	map.pause();
 	clock.pause();
 }
@@ -64,10 +60,7 @@ void Game::pause()
 void Game::resume()
 {
 	UI::resume();
-
-	if (music)
-		music->play();
-	
+	m_music.play();
 	map.resume();
 	clock.resume();
 }
@@ -82,36 +75,16 @@ void Game::draw()
 		window.draw(pauseText);
 }
 
-void Game::mute()
+void Game::LoadProperties(const MapProperties &properties)
 {
-	if (!music || paused)
-		return;
-
-	if (music->getStatus() == sf::SoundSource::Playing)
-		music->pause();
-	else
-		music->play();
+	LoadMusic(properties, m_music);
 }
 
-void Game::LoadProperties(const Map &map)
+void Game::LoadMusic(const MapProperties &properties, Music &music)
 {
-	LoadMusic(map);
-}
-
-void Game::LoadMusic(const Map &map)
-{
-	if (!music)
-		music.emplace();
-	music->setLoop(true);
-	
 	std::filesystem::path musicFile;
-	if (map.ContainsProperty("Music"))
-		musicFile = map.GetPathProperty("Music");
-
-	if (musicFile.has_filename() && music->openFromFile(musicFile.string()))
-		music->play();
-	else
-		music.reset();
+	if (properties.GetProperty("Music", musicFile));
+		music.load(map.GetPath() / musicFile);
 }
 
 void Game::HandleItemIntersections(ObjectLayer* layer, ObjectSprite* item)

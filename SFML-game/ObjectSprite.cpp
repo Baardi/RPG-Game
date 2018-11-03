@@ -64,7 +64,7 @@ void ObjectSprite::process()
 		ProcessAnimation(sprite, animationTileInfo, clock);
 }
 
-void ObjectSprite::draw(sf::RenderWindow &window)
+void ObjectSprite::draw(sf::RenderTarget &window)
 {
 	if (gid) 
 		window.draw(sprite);

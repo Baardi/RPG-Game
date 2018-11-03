@@ -55,7 +55,7 @@ void TileLayer::process()
 	}
 }
 
-void TileLayer::draw(sf::RenderWindow& window)
+void TileLayer::draw(sf::RenderTarget& window)
 {
 	// Render each tile
 	for (int y = 0; y < height; y++)
