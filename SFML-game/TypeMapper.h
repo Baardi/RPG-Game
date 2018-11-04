@@ -1,5 +1,7 @@
 #pragma once
 
+// TODO: Replace this by not using macros
+
 class Object;
 class ObjectFactory
 {

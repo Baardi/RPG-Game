@@ -1,20 +1,22 @@
 #pragma once
-
 #include "TileLayer.h"
-class GameItem
+#include "TypeMapper.h"
+
+class GameItem : public Object
 {
 public:
-	GameItem(int gid, const std::string &name);
-	~GameItem();
+	GameItem() = default;
+	GameItem(int gid, const std::string &name, const sf::Sprite &sprite);
+	~GameItem() = default;
 
-	void SetSprite(sf::Sprite &sprite);
+	void vSet(int gid, const std::string &name, const sf::Sprite &sprite);
+
 	const std::string& name() const { return m_name; }
 	int gid() const { return m_gid; }
-	const sf::Sprite const &Sprite() const { return m_sprite; }
+	const sf::Sprite &sprite() const { return m_sprite; }
 	
 private:
 	sf::Sprite m_sprite;
 	int m_gid;
 	std::string m_name;
 };
-

@@ -31,10 +31,10 @@ void InventoryUI::init()
 		throw;
 
 	inventory = &inventoryInitializer->inventory;
-	for (auto item : inventory->Items())
+	for (auto &item : inventory->Items())
 	{
 		AddMenuItem(item.first->name() + "  x" + std::to_string(item.second));
-		AddMenuSprite(item.first->Sprite());
+		AddMenuSprite(item.first->sprite());
 	}
 }
 

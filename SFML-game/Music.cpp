@@ -2,59 +2,79 @@
 #include "Music.hpp"
 #include <iostream>
 
-bool Music::load(const std::filesystem::path &file)
+Music::Music()
 {
 	m_music.setLoop(true);
-	
+}
+
+bool Music::load(const std::filesystem::path &file)
+{	
 	if (file.has_filename() && m_music.openFromFile(file.string()))
 	{
+		m_currentFile = std::filesystem::canonical(file);
 		play();
-		m_current_file = std::filesystem::canonical(file);
 	}
 	else
 	{
 		reset();
 	}
 
-	return m_current_file != "";
+	return m_currentFile != "";
 }
 
 void Music::play()
 {
-	if (!m_muted)
+	if (m_currentFile != "")
 		m_music.play();
 }
 
 void Music::pause()
 {
-	m_music.pause();
+	if (m_currentFile != "")
+		m_music.pause();
 }
 
 void Music::stop()
 {
-	m_music.stop();
+	if (m_currentFile != "")
+		m_music.stop();
 }
 
 void Music::reset()
 {
-	m_music.openFromFile("");
-	m_current_file = "";
+	stop();
+	m_currentFile = "";
 }
 
 void Music::mute()
 {
 	m_muted = true;
-	pause();
+	m_music.setVolume(0);
 }
 
 void Music::unmute()
 {
 	m_muted = false;
-	play();
+	m_music.setVolume(m_volume);
 }
 
 void Music::toggle()
 {
 	m_muted ? unmute() : mute();
+}
+
+void Music::incVolume()
+{
+	m_music.setVolume(++m_volume);
+}
+
+void Music::decVolume()
+{
+	m_music.setVolume(--m_volume);
+}
+
+void Music::setVolume(double volume)
+{
+	m_music.setVolume(m_volume = volume);
 }
 

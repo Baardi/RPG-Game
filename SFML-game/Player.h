@@ -1,12 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "Character.hpp"
 #include "Inventory.h"
 #include "ObjectSprite.h"
 
-
 class Map;
 
-class Player : public GameObject
+class Player : public Character
 {
 public:
 enum class Dir

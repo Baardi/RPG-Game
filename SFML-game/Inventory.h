@@ -5,13 +5,13 @@
 class Inventory
 {
 public:
-	Inventory();
-	~Inventory();
+	Inventory() = default;
+	~Inventory() = default;
 
 	void AddItem(ObjectSprite *sprite);
-	auto Items() const { return items; }
+	const auto &Items() const { return items; }
 
 private:
-	std::vector<std::pair<GameItem *, int>> items;
+	std::vector<std::pair<std::unique_ptr<GameItem>, int>> items;
 };
 

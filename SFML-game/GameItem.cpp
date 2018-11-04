@@ -2,17 +2,15 @@
 #include "GameItem.h"
 
 
-GameItem::GameItem(int gid, const std::string &name)
-{
-	m_name = name;
+GameItem::GameItem(int gid, const std::string &name, const sf::Sprite &sprite) :
+	m_name(name),
+	m_gid(gid),
+	m_sprite(sprite)
+{}
+
+void GameItem::vSet(int gid, const std::string & name, const sf::Sprite &sprite) 
+{ 
 	m_gid = gid;
-}
-
-GameItem::~GameItem()
-{
-}
-
-void GameItem::SetSprite(sf::Sprite &sprite)
-{
+	m_name = name; 
 	m_sprite = sprite;
 }

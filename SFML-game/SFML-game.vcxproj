@@ -165,8 +165,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Character.hpp" />
     <ClInclude Include="DerivedTest.h" />
     <ClInclude Include="DialogInterface.h" />
+    <ClInclude Include="Equipment.hpp" />
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePopupMenu.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopupMenu.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="StatsInterface.hpp" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="map.h" />
@@ -193,11 +196,15 @@
     <ClInclude Include="TypeMapper.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="sfUtility.h" />
+    <ClInclude Include="Valuable.hpp" />
+    <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="DerivedTest.cpp" />
     <ClCompile Include="DialogInterface.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePopupMenu.cpp" />
@@ -217,6 +224,7 @@
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />
+    <ClCompile Include="StatsInterface.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="map.cpp" />
@@ -232,6 +240,8 @@
     </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="sfUtility.cpp" />
+    <ClCompile Include="Valuable.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

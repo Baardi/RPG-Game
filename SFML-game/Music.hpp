@@ -7,7 +7,7 @@ class Music
 * Wrapper for sf::Music class
 */
 public:
-	Music() = default;
+	Music();
 	~Music() = default;
 
 	bool load(const std::filesystem::path &file);
@@ -19,12 +19,17 @@ public:
 	void unmute();
 	void toggle();
 	
-	auto current_file() const { return m_current_file; }
+	auto currentFile() const { return m_currentFile; }
 	auto muted() const { return m_muted; }
 
+	auto volume() const { return m_volume; }
+	void incVolume();
+	void decVolume();
+	void setVolume(double volume);
+
 private:
-	std::filesystem::path m_current_file;
+	double m_volume = 100;
+	std::filesystem::path m_currentFile;
 	sf::Music m_music;
 	bool m_muted;
 };
-

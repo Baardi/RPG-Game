@@ -42,8 +42,10 @@ public:
 
 	std::string name;
 	bool visible;
-protected:
+	std::string type;
+	float opacity;
 
+protected:
 	// Calculate x and y position of given tile in the texture
 	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const;
 	int GetTextureIndex(int tileValue) const;
@@ -52,9 +54,6 @@ protected:
 	const TileSize &tileSize;
 	std::map<int, sf::Texture *> &tileSets;
 	AnimationTileMap &animatedTiles;
-
-	std::string type;
-	float opacity;
 };
 
 void g_getTileCoords(sf::Texture *texture, int tile, int& x, int& y, const TileSize tileSize);

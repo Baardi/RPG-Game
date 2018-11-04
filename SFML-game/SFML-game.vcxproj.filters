@@ -19,6 +19,9 @@
     <Filter Include="App">
       <UniqueIdentifier>{ec2bc23f-7f31-4107-b24a-8c613026ace3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameItems">
+      <UniqueIdentifier>{767dd525-d93b-4bf9-a7bd-6e24ffa26dfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -78,9 +81,6 @@
     <ClInclude Include="Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DialogInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,6 +107,24 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatsInterface.hpp">
+      <Filter>GameItems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameItem.h">
+      <Filter>GameItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.hpp">
+      <Filter>GameItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment.hpp">
+      <Filter>GameItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Valuable.hpp">
+      <Filter>GameItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +185,6 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DialogInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -190,6 +205,24 @@
     </ClCompile>
     <ClCompile Include="Music.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Valuable.cpp">
+      <Filter>GameItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>GameItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment.cpp">
+      <Filter>GameItems</Filter>
+    </ClCompile>
+    <ClCompile Include="GameItem.cpp">
+      <Filter>GameItems</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsInterface.cpp">
+      <Filter>GameItems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,24 +5,6 @@
 #include "InventoryUI.h"
 #include "DialogInterface.h"
 
-#define FMT_HEADER_ONLY
-#include <fmt/printf.h>
-
-template< class... Args>
-std::string SBprintf_safe(const std::string &format, Args&&... args)
-{
-	std::string result;
-	try
-	{
-		result = fmt::sprintf(format, std::forward<Args>(args)...);
-	}
-	catch (fmt::format_error e)
-	{
-		result = format;
-	}
-	return result;
-}
-
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
 	texture.loadFromFile("data/Player Sprites/Warrior.png");
@@ -43,14 +25,6 @@ Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 	actionMap.emplace(Action::Talk,			sf::Keyboard::Key::T);
 	
 	Player::SetPosition(x, y);
-	
-	std::string a = "%s";
-	std::string b = "yolo";
-	long long s = 456456454;
-	
-	std::string g = "%s hey %s yoloswagging %d";
-	std::string f = SBprintf_safe(g, a, b, s);
-	
 }
 
 Player::~Player()

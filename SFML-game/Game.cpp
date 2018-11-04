@@ -23,8 +23,12 @@ void Game::init()
 	keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
 	keyMapper.AddActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
-	keyMapper.AddActionKey(sf::Keyboard::Key::M,      ControlKey::Yes, std::bind(&Music::toggle, &m_music));
 
+	keyMapper.AddActionKey(sf::Keyboard::Key::M,		ControlKey::Yes, std::bind(&Music::toggle,    &m_music));
+	keyMapper.AddActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  std::bind(&Music::incVolume, &m_music));
+	keyMapper.AddActionKey(sf::Keyboard::Key::Subtract, ControlKey::No,  std::bind(&Music::decVolume, &m_music));
+
+	
 	intersectionHandler.Register("Entrance", std::bind(&Game::HandleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	intersectionHandler.Register("Items",    std::bind(&Game::HandleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	
