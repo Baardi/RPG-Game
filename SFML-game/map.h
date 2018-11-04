@@ -18,7 +18,7 @@ public:
 	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
 	bool loadRelative(const std::filesystem::path &filename, TextureMap &textures);
 	auto GetPath() const { return currentPath; }
-	bool GetPathProperty(const std::string &propertyName, std::filesystem::path &property) const;
+	bool GetPathProperty(const std::string &propertyName, std::filesystem::path *property) const;
 	void draw(sf::RenderTarget &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
 	static void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window

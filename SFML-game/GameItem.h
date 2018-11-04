@@ -7,9 +7,10 @@ class GameItem : public Object
 public:
 	GameItem() = default;
 	GameItem(int gid, const std::string &name, const sf::Sprite &sprite);
-	~GameItem() = default;
+	virtual ~GameItem() = default;
 
 	void vSet(int gid, const std::string &name, const sf::Sprite &sprite);
+	virtual void applyProperties(const MapProperties &properties) = 0;
 
 	const std::string& name() const { return m_name; }
 	int gid() const { return m_gid; }

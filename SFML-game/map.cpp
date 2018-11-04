@@ -70,12 +70,13 @@ bool Map::loadRelative(const std::filesystem::path& filename, TextureMap &textur
 	return load(std::filesystem::canonical(currentPath / filename), textures);
 }
 
-bool Map::GetPathProperty(const std::string &propertyName, std::filesystem::path &property) const
+bool Map::GetPathProperty(const std::string &propertyName, std::filesystem::path *property) const
 {
-	if (!GetProperty<std::filesystem::path>(propertyName, property))
+	if (!GetProperty(propertyName, property))
 		return false;
 		
-	property = std::filesystem::canonical(currentPath / property);
+	*property = std::filesystem::canonical(currentPath / *property);
+	return true;
 }
 
 void Map::loadLayer(Json::Value& layer)

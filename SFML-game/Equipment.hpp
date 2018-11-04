@@ -9,6 +9,8 @@ public:
 	Equipment(int gid, const std::string &name, const sf::Sprite &sprite);
 	virtual ~Equipment() = default;
 
+	void applyProperties(const MapProperties &properties) override;
+
 protected:
 	Stats m_stats;
 };

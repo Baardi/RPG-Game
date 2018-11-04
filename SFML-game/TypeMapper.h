@@ -21,7 +21,6 @@ public:
 		return getMap().find(name) != getMap().end();
 	}
 
-	// Used by macro MAKE_INSTANCE
 	template <class T>
 	static T *create(const std::string &name)
 	{
@@ -63,7 +62,6 @@ private:
 	}
 };
 
-#define MAKE_INSTANCE(val, D) Object::create<D>(##val)
 #define REGISTER_TYPE(klass) \
     class klass##Factory : public ObjectFactory { \
     public: \

@@ -16,11 +16,9 @@ void Inventory::AddItem(ObjectSprite *sprite)
 	
 	if (!itemFound)
 	{
-		GameItem *item = MAKE_INSTANCE(sprite->type, GameItem);
-		if (item)
-		{
-			item->vSet(sprite->gid, sprite->name, sprite->sprite);
-			items.emplace_back(item, 1);
-		}
+		auto item = Object::create<GameItem>(sprite->type);
+		item->vSet(sprite->gid, sprite->name, sprite->sprite);
+		item->applyProperties(*sprite);
+		items.emplace_back(item, 1);
 	}
 }

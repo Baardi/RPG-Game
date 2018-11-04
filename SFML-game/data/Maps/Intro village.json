@@ -146,6 +146,14 @@
                  "height":32,
                  "id":129,
                  "name":"Stick",
+                 "properties":
+                    {
+                     "Attack":10
+                    },
+                 "propertytypes":
+                    {
+                     "Attack":"int"
+                    },
                  "rotation":0,
                  "type":"Weapon",
                  "visible":true,

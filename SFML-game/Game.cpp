@@ -87,7 +87,7 @@ void Game::LoadProperties(const MapProperties &properties)
 void Game::LoadMusic(const MapProperties &properties, Music &music)
 {
 	std::filesystem::path musicFile;
-	if (properties.GetProperty("Music", musicFile))
+	if (properties.GetProperty("Music", &musicFile))
 		music.load(map.GetPath() / musicFile);
 	else
 		music.reset();

@@ -1,17 +1,10 @@
 #pragma once
-
-struct Stats
-{
-	int HP;
-	int Attack;
-	int Defense;
-};
+#include "Stats.hpp"
 
 class StatsInterface
 {
 public:
-	StatsInterface();
-	virtual ~StatsInterface();
+	StatsInterface() = default;
+	virtual ~StatsInterface() = default;
 	Stats m_stats;
 };
-

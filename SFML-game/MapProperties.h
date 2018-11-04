@@ -8,7 +8,7 @@ public:
 	virtual ~MapProperties() {}
 	
 	template <class T>
-	bool GetProperty(const std::string &propertyName, T &property) const
+	bool GetProperty(const std::string &propertyName, T *property) const
 	{
 		auto it = propertyMap.find(propertyName);
 		if (it == propertyMap.end())
@@ -17,8 +17,8 @@ public:
 		const T *castedValue = std::any_cast<T>(&it->second);
 		if (!castedValue)
 			return false;
-
-		property = *castedValue;
+		
+		*property = *castedValue;
 		return true;
 	}
 

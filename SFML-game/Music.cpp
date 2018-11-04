@@ -49,13 +49,13 @@ void Music::reset()
 void Music::mute()
 {
 	m_muted = true;
-	m_music.setVolume(0);
+	m_music.setVolume(0.0);
 }
 
 void Music::unmute()
 {
 	m_muted = false;
-	m_music.setVolume(m_volume);
+	m_music.setVolume(static_cast<float>(m_volume));
 }
 
 void Music::toggle()
@@ -65,16 +65,19 @@ void Music::toggle()
 
 void Music::incVolume()
 {
-	m_music.setVolume(++m_volume);
+	if (m_volume < 100.0)
+		m_music.setVolume(static_cast<float>(++m_volume));
 }
 
 void Music::decVolume()
 {
-	m_music.setVolume(--m_volume);
+	if (m_volume > 0.0)
+		m_music.setVolume(static_cast<float>(--m_volume));
 }
 
 void Music::setVolume(double volume)
 {
-	m_music.setVolume(m_volume = volume);
+	if (volume >= 0.0 && volume <= 100.0)
+		m_music.setVolume(static_cast<float>(m_volume = volume));
 }
 
