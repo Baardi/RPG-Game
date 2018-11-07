@@ -27,10 +27,10 @@ public:
 	void SetParent(UI *parent) { this->parent = parent; } // To stack Ui's upon each other
 	UI *GetParent() const { return parent; }
 
+protected:
 	bool paused = false;
 	bool pausable = true;
 
-protected:
 	sf::RenderWindow &window;
 	sf::Event &event;
 	sf::Font font;

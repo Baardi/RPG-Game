@@ -17,7 +17,7 @@ public:
 	ObjectLayer(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
 	~ObjectLayer();
 
-	void load(Json::Value &layer, sftools::Chronometer &clock);
+	void load(const Json::Value &layer, sftools::Chronometer &clock);
 	void process() override;
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture() override;

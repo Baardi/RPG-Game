@@ -155,9 +155,6 @@
     <ClCompile Include="ObjectLayer.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="libs\json\jsoncpp.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -238,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="StatsInterface.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\json\jsoncpp.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

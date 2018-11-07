@@ -9,7 +9,7 @@ public:
 	TileLayer(const TileSize& tileSize, std::map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sftools::Chronometer &clock);
 	~TileLayer();
 
-	void load(Json::Value& layer);
+	void load(const Json::Value& layer);
 	void draw(sf::RenderTarget& window) override;
 	void process() override;
 

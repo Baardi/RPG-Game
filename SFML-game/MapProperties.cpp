@@ -3,11 +3,11 @@
 #include "sfutility.h"
 #include <filesystem>
 
-void MapProperties::LoadProperties(Json::Value &object)
+void MapProperties::LoadProperties(const Json::Value &object)
 {
 	auto &propertytypes = object["propertytypes"];
 	auto &properties = object["properties"];
-	for (Json::ValueIterator it = properties.begin(); it != properties.end(); ++it)
+	for (auto it = properties.begin(); it != properties.end(); ++it)
 	{
 		auto propertyName = it.key().asString();
 		auto propertyType = propertytypes[propertyName].asString();

@@ -22,6 +22,12 @@ bool Music::load(const std::filesystem::path &file)
 	return m_currentFile != "";
 }
 
+void Music::reset()
+{
+	stop();
+	m_currentFile = "";
+}
+
 void Music::play()
 {
 	if (m_currentFile != "")
@@ -40,12 +46,6 @@ void Music::stop()
 		m_music.stop();
 }
 
-void Music::reset()
-{
-	stop();
-	m_currentFile = "";
-}
-
 void Music::mute()
 {
 	m_muted = true;
@@ -55,7 +55,7 @@ void Music::mute()
 void Music::unmute()
 {
 	m_muted = false;
-	m_music.setVolume(static_cast<float>(m_volume));
+	m_music.setVolume(float(m_volume));
 }
 
 void Music::toggle()
@@ -66,18 +66,18 @@ void Music::toggle()
 void Music::incVolume()
 {
 	if (m_volume < 100.0)
-		m_music.setVolume(static_cast<float>(++m_volume));
+		m_music.setVolume(float(++m_volume));
 }
 
 void Music::decVolume()
 {
 	if (m_volume > 0.0)
-		m_music.setVolume(static_cast<float>(--m_volume));
+		m_music.setVolume(float(--m_volume));
 }
 
 void Music::setVolume(double volume)
 {
 	if (volume >= 0.0 && volume <= 100.0)
-		m_music.setVolume(static_cast<float>(m_volume = volume));
+		m_music.setVolume(float(m_volume = volume));
 }
 

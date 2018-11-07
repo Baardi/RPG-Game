@@ -5,7 +5,7 @@
 #include <corecrt_math_defines.h>
 #include "map.h"
 
-void ObjectSprite::load(Json::Value& layer, Json::Value& object)
+void ObjectSprite::load(const Json::Value& layer, const Json::Value& object)
 {
 	// Load basic object info
 	name = object["name"].asString();
@@ -41,7 +41,7 @@ void ObjectSprite::load(Json::Value& layer, Json::Value& object)
 	loadTexture();
 }
 
-void ObjectSprite::loadText(Json::Value &textValue)
+void ObjectSprite::loadText(const Json::Value &textValue)
 {
 	text.emplace();
 

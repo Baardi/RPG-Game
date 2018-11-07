@@ -19,6 +19,7 @@ public:
 	bool loadRelative(const std::filesystem::path &filename, TextureMap &textures);
 	auto GetPath() const { return currentPath; }
 	bool GetPathProperty(const std::string &propertyName, std::filesystem::path *property) const;
+	std::filesystem::path GetPathProperty(const std::string &propertyName) const;
 	void draw(sf::RenderTarget &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
 	static void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window
@@ -42,17 +43,17 @@ private:
 	TileSize tileSize;
 
 	std::map<int, sf::Texture *> tileSets;
-	void loadTileSets(Json::Value &root, TextureMap &textures);
+	void loadTileSets(const Json::Value &root, TextureMap &textures);
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
 	AnimationTileMap animatedTiles;
-	void loadAnimatedTiles(int firstGid, Json::Value &tileset);
+	void loadAnimatedTiles(int firstGid, const Json::Value &tileset);
 
     // Handles regular layers
-	void loadLayer(Json::Value& layer);
+	void loadLayer(const Json::Value& layer);
 
 	// Handles object layers
-	void loadObjects(Json::Value& layer);
+	void loadObjects(const Json::Value& layer);
 
 	// Shared clock for all animated tiles
 	 sftools::Chronometer clock;

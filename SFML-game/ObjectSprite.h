@@ -11,8 +11,8 @@ public:
 	ObjectSprite(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
 	~ObjectSprite() = default;
 
-	void load(Json::Value &layer, Json::Value &object);
-	void loadText(Json::Value &textValue);
+	void load(const Json::Value &layer, const Json::Value &object);
+	void loadText(const Json::Value &textValue);
 	void process() override;
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture() override;

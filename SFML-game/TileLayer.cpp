@@ -10,7 +10,7 @@ TileLayer::~TileLayer()
 {
 }
 
-void TileLayer::load(Json::Value& layer)
+void TileLayer::load(const Json::Value& layer)
 {
 	width = layer["width"].asInt();
 	height = layer["height"].asInt();
@@ -19,7 +19,7 @@ void TileLayer::load(Json::Value& layer)
 	opacity = layer["opacity"].asFloat();
 
 	// Prepare tilemap
-	Json::Value &data = layer["data"];
+	const Json::Value &data = layer["data"];
 	initArrays(data.size());
 
 	// Read in tilemap

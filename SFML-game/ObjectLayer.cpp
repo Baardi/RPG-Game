@@ -6,7 +6,7 @@ ObjectLayer::~ObjectLayer()
 {
 }
 
-void ObjectLayer::load(Json::Value& layer, sftools::Chronometer &clock)
+void ObjectLayer::load(const Json::Value& layer, sftools::Chronometer &clock)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();
@@ -15,10 +15,11 @@ void ObjectLayer::load(Json::Value& layer, sftools::Chronometer &clock)
 	LoadProperties(layer);
 
 	// Get all mapObjects from layer
-	for (Json::Value& object : layer["objects"])
+	for (const auto &object : layer["objects"])
 	{
 		auto &sprite = objects.emplace_back(
 			std::make_unique<ObjectSprite>(tileSize, tileSets, animatedTiles, clock));
+
 		sprite->load(layer, object);
 	}
 }

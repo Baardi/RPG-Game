@@ -74,12 +74,18 @@ bool Map::GetPathProperty(const std::string &propertyName, std::filesystem::path
 {
 	if (!GetProperty(propertyName, property))
 		return false;
-		
-	*property = std::filesystem::canonical(currentPath / *property);
-	return true;
+	
+	std::error_code errcode;
+	*property = std::filesystem::canonical(currentPath / *property, errcode);
+	return static_cast<bool>(errcode);
 }
 
-void Map::loadLayer(Json::Value& layer)
+std::filesystem::path Map::GetPathProperty(const std::string &propertyName) const
+{
+	return std::filesystem::canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
+}
+
+void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
 	auto tmp = static_cast<TileLayer *>(layers.emplace_back(
@@ -90,7 +96,7 @@ void Map::loadLayer(Json::Value& layer)
 	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::loadObjects(Json::Value& layer)
+void Map::loadObjects(const Json::Value& layer)
 {
 	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(layers.emplace_back(
@@ -163,7 +169,7 @@ void Map::resume()
 	clock.resume();
 }
 
-void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
+void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{
@@ -188,14 +194,14 @@ void Map::loadTileSets(Json::Value &root, TextureMap &textures) // Loads all the
 	}
 }
 
-void Map::loadAnimatedTiles(int firstGid, Json::Value &tileset) // Store info on animated tiles
+void Map::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store info on animated tiles
 {
 	for (auto it = tileset.begin(); it != tileset.end(); ++it)
 	{
 		std::string tileid = it.key().asString();
 		std::vector<std::pair<int, int>> tileSetAnimations;
 
-		for (Json::Value &animation : tileset[tileid]["animation"])
+		for (const auto &animation : tileset[tileid]["animation"])
 		{
 			int animationTileId = animation["tileid"].asInt();
 			int animationTileDuration = animation["duration"].asInt();
