@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ItemInfoPopup.hpp"
+#include "Equipment.hpp"
 
 void ItemInfoPopup::init()
 {
@@ -12,9 +13,19 @@ void ItemInfoPopup::init()
 	y = subInitializer->y;
 	renderTexture.create(352, 352);
 	renderSprite.setPosition(x - 20, y - 20);
+	renderSprite.setTexture(renderTexture.getTexture());
 
 	item = subInitializer->item;
-	AddMenuItem("Dummy", State::Pop);
+	AddMenuItem("Back", State::Pop);
+
+	auto equipment = dynamic_cast<Equipment *>(item);
+	if (equipment)
+	{
+		auto &stats = equipment->getStats();
+		AddMenuItem("Attack:  " + std::to_string(stats.Attack));
+		AddMenuItem("Defence: " + std::to_string(stats.Defence)); 
+		AddMenuItem("HP:      " + std::to_string(stats.HP));
+	}
 }
 
 void ItemInfoPopup::draw()
@@ -22,7 +33,6 @@ void ItemInfoPopup::draw()
 	renderTexture.clear(sf::Color::Transparent);
 	menuBackground.draw(renderTexture);
 	renderTexture.display();
-	renderSprite.setTexture(renderTexture.getTexture());
 	window.draw(renderSprite);
 	
 	Menu::draw();
