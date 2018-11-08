@@ -15,11 +15,8 @@ class InventoryUI : public PopupMenu
 public:
 	InventoryUI();
 	~InventoryUI();
-	void AddMenuSprite(const sf::Sprite &sprite);
 	void init() override;
-	void draw() override;
 
 private:
-	std::vector<sf::Sprite> menusprites;
 	Inventory *inventory;
 };

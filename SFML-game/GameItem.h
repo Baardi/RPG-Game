@@ -10,7 +10,7 @@ public:
 	virtual ~GameItem() = default;
 
 	void vSet(int gid, const std::string &name, const sf::Sprite &sprite);
-	virtual void applyProperties(const MapProperties &properties) = 0;
+	virtual void applyProperties(const MapProperties &properties) {}
 
 	const std::string& name() const { return m_name; }
 	int gid() const { return m_gid; }

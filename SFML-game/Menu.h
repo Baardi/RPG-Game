@@ -18,16 +18,19 @@ protected:
 
 	// Methods used by derived classes
 	size_t AddMenuItem(const std::string &text, std::function<void()> action = []{});
-	
+	size_t AddMenuItem(const std::string &text, const sf::Sprite &sprite, std::function<void()> action = [] {});
+	std::pair<int, int> GetMenuCoords(size_t index); // Gets the coordinates of the menu item in a (x,y) pair
+
 	// Data members changable by derived classes
 	int x = 400, y = 400;
-	int spacing = 50;
+	int spacing = 50, spriteSpacing = 220;
 	int textSize = 40;
 	sf::Color colorSelect = sf::Color::Yellow;
 	sf::Color colorUnselect = sf::Color::White;
 
 private:
 
+	void AddMenuSprite(const sf::Sprite& sprite, size_t index);
 	void tick();
 	void SelectEntry() const;
 	void HandleKeyEvents();
@@ -35,10 +38,11 @@ private:
 
 	//"Personal" class variables
 	sftools::Chronometer clock;
-	
+
+	size_t menuIndex = 0;
 	std::vector<sf::Text> menuItems;
 	std::vector<std::function<void()>> actions;
-	size_t menuIndex = 0;
+	std::vector<sf::Sprite> menusprites;
 
 	KeyMapper keyMapper;
 	bool ControlKeyPressed = true;

@@ -138,6 +138,9 @@
     <ClInclude Include="StatsInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ItemInfoPopup.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -238,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInfoPopup.cpp">
+      <Filter>Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

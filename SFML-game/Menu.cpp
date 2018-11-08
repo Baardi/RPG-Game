@@ -78,6 +78,27 @@ size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
 	return index;
 }
 
+size_t Menu::AddMenuItem(const std::string &text, const sf::Sprite &sprite, std::function<void()> action)
+{
+	size_t index = AddMenuItem(text, action);
+	AddMenuSprite(sprite, index);
+	return index;
+}
+
+void Menu::AddMenuSprite(const sf::Sprite& sprite, size_t index)
+{
+	auto &addedSprite = menusprites.emplace_back(sprite); // Yes I want a copy
+	addedSprite.setPosition(x + spriteSpacing, y + spacing * index);
+}
+
+std::pair<int, int> Menu::GetMenuCoords(size_t index)
+{
+	// Gets the coordinates of the menu item in a (x,y) pair
+	int itemXPos = x;
+	int itemYPos = y + spacing * index;
+	return std::make_pair(itemXPos, itemYPos);
+}
+
 void Menu::SelectEntry() const
 {
 	if (menuIndex < actions.size())
@@ -134,4 +155,7 @@ void Menu::draw()
 {
 	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
+
+	for (auto &item : menusprites)
+		window.draw(item);
 }

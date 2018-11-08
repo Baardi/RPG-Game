@@ -3,23 +3,17 @@
 #include "State.h"
 #include "MainMenu.h"
 #include "Inventory.h"
-
+#include "ItemInfoPopup.hpp"
 
 InventoryUI::InventoryUI()
 {
 	x = 70;
 	y = 120;
-	menuBackground.load("data/Menus/Inventory.json", State::Textures());
+	menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
 }
 
 InventoryUI::~InventoryUI()
 {
-}
-
-void InventoryUI::AddMenuSprite(const sf::Sprite& sprite)
-{
-	auto &addedSprite = menusprites.emplace_back(sprite); // Yes I want a copy
-	addedSprite.setPosition(x + 220, y + spacing * menusprites.size());
 }
 
 void InventoryUI::init()
@@ -31,16 +25,17 @@ void InventoryUI::init()
 		throw;
 
 	inventory = &inventoryInitializer->inventory;
+	size_t lastIndex = 0;
 	for (auto &item : inventory->Items())
 	{
-		AddMenuItem(item.first->name() + "  x" + std::to_string(item.second));
-		AddMenuSprite(item.first->sprite());
-	}
-}
+		auto text = item.first->name() + "  x" + std::to_string(item.second);
 
-void InventoryUI::draw()
-{
-	PopupMenu::draw();
-	for (auto &item : menusprites)
-		window.draw(item);
+		lastIndex = 
+		AddMenuItem(text, item.first->sprite(), [this, &item, lastIndex]()
+		{
+			State::PushChild<ItemInfoPopup>();
+			auto pos = GetMenuCoords(lastIndex + 1);
+			State::SetInitializer<ItemInfoInitializer>(item.first.get(), pos.first + 380, pos.second);
+		});
+	}
 }

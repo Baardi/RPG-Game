@@ -27,8 +27,8 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object)
 
 	if (gid)
 	{
-		x += height * sin(rotation * (M_PI / 180.0));
-		y -= height * cos(rotation * (M_PI / 180.0));
+		x += height * std::sin(rotation * (M_PI / 180.0));
+		y -= height * std::cos(rotation * (M_PI / 180.0));
 	}
 
 	globalBounds = sf::DoubleRect(x, y, width, height);

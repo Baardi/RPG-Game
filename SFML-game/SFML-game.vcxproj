@@ -184,6 +184,7 @@
     <ClInclude Include="PopupMenu.h" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="StatsInterface.hpp" />
+    <ClInclude Include="ItemInfoPopup.hpp" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="map.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="PopupMenu.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="StatsInterface.cpp" />
+    <ClCompile Include="ItemInfoPopup.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="map.cpp" />
