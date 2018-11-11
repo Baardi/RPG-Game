@@ -9,9 +9,9 @@ public:
 	~Inventory() = default;
 
 	void AddItem(ObjectSprite *sprite);
-	const auto &Items() const { return items; }
+	const auto &Items() const { return m_items; }
 
 private:
-	std::vector<std::pair<std::unique_ptr<GameItem>, int>> items;
+	std::vector<std::pair<std::unique_ptr<GameItem>, int>> m_items;
 };
 

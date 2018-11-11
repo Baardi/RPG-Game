@@ -10,9 +10,8 @@ int Layer::GetTextureIndex(int tileValue) const
 {
 	int tileTextureValue = 0;
 
-	for (auto iter = tileSets.begin(); iter != tileSets.end(); ++iter)
+	for (auto &&[tmpKeyVal, texture] : tileSets)
 	{
-		auto tmpKeyVal = iter->first;
 		if (tmpKeyVal > tileTextureValue && tmpKeyVal < tileValue)
 			tileTextureValue = tmpKeyVal;
 	}

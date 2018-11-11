@@ -19,7 +19,7 @@ void TileLayer::load(const Json::Value& layer)
 	opacity = layer["opacity"].asFloat();
 
 	// Prepare tilemap
-	const Json::Value &data = layer["data"];
+	auto &data = layer["data"];
 	initArrays(data.size());
 
 	// Read in tilemap
@@ -139,6 +139,12 @@ void TileLayer::initArrays(int size)
 
 template <class T>
 T& TileLayer::getValue(std::vector<T> &arr, int x, int y)
+{
+	return arr[x + y * width];
+}
+
+template <class T>
+const T& TileLayer::getValue(const std::vector<T> &arr, int x, int y)
 {
 	return arr[x + y * width];
 }

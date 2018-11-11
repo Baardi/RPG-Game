@@ -32,19 +32,20 @@ public:
 	// To be used from any Ui
 
 	// Sets a transition, to be done after current frame
-
 	static void Set(Transition transition)
 	{
 		Instance().transition = transition;
 		Instance().queuedState.reset();
 	}
-	
+
+	// Sets a transition, to be done after current frame
 	static void Set(Transition transition, std::unique_ptr<UI> &&state)
 	{
 		Instance().transition = transition;
 		Instance().queuedState = std::move(state);
 	}
 
+	// Add a new ui, and hide, but doesn't remove the previous ones
 	template<class T, class... _Valty>
 	static void Push(_Valty&&... _Val)
 	{
@@ -52,13 +53,7 @@ public:
 			std::forward<_Valty>(_Val)...));
 	}
 
-	template<class T, class... _Valty>
-	static void PushChild(_Valty&&... _Val)
-	{
-		Push<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(GetUI());
-	}
-
+	// Replace current ui with a new one
 	template<class T, class... _Valty>
 	static void Switch(_Valty&&... _Val)
 	{
@@ -66,13 +61,7 @@ public:
 			std::forward<_Valty>(_Val)...));
 	}
 
-	template<class T, class... _Valty>
-	static void SwitchChild(_Valty&&... _Val)
-	{
-		Switch<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(GetUI());
-	}
-
+	// Remove all ui's and add a new one
 	template<class T, class... _Valty>
 	static void Reset(_Valty&&... _Val)
 	{
@@ -80,22 +69,44 @@ public:
 			std::forward<_Valty>(_Val)...));
 	}
 
-	template<class T, class... _Valty>
-	static void ResetChild(_Valty&&... _Val)
-	{
-		Reset<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(GetUI());
-	}
-
+	// Remove current ui
 	static void Pop()
 	{
 		Set(Transition::Pop);
 	}
 
+	// Close the app
 	static void Exit()
 	{
 		Set(Transition::Exit);
 		Instance().window->close();
+	}
+
+	// Put a child to current ui
+	template<class T, class... _Valty>
+	static void PushChild(_Valty&&... _Val)
+	{
+		Push<T>(std::forward<_Valty>(_Val)...);
+		Instance().queuedState->SetParent(GetUI());
+	}
+
+	// Hides, but doesn't remove the current ui, and put a child to the previous one
+	template<class T, class... _Valty>
+	static void ChainChild(_Valty&&... _Val)
+	{
+		auto prevParent = GetUI() ? GetUI()->GetParent() : nullptr;
+		Push<T>(std::forward<_Valty>(_Val)...);
+		Instance().queuedState->SetParent(prevParent);
+	}
+
+	// Removes the current ui, and put a child ui to previous one
+	template<class T, class... _Valty>
+	static void SwitchChild(_Valty&&... _Val)
+	{
+		auto size = Instance().Size();
+		auto parent = size >= 2 ? Instance().StateStack[size - 1] : nullptr;
+		Switch<T>(std::forward<_Valty>(_Val)...);
+		Instance().queuedState->SetParent(parent);
 	}
 
 	static bool IsRunning()
@@ -112,7 +123,6 @@ public:
 	{
 		return Instance().StateStack.size();
 	}
-
 	
 	template<class T, class... _Valty>
 	static void SetInitializer(_Valty&&... _Val)
@@ -199,7 +209,6 @@ protected:
 			GetUI()->setDrawOrder();
 			GetUI()->resume();
 		}
-
 
 		std::cout << std::to_string(Size()) << std::endl;
 	}

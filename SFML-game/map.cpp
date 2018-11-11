@@ -179,12 +179,11 @@ void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads a
 
 		if (it == textures.end())
 		{
-			auto inserted = textures.try_emplace(image.string(), sf::Texture());
-			if (inserted.second) // Whether it succeeded
+			auto &&[it, inserted] = textures.try_emplace(image.string(), sf::Texture());
+			if (inserted)
 			{
-				sf::Texture &tileSet = inserted.first->second;
-				tileSet.loadFromFile(image.string());
-				tileSets.try_emplace(firstgid, &tileSet);
+				it->second.loadFromFile(image.string());
+				tileSets.try_emplace(firstgid, &it->second);
 			}
 		}
 		else

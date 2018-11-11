@@ -7,22 +7,22 @@
 
 Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
 {
-	texture.loadFromFile("data/Player Sprites/Warrior.png");
-	tilesize.x = texture.getSize().x / 4;
-	tilesize.y = texture.getSize().y / 4;
+	m_texture.loadFromFile("data/Player Sprites/Warrior.png");
+	m_tilesize.x = m_texture.getSize().x / 4;
+	m_tilesize.y = m_texture.getSize().y / 4;
 
-	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+	m_sprite.setTexture(m_texture);
+	m_sprite.setTextureRect(sf::IntRect(0, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	
 	// Map keys to directions for the player
-	dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
-	dirMap.emplace(Dir::Right,	 sf::Keyboard::Key::Right);
-	dirMap.emplace(Dir::Up,		 sf::Keyboard::Key::Up);
-	dirMap.emplace(Dir::Down,	 sf::Keyboard::Key::Down);
+	m_dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
+	m_dirMap.emplace(Dir::Right,	 sf::Keyboard::Key::Right);
+	m_dirMap.emplace(Dir::Up,		 sf::Keyboard::Key::Up);
+	m_dirMap.emplace(Dir::Down,	 sf::Keyboard::Key::Down);
 	
 	// Map keys for actions (such as open inventory)
-	actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
-	actionMap.emplace(Action::Talk,			sf::Keyboard::Key::T);
+	m_actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
+	m_actionMap.emplace(Action::Talk,			sf::Keyboard::Key::T);
 	
 	Player::SetPosition(x, y);
 }
@@ -33,31 +33,31 @@ Player::~Player()
 
 void Player::draw(sf::RenderTarget &window)
 {
-	window.draw(sprite);
+	window.draw(m_sprite);
 }
 
 sf::DoubleRect Player::GetGlobalBounds() const
 {
-	return static_cast<sf::DoubleRect>(sprite.getGlobalBounds());
+	return static_cast<sf::DoubleRect>(m_sprite.getGlobalBounds());
 }
 
 void Player::SetPosition(double x, double y)
 {
 	this->x = x;
 	this->y = y;
-	sprite.setPosition(x, y);
+	m_sprite.setPosition(x, y);
 }
 
 void Player::TakeItem(ObjectSprite *item)
 {
-	inventory.AddItem(item);
+	m_inventory.AddItem(item);
 }
 
 void Player::HandleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
-	for (auto kvPair : dirMap)
+	for (auto kvPair : m_dirMap)
 	{
 		if (sf::Keyboard::isKeyPressed(kvPair.second))
 		{
@@ -67,12 +67,12 @@ void Player::HandleKeyInput(Map &map)
 		}
 	}
 	
-	if (sf::Keyboard::isKeyPressed(actionMap[Action::Inventory]))
+	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Inventory]))
 	{
 		State::PushChild<InventoryUI>(); // Inventory popup
-		State::SetInitializer<InventoryInitializer>(inventory);
+		State::SetInitializer<InventoryInitializer>(m_inventory);
 	}
-	if (sf::Keyboard::isKeyPressed(actionMap[Action::Talk]))
+	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Talk]))
 		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 
 	if (isMoving)
@@ -87,12 +87,12 @@ void Player::HandleKeyInput(Map &map)
 			SetPosition(newX, newY);
 		
 		counter = (counter + 1) % counterMax;
-		sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * tilesize.x, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+		m_sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * m_tilesize.x, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	}
 	else
 	{
 		counter = counter/counterMax;
-		sprite.setTextureRect(sf::IntRect(0, int(dir) * tilesize.y, tilesize.x, tilesize.y));
+		m_sprite.setTextureRect(sf::IntRect(0, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	}
 }
 

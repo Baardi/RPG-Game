@@ -40,11 +40,12 @@ enum class Action
 private:
 	void move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const;
 
-	sf::Sprite sprite;
-	sf::Texture texture;
-	TileSize tilesize;
-	Inventory inventory;
+	sf::Sprite m_sprite;
+	sf::Texture m_texture;
+	TileSize m_tilesize;
+	Inventory m_inventory;
+	Stats m_stats;
 
-	std::map<Dir, sf::Keyboard::Key> dirMap;
-	std::map<Action, sf::Keyboard::Key> actionMap;
+	std::map<Dir, sf::Keyboard::Key> m_dirMap;
+	std::map<Action, sf::Keyboard::Key> m_actionMap;
 };

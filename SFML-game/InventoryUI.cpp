@@ -30,12 +30,12 @@ void InventoryUI::init()
 	{
 		auto text = item.first->name() + "  x" + std::to_string(item.second);
 
-		lastIndex = 
-		AddMenuItem(text, item.first->sprite(), [this, &item, lastIndex]()
+		lastIndex = AddMenuItem(text, item.first->sprite(), [this, &item, lastIndex]()
 		{
 			State::PushChild<ItemInfoPopup>();
-			auto pos = GetMenuCoords(lastIndex + 1);
-			State::SetInitializer<ItemInfoInitializer>(item.first.get(), pos.first + 380, pos.second);
+			
+			auto [x, y] = GetMenuCoords(lastIndex + 1);
+			State::SetInitializer<ItemInfoInitializer>(item.first.get(), x + 380, y);
 		});
 	}
 }

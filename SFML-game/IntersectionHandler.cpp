@@ -5,11 +5,9 @@
 
 void IntersectionHandler::HandleIntersections(const Map &map, GameObject &object)
 {
-	for (auto &entry : map.objectMap)
+	for (auto &&[layerName, layer] : map.objectMap)
 	{
-		auto layer = entry.second;
-
-		auto it = intersectionMap.find(layer->name);
+		auto it = intersectionMap.find(layerName);
 		if (it == intersectionMap.end())
 			continue;
 

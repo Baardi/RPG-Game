@@ -4,7 +4,7 @@
 void Inventory::AddItem(ObjectSprite *sprite)
 {
 	GameItem *itemFound = nullptr;
-	for (auto &item : items)
+	for (auto &item : m_items)
 	{
 		if (item.first->name() == sprite->name)
 		{
@@ -24,6 +24,6 @@ void Inventory::AddItem(ObjectSprite *sprite)
 
 		item->vSet(sprite->gid, sprite->name, sprite->sprite);
 		item->applyProperties(*sprite);
-		items.emplace_back(item, 1);
+		m_items.emplace_back(item, 1);
 	}
 }
