@@ -33,8 +33,10 @@ void ObjectLayer::process()
 void ObjectLayer::draw(sf::RenderTarget& window)
 {
 	for (auto &object : objects)
+	{
 		if (object->visible)
 			object->draw(window);
+	}
 }
 
 void ObjectLayer::loadTexture()

@@ -63,6 +63,7 @@ private:
 };
 
 #define REGISTER_TYPE(klass) \
+namespace { \
     class klass##Factory : public ObjectFactory { \
     public: \
         klass##Factory() \
@@ -74,4 +75,5 @@ private:
             return new klass; \
         } \
     }; \
-    static klass##Factory global_##klass##Factory;
+    static klass##Factory global_##klass##Factory; \
+}

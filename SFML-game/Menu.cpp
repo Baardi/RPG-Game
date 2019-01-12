@@ -65,7 +65,7 @@ void Menu::tick()
 	mouseControl ? HandleMouseEvents() : HandleKeyEvents();
 }
 
-size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
+size_t Menu::AddMenuItem(const std::string &text, const std::function<void()> &action)
 {
 	size_t index = menuItems.size();
 
@@ -78,7 +78,7 @@ size_t Menu::AddMenuItem(const std::string &text, std::function<void()> action)
 	return index;
 }
 
-size_t Menu::AddMenuItem(const std::string &text, const sf::Sprite &sprite, std::function<void()> action)
+size_t Menu::AddMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action)
 {
 	size_t index = AddMenuItem(text, action);
 	AddMenuSprite(sprite, index);

@@ -60,7 +60,8 @@ namespace sftools
         {
             m_time += time;
 
-            if (m_state == STOPPED) m_state = PAUSED;
+            if (m_state == ClockState::Stopped) 
+				m_state = ClockState::Paused;
 
             return getElapsedTime();
         }
@@ -76,9 +77,10 @@ namespace sftools
             sf::Time time = getElapsedTime();
 
             m_time = sf::Time::Zero;
-            m_state = STOPPED;
+            m_state = ClockState::Stopped;
 
-            if (start) resume();
+            if (start)
+				resume();
 
             return time;
         }
@@ -93,7 +95,7 @@ namespace sftools
         {
             if (isRunning())
             {
-                m_state = PAUSED;
+                m_state = ClockState::Paused;
                 m_time += m_clock.getElapsedTime();
             }
             return getElapsedTime();
@@ -110,7 +112,7 @@ namespace sftools
         {
             if (!isRunning())
             {
-                m_state = RUNNING;
+                m_state = ClockState::Running;
                 m_clock.restart();
             }
             return getElapsedTime();
@@ -128,8 +130,10 @@ namespace sftools
          */
         sf::Time toggle()
         {
-            if (isRunning())    pause();
-            else                resume();
+            if (isRunning())    
+				pause();
+            else                
+				resume();
 
             return getElapsedTime();
         }
@@ -140,7 +144,7 @@ namespace sftools
          */
         bool isRunning() const
         {
-            return m_state == RUNNING;
+            return m_state == ClockState::Running;
         }
 
         /*!
@@ -150,16 +154,14 @@ namespace sftools
          */
         sf::Time getElapsedTime() const
         {
-            switch (m_state) {
-                case STOPPED:
-                    return sf::Time::Zero;
-
-                case RUNNING:
-                    return m_time + m_clock.getElapsedTime();
-
-                case PAUSED:
-                    return m_time;
+            switch (m_state)
+			{
+				case ClockState::Running:	return m_time + m_clock.getElapsedTime();
+                case ClockState::Stopped:	return sf::Time::Zero;
+				case ClockState::Paused:	return m_time;
             }
+
+			throw std::runtime_error("Invalid enumerator value");
         }
 
         /*!
@@ -173,10 +175,22 @@ namespace sftools
             return getElapsedTime();
         }
 
-    private:
-  
+		Chronometer &Chronometer::operator-=(sf::Time const &time)
+		{
+			m_time -= time;
+			return *this;
+		}
 
-        enum { STOPPED, RUNNING, PAUSED } m_state;  //!< state
+    private:
+
+		enum class ClockState
+		{
+			Stopped,
+			Running,
+			Paused
+		};
+		
+		ClockState m_state = ClockState::Stopped;   //!< state
         sf::Time m_time;                            //!< time counter
         sf::Clock m_clock;                          //!< clock
     };

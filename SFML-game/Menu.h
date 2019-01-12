@@ -17,8 +17,8 @@ protected:
 	void draw() override;
 
 	// Methods used by derived classes
-	size_t AddMenuItem(const std::string &text, std::function<void()> action = []{});
-	size_t AddMenuItem(const std::string &text, const sf::Sprite &sprite, std::function<void()> action = [] {});
+	size_t AddMenuItem(const std::string &text, const std::function<void()> &action = []{});
+	size_t AddMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
 	std::pair<int, int> GetMenuCoords(size_t index); // Gets the coordinates of the menu item in a (x,y) pair
 
 	// Data members changable by derived classes
