@@ -24,7 +24,7 @@ enum class Action
 	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderTarget &window) override;
-	sf::DoubleRect GetGlobalBounds() const override;
+	sf::FloatRect GetGlobalBounds() const override;
 	void SetPosition(double x, double y) override;
 	void TakeItem(ObjectSprite *item);
 	void HandleKeyInput(Map &map);

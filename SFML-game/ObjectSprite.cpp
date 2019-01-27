@@ -31,7 +31,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object)
 		y -= height * std::cos(rotation * (M_PI / 180.0));
 	}
 
-	globalBounds = sf::DoubleRect(x, y, width, height);
+	globalBounds = sf::FloatRect(x, y, width, height);
 
 	auto textValue = object["text"];
 	if (!textValue.empty() && !gid)
@@ -98,7 +98,7 @@ void ObjectSprite::loadTexture()
 	}
 }
 
-sf::DoubleRect ObjectSprite::GetGlobalBounds() const
+sf::FloatRect ObjectSprite::GetGlobalBounds() const
 {
 	return globalBounds;
 }

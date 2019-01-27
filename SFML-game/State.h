@@ -121,7 +121,7 @@ public:
 
 	static int Size()
 	{
-		return Instance().StateStack.size();
+		return static_cast<int>(Instance().StateStack.size());
 	}
 	
 	template<class T, class... _Valty>

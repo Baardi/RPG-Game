@@ -6,7 +6,7 @@ public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
-	virtual sf::DoubleRect GetGlobalBounds() const;
+	virtual sf::FloatRect GetGlobalBounds() const;
 	bool Intersects(const GameObject &object) const;
 	bool Contains(double x, double y) const;
 

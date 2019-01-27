@@ -17,7 +17,7 @@ public:
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture() override;
 
-	sf::DoubleRect GetGlobalBounds() const override;
+	sf::FloatRect GetGlobalBounds() const override;
 
 	void LoadSpriteTexture(sf::Texture &texture, int tileid);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
@@ -43,5 +43,5 @@ private:
 	// Times the animation
 	sftools::Chronometer &clock;
 
-	sf::DoubleRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
+	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 };
