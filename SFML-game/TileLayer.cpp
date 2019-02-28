@@ -109,8 +109,7 @@ void TileLayer::loadTexture()
 
 void TileLayer::LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y)
 {
-	int tilex, tiley;
-	getTileCoords(&texture, tileid, tilex, tiley);
+	auto [tilex, tiley] = getTileCoords(texture, tileid);
 
 	auto &sprite = getValue(textureMap, x, y);
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
@@ -124,8 +123,7 @@ void TileLayer::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<
 	auto &animationTileInfo = getValue(animationTilemap, x, y);
 	for (const auto &tile : animationTile)
 	{
-		int tilex, tiley;
-		getTileCoords(&texture, tile.first, tilex, tiley);
+		auto [tilex, tiley] = getTileCoords(texture, tile.first);
 		animationTileInfo.animationTileData.emplace_back(tile.second, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 	}
 }
@@ -144,7 +142,7 @@ T& TileLayer::getValue(std::vector<T> &arr, int x, int y)
 }
 
 template <class T>
-const T& TileLayer::getValue(const std::vector<T> &arr, int x, int y)
+const T& TileLayer::getValue(const std::vector<T> &arr, int x, int y) const
 {
 	return arr[x + y * width];
 }

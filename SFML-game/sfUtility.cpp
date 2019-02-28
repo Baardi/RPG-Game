@@ -7,7 +7,7 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 	// Throws exception if the length isn't 7 or 9
 	auto stringSize = colorCode.size();
 	if (stringSize != 7  && stringSize != 9)
-		throw;
+		throw std::runtime_error("Yikes");
 
 	char buf[2]; // Set up buffer for color components
 	

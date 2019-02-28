@@ -105,8 +105,7 @@ sf::FloatRect ObjectSprite::GetGlobalBounds() const
 
 void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
 {
-	int tilex, tiley;
-	getTileCoords(&texture, tileid, tilex, tiley);
+	auto [tilex, tiley] = getTileCoords(texture, tileid);
 	auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
@@ -121,8 +120,7 @@ void ObjectSprite::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pa
 {
 	for (const auto &tile : animationTile)
 	{
-		int tilex, tiley;
-		getTileCoords(&texture, tile.first, tilex, tiley);
+		auto [tilex, tiley] = getTileCoords(texture, tile.first);
 		auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
 
 		animationTileInfo.animationTileData.emplace_back(tile.second, textureRect);

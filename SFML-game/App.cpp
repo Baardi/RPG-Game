@@ -29,7 +29,7 @@ void App::init()
 void App::run()
 {
 	init();
-	while (frame()) {} // Game will exit on false, which is when the window closes
+	while (frame()); // Game will exit on false, which is when the window closes
 }
 
 bool App::frame()

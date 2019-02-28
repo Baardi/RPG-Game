@@ -47,7 +47,7 @@ public:
 
 protected:
 	// Calculate x and y position of given tile in the texture
-	void getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const;
+	sf::Vector2i getTileCoords(sf::Texture &texture, int tile) const;
 	int GetTextureIndex(int tileValue) const;
 	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sftools::Chronometer& clock);
 	
@@ -56,4 +56,4 @@ protected:
 	AnimationTileMap &animatedTiles;
 };
 
-void g_getTileCoords(sf::Texture *texture, int tile, int& x, int& y, const TileSize tileSize);
+sf::Vector2i g_getTileCoords(sf::Texture &texture, int tile, const TileSize tileSize);

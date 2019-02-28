@@ -19,16 +19,17 @@ public:
 
 	sf::FloatRect GetGlobalBounds() const override;
 
-	void LoadSpriteTexture(sf::Texture &texture, int tileid);
-	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
-	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
-
 	// Id of first tile
 	int gid;
 
 	sf::Sprite sprite;
-private:
 
+protected:
+	void LoadSpriteTexture(sf::Texture &texture, int tileid);
+	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
+	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
+
+private:
 	// Location on screen
 	float x, y;
 	float width, height;

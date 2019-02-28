@@ -29,7 +29,7 @@ private:
 	template <class T>
 	T& getValue(std::vector<T> &arr, int x, int y);
 	template <class T>
-	const T& getValue(const std::vector<T> &arr, int x, int y);
+	const T& getValue(const std::vector<T> &arr, int x, int y) const;
 
     // Use get (array, x, y) to access the map
     std::vector<int> tilemap;

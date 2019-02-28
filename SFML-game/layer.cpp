@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Layer.h"
 
-void Layer::getTileCoords(sf::Texture *texture, int tile, int& x, int& y) const
+sf::Vector2i Layer::getTileCoords(sf::Texture &texture, int tile) const
 {
-	g_getTileCoords(texture, tile, x, y, tileSize);
+	return g_getTileCoords(texture, tile, tileSize);
 }
 
 int Layer::GetTextureIndex(int tileValue) const
@@ -41,10 +41,12 @@ void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, s
 	}
 }
 
-void g_getTileCoords(sf::Texture* texture, int tile, int& x, int& y, const TileSize tileSize)
+sf::Vector2i g_getTileCoords(sf::Texture &texture, int tile, const TileSize tileSize)
 {
-	int tileXcount = texture->getSize().x / (tileSize.x + tileSize.s);
+	int tileXcount = texture.getSize().x / (tileSize.x + tileSize.s);
 
-	x = (tile % tileXcount) * (tileSize.x + tileSize.s);
-	y = (tile / tileXcount) * (tileSize.x + tileSize.s);
+	int x = (tile % tileXcount) * (tileSize.x + tileSize.s);
+	int y = (tile / tileXcount) * (tileSize.x + tileSize.s);
+
+	return sf::Vector2i(x, y);
 }
