@@ -37,7 +37,7 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	// Read data from file into root object
 	bool parsingSuccessful = reader.parse(file, root);
 	if (!parsingSuccessful)
-		throw;
+		return false;
 
 	currentPath = std::filesystem::canonical(filename).parent_path();
 
@@ -89,10 +89,10 @@ void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
 	auto tmp = static_cast<TileLayer *>(layers.emplace_back(
-		std::make_unique<TileLayer>(tileSize, tileSets, animatedTiles, clock))
+		std::make_unique<TileLayer>(tileSize))
 		.get());				   // vector, so the order is kept
 
-	tmp->load(layer);
+	tmp->load(layer, tileSets, animatedTiles);
 	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
 
@@ -100,10 +100,10 @@ void Map::loadObjects(const Json::Value& layer)
 {
 	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(layers.emplace_back(
-		std::make_unique<ObjectLayer>(tileSize, tileSets, animatedTiles))
+		std::make_unique<ObjectLayer>(tileSize))
 		.get());				   // vector, so the order is kept
 	
-	objectLayer->load(layer, clock);
+	objectLayer->load(layer, clock, tileSets, animatedTiles);
 	objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
 }
 
@@ -115,7 +115,7 @@ void Map::draw(sf::RenderTarget &window)
 
 void Map::drawLayer(sf::RenderTarget& window, Layer* layer)
 {
-	layer->process();
+	layer->process(clock);
 
 	if (layer->visible)
 		layer->draw(window);

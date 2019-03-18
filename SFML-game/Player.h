@@ -26,7 +26,7 @@ enum class Action
 	void draw(sf::RenderTarget &window) override;
 	sf::FloatRect GetGlobalBounds() const override;
 	void SetPosition(double x, double y) override;
-	void TakeItem(ObjectSprite *item);
+	void takeItem(ObjectSprite *item);
 	void HandleKeyInput(Map &map);
 
 	Dir dir = Dir::Down;

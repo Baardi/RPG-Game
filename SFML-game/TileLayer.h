@@ -6,12 +6,12 @@
 class TileLayer : public Layer, public MapProperties
 {
 public:
-	TileLayer(const TileSize& tileSize, std::map<int, sf::Texture *>& tileSets, AnimationTileMap& animatedTiles, sftools::Chronometer &clock);
+	TileLayer(const TileSize& tileSize);
 	~TileLayer();
 
-	void load(const Json::Value& layer);
+	void load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void draw(sf::RenderTarget& window) override;
-	void process() override;
+	void process(sftools::Chronometer &clock) override;
 
 	// Safe to use from map, safe in case of breaking the bounds of the layer array
 	bool containsTexture(double x, double y) const;
@@ -19,7 +19,7 @@ public:
 private:
 	void initArrays(int size); // Resizes vector according to width/height of layer
 	
-	void loadTexture() override;
+	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 	void LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
 	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
 		
@@ -38,6 +38,4 @@ private:
 
     // Size in tiles
 	int width, height;
-
-	sftools::Chronometer &clock;
 };

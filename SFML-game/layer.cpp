@@ -6,11 +6,11 @@ sf::Vector2i Layer::getTileCoords(sf::Texture &texture, int tile) const
 	return g_getTileCoords(texture, tile, tileSize);
 }
 
-int Layer::GetTextureIndex(int tileValue) const
+int Layer::GetTextureIndex(int tileValue, std::map<int, sf::Texture*>& tileSets) const
 {
 	int tileTextureValue = 0;
 
-	for (auto &&[tmpKeyVal, texture] : tileSets)
+	for (auto [tmpKeyVal, texture] : tileSets)
 	{
 		if (tmpKeyVal > tileTextureValue && tmpKeyVal < tileValue)
 			tileTextureValue = tmpKeyVal;

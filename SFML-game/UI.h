@@ -28,7 +28,7 @@ public:
 	UI *GetParent() const { return parent; }
 
 protected:
-	bool paused = false;
+	bool m_paused = false;
 	bool pausable = true;
 
 	sf::RenderWindow &window;

@@ -1,16 +1,10 @@
 #include "stdafx.h"
 #include "TileLayer.h"
 
-TileLayer::TileLayer(const TileSize& tileSize, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock):
-	Layer(tileSize, tileSets, animatedTiles), clock(clock)
-{
-}
+TileLayer::TileLayer(const TileSize& tileSize) : Layer(tileSize) {}
+TileLayer::~TileLayer() {}
 
-TileLayer::~TileLayer()
-{
-}
-
-void TileLayer::load(const Json::Value& layer)
+void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	width = layer["width"].asInt();
 	height = layer["height"].asInt();
@@ -28,11 +22,11 @@ void TileLayer::load(const Json::Value& layer)
 		tilemap[i] = data[i].asInt();
 	}
 
-	loadTexture();
+	loadTexture(tileSets, animatedTiles);
 	LoadProperties(layer);
 }
 
-void TileLayer::process()
+void TileLayer::process(sftools::Chronometer &clock)
 {
 	// Render each tile
 	for (int y = 0; y < height; y++)
@@ -74,7 +68,7 @@ void TileLayer::draw(sf::RenderTarget& window)
 	}
 }
 
-void TileLayer::loadTexture()
+void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	for (int y = 0; y < height; y++)
 	{
@@ -84,7 +78,7 @@ void TileLayer::loadTexture()
 			if (!tileid) 
 				continue;		// Skip empty tiles
 
-			int tileTextureValue = GetTextureIndex(tileid);
+			int tileTextureValue = GetTextureIndex(tileid, tileSets);
 			if (!tileTextureValue) 
 				continue;		// No texture found
 

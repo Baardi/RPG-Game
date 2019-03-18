@@ -6,7 +6,7 @@ ObjectLayer::~ObjectLayer()
 {
 }
 
-void ObjectLayer::load(const Json::Value& layer, sftools::Chronometer &clock)
+void ObjectLayer::load(const Json::Value& layer, sftools::Chronometer &clock, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();
@@ -18,16 +18,16 @@ void ObjectLayer::load(const Json::Value& layer, sftools::Chronometer &clock)
 	for (const auto &object : layer["objects"])
 	{
 		auto &sprite = objects.emplace_back(
-			std::make_unique<ObjectSprite>(tileSize, tileSets, animatedTiles, clock));
+			std::make_unique<ObjectSprite>(tileSize));
 
-		sprite->load(layer, object);
+		sprite->load(layer, object, tileSets, animatedTiles);
 	}
 }
 
-void ObjectLayer::process()
+void ObjectLayer::process(sftools::Chronometer &clock)
 {
 	for (auto &object : objects)
-		object->process();
+		object->process(clock);
 }
 
 void ObjectLayer::draw(sf::RenderTarget& window)
@@ -39,13 +39,13 @@ void ObjectLayer::draw(sf::RenderTarget& window)
 	}
 }
 
-void ObjectLayer::loadTexture()
+void ObjectLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	for (auto &object : objects)
-		object->loadTexture();
+		object->loadTexture(tileSets, animatedTiles);
 }
 
-void ObjectLayer::RemoveSprite(ObjectSprite* sprite)
+void ObjectLayer::removeSprite(ObjectSprite* sprite)
 {
 	auto it = std::find_if(objects.begin(), objects.end(), 
 		[sprite](auto &object) { return object.get() == sprite;});

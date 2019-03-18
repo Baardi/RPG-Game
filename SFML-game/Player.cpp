@@ -48,7 +48,7 @@ void Player::SetPosition(double x, double y)
 	m_sprite.setPosition(x, y);
 }
 
-void Player::TakeItem(ObjectSprite *item)
+void Player::takeItem(ObjectSprite *item)
 {
 	m_inventory.AddItem(item);
 }

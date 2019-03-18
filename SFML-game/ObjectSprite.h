@@ -8,14 +8,14 @@
 class ObjectSprite : public Layer, public GameObject, public MapProperties
 {
 public:
-	ObjectSprite(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles, sftools::Chronometer &clock) : Layer(tileSize, tileSets, animatedTiles), clock(clock) {}
+	ObjectSprite(const TileSize &tileSize) : Layer(tileSize) {}
 	~ObjectSprite() = default;
 
-	void load(const Json::Value &layer, const Json::Value &object);
+	void load(const Json::Value &layer, const Json::Value &object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void loadText(const Json::Value &textValue);
-	void process() override;
+	void process(sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget& window) override;
-	void loadTexture() override;
+	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 
 	sf::FloatRect GetGlobalBounds() const override;
 
@@ -40,9 +40,6 @@ private:
 
 	// AnimationData
 	AnimationTile animationTileInfo;
-
-	// Times the animation
-	sftools::Chronometer &clock;
-
+	
 	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 };

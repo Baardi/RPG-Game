@@ -31,14 +31,13 @@ struct TileSize
 class Layer
 {
 public:
-	Layer(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) :
-		tileSize(tileSize), tileSets(tileSets), animatedTiles(animatedTiles) {}
+	Layer(const TileSize &tileSize) : tileSize(tileSize) {}
 
 	virtual ~Layer() = default;
 	
-	virtual void process() {}
+	virtual void process(sftools::Chronometer &clock) {}
 	virtual void draw(sf::RenderTarget& window) {}
-	virtual void loadTexture() {}
+	virtual void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) {}
 
 	std::string name;
 	bool visible;
@@ -48,12 +47,10 @@ public:
 protected:
 	// Calculate x and y position of given tile in the texture
 	sf::Vector2i getTileCoords(sf::Texture &texture, int tile) const;
-	int GetTextureIndex(int tileValue) const;
+	int GetTextureIndex(int tileValue, std::map<int, sf::Texture*>& tileSets) const;
 	static void ProcessAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sftools::Chronometer& clock);
 	
-	const TileSize &tileSize;
-	std::map<int, sf::Texture *> &tileSets;
-	AnimationTileMap &animatedTiles;
+	TileSize tileSize;
 };
 
 sf::Vector2i g_getTileCoords(sf::Texture &texture, int tile, const TileSize tileSize);

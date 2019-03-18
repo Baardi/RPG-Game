@@ -14,6 +14,12 @@ public:
 	Map() = default;
 	~Map();
 	
+	Map(const Map &) = delete;
+	Map &operator=(const Map &) = delete;
+
+	Map(Map &&) = default;
+	Map &operator=(Map &&) = default;
+
 	void clear();									// Clear the map
 	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
 	bool loadRelative(const std::filesystem::path &filename, TextureMap &textures);
@@ -22,7 +28,7 @@ public:
 	std::filesystem::path GetPathProperty(const std::string &propertyName) const;
 	void draw(sf::RenderTarget &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
-	static void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window
+	void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window
 	
 	TileLayer *GetTileLayer(const std::string &layerName);
 	ObjectLayer *GetObjectLayer(const std::string &layerName);

@@ -36,15 +36,15 @@ private:
 	void LoadProperties(const MapProperties &map);
 
 	// Class object (should be) initialized by App
-	sftools::Chronometer clock;
+	sftools::Chronometer m_clock;
 
 	// "Personal" class variables
-	Player player;
+	Player m_player;
 
 	Music m_music;
-	Map map;
+	Map m_map;
 	sf::Text pauseText;
 
-	KeyMapper keyMapper;
-	IntersectionHandler intersectionHandler;
+	KeyMapper m_keyMapper;
+	IntersectionHandler m_intersectionHandler;
 };

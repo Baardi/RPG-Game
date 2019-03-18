@@ -68,17 +68,17 @@ void UI::HandleWindowEvents()
 void UI::pause()
 {
 	if (pausable)
-		paused = true;
+		m_paused = true;
 }
 
 void UI::resume()
 {
 	if (pausable)
-		paused = false;
+		m_paused = false;
 }
 
 void UI::toggle()
 {
 	if (pausable)
-		paused ? resume() : pause();
+		m_paused ? resume() : pause();
 }

@@ -5,7 +5,7 @@
 #include <corecrt_math_defines.h>
 #include "map.h"
 
-void ObjectSprite::load(const Json::Value& layer, const Json::Value& object)
+void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	// Load basic object info
 	name = object["name"].asString();
@@ -38,7 +38,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object)
 		loadText(textValue);
 
 	LoadProperties(object);
-	loadTexture();
+	loadTexture(tileSets, animatedTiles);
 }
 
 void ObjectSprite::loadText(const Json::Value &textValue)
@@ -54,7 +54,7 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setStyle(sf::utility::parseTextStyle(textValue));
 }
 
-void ObjectSprite::process()
+void ObjectSprite::process(sftools::Chronometer &clock)
 {
 	if (gid == 0)
 		return;
@@ -72,12 +72,12 @@ void ObjectSprite::draw(sf::RenderTarget &window)
 		window.draw(*text);
 }
 
-void ObjectSprite::loadTexture()
+void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	if (!gid)
 		return;
 
-	int tileTextureValue = GetTextureIndex(gid);
+	int tileTextureValue = GetTextureIndex(gid, tileSets);
 	if (!tileTextureValue) // No texture found
 		return;
 

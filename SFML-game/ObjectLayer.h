@@ -14,14 +14,14 @@ class uniquepointerFinder
 class ObjectLayer : public Layer, public MapProperties
 {
 public:
-	ObjectLayer(const TileSize &tileSize, std::map<int, sf::Texture *> &tileSets, AnimationTileMap &animatedTiles) : Layer(tileSize, tileSets, animatedTiles) { }
+	ObjectLayer(const TileSize &tileSize) : Layer(tileSize) { }
 	~ObjectLayer();
 
-	void load(const Json::Value &layer, sftools::Chronometer &clock);
-	void process() override;
+	void load(const Json::Value &layer, sftools::Chronometer &clock, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
+	void process(sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget& window) override;
-	void loadTexture() override;
-	void RemoveSprite(ObjectSprite *sprite);
+	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
+	void removeSprite(ObjectSprite *sprite);
 	ObjectSprite *GetIntersectedObject(const GameObject &other);
 
 	std::vector<std::unique_ptr<ObjectSprite>> objects;
