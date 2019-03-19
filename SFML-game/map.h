@@ -12,7 +12,7 @@ public:
 	enum class DrawType{ Front, Back };
 	
 	Map() = default;
-	~Map();
+	~Map() = default;
 	
 	Map(const Map &) = delete;
 	Map &operator=(const Map &) = delete;
@@ -22,16 +22,13 @@ public:
 
 	void clear();									// Clear the map
 	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
-	bool loadRelative(const std::filesystem::path &filename, TextureMap &textures);
-	auto GetPath() const { return currentPath; }
-	bool GetPathProperty(const std::string &propertyName, std::filesystem::path *property) const;
-	std::filesystem::path GetPathProperty(const std::string &propertyName) const;
+	auto getPath() const { return m_currentPath; }
 	void draw(sf::RenderTarget &window);			// Draws the entire map right away
 	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
 	void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window
 	
-	TileLayer *GetTileLayer(const std::string &layerName);
-	ObjectLayer *GetObjectLayer(const std::string &layerName);
+	TileLayer *getTileLayer(const std::string &layerName);
+	ObjectLayer *getObjectLayer(const std::string &layerName);
 	
 	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 
@@ -39,11 +36,11 @@ public:
 	void resume();
 
 	// The owner of the Layer-pointers, used to draws
-	std::vector<std::unique_ptr<Layer>> layers;
+	std::vector<std::unique_ptr<Layer>> m_layers;
 
 	// Sorted collection of layers
-	std::map<std::string, ObjectLayer *> objectMap;
-	std::map<std::string, TileLayer *> tileMap;
+	std::map<std::string, ObjectLayer *> m_objectMap;
+	std::map<std::string, TileLayer *> m_tileMap;
 
 private:
 	TileSize tileSize;
@@ -62,12 +59,12 @@ private:
 	void loadObjects(const Json::Value& layer);
 
 	// Shared clock for all animated tiles
-	 sftools::Chronometer clock;
+	 sftools::Chronometer m_clock;
 
 	// Map bounds
-	int width, height;
+	int m_width, m_height;
 
-	std::filesystem::path currentPath;
+	std::filesystem::path m_currentPath;
 public:
-	static constexpr unsigned int flipMultiplier = 1073741824; /*std::pow(2, 30)*/
+	static constexpr unsigned int FLIP_MULTIPLIER = 1073741824; /*std::pow(2, 30)*/
 };

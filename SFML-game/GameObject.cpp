@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-sf::FloatRect GameObject::GetGlobalBounds() const
+sf::FloatRect GameObject::getGlobalBounds() const
 {
 	return sf::FloatRect();
 }
 
-bool GameObject::Intersects(const GameObject &object) const
+bool GameObject::intersects(const GameObject &object) const
 {
-	auto bounds1 = this->GetGlobalBounds();
-	auto bounds2 = object.GetGlobalBounds();
+	auto bounds1 = this->getGlobalBounds();
+	auto bounds2 = object.getGlobalBounds();
 	return bounds1.intersects(bounds2);
 }
 
-bool GameObject::Contains(double x, double y) const
+bool GameObject::contains(double x, double y) const
 {
-	auto bounds = GetGlobalBounds();
+	auto bounds = getGlobalBounds();
 	return bounds.contains(x, y);
 }

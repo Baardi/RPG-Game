@@ -8,10 +8,10 @@ public:
 	virtual ~MapProperties() {}
 	
 	template <class T>
-	bool GetProperty(const std::string &propertyName, T *property) const
+	bool getProperty(const std::string &propertyName, T *property) const
 	{
-		auto it = propertyMap.find(propertyName);
-		if (it == propertyMap.end())
+		auto it = m_propertyMap.find(propertyName);
+		if (it == m_propertyMap.end())
 			return false;
 
 		const T *castedValue = std::any_cast<T>(&it->second);
@@ -23,18 +23,18 @@ public:
 	}
 
 	template <class T>
-	T GetProperty(const std::string &propertyName) const
+	T getProperty(const std::string &propertyName) const
 	{
 		// Unsafe to use
-		return std::any_cast<T>(propertyMap.find(propertyName)->second);
+		return std::any_cast<T>(m_propertyMap.find(propertyName)->second);
 	}
 
-	bool ContainsProperty(const std::string &propertyName) const
+	bool containsProperty(const std::string &propertyName) const
 	{
-		return propertyMap.find(propertyName) != propertyMap.end();
+		return m_propertyMap.find(propertyName) != m_propertyMap.end();
 	}
 
 protected:
-	void LoadProperties(const Json::Value &object);
-	std::map<std::string, std::any> propertyMap;
+	void loadProperties(const Json::Value &object);
+	std::map<std::string, std::any> m_propertyMap;
 };

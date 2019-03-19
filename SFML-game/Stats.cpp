@@ -5,9 +5,9 @@ Stats Stats::get(const MapProperties &properties)
 {
 	Stats stats;
 
-	properties.GetProperty("Attack"	,	&stats.Attack	);
-	properties.GetProperty("Defence",   &stats.Defence	);
-	properties.GetProperty("HP"		,	&stats.HP 		);
+	properties.getProperty("Attack"	,	&stats.Attack	);
+	properties.getProperty("Defence",   &stats.Defence	);
+	properties.getProperty("HP"		,	&stats.HP 		);
 
 	return stats;
 }

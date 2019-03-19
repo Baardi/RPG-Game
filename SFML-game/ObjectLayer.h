@@ -2,15 +2,6 @@
 #include "Layer.h"
 #include "ObjectSprite.h"
 
-template <class T>
-class uniquepointerFinder
-{
-	bool operator()(T *lhs, T *rhs) const
-	{
-		return lhs() < rhs.get();
-	}
-};
-
 class ObjectLayer : public Layer, public MapProperties
 {
 public:
@@ -22,7 +13,7 @@ public:
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 	void removeSprite(ObjectSprite *sprite);
-	ObjectSprite *GetIntersectedObject(const GameObject &other);
+	ObjectSprite *getIntersectedObject(const GameObject &other);
 
 	std::vector<std::unique_ptr<ObjectSprite>> objects;
 

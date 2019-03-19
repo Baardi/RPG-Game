@@ -6,11 +6,11 @@ public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
-	virtual sf::FloatRect GetGlobalBounds() const;
-	bool Intersects(const GameObject &object) const;
-	bool Contains(double x, double y) const;
+	virtual sf::FloatRect getGlobalBounds() const;
+	bool intersects(const GameObject &object) const;
+	bool contains(double x, double y) const;
 
-	//possibly implement later, if decided to be useful
-	virtual void SetPosition(double x, double y) {}
+	virtual sf::Vector2<double> getPosition() const { return sf::Vector2<double>(); }
+	virtual void setPosition(double x, double y) {}
 	virtual void draw(sf::RenderTarget &window) {}
 };

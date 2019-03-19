@@ -6,7 +6,7 @@ sf::Vector2i Layer::getTileCoords(sf::Texture &texture, int tile) const
 	return g_getTileCoords(texture, tile, tileSize);
 }
 
-int Layer::GetTextureIndex(int tileValue, std::map<int, sf::Texture*>& tileSets) const
+int Layer::GetTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets)
 {
 	int tileTextureValue = 0;
 
@@ -19,7 +19,7 @@ int Layer::GetTextureIndex(int tileValue, std::map<int, sf::Texture*>& tileSets)
 	return tileTextureValue;
 }
 
-void Layer::ProcessAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sftools::Chronometer& clock)
+void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sftools::Chronometer& clock)
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;

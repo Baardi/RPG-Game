@@ -17,7 +17,7 @@ public:
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 
-	sf::FloatRect GetGlobalBounds() const override;
+	sf::FloatRect getGlobalBounds() const override;
 
 	// Id of first tile
 	int gid;
@@ -25,9 +25,9 @@ public:
 	sf::Sprite sprite;
 
 protected:
-	void LoadSpriteTexture(sf::Texture &texture, int tileid);
-	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
-	sf::IntRect GetTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
+	void loadSpriteTexture(sf::Texture &texture, int tileid);
+	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
+	sf::IntRect getTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
 private:
 	// Location on screen
@@ -39,7 +39,7 @@ private:
 	std::optional<sf::Text> text;
 
 	// AnimationData
-	AnimationTile animationTileInfo;
+	AnimationTile m_animationTileInfo;
 	
-	sf::FloatRect globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
+	sf::FloatRect m_globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
 };

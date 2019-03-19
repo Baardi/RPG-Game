@@ -6,8 +6,8 @@ Menu::Menu()
 {
 	clock.resume();
 
-	keyMapper.AddActionKey(sf::Keyboard::Return, ControlKey::Yes, std::bind(&Menu::SelectEntry, this));
-	keyMapper.AddActionKey(sf::Keyboard::Escape, ControlKey::Yes, State::Pop);
+	keyMapper.addActionKey(sf::Keyboard::Return, ControlKey::Yes, std::bind(&Menu::SelectEntry, this));
+	keyMapper.addActionKey(sf::Keyboard::Escape, ControlKey::Yes, State::Pop);
 }
 
 Menu::~Menu()
@@ -32,7 +32,7 @@ bool Menu::frame()
 	}
 
 	if (!mouseControl)
-		keyMapper.HandleKeyInput();
+		keyMapper.handleKeyInput();
 	
 	return true;
 }

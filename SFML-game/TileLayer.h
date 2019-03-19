@@ -20,8 +20,8 @@ private:
 	void initArrays(int size); // Resizes vector according to width/height of layer
 	
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
-	void LoadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
-	void LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
+	void loadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
+	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
 		
 	bool containsTextureTileCoords(int x, int y) const;
 	
@@ -32,10 +32,10 @@ private:
 	const T& getValue(const std::vector<T> &arr, int x, int y) const;
 
     // Use get (array, x, y) to access the map
-    std::vector<int> tilemap;
-	std::vector<AnimationTile> animationTilemap;
-	std::vector<sf::Sprite> textureMap;
+    std::vector<int> m_tilemap;
+	std::vector<AnimationTile> m_animationTilemap;
+	std::vector<sf::Sprite> m_textureMap;
 
     // Size in tiles
-	int width, height;
+	int m_width, m_height;
 };

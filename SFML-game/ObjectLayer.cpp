@@ -12,7 +12,7 @@ void ObjectLayer::load(const Json::Value& layer, sftools::Chronometer &clock, st
 	type = layer["type"].asString();
 	visible = layer["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
-	LoadProperties(layer);
+	loadProperties(layer);
 
 	// Get all mapObjects from layer
 	for (const auto &object : layer["objects"])
@@ -56,11 +56,11 @@ void ObjectLayer::removeSprite(ObjectSprite* sprite)
 	objects.erase(it);
 }
 
-ObjectSprite *ObjectLayer::GetIntersectedObject(const GameObject& other)
+ObjectSprite *ObjectLayer::getIntersectedObject(const GameObject& other)
 {
 	for (auto &object : objects)
 	{
-		if (object->Intersects(other))
+		if (object->intersects(other))
 			return object.get();
 	}
 

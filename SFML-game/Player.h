@@ -24,22 +24,24 @@ enum class Action
 	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
 	void draw(sf::RenderTarget &window) override;
-	sf::FloatRect GetGlobalBounds() const override;
-	void SetPosition(double x, double y) override;
+	sf::FloatRect getGlobalBounds() const override;
+	sf::Vector2<double> getPosition() const override;
+	void setPosition(double x, double y) override;
 	void takeItem(ObjectSprite *item);
-	void HandleKeyInput(Map &map);
+	void handleKeyInput(Map &map);
 
-	Dir dir = Dir::Down;
-	double x = 400, y = 400;
-	double speed = 1.5;
-	int counter = 0;
-	const int counterMax = 25;
-	sftools::Chronometer &clock;
-	sf::Int32 lastTime;
 
 private:
-	void move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const;
+	sf::Vector2<double> move(Dir dir, const double prevX, const double prevY) const;
 
+	double x = 400, y = 400;
+
+	Dir m_dir = Dir::Down;
+	double m_speed = 1.5;
+	int m_counter = 0;
+	const int m_counterMax = 25;
+	sf::Int32 m_lastTime;
+	
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	TileSize m_tilesize;

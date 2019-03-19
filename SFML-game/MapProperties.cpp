@@ -3,7 +3,7 @@
 #include "sfutility.h"
 #include <filesystem>
 
-void MapProperties::LoadProperties(const Json::Value &object)
+void MapProperties::loadProperties(const Json::Value &object)
 {
 	auto &propertytypes = object["propertytypes"];
 	auto &properties = object["properties"];
@@ -13,21 +13,21 @@ void MapProperties::LoadProperties(const Json::Value &object)
 		auto propertyType = propertytypes[propertyName].asString();
 
 		if (propertyType == "string")
-			propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
+			m_propertyMap.try_emplace(propertyName, std::make_any<std::string>(it->asString()));
 
 		else if (propertyType == "file")
-			propertyMap.try_emplace(propertyName, std::make_any<std::filesystem::path>(it->asString()));
+			m_propertyMap.try_emplace(propertyName, std::make_any<std::filesystem::path>(it->asString()));
 
 		else if (propertyType == "color")
-			propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::utility::parseColor(it->asString())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::utility::parseColor(it->asString())));
 
 		else if (propertyType == "int")
-			propertyMap.try_emplace(propertyName, std::make_any<int>(it->asInt()));
+			m_propertyMap.try_emplace(propertyName, std::make_any<int>(it->asInt()));
 
 		else if (propertyType == "float")
-			propertyMap.try_emplace(propertyName, std::make_any<float>(it->asFloat()));
+			m_propertyMap.try_emplace(propertyName, std::make_any<float>(it->asFloat()));
 
 		else if (propertyType == "bool")
-			propertyMap.try_emplace(propertyName, std::make_any<bool>(it->asBool()));
+			m_propertyMap.try_emplace(propertyName, std::make_any<bool>(it->asBool()));
 	}
 }

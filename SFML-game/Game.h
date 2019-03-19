@@ -30,10 +30,10 @@ public:
 
 private:
 	// Private Methods
-	void HandleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
-	void HandleEntranceIntersections(ObjectLayer *layer, ObjectSprite *entrance);
-	void LoadMusic(const MapProperties &map, Music &music);
-	void LoadProperties(const MapProperties &map);
+	void handleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
+	void handleEntranceIntersections(ObjectLayer *layer, ObjectSprite *entrance);
+	void loadMusic(const MapProperties &map, Music &music);
+	void loadProperties(const MapProperties &map);
 
 	// Class object (should be) initialized by App
 	sftools::Chronometer m_clock;
@@ -43,7 +43,7 @@ private:
 
 	Music m_music;
 	Map m_map;
-	sf::Text pauseText;
+	sf::Text m_pauseText;
 
 	KeyMapper m_keyMapper;
 	IntersectionHandler m_intersectionHandler;

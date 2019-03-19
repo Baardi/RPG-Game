@@ -4,21 +4,17 @@
 #include <filesystem>
 #include "State.h"
 
-Map::~Map()
-{
-}
-
 void Map::clear()
 {
-	layers.clear();
+	m_layers.clear();
 	tileSets.clear();
-	objectMap.clear();
-	tileMap.clear();
+	m_objectMap.clear();
+	m_tileMap.clear();
 	animatedTiles.clear();
-	propertyMap.clear();
-	currentPath = "";
+	m_propertyMap.clear();
+	m_currentPath = "";
 
-	clock.reset(true);
+	m_clock.reset(true);
 }
 
 bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
@@ -39,18 +35,18 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	if (!parsingSuccessful)
 		return false;
 
-	currentPath = std::filesystem::canonical(filename).parent_path();
+	m_currentPath = std::filesystem::canonical(filename).parent_path();
 
 	// Get tile size information
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
 	tileSize.s = root["spacing"].asInt();
-	width = root["width"].asInt();
-	height = root["height"].asInt();
+	m_width = root["width"].asInt();
+	m_height = root["height"].asInt();
 
 	loadTileSets(root, textures);
 
-	LoadProperties(root);
+	loadProperties(root);
 
 	// Read in each layer
 	for (Json::Value& layer: root["layers"])
@@ -65,57 +61,37 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	return true;
 }
 
-bool Map::loadRelative(const std::filesystem::path& filename, TextureMap &textures)
-{
-	return load(std::filesystem::canonical(currentPath / filename), textures);
-}
-
-bool Map::GetPathProperty(const std::string &propertyName, std::filesystem::path *property) const
-{
-	if (!GetProperty(propertyName, property))
-		return false;
-	
-	std::error_code errcode;
-	*property = std::filesystem::canonical(currentPath / *property, errcode);
-	return static_cast<bool>(errcode);
-}
-
-std::filesystem::path Map::GetPathProperty(const std::string &propertyName) const
-{
-	return std::filesystem::canonical(currentPath / GetProperty<std::filesystem::path>(propertyName));
-}
-
 void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
-	auto tmp = static_cast<TileLayer *>(layers.emplace_back(
+	auto tmp = static_cast<TileLayer *>(m_layers.emplace_back(
 		std::make_unique<TileLayer>(tileSize))
 		.get());				   // vector, so the order is kept
 
 	tmp->load(layer, tileSets, animatedTiles);
-	tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
+	m_tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
 }
 
 void Map::loadObjects(const Json::Value& layer)
 {
 	// Store info on layer
-	auto objectLayer = static_cast<ObjectLayer *>(layers.emplace_back(
+	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
 		std::make_unique<ObjectLayer>(tileSize))
 		.get());				   // vector, so the order is kept
 	
-	objectLayer->load(layer, clock, tileSets, animatedTiles);
-	objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
+	objectLayer->load(layer, m_clock, tileSets, animatedTiles);
+	m_objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
 }
 
 void Map::draw(sf::RenderTarget &window)
 {
-	for (auto &layer : layers)
+	for (auto &layer : m_layers)
 		drawLayer(window, layer.get());
 }
 
 void Map::drawLayer(sf::RenderTarget& window, Layer* layer)
 {
-	layer->process(clock);
+	layer->process(m_clock);
 
 	if (layer->visible)
 		layer->draw(window);
@@ -125,7 +101,7 @@ void Map::splitDraw(sf::RenderTarget &window, const std::string& byLayer, DrawTy
 {
 	bool isDrawing = drawType == DrawType::Back;
 
-	for (auto &layer : layers)
+	for (auto &layer : m_layers)
 	{
 		if (layer->name == byLayer)
 		{
@@ -141,19 +117,19 @@ void Map::splitDraw(sf::RenderTarget &window, const std::string& byLayer, DrawTy
 	}
 }
 
-TileLayer *Map::GetTileLayer(const std::string& layerName)
+TileLayer *Map::getTileLayer(const std::string& layerName)
 {
-	auto it = tileMap.find(layerName);
-	if (it != tileMap.end())
+	auto it = m_tileMap.find(layerName);
+	if (it != m_tileMap.end())
 		return it->second;
 
 	return nullptr;
 }
 
-ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
+ObjectLayer *Map::getObjectLayer(const std::string& layerName)
 {
-	auto it = objectMap.find(layerName);
-	if (it != objectMap.end())
+	auto it = m_objectMap.find(layerName);
+	if (it != m_objectMap.end())
 		return it->second;
 
 	return nullptr;
@@ -161,19 +137,19 @@ ObjectLayer *Map::GetObjectLayer(const std::string& layerName)
 
 void Map::pause()
 {
-	clock.pause();
+	m_clock.pause();
 }
 
 void Map::resume()
 {
-	clock.resume();
+	m_clock.resume();
 }
 
 void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{
-		auto image = currentPath / val["image"].asString();
+		auto image = m_currentPath / val["image"].asString();
 		int firstgid = val["firstgid"].asInt();
 		auto it = textures.find(image.string());
 

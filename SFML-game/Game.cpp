@@ -6,9 +6,9 @@
 #include "GamePopupMenu.h"
 #include <filesystem>
 
-Game::Game(): m_player(m_clock, 400, 400), pauseText("Paused", font, 50)
+Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", font, 50)
 {
-	pauseText.setPosition(400, 450);
+	m_pauseText.setPosition(400, 450);
 }
 
 Game::~Game()
@@ -18,22 +18,21 @@ Game::~Game()
 void Game::init()
 {
 	UI::init();
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
+	m_keyMapper.addActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
+	m_keyMapper.addActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
 
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::M,		ControlKey::Yes, std::bind(&Music::toggle,    &m_music));
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  std::bind(&Music::incVolume, &m_music));
-	m_keyMapper.AddActionKey(sf::Keyboard::Key::Subtract, ControlKey::No,  std::bind(&Music::decVolume, &m_music));
-
-	
-	m_intersectionHandler.Register("Entrance", std::bind(&Game::HandleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
-	m_intersectionHandler.Register("Items",    std::bind(&Game::HandleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::M,			ControlKey::Yes, std::bind(&Music::toggle,    &m_music));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  std::bind(&Music::incVolume, &m_music));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Subtract,	ControlKey::No,  std::bind(&Music::decVolume, &m_music));
+		
+	m_intersectionHandler.registerEvent("Entrance", std::bind(&Game::handleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
+	m_intersectionHandler.registerEvent("Items",    std::bind(&Game::handleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
 	
 	m_map.load("data/Maps/Intro village.json", State::Textures());
-	LoadProperties(m_map);
+	loadProperties(m_map);
 }
 
 bool Game::frame()
@@ -41,12 +40,12 @@ bool Game::frame()
 	if (!UI::frame())
 		return false;
 
-	m_keyMapper.HandleKeyInput();
+	m_keyMapper.handleKeyInput();
 
 	if (!m_paused)
 	{
-		m_player.HandleKeyInput(m_map);
-		m_intersectionHandler.HandleIntersections(m_map, m_player);
+		m_player.handleKeyInput(m_map);
+		m_intersectionHandler.handleIntersections(m_map, m_player);
 		m_clock.reset(true);
 	}
 
@@ -76,46 +75,44 @@ void Game::draw()
 	m_map.splitDraw(window, "Character", Map::DrawType::Front);
 
 	if (m_paused && State::IsCurrent(this))
-		window.draw(pauseText);
+		window.draw(m_pauseText);
 }
 
-void Game::LoadProperties(const MapProperties &properties)
+void Game::loadProperties(const MapProperties &properties)
 {
-	LoadMusic(properties, m_music);
+	loadMusic(properties, m_music);
 }
 
-void Game::LoadMusic(const MapProperties &properties, Music &music)
+void Game::loadMusic(const MapProperties &properties, Music &music)
 {
 	std::filesystem::path musicFile;
-	if (properties.GetProperty("Music", &musicFile))
-		music.load(m_map.GetPath() / musicFile);
+	if (properties.getProperty("Music", &musicFile))
+		music.load(m_map.getPath() / musicFile);
 	else
 		music.reset();
 }
 
-void Game::HandleItemIntersections(ObjectLayer* layer, ObjectSprite* item)
+void Game::handleItemIntersections(ObjectLayer* layer, ObjectSprite* item)
 {
 	m_player.takeItem(item);
 	layer->removeSprite(item);
 }
 
-void Game::HandleEntranceIntersections(ObjectLayer* layer, ObjectSprite* entrance)
+void Game::handleEntranceIntersections(ObjectLayer* layer, ObjectSprite* entrance)
 {
 	std::filesystem::path mapFile;
-	if (!entrance->GetProperty("EntranceTo", &mapFile))
+	if (!entrance->getProperty("EntranceTo", &mapFile))
 		return; // Give user a message, invalid entrance
 
-	int x = m_player.x;
-	entrance->GetProperty("SpawnX", &x);
-	
-	int y = m_player.y;
-	entrance->GetProperty("SpawnY", &y);
+	sf::Vector2i pos = static_cast<sf::Vector2i>(m_player.getPosition());
+	entrance->getProperty("SpawnX", &pos.x);
+	entrance->getProperty("SpawnY", &pos.y);
 
 	Map tmpMap;
-	if (!tmpMap.load(m_map.GetPath() / mapFile, State::Textures()))
+	if (!tmpMap.load(m_map.getPath() / mapFile, State::Textures()))
 		return; // Give user a message, invalid entrance
 	
 	m_map = std::move(tmpMap);
-	LoadProperties(m_map);
-	m_player.SetPosition(x, y);
+	loadProperties(m_map);
+	m_player.setPosition(pos.x, pos.y);
 }

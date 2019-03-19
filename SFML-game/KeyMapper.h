@@ -14,14 +14,14 @@ class KeyMapper
 public:
 	KeyMapper() = default;
 	~KeyMapper() = default;
-	void AddActionKey(sf::Keyboard::Key key, ControlKey controlKey, std::function<void()> action);
-	void HandleKeyInput();
+	void addActionKey(sf::Keyboard::Key key, ControlKey controlKey, std::function<void()> action);
+	void handleKeyInput();
 
 private:
 	bool controlKeyWasPressed = true;
 
-	std::vector<sf::Keyboard::Key> keys;
-	std::vector<bool> controlKeys;
-	std::vector<std::function<void()>> actions;
+	std::vector<sf::Keyboard::Key> m_keys;
+	std::vector<bool> m_controlKeys;
+	std::vector<std::function<void()>> m_actions;
 };
 

@@ -18,9 +18,9 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 	opacity = layer["opacity"].asFloat();
 
 	unsigned int json_gid = object["gid"].asUInt();
-	verflip = json_gid / (Map::flipMultiplier * 2);
-	horflip = json_gid % (Map::flipMultiplier * 2) > Map::flipMultiplier;
-	gid = json_gid % Map::flipMultiplier;
+	verflip = json_gid / (Map::FLIP_MULTIPLIER * 2);
+	horflip = json_gid % (Map::FLIP_MULTIPLIER * 2) > Map::FLIP_MULTIPLIER;
+	gid = json_gid % Map::FLIP_MULTIPLIER;
 
 	x = object["x"].asFloat();
 	y = object["y"].asFloat();
@@ -31,13 +31,13 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 		y -= height * std::cos(rotation * (M_PI / 180.0));
 	}
 
-	globalBounds = sf::FloatRect(x, y, width, height);
+	m_globalBounds = sf::FloatRect(x, y, width, height);
 
 	auto textValue = object["text"];
 	if (!textValue.empty() && !gid)
 		loadText(textValue);
 
-	LoadProperties(object);
+	loadProperties(object);
 	loadTexture(tileSets, animatedTiles);
 }
 
@@ -60,8 +60,8 @@ void ObjectSprite::process(sftools::Chronometer &clock)
 		return;
 
 	// Update animation
-	if (!animationTileInfo.animationTileData.empty())
-		ProcessAnimation(sprite, animationTileInfo, clock);
+	if (!m_animationTileInfo.animationTileData.empty())
+		processAnimation(sprite, m_animationTileInfo, clock);
 }
 
 void ObjectSprite::draw(sf::RenderTarget &window)
@@ -87,26 +87,26 @@ void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationT
 	auto it = animatedTiles.find(gid);
 	if (it == animatedTiles.end())
 	{
-		LoadSpriteTexture(*spriteTexture, gid - tileTextureValue);
+		loadSpriteTexture(*spriteTexture, gid - tileTextureValue);
 	}
 	else 
 	{
 		// First animationtile decides first texturerect
 		auto &animationTile = it->second;
-		LoadSpriteTexture(*spriteTexture, animationTile[0].first);
-		LoadSpriteAnimation(*spriteTexture, animationTile);
+		loadSpriteTexture(*spriteTexture, animationTile[0].first);
+		loadSpriteAnimation(*spriteTexture, animationTile);
 	}
 }
 
-sf::FloatRect ObjectSprite::GetGlobalBounds() const
+sf::FloatRect ObjectSprite::getGlobalBounds() const
 {
-	return globalBounds;
+	return m_globalBounds;
 }
 
-void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
+void ObjectSprite::loadSpriteTexture(sf::Texture &texture, int tileid)
 {
 	auto [tilex, tiley] = getTileCoords(texture, tileid);
-	auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
+	auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
@@ -116,18 +116,18 @@ void ObjectSprite::LoadSpriteTexture(sf::Texture &texture, int tileid)
 	sprite.setScale(width / static_cast<float>(tileSize.x), height / static_cast<float>(tileSize.y));
 }
 
-void ObjectSprite::LoadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile)
+void ObjectSprite::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile)
 {
 	for (const auto &tile : animationTile)
 	{
 		auto [tilex, tiley] = getTileCoords(texture, tile.first);
-		auto textureRect = GetTextureRectToUse(tilex, tiley, verflip, horflip);
+		auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
-		animationTileInfo.animationTileData.emplace_back(tile.second, textureRect);
+		m_animationTileInfo.animationTileData.emplace_back(tile.second, textureRect);
 	}
 }
 
-sf::IntRect ObjectSprite::GetTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) const // Set texture rect differently depending on flip
+sf::IntRect ObjectSprite::getTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) const // Set texture rect differently depending on flip
 {
 	int txXPos = verflip ? tilex + tileSize.x : tilex;
 	int txYPos = horflip ? tiley + tileSize.y : tiley;

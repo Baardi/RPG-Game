@@ -3,15 +3,15 @@
 #include "ObjectSprite.h"
 #include "ObjectLayer.h"
 
-void IntersectionHandler::HandleIntersections(const Map &map, GameObject &object)
+void IntersectionHandler::handleIntersections(const Map &map, GameObject &object)
 {
-	for (auto &&[layerName, layer] : map.objectMap)
+	for (auto [layerName, layer] : map.m_objectMap)
 	{
 		auto it = intersectionMap.find(layerName);
 		if (it == intersectionMap.end())
 			continue;
 
-		auto sprite = layer->GetIntersectedObject(object);
+		auto sprite = layer->getIntersectedObject(object);
 		if (!sprite)
 			continue;
 		
@@ -20,7 +20,7 @@ void IntersectionHandler::HandleIntersections(const Map &map, GameObject &object
 	}
 }
 
-void IntersectionHandler::Register(const std::string &name, const std::function<void(ObjectLayer *, ObjectSprite *)> &action)
+void IntersectionHandler::registerEvent(const std::string &name, const std::function<void(ObjectLayer *, ObjectSprite *)> &action)
 {
 	// Be careful, making changes to the map, might break the layer
 	// Making changes to to the layer, might break the object

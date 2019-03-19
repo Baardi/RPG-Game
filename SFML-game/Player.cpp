@@ -5,26 +5,26 @@
 #include "InventoryUI.h"
 #include "DialogInterface.h"
 
-Player::Player(sftools::Chronometer &clock, int x, int y) : clock(clock)
+Player::Player(sftools::Chronometer &clock, int x, int y)
 {
 	m_texture.loadFromFile("data/Player Sprites/Warrior.png");
 	m_tilesize.x = m_texture.getSize().x / 4;
 	m_tilesize.y = m_texture.getSize().y / 4;
 
 	m_sprite.setTexture(m_texture);
-	m_sprite.setTextureRect(sf::IntRect(0, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+	m_sprite.setTextureRect(sf::IntRect(0, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	
 	// Map keys to directions for the player
 	m_dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
-	m_dirMap.emplace(Dir::Right,	 sf::Keyboard::Key::Right);
-	m_dirMap.emplace(Dir::Up,		 sf::Keyboard::Key::Up);
+	m_dirMap.emplace(Dir::Right, sf::Keyboard::Key::Right);
+	m_dirMap.emplace(Dir::Up,	 sf::Keyboard::Key::Up);
 	m_dirMap.emplace(Dir::Down,	 sf::Keyboard::Key::Down);
 	
 	// Map keys for actions (such as open inventory)
 	m_actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
-	m_actionMap.emplace(Action::Talk,			sf::Keyboard::Key::T);
+	m_actionMap.emplace(Action::Talk,		sf::Keyboard::Key::T);
 	
-	Player::SetPosition(x, y);
+	Player::setPosition(x, y);
 }
 
 Player::~Player()
@@ -36,16 +36,21 @@ void Player::draw(sf::RenderTarget &window)
 	window.draw(m_sprite);
 }
 
-sf::FloatRect Player::GetGlobalBounds() const
+sf::FloatRect Player::getGlobalBounds() const
 {
 	return m_sprite.getGlobalBounds();
 }
 
-void Player::SetPosition(double x, double y)
+void Player::setPosition(double x, double y)
 {
 	this->x = x;
 	this->y = y;
 	m_sprite.setPosition(x, y);
+}
+
+sf::Vector2<double> Player::getPosition() const
+{
+	return sf::Vector2(x, y);
 }
 
 void Player::takeItem(ObjectSprite *item)
@@ -53,7 +58,7 @@ void Player::takeItem(ObjectSprite *item)
 	m_inventory.AddItem(item);
 }
 
-void Player::HandleKeyInput(Map &map)
+void Player::handleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
@@ -61,7 +66,7 @@ void Player::HandleKeyInput(Map &map)
 	{
 		if (sf::Keyboard::isKeyPressed(kvPair.second))
 		{
-			dir = kvPair.first;
+			m_dir = kvPair.first;
 			isMoving = true;
 			break;
 		}
@@ -77,46 +82,47 @@ void Player::HandleKeyInput(Map &map)
 
 	if (isMoving)
 	{
-		double newX, newY;
-		move(dir, x, y, newX, newY);
+		auto [newX, newY] = move(m_dir, x, y);
 
-		auto unWalkables = map.GetTileLayer("Unwalkables");
-		auto Walkables = map.GetTileLayer("Walkables");
-		if (!(unWalkables && unWalkables->containsTexture(newX, newY)) ||
-			 (  Walkables &&   Walkables->containsTexture(newX, newY)))
-			SetPosition(newX, newY);
+		auto unWalkables = map.getTileLayer("Unwalkables");
+		auto walkables = map.getTileLayer("Walkables");
+
+		if (!(unWalkables && unWalkables->containsTexture(newX, newY)) || (walkables && walkables->containsTexture(newX, newY)))
+			setPosition(newX, newY);
 		
-		counter = (counter + 1) % counterMax;
-		m_sprite.setTextureRect(sf::IntRect(int(float(counter) / (float(counterMax) / 4.0)) * m_tilesize.x, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+		m_counter = (m_counter + 1) % m_counterMax;
+		m_sprite.setTextureRect(sf::IntRect(int(float(m_counter) / (float(m_counterMax) / 4.0)) * m_tilesize.x, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	}
 	else
 	{
-		counter = counter/counterMax;
-		m_sprite.setTextureRect(sf::IntRect(0, int(dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+		m_counter = m_counter/m_counterMax;
+		m_sprite.setTextureRect(sf::IntRect(0, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	}
 }
 
-void Player::move(Dir dir, const double prevX, const double prevY, double &newX, double &newY) const
+sf::Vector2<double> Player::move(Dir dir, const double prevX, const double prevY) const
 {
-	newX = prevX;
-	newY = prevY;
+	double newX = prevX;
+	double newY = prevY;
 
 	switch (dir)
 	{
 	case Dir::Down:
-		newY += speed;
+		newY += m_speed;
 		break;
 
 	case Dir::Up:
-		newY -= speed;
+		newY -= m_speed;
 		break;
 
 	case Dir::Left:
-		newX -= speed;
+		newX -= m_speed;
 		break;
 
 	case Dir::Right:
-		newX += speed;
+		newX += m_speed;
 		break;
 	}
+
+	return sf::Vector2(newX, newY);
 }
