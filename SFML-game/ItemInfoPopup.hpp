@@ -21,9 +21,9 @@ public:
 	void init() override;
 	void draw() override; 
 
-	GameItem *item;
-	Map menuBackground;
-	sf::RenderTexture renderTexture;
-	sf::Sprite renderSprite;
+	GameItem *m_item;
+	Map m_menuBackground;
+	sf::RenderTexture m_renderTexture;
+	sf::Sprite m_renderSprite;
 };
 

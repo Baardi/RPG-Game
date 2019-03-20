@@ -30,8 +30,6 @@ public:
 
 private:
 	// Private Methods
-	void handleItemIntersections(ObjectLayer *layer, ObjectSprite *item);
-	void handleEntranceIntersections(ObjectLayer *layer, ObjectSprite *entrance);
 	void loadMusic(const MapProperties &map, Music &music);
 	void loadProperties(const MapProperties &map);
 

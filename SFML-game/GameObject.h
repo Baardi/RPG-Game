@@ -12,5 +12,6 @@ public:
 
 	virtual sf::Vector2<double> getPosition() const { return sf::Vector2<double>(); }
 	virtual void setPosition(double x, double y) {}
+	virtual void setPosition(sf::Vector2<double> pos) {}
 	virtual void draw(sf::RenderTarget &window) {}
 };

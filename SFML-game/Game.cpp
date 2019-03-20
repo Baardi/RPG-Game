@@ -18,19 +18,42 @@ Game::~Game()
 void Game::init()
 {
 	UI::init();
+	
 	m_keyMapper.addActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
 	m_keyMapper.addActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
 	m_keyMapper.addActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
 	m_keyMapper.addActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
-	m_keyMapper.addActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, std::bind(&UI::toggle, this));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, [this] { toggle(); });
 
-	m_keyMapper.addActionKey(sf::Keyboard::Key::M,			ControlKey::Yes, std::bind(&Music::toggle,    &m_music));
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  std::bind(&Music::incVolume, &m_music));
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Subtract,	ControlKey::No,  std::bind(&Music::decVolume, &m_music));
-		
-	m_intersectionHandler.registerEvent("Entrance", std::bind(&Game::handleEntranceIntersections, this, std::placeholders::_1, std::placeholders::_2));
-	m_intersectionHandler.registerEvent("Items",    std::bind(&Game::handleItemIntersections, this, std::placeholders::_1, std::placeholders::_2));
+	m_keyMapper.addActionKey(sf::Keyboard::Key::M,			ControlKey::Yes, [this] { m_music.toggle(); } );
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  [this] { m_music.incVolume(); });
+	m_keyMapper.addActionKey(sf::Keyboard::Key::Subtract,	ControlKey::No,	 [this] { m_music.decVolume(); });
 	
+	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer* layer, ObjectSprite* item)
+	{
+		m_player.takeItem(item);
+		layer->removeSprite(item);
+	});
+
+	m_intersectionHandler.registerEvent("Entrance", [this](ObjectLayer* layer, ObjectSprite* entrance)
+	{
+		std::filesystem::path mapFile;
+		if (!entrance->getProperty("EntranceTo", &mapFile))
+			return; // Give user a message, invalid entrance
+
+		auto pos = static_cast<sf::Vector2i>(m_player.getPosition());
+		entrance->getProperty("SpawnX", &pos.x);
+		entrance->getProperty("SpawnY", &pos.y);
+
+		Map tmpMap;
+		if (!tmpMap.load(m_map.getPath() / mapFile, State::Textures()))
+			return; // Give user a message, invalid entrance
+
+		m_map = std::move(tmpMap);
+		loadProperties(m_map);
+		m_player.setPosition(pos.x, pos.y);
+	});
+
 	m_map.load("data/Maps/Intro village.json", State::Textures());
 	loadProperties(m_map);
 }
@@ -90,29 +113,4 @@ void Game::loadMusic(const MapProperties &properties, Music &music)
 		music.load(m_map.getPath() / musicFile);
 	else
 		music.reset();
-}
-
-void Game::handleItemIntersections(ObjectLayer* layer, ObjectSprite* item)
-{
-	m_player.takeItem(item);
-	layer->removeSprite(item);
-}
-
-void Game::handleEntranceIntersections(ObjectLayer* layer, ObjectSprite* entrance)
-{
-	std::filesystem::path mapFile;
-	if (!entrance->getProperty("EntranceTo", &mapFile))
-		return; // Give user a message, invalid entrance
-
-	sf::Vector2i pos = static_cast<sf::Vector2i>(m_player.getPosition());
-	entrance->getProperty("SpawnX", &pos.x);
-	entrance->getProperty("SpawnY", &pos.y);
-
-	Map tmpMap;
-	if (!tmpMap.load(m_map.getPath() / mapFile, State::Textures()))
-		return; // Give user a message, invalid entrance
-	
-	m_map = std::move(tmpMap);
-	loadProperties(m_map);
-	m_player.setPosition(pos.x, pos.y);
 }

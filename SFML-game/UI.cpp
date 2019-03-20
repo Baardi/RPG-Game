@@ -30,7 +30,7 @@ void UI::drawAll()
 	window.display();
 }
 
-bool UI::PollEvent(sf::Event::EventType eventType)
+bool UI::pollEvent(sf::Event::EventType eventType)
 {
 	switch (eventType)
 	{
@@ -57,11 +57,11 @@ void UI::HandleWindowEvents()
 	while (window.pollEvent(event))
 	{
 		if (respondable)
-			// Normal virtual pollevent, overriding ui's can hook into
-			PollEvent(event.type);
+			// Normal virtual pollEvent, overriding ui's can hook into
+			pollEvent(event.type);
 		else
 			// Don't call the virtual method, just check if the window is in a respondable state
-			UI::PollEvent(event.type); 
+			UI::pollEvent(event.type); 
 	}
 }
 

@@ -48,6 +48,13 @@ void Player::setPosition(double x, double y)
 	m_sprite.setPosition(x, y);
 }
 
+void Player::setPosition(sf::Vector2<double> pos)
+{
+	this->x = pos.x;
+	this->y = pos.y;
+	m_sprite.setPosition(static_cast<sf::Vector2f>(pos));
+}
+
 sf::Vector2<double> Player::getPosition() const
 {
 	return sf::Vector2(x, y);

@@ -12,6 +12,6 @@ PopupMenu::~PopupMenu()
 
 void PopupMenu::draw()
 {
-	menuBackground.draw(window);
+	m_menuBackground.draw(window);
 	Menu::draw();
 }

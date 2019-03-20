@@ -9,7 +9,7 @@ public:
 	GameItem(int gid, const std::string &name, const sf::Sprite &sprite);
 	virtual ~GameItem() = default;
 
-	void vSet(int gid, const std::string &name, const sf::Sprite &sprite);
+	void construct(int gid, const std::string &name, const sf::Sprite &sprite);
 	virtual void applyProperties(const MapProperties &properties) {}
 
 	const std::string& name() const { return m_name; }

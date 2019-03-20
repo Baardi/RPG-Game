@@ -4,10 +4,10 @@
 
 Menu::Menu()
 {
-	clock.resume();
+	m_clock.resume();
 
-	keyMapper.addActionKey(sf::Keyboard::Return, ControlKey::Yes, std::bind(&Menu::SelectEntry, this));
-	keyMapper.addActionKey(sf::Keyboard::Escape, ControlKey::Yes, State::Pop);
+	m_keyMapper.addActionKey(sf::Keyboard::Return, ControlKey::Yes, std::bind(&Menu::selectEntry, this));
+	m_keyMapper.addActionKey(sf::Keyboard::Escape, ControlKey::Yes, State::Pop);
 }
 
 Menu::~Menu()
@@ -25,47 +25,47 @@ bool Menu::frame()
 	if (!UI::frame())
 		return false;
 	
-	if (clock.getElapsedTime().asMilliseconds() > 100)
+	if (m_clock.getElapsedTime().asMilliseconds() > 100)
 	{
 		tick();
-		clock.reset(true);
+		m_clock.reset(true);
 	}
 
-	if (!mouseControl)
-		keyMapper.handleKeyInput();
+	if (!m_mouseControl)
+		m_keyMapper.handleKeyInput();
 	
 	return true;
 }
 
-bool Menu::PollEvent(sf::Event::EventType eventType)
+bool Menu::pollEvent(sf::Event::EventType eventType)
 {
 	switch (eventType)
 	{
 	case sf::Event::MouseMoved:
-		mouseControl = true;
+		m_mouseControl = true;
 		return true;
 
 	case sf::Event::KeyPressed:
-		mouseControl = false;
+		m_mouseControl = false;
 		return true;
 
 	case sf::Event::MouseButtonPressed:
-		if (mouseControl && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			SelectEntry();
+		if (m_mouseControl && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			selectEntry();
 
 		return true;
 
 	default:
-		return UI::PollEvent(eventType);
+		return UI::pollEvent(eventType);
 	}
 }
 
 void Menu::tick()
 {	
-	mouseControl ? HandleMouseEvents() : HandleKeyEvents();
+	m_mouseControl ? handleMouseEvents() : handleKeyEvents();
 }
 
-size_t Menu::AddMenuItem(const std::string &text, const std::function<void()> &action)
+size_t Menu::addMenuItem(const std::string &text, const std::function<void()> &action)
 {
 	size_t index = menuItems.size();
 
@@ -73,21 +73,21 @@ size_t Menu::AddMenuItem(const std::string &text, const std::function<void()> &a
 	itemInserted.setFillColor(index ? colorUnselect : colorSelect);
 	itemInserted.setPosition(x, y + spacing * index);
 
-	actions.emplace_back(action);
+	m_actions.emplace_back(action);
 
 	return index;
 }
 
-size_t Menu::AddMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action)
+size_t Menu::addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action)
 {
-	size_t index = AddMenuItem(text, action);
-	AddMenuSprite(sprite, index);
+	size_t index = addMenuItem(text, action);
+	addMenuSprite(sprite, index);
 	return index;
 }
 
-void Menu::AddMenuSprite(const sf::Sprite& sprite, size_t index)
+void Menu::addMenuSprite(const sf::Sprite& sprite, size_t index)
 {
-	auto &addedSprite = menusprites.emplace_back(sprite); // Yes I want a copy
+	auto &addedSprite = m_menusprites.emplace_back(sprite); // Yes I want a copy
 	addedSprite.setPosition(x + spriteSpacing, y + spacing * index);
 }
 
@@ -99,41 +99,41 @@ std::pair<int, int> Menu::GetMenuCoords(size_t index)
 	return std::make_pair(itemXPos, itemYPos);
 }
 
-void Menu::SelectEntry() const
+void Menu::selectEntry() const
 {
-	if (menuIndex < actions.size())
-		actions[menuIndex]();
+	if (m_menuIndex < m_actions.size())
+		m_actions[m_menuIndex]();
 }
 
-void Menu::HandleKeyEvents()
+void Menu::handleKeyEvents()
 {
 	if (menuItems.empty())
 		return;
 
-	if (menuIndex >= menuItems.size())
+	if (m_menuIndex >= menuItems.size())
 	{
-		menuIndex = 0;
-		menuItems[menuIndex].setFillColor(colorSelect);
+		m_menuIndex = 0;
+		menuItems[m_menuIndex].setFillColor(colorSelect);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		menuItems[menuIndex].setFillColor(colorUnselect);
-		menuIndex = (menuItems.size() + (menuIndex - 1)) % menuItems.size();
-		menuItems[menuIndex].setFillColor(colorSelect);
+		menuItems[m_menuIndex].setFillColor(colorUnselect);
+		m_menuIndex = (menuItems.size() + (m_menuIndex - 1)) % menuItems.size();
+		menuItems[m_menuIndex].setFillColor(colorSelect);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		menuItems[menuIndex].setFillColor(colorUnselect);
-		menuIndex = (menuIndex + 1) % menuItems.size();
-		menuItems[menuIndex].setFillColor(colorSelect);
+		menuItems[m_menuIndex].setFillColor(colorUnselect);
+		m_menuIndex = (m_menuIndex + 1) % menuItems.size();
+		menuItems[m_menuIndex].setFillColor(colorSelect);
 	}
 }
 
-void Menu::HandleMouseEvents()
+void Menu::handleMouseEvents()
 {
 	auto pos = sf::Mouse::getPosition(window);
-	menuIndex = -1;
+	m_menuIndex = -1;
 
 	for (int index = menuItems.size() - 1; index >= 0; --index)
 	{
@@ -141,7 +141,7 @@ void Menu::HandleMouseEvents()
 
 		if (menuItem.getGlobalBounds().contains(pos.x, pos.y))
 		{
-			menuIndex = index;
+			m_menuIndex = index;
 			menuItem.setFillColor(colorSelect);
 		}
 		else
@@ -156,6 +156,6 @@ void Menu::draw()
 	for (auto &menuItem : menuItems)
 		window.draw(menuItem);
 
-	for (auto &item : menusprites)
+	for (auto &item : m_menusprites)
 		window.draw(item);
 }

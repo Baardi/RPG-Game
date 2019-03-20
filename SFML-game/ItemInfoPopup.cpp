@@ -4,36 +4,36 @@
 
 void ItemInfoPopup::init()
 {
-	menuBackground.load("data/Menus/Subpopup.json", State::Textures());
+	m_menuBackground.load("data/Menus/Subpopup.json", State::Textures());
 	auto subInitializer = State::GetInitializer<ItemInfoInitializer>();
 	if (!subInitializer)
 		throw;
 	
 	x = subInitializer->x;
 	y = subInitializer->y;
-	renderTexture.create(352, 352);
-	renderSprite.setPosition(x - 20, y - 20);
-	renderSprite.setTexture(renderTexture.getTexture());
+	m_renderTexture.create(352, 352);
+	m_renderSprite.setPosition(x - 20, y - 20);
+	m_renderSprite.setTexture(m_renderTexture.getTexture());
 
-	item = subInitializer->item;
-	AddMenuItem("Back", State::Pop);
+	m_item = subInitializer->item;
+	addMenuItem("Back", State::Pop);
 
-	auto equipment = dynamic_cast<Equipment *>(item);
+	auto equipment = dynamic_cast<Equipment *>(m_item);
 	if (equipment)
 	{
 		auto &stats = equipment->getStats();
-		AddMenuItem("Attack:  " + std::to_string(stats.Attack));
-		AddMenuItem("Defence: " + std::to_string(stats.Defence)); 
-		AddMenuItem("HP:      " + std::to_string(stats.HP));
+		addMenuItem("Attack:  " + std::to_string(stats.Attack));
+		addMenuItem("Defence: " + std::to_string(stats.Defence)); 
+		addMenuItem("HP:      " + std::to_string(stats.HP));
 	}
 }
 
 void ItemInfoPopup::draw()
 {
-	renderTexture.clear(sf::Color::Transparent);
-	menuBackground.draw(renderTexture);
-	renderTexture.display();
-	window.draw(renderSprite);
+	m_renderTexture.clear(sf::Color::Transparent);
+	m_menuBackground.draw(m_renderTexture);
+	m_renderTexture.display();
+	window.draw(m_renderSprite);
 	
 	Menu::draw();
 }

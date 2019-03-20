@@ -14,7 +14,7 @@ class KeyMapper
 public:
 	KeyMapper() = default;
 	~KeyMapper() = default;
-	void addActionKey(sf::Keyboard::Key key, ControlKey controlKey, std::function<void()> action);
+	void addActionKey(sf::Keyboard::Key key, ControlKey controlKey, const std::function<void()> &action);
 	void handleKeyInput();
 
 private:

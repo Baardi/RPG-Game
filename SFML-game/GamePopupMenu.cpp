@@ -11,10 +11,10 @@ GamePopupMenu::GamePopupMenu()
 
 void GamePopupMenu::init()
 {
-	menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
+	m_menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
 
 	if (State::IsRunning())
-		AddMenuItem("Resume", State::Pop);
+		addMenuItem("Resume", State::Pop);
 
-	AddMenuItem("New Game", State::Reset<Game>);
+	addMenuItem("New Game", State::Reset<Game>);
 }

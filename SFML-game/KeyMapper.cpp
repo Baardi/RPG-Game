@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "KeyMapper.h"
 
-void KeyMapper::addActionKey(sf::Keyboard::Key key, ControlKey isControlKey, std::function<void()> action)
+void KeyMapper::addActionKey(sf::Keyboard::Key key, ControlKey isControlKey, const std::function<void()> &action)
 {
 	m_keys.emplace_back(key);
 	m_actions.emplace_back(action);

@@ -9,7 +9,7 @@ InventoryUI::InventoryUI()
 {
 	x = 70;
 	y = 120;
-	menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
+	m_menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
 }
 
 InventoryUI::~InventoryUI()
@@ -18,24 +18,22 @@ InventoryUI::~InventoryUI()
 
 void InventoryUI::init()
 {
-	AddMenuItem("Back", State::Pop);
+	addMenuItem("Back", State::Pop);
 
 	auto inventoryInitializer = State::GetInitializer<InventoryInitializer>();
 	if (!inventoryInitializer)
-		throw;
+		return;
 
 	inventory = &inventoryInitializer->inventory;
 	size_t lastIndex = 0;
 	for (auto &item : inventory->Items())
 	{
-		auto text = item.first->name() + "  x" + std::to_string(item.second);
-
-		lastIndex = AddMenuItem(text, item.first->sprite(), [this, &item, lastIndex]()
+		lastIndex = addMenuItem(item->name(), item->sprite(), [this, &item, lastIndex]()
 		{
-			State::PushChild<ItemInfoPopup>();
-			
 			auto [x, y] = GetMenuCoords(lastIndex + 1);
-			State::SetInitializer<ItemInfoInitializer>(item.first.get(), x + 380, y);
+			
+			State::PushChild<ItemInfoPopup>();
+			State::SetInitializer<ItemInfoInitializer>(item.get(), x + 380, y);
 		});
 	}
 }

@@ -10,6 +10,6 @@ public:
 
 	void draw() override; 
 
-	Map menuBackground;
+	Map m_menuBackground;
 };
 

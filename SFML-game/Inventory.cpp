@@ -3,27 +3,12 @@
 
 void Inventory::AddItem(ObjectSprite *sprite)
 {
-	GameItem *itemFound = nullptr;
-	for (auto &item : m_items)
-	{
-		if (item.first->name() == sprite->name)
-		{
-			itemFound = item.first.get();
-			item.second++;
-			break;
-		}
-	}
-	
-	if (!itemFound)
-	{
-		// Can't throw exceptions after item is created, but before it's added to items list
-		// Otherwise we'll get a memory leak
-		auto item = Object::create<GameItem>(sprite->type);
-		if (!item)
-			item = new GameItem();
+	auto item = std::unique_ptr<GameItem>(Object::create<GameItem>(sprite->type));
+	if (!item)
+		item = std::make_unique<GameItem>();
 
-		item->vSet(sprite->gid, sprite->name, sprite->sprite);
-		item->applyProperties(*sprite);
-		m_items.emplace_back(item, 1);
-	}
+	item->construct(sprite->gid, sprite->name, sprite->sprite);
+	item->applyProperties(*sprite);
+
+	m_items.push_back(std::move(item));
 }

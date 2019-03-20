@@ -10,7 +10,7 @@ public:
 	virtual void init();
 	
 	virtual bool frame() { return true; }
-	virtual bool PollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
+	virtual bool pollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
 	void HandleWindowEvents();
 
 	// Possibly belongs to state

@@ -13,12 +13,12 @@ protected:
 	// Overrides from UI
 	void init() override;
 	bool frame() override;
-	bool PollEvent(sf::Event::EventType eventType) override;
+	bool pollEvent(sf::Event::EventType eventType) override;
 	void draw() override;
 
 	// Methods used by derived classes
-	size_t AddMenuItem(const std::string &text, const std::function<void()> &action = []{});
-	size_t AddMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
+	size_t addMenuItem(const std::string &text, const std::function<void()> &action = []{});
+	size_t addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
 	std::pair<int, int> GetMenuCoords(size_t index); // Gets the coordinates of the menu item in a (x,y) pair
 
 	// Data members changable by derived classes
@@ -30,21 +30,21 @@ protected:
 
 private:
 
-	void AddMenuSprite(const sf::Sprite& sprite, size_t index);
+	void addMenuSprite(const sf::Sprite& sprite, size_t index);
 	void tick();
-	void SelectEntry() const;
-	void HandleKeyEvents();
-	void HandleMouseEvents();
+	void selectEntry() const;
+	void handleKeyEvents();
+	void handleMouseEvents();
 
 	//"Personal" class variables
-	sftools::Chronometer clock;
+	sftools::Chronometer m_clock;
 
-	size_t menuIndex = 0;
+	size_t m_menuIndex = 0;
 	std::vector<sf::Text> menuItems;
-	std::vector<std::function<void()>> actions;
-	std::vector<sf::Sprite> menusprites;
+	std::vector<std::function<void()>> m_actions;
+	std::vector<sf::Sprite> m_menusprites;
 
-	KeyMapper keyMapper;
+	KeyMapper m_keyMapper;
 	bool ControlKeyPressed = true;
-	bool mouseControl = false;
+	bool m_mouseControl = false;
 };

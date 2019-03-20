@@ -13,19 +13,17 @@ public:
 
 	auto size() const { return m_items.size(); }
 	
-	std::pair<GameItem *, int> &operator[](std::size_t idx) 
-	{ 
-		auto &pair = m_items[idx];
-		return std::make_pair(pair.first.get(), pair.second);
+	auto &operator[](std::size_t idx) 
+	{
+		return m_items[idx];
 	}
 
-	const std::pair<const GameItem *, int> &operator[](std::size_t idx) const 
+	const auto &operator[](std::size_t idx) const 
 	{ 
-		auto &pair = m_items[idx];
-		return std::make_pair(pair.first.get(), pair.second);
+		return m_items[idx];
 	}
 
 private:
-	std::vector<std::pair<std::unique_ptr<GameItem>, int>> m_items;
+	std::vector<std::unique_ptr<GameItem>> m_items;
 };
 
