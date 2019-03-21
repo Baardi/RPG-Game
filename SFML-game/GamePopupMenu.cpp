@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "GamePopupMenu.h"
-#include "State.h"
-#include "Game.h"
+#include "GamePopupMenu.hpp"
+#include "State.hpp"
+#include "Game.hpp"
 
 GamePopupMenu::GamePopupMenu()
 {

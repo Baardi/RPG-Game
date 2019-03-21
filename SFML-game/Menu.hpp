@@ -1,5 +1,5 @@
 #pragma once
-#include "UI.h"
+#include "UI.hpp"
 #include <functional>
 #include "KeyHandler.hpp"
 #include "ButtonHandler.hpp"
@@ -14,7 +14,6 @@ protected:
 	// Overrides from UI
 	void init() override;
 	bool frame() override;
-	bool pollEvent(sf::Event::EventType eventType) override;
 	void draw() override;
 
 	// Methods used by derived classes
@@ -41,7 +40,4 @@ private:
 
 	KeyHandler m_keyHandler;
 	ButtonHandler m_buttonHandler;
-
-	bool ControlKeyPressed = true;
-	bool m_mouseControl = false;
 };

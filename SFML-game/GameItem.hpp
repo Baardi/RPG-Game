@@ -1,6 +1,6 @@
 #pragma once
-#include "TileLayer.h"
-#include "TypeMapper.h"
+#include "TileLayer.hpp"
+#include "TypeMapper.hpp"
 
 class GameItem : public Object
 {

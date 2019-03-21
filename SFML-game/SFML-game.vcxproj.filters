@@ -42,47 +42,8 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectLayer.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TileLayer.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="map.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectSprite.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapProperties.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Music.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameItem.h">
-      <Filter>GameItems</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.hpp">
       <Filter>GameItems</Filter>
@@ -93,38 +54,8 @@
     <ClInclude Include="Valuable.hpp">
       <Filter>GameItems</Filter>
     </ClInclude>
-    <ClInclude Include="DialogInterface.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePopupMenu.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="PopupMenu.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="InventoryUI.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="IntersectionHandler.h">
-      <Filter>Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeMapper.h">
-      <Filter>Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Characters</Filter>
-    </ClInclude>
     <ClInclude Include="Character.hpp">
       <Filter>Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="sfUtility.h">
-      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Stats.hpp">
       <Filter>Header Files</Filter>
@@ -144,16 +75,82 @@
     <ClInclude Include="KeyHandler.hpp">
       <Filter>Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="DerivedTest.h">
+    <ClInclude Include="ObjectLayer.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameItem.hpp">
+      <Filter>GameItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLayer.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="SfUtility.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeMapper.hpp">
       <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePopupMenu.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMenu.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.hpp">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedTest.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="IntersectionHandler.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapProperties.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSprite.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogInterface.hpp">
+      <Filter>Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map.cpp">
-      <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="TileLayer.cpp">
       <Filter>Map</Filter>
@@ -233,9 +230,6 @@
     <ClCompile Include="DerivedTest.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="sfUtility.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -256,6 +250,12 @@
     </ClCompile>
     <ClCompile Include="KeyHandler.cpp">
       <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SfUtility.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

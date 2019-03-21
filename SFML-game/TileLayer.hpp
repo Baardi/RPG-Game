@@ -1,6 +1,6 @@
 #pragma once
-#include "Layer.h"
-#include "MapProperties.h"
+#include "Layer.hpp"
+#include "MapProperties.hpp"
 
 // Class representing a tile layer
 class TileLayer : public Layer, public MapProperties

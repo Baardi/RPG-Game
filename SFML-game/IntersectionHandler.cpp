@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "IntersectionHandler.h"
-#include "ObjectSprite.h"
-#include "ObjectLayer.h"
+#include "IntersectionHandler.hpp"
+#include "ObjectSprite.hpp"
+#include "ObjectLayer.hpp"
 
 void IntersectionHandler::handleEvents(const Map &map, GameObject &object)
 {

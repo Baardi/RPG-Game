@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DerivedTest.h"
+#include "DerivedTest.hpp"
 #include <iostream>
 
 REGISTER_TYPE(DerivedTest)

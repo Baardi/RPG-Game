@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "ObjectSprite.h"
-#include "State.h"
-#include "sfUtility.h"
+#include "ObjectSprite.hpp"
+#include "State.hpp"
+#include "sfUtility.hpp"
 #include <corecrt_math_defines.h>
-#include "map.h"
+#include "map.hpp"
 
 void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {

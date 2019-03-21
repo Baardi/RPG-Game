@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Player.h"
-#include "map.h"
-#include "State.h"
-#include "InventoryUI.h"
-#include "DialogInterface.h"
+#include "Player.hpp"
+#include "map.hpp"
+#include "State.hpp"
+#include "InventoryUI.hpp"
+#include "DialogInterface.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {

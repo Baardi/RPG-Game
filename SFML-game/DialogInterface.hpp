@@ -1,5 +1,5 @@
 #pragma once
-#include "PopupMenu.h"
+#include "PopupMenu.hpp"
 
 class DialogInterface : public PopupMenu
 {

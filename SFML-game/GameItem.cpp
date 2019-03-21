@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GameItem.h"
+#include "GameItem.hpp"
 
 
 GameItem::GameItem(int gid, const std::string &name, const sf::Sprite &sprite) :

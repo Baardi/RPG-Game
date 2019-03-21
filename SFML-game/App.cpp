@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "App.h"
+#include "App.hpp"
 #include <iostream>
-#include "State.h"
-#include "MainMenu.h"
+#include "State.hpp"
+#include "MainMenu.hpp"
 
 
 App::App()

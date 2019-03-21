@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "UI.h"
-#include "State.h"
+#include "UI.hpp"
+#include "State.hpp"
 
 UI::UI() : window(*State::Instance().window),
 			event(*State::Instance().event),

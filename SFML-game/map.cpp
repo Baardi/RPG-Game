@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include <fstream>
-#include "map.h"
+#include "Map.hpp"
 #include <filesystem>
-#include "State.h"
+#include "State.hpp"
 
 void Map::clear()
 {

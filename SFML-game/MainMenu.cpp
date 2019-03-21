@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "MainMenu.h"
-#include "State.h"
-#include "Game.h"
+#include "MainMenu.hpp"
+#include "State.hpp"
+#include "Game.hpp"
 
 void MainMenu::init()
 {

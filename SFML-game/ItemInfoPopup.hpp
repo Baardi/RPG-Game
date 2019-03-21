@@ -1,6 +1,6 @@
 #pragma once
-#include "PopupMenu.h"
-#include "GameItem.h"
+#include "PopupMenu.hpp"
+#include "GameItem.hpp"
 
 class ItemInfoInitializer : public Initializer
 {

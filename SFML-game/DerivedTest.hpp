@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TypeMapper.h"
+#include "TypeMapper.hpp"
 
 class Base : public Object
 {

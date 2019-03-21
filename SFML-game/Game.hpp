@@ -1,11 +1,9 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "State.h"
-#include <SFML/chronometer.h>
-#include "map.h"
-#include "Player.h"
+#include "State.hpp"
+#include "map.hpp"
+#include "Player.hpp"
 #include "KeyHandler.hpp"
-#include "IntersectionHandler.h"
+#include "IntersectionHandler.hpp"
 #include "Music.hpp"
 
 class Game : public UI

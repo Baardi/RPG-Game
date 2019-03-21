@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
-#include "ObjectSprite.h"
-#include "map.h"
+#include "ObjectSprite.hpp"
+#include "map.hpp"
 
 class IntersectionHandler
 {

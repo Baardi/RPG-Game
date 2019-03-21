@@ -170,41 +170,41 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
+    <ClInclude Include="App.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ButtonHandler.hpp" />
     <ClInclude Include="Character.hpp" />
-    <ClInclude Include="DerivedTest.h" />
-    <ClInclude Include="DialogInterface.h" />
+    <ClInclude Include="DerivedTest.hpp" />
+    <ClInclude Include="DialogInterface.hpp" />
     <ClInclude Include="Equipment.hpp" />
-    <ClInclude Include="GameItem.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GamePopupMenu.h" />
-    <ClInclude Include="IntersectionHandler.h" />
-    <ClInclude Include="Inventory.h" />
-    <ClInclude Include="InventoryUI.h" />
+    <ClInclude Include="GameItem.hpp" />
+    <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="GamePopupMenu.hpp" />
+    <ClInclude Include="IntersectionHandler.hpp" />
+    <ClInclude Include="Inventory.hpp" />
+    <ClInclude Include="InventoryUI.hpp" />
     <ClInclude Include="KeyHandler.hpp" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="MapProperties.h" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="MapProperties.hpp" />
     <ClInclude Include="Music.hpp" />
-    <ClInclude Include="ObjectSprite.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PopupMenu.h" />
+    <ClInclude Include="ObjectSprite.hpp" />
+    <ClInclude Include="Player.hpp" />
+    <ClInclude Include="PopupMenu.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="StatsInterface.hpp" />
     <ClInclude Include="ItemInfoPopup.hpp" />
-    <ClInclude Include="TileLayer.h" />
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="Layer.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="ObjectLayer.h" />
-    <ClInclude Include="State.h" />
+    <ClInclude Include="TileLayer.hpp" />
+    <ClInclude Include="MainMenu.hpp" />
+    <ClInclude Include="Map.hpp" />
+    <ClInclude Include="Layer.hpp" />
+    <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="ObjectLayer.hpp" />
+    <ClInclude Include="State.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TypeMapper.h" />
-    <ClInclude Include="UI.h" />
-    <ClInclude Include="sfUtility.h" />
+    <ClInclude Include="TypeMapper.hpp" />
+    <ClInclude Include="UI.hpp" />
+    <ClInclude Include="SfUtility.hpp" />
     <ClInclude Include="Valuable.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
@@ -240,7 +240,7 @@
     <ClCompile Include="ItemInfoPopup.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="map.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="SFML-game.cpp" />
@@ -252,7 +252,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="sfUtility.cpp" />
+    <ClCompile Include="SfUtility.cpp" />
     <ClCompile Include="Valuable.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>

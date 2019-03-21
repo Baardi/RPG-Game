@@ -1,6 +1,6 @@
 #pragma once
-#include "Menu.h"
-#include "map.h"
+#include "Menu.hpp"
+#include "Map.hpp"
 
 class PopupMenu : public Menu
 {

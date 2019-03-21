@@ -1,7 +1,7 @@
 #pragma once
-#include "PopupMenu.h"
-#include "State.h"
-#include "Inventory.h"
+#include "PopupMenu.hpp"
+#include "State.hpp"
+#include "Inventory.hpp"
 
 class InventoryInitializer : public Initializer
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "UI.h"
+#include "UI.hpp"
 #include <iostream>
 
 // The different transition types

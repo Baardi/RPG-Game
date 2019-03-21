@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Game.h"
-#include "ObjectSprite.h"
-#include "State.h"
-#include "MainMenu.h"
-#include "GamePopupMenu.h"
+#include "Game.hpp"
+#include "ObjectSprite.hpp"
+#include "State.hpp"
+#include "MainMenu.hpp"
+#include "GamePopupMenu.hpp"
 #include <filesystem>
 
 Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", font, 50)

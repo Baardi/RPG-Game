@@ -1,8 +1,8 @@
 #pragma once
 #include <any>
-#include "Layer.h"
-#include "GameObject.h"
-#include "MapProperties.h"
+#include "Layer.hpp"
+#include "GameObject.hpp"
+#include "MapProperties.hpp"
 #include <optional>
 
 class ObjectSprite : public Layer, public GameObject, public MapProperties

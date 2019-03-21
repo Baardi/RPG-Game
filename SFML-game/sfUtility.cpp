@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "sfUtility.h"
+#include "sfUtility.hpp"
 
 sf::Color sf::utility::parseColor(const std::string &colorCode)
 {

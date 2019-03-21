@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "ObjectLayer.h"
-#include "map.h"
+#include "ObjectLayer.hpp"
+#include "map.hpp"
 
 ObjectLayer::~ObjectLayer()
 {

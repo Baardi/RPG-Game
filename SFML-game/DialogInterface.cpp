@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "DialogInterface.h"
-#include "State.h"
+#include "DialogInterface.hpp"
+#include "State.hpp"
 
 
 DialogInterface::DialogInterface()

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "InventoryUI.h"
-#include "State.h"
-#include "MainMenu.h"
-#include "Inventory.h"
+#include "InventoryUI.hpp"
+#include "State.hpp"
+#include "MainMenu.hpp"
+#include "Inventory.hpp"
 #include "ItemInfoPopup.hpp"
 
 InventoryUI::InventoryUI()

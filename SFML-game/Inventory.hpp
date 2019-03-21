@@ -1,6 +1,6 @@
 #pragma once
-#include "GameItem.h"
-#include "ObjectSprite.h"
+#include "GameItem.hpp"
+#include "ObjectSprite.hpp"
 
 class Inventory
 {

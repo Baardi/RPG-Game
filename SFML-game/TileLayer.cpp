@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TileLayer.h"
+#include "TileLayer.hpp"
 
 TileLayer::TileLayer(const TileSize& tileSize) : Layer(tileSize) {}
 TileLayer::~TileLayer() {}

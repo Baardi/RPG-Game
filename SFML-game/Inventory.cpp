@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Inventory.h"
+#include "Inventory.hpp"
 
 void Inventory::AddItem(ObjectSprite *sprite)
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "TileLayer.h"
-#include "ObjectLayer.h"
-#include "MapProperties.h"
-#include "State.h"
+#include "TileLayer.hpp"
+#include "ObjectLayer.hpp"
+#include "MapProperties.hpp"
+#include "State.hpp"
 #include <filesystem>
 
 class Map : public MapProperties

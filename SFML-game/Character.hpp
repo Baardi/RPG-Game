@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "GameObject.hpp"
 #include "StatsInterface.hpp"
 
 class Character : public GameObject, public StatsInterface

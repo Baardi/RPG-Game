@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Layer.h"
+#include "Layer.hpp"
 
 sf::Vector2i Layer::getTileCoords(sf::Texture &texture, int tile) const
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "MapProperties.h"
+#include "MapProperties.hpp"
 
 struct Stats
 {

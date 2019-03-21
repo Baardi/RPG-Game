@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "State.h"
-#include "Menu.h"
+#include "State.hpp"
+#include "Menu.hpp"
 
 Menu::Menu()
 {
@@ -34,15 +34,6 @@ bool Menu::frame()
 	m_keyHandler.handleKeyInput();
 	
 	return true;
-}
-
-bool Menu::pollEvent(sf::Event::EventType eventType)
-{
-	switch (eventType)
-	{
-	default:
-		return UI::pollEvent(eventType);
-	}
 }
 
 Button &Menu::addMenuItem(const std::string &text, const std::function<void()> &action)

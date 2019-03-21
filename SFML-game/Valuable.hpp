@@ -1,5 +1,5 @@
 #pragma once
-#include "GameItem.h"
+#include "GameItem.hpp"
 class Valuable : public GameItem
 {
 public:

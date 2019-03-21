@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 sf::FloatRect GameObject::getGlobalBounds() const
 {

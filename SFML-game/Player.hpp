@@ -1,7 +1,7 @@
 #pragma once
 #include "Character.hpp"
-#include "Inventory.h"
-#include "ObjectSprite.h"
+#include "Inventory.hpp"
+#include "ObjectSprite.hpp"
 
 class Map;
 
