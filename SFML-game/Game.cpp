@@ -5,7 +5,6 @@
 #include "MainMenu.hpp"
 #include "GamePopupMenu.hpp"
 #include <filesystem>
-#include <windows.h> 
 
 Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", font, 50)
 {
@@ -52,13 +51,10 @@ void Game::init()
 
 		m_map = std::move(tmpMap);
 		loadProperties(m_map);
-		SetCurrentDirectoryA(m_map.getPath().string().c_str());
-
 		m_player.setPosition(pos.x, pos.y);
 	});
 
-	SetCurrentDirectoryA("data/Maps");
-	m_map.load("Intro village.json", State::Textures());
+	m_map.load("data/Maps/Intro village.json", State::Textures());
 	loadProperties(m_map);
 }
 
