@@ -259,6 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/SFML-game/SFML-game.exe
-/SFML-game/SFML-game.zip
+
 *.exe
