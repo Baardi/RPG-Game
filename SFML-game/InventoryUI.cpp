@@ -25,15 +25,16 @@ void InventoryUI::init()
 		return;
 
 	inventory = &inventoryInitializer->inventory;
-	size_t lastIndex = 0;
 	for (auto &item : inventory->Items())
 	{
-		lastIndex = addMenuItem(item->name(), item->sprite(), [this, &item, lastIndex]()
+		auto &button = addMenuItem(item->name(), item->sprite());
+		auto buttonPos = button.getPosition();
+		auto pItem = item.get();
+
+		button.setActionHandler([this, pItem, buttonPos]
 		{
-			auto [x, y] = GetMenuCoords(lastIndex + 1);
-			
 			State::PushChild<ItemInfoPopup>();
-			State::SetInitializer<ItemInfoInitializer>(item.get(), x + 380, y);
+			State::SetInitializer<ItemInfoInitializer>(pItem, buttonPos.x + 380, buttonPos.y);
 		});
 	}
 }

@@ -171,6 +171,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Button.hpp" />
+    <ClInclude Include="ButtonHandler.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="DerivedTest.h" />
     <ClInclude Include="DialogInterface.h" />
@@ -181,7 +183,7 @@
     <ClInclude Include="IntersectionHandler.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
-    <ClInclude Include="KeyMapper.h" />
+    <ClInclude Include="KeyHandler.hpp" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MapProperties.h" />
     <ClInclude Include="Music.hpp" />
@@ -208,6 +210,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DerivedTest.cpp" />
     <ClCompile Include="DialogInterface.cpp" />
@@ -218,7 +222,7 @@
     <ClCompile Include="IntersectionHandler.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />
-    <ClCompile Include="KeyMapper.cpp" />
+    <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="libs\json\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

@@ -28,11 +28,11 @@
     <Filter Include="Menus">
       <UniqueIdentifier>{6cdd62bc-485b-47f7-bf76-55d694b40699}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mappers">
-      <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{418837ec-f564-482b-bb4e-e5ec7cbe5709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handlers">
+      <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,22 +112,16 @@
       <Filter>Menus</Filter>
     </ClInclude>
     <ClInclude Include="IntersectionHandler.h">
-      <Filter>Mappers</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyMapper.h">
-      <Filter>Mappers</Filter>
+      <Filter>Handlers</Filter>
     </ClInclude>
     <ClInclude Include="TypeMapper.h">
-      <Filter>Mappers</Filter>
+      <Filter>Handlers</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="Character.hpp">
       <Filter>Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="DerivedTest.h">
-      <Filter>Mappers</Filter>
     </ClInclude>
     <ClInclude Include="sfUtility.h">
       <Filter>Utility</Filter>
@@ -140,6 +134,18 @@
     </ClInclude>
     <ClInclude Include="ItemInfoPopup.hpp">
       <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonHandler.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedTest.h">
+      <Filter>Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,14 +227,11 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
-    <ClCompile Include="KeyMapper.cpp">
-      <Filter>Mappers</Filter>
-    </ClCompile>
     <ClCompile Include="IntersectionHandler.cpp">
-      <Filter>Mappers</Filter>
+      <Filter>Handlers</Filter>
     </ClCompile>
     <ClCompile Include="DerivedTest.cpp">
-      <Filter>Mappers</Filter>
+      <Filter>Handlers</Filter>
     </ClCompile>
     <ClCompile Include="sfUtility.cpp">
       <Filter>Utility</Filter>
@@ -244,6 +247,15 @@
     </ClCompile>
     <ClCompile Include="ItemInfoPopup.cpp">
       <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyHandler.cpp">
+      <Filter>Handlers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

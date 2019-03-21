@@ -9,7 +9,7 @@ public:
 	IntersectionHandler() = default;
 	~IntersectionHandler() = default;
 
-	void handleIntersections(const Map &map, GameObject &object);
+	void handleEvents(const Map &map, GameObject &object);
 	void registerEvent(const std::string &name, const std::function<void(ObjectLayer *, ObjectSprite *)> &action);
 
 private:

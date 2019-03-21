@@ -4,16 +4,9 @@
 #include <SFML/chronometer.h>
 #include "map.h"
 #include "Player.h"
-#include "KeyMapper.h"
+#include "KeyHandler.hpp"
 #include "IntersectionHandler.h"
 #include "Music.hpp"
-
-class GameInitializer : public Initializer
-{
-public:
-	GameInitializer(int players) : players(players){}
-	int players;
-};
 
 class Game : public UI
 {
@@ -43,6 +36,6 @@ private:
 	Map m_map;
 	sf::Text m_pauseText;
 
-	KeyMapper m_keyMapper;
+	KeyHandler m_keyHandler;
 	IntersectionHandler m_intersectionHandler;
 };

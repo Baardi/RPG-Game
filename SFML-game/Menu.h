@@ -1,7 +1,8 @@
 #pragma once
 #include "UI.h"
 #include <functional>
-#include "KeyMapper.h"
+#include "KeyHandler.hpp"
+#include "ButtonHandler.hpp"
 
 class Menu : public UI
 {
@@ -17,9 +18,8 @@ protected:
 	void draw() override;
 
 	// Methods used by derived classes
-	size_t addMenuItem(const std::string &text, const std::function<void()> &action = []{});
-	size_t addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
-	std::pair<int, int> GetMenuCoords(size_t index); // Gets the coordinates of the menu item in a (x,y) pair
+	Button &addMenuItem(const std::string &text, const std::function<void()> &action = []{});
+	Button &addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
 
 	// Data members changable by derived classes
 	int x = 400, y = 400;
@@ -29,12 +29,7 @@ protected:
 	sf::Color colorUnselect = sf::Color::White;
 
 private:
-
-	void addMenuSprite(const sf::Sprite& sprite, size_t index);
-	void tick();
-	void selectEntry() const;
-	void handleKeyEvents();
-	void handleMouseEvents();
+	sf::Sprite &addMenuSprite(const sf::Sprite& sprite, const Button &button);
 
 	//"Personal" class variables
 	sftools::Chronometer m_clock;
@@ -44,7 +39,9 @@ private:
 	std::vector<std::function<void()>> m_actions;
 	std::vector<sf::Sprite> m_menusprites;
 
-	KeyMapper m_keyMapper;
+	KeyHandler m_keyHandler;
+	ButtonHandler m_buttonHandler;
+
 	bool ControlKeyPressed = true;
 	bool m_mouseControl = false;
 };

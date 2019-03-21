@@ -19,15 +19,15 @@ void Game::init()
 {
 	UI::init();
 	
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Escape, ControlKey::No,  State::Push<MainMenu>);
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Q,      ControlKey::Yes, State::Reset<MainMenu>);
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Z,      ControlKey::Yes, State::PushChild<GamePopupMenu>);
-	m_keyMapper.addActionKey(sf::Keyboard::Key::R,      ControlKey::Yes, State::Switch<Game>);
-	m_keyMapper.addActionKey(sf::Keyboard::Key::P,      ControlKey::Yes, [this] { toggle(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, State::Push<MainMenu>);
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      State::Reset<MainMenu>);
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      State::PushChild<GamePopupMenu>);
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      State::Switch<Game>);
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::P,      [this] { toggle(); });
 
-	m_keyMapper.addActionKey(sf::Keyboard::Key::M,			ControlKey::Yes, [this] { m_music.toggle(); } );
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Add,		ControlKey::No,  [this] { m_music.incVolume(); });
-	m_keyMapper.addActionKey(sf::Keyboard::Key::Subtract,	ControlKey::No,	 [this] { m_music.decVolume(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::M,				[this] { m_music.toggle(); } );
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,		[this] { m_music.incVolume(); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
 	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer* layer, ObjectSprite* item)
 	{
@@ -63,12 +63,12 @@ bool Game::frame()
 	if (!UI::frame())
 		return false;
 
-	m_keyMapper.handleKeyInput();
+	m_keyHandler.handleKeyInput();
 
 	if (!m_paused)
 	{
 		m_player.handleKeyInput(m_map);
-		m_intersectionHandler.handleIntersections(m_map, m_player);
+		m_intersectionHandler.handleEvents(m_map, m_player);
 		m_clock.reset(true);
 	}
 

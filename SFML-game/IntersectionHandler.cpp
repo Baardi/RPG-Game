@@ -3,7 +3,7 @@
 #include "ObjectSprite.h"
 #include "ObjectLayer.h"
 
-void IntersectionHandler::handleIntersections(const Map &map, GameObject &object)
+void IntersectionHandler::handleEvents(const Map &map, GameObject &object)
 {
 	for (auto [layerName, layer] : map.m_objectMap)
 	{
