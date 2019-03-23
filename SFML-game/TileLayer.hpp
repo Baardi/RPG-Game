@@ -21,7 +21,7 @@ private:
 	
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 	void loadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
-	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y);
+	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile, int x, int y);
 		
 	bool containsTextureTileCoords(int x, int y) const;
 	

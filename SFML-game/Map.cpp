@@ -175,14 +175,14 @@ void Map::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store i
 	for (auto it = tileset.begin(); it != tileset.end(); ++it)
 	{
 		std::string tileid = it.key().asString();
-		std::vector<std::pair<int, int>> tileSetAnimations;
+		std::vector<std::pair<int, sf::Time>> tileSetAnimations;
 
 		for (const auto &animation : tileset[tileid]["animation"])
 		{
 			int animationTileId = animation["tileid"].asInt();
-			int animationTileDuration = animation["duration"].asInt();
-			
-			tileSetAnimations.emplace_back(animationTileId, animationTileDuration);
+			int animationTileDuration_ms = animation["duration"].asInt();
+
+			tileSetAnimations.emplace_back(animationTileId, sf::milliseconds(animationTileDuration_ms));
 		}
 
 		animatedTiles.try_emplace(firstGid + std::atoi(tileid.c_str()), tileSetAnimations);

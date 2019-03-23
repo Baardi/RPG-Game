@@ -23,18 +23,18 @@ void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, c
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;
-	sf::Int32 &lastTime = animationTile.lastTime;
+	sf::Time &lastTime = animationTile.lastTime;
 
-	double currentDuration = clock.getElapsedTime().asMilliseconds();
+	sf::Time currentTime = clock.getElapsedTime();
 
-	if (currentDuration > lastTime + animationTileData[currentFrame].duration)
+	if (currentTime > lastTime + animationTileData[currentFrame].duration)
 	{
 		do
 		{
 			lastTime += animationTileData[currentFrame].duration; // To keep it in sync, just increment by the duration
 			currentFrame = (currentFrame + 1) % animationTileData.size();
 		}
-		while (currentDuration > lastTime + animationTileData[currentFrame].duration);
+		while (currentTime > lastTime + animationTileData[currentFrame].duration);
 
 		sf::IntRect &rect = animationTileData[currentFrame].intRect;
 		sprite.setTextureRect(rect);

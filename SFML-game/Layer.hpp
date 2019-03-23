@@ -1,18 +1,23 @@
 #pragma once
 
-using AnimationTileMap = std::map<int, std::vector< std::pair<int, int>> >;
+using AnimationTileMap = std::map<int, std::vector< std::pair<int, sf::Time>>>;
 
 struct AnimationTileData
 {
-	AnimationTileData(int duration, sf::IntRect intRect) : duration(duration), intRect(intRect) {}
-	int duration;
+	AnimationTileData(sf::Time duration, sf::IntRect intRect) : duration(duration), intRect(intRect) {}
+	
+	sf::Time duration;
 	sf::IntRect intRect;
+
+	float	  duration_s()	{ return duration.asSeconds(); }
+	sf::Int32 duration_ms() { return duration.asMilliseconds(); }
+	sf::Int64 duration_ys() { return duration.asMicroseconds(); }
 };
 
 struct AnimationTile
 {
 	int currentFrame = 0;
-	sf::Int32 lastTime = 0;
+	sf::Time lastTime;
 	std::vector<AnimationTileData> animationTileData;
 };
 

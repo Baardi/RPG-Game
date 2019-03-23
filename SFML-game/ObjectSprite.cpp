@@ -116,7 +116,7 @@ void ObjectSprite::loadSpriteTexture(sf::Texture &texture, int tileid)
 	sprite.setScale(width / static_cast<float>(tileSize.x), height / static_cast<float>(tileSize.y));
 }
 
-void ObjectSprite::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile)
+void ObjectSprite::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile)
 {
 	for (const auto &tile : animationTile)
 	{

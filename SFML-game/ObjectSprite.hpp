@@ -26,7 +26,7 @@ public:
 
 protected:
 	void loadSpriteTexture(sf::Texture &texture, int tileid);
-	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile);
+	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile);
 	sf::IntRect getTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
 private:

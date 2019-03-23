@@ -112,13 +112,13 @@ void TileLayer::loadSpriteTexture(sf::Texture &texture, int tileid, int x, int y
 	sprite.setPosition(x*tileSize.x, y*tileSize.y);
 }
 
-void TileLayer::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, int>> &animationTile, int x, int y)
+void TileLayer::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile, int x, int y)
 {
 	auto &animationTileInfo = getValue(m_animationTilemap, x, y);
-	for (const auto &tile : animationTile)
+	for (const auto [tileid, duration]: animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tile.first);
-		animationTileInfo.animationTileData.emplace_back(tile.second, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
+		auto [tilex, tiley] = getTileCoords(texture, tileid);
+		animationTileInfo.animationTileData.emplace_back(duration, sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
 	}
 }
 
