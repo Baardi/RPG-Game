@@ -19,7 +19,7 @@ int Layer::GetTextureIndex(int tileValue, const std::map<int, sf::Texture*>& til
 	return tileTextureValue;
 }
 
-void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, sftools::Chronometer& clock)
+void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, const sftools::Chronometer& clock)
 {
 	auto &animationTileData = animationTile.animationTileData;
 	int &currentFrame = animationTile.currentFrame;

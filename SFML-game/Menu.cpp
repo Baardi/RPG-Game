@@ -6,7 +6,7 @@ Menu::Menu()
 {
 	m_clock.resume();
 
-	m_buttonHandler.setFont(font);
+	m_buttonHandler.setFont(State::Font());
 	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, State::Pop);
 }
 
@@ -17,12 +17,12 @@ Menu::~Menu()
 void Menu::init()
 {
 	UI::init();
-	pausable = false;
+	m_pausable = false;
 }
 
-bool Menu::frame()
+bool Menu::frame(sf::Window &window)
 {
-	if (!UI::frame())
+	if (!UI::frame(window))
 		return false;
 	
 	if (m_clock.getElapsedTime().asMilliseconds() > 100)
@@ -68,10 +68,10 @@ sf::Sprite &Menu::addMenuSprite(const sf::Sprite& sprite, const Button &button)
 	return addedSprite;
 }
 
-void Menu::draw()
+void Menu::draw(sf::RenderTarget &target)
 {
-	m_buttonHandler.draw(window);
+	m_buttonHandler.draw(target);
 
 	for (auto &item : m_menusprites)
-		window.draw(item);
+		target.draw(item);
 }

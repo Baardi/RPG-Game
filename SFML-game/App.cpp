@@ -15,14 +15,13 @@ App::~App()
 
 void App::init()
 {
-	window.create(sf::VideoMode(960, 960), "RPG");
-	window.setFramerateLimit(50); // <-- should be a setting
-	if (!font.loadFromFile("data/Asul-regular.ttf"))
+	m_window.create(sf::VideoMode(960, 960), "RPG");
+	m_window.setFramerateLimit(50); // <-- should be a setting
+	if (!State::Instance().font.loadFromFile("data/Asul-regular.ttf"))
 	{
 		std::cout << "file can not be loaded, sorry!" << std::endl;
 	}
 
-	State::Setup(window, event, font);
 	State::Push<MainMenu>();
 }
 
@@ -48,11 +47,12 @@ bool App::frame()
 	if (!State::IsRunning())
 		return false;
 
-	State::GetUI()->HandleWindowEvents();
-	State::GetUI()->drawAll();
+	State::GetUI()->handleWindowsEvents(m_window);
+	
+	State::GetUI()->drawAll(m_window);
 	
 	if (State::GetUI()->isRespondable())
-		State::GetUI()->frame();
+		State::GetUI()->frame(m_window);
 
 	return true;
 }

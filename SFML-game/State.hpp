@@ -79,7 +79,6 @@ public:
 	static void Exit()
 	{
 		Set(Transition::Exit);
-		Instance().window->close();
 	}
 
 	// Put a child to current ui
@@ -87,16 +86,16 @@ public:
 	static void PushChild(_Valty&&... _Val)
 	{
 		Push<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(GetUI());
+		Instance().queuedState->setParent(GetUI());
 	}
 
 	// Hides, but doesn't remove the current ui, and put a child to the previous one
 	template<class T, class... _Valty>
 	static void ChainChild(_Valty&&... _Val)
 	{
-		auto prevParent = GetUI() ? GetUI()->GetParent() : nullptr;
+		auto prevParent = GetUI() ? GetUI()->getParent() : nullptr;
 		Push<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(prevParent);
+		Instance().queuedState->setParent(prevParent);
 	}
 
 	// Removes the current ui, and put a child ui to previous one
@@ -106,7 +105,7 @@ public:
 		auto size = Instance().Size();
 		auto parent = size >= 2 ? Instance().StateStack[size - 1] : nullptr;
 		Switch<T>(std::forward<_Valty>(_Val)...);
-		Instance().queuedState->SetParent(parent);
+		Instance().queuedState->setParent(parent);
 	}
 
 	static bool IsRunning()
@@ -156,8 +155,9 @@ public:
 	
 	static const sf::Font &Font()
 	{
-		return *Instance().font;
+		return Instance().font;
 	}
+
 	static TextureMap &Textures()
 	{
 		return Instance().textures;
@@ -170,13 +170,6 @@ protected:
 	{
 		static State instance;
 		return instance;
-	}
-
-	static void Setup(sf::RenderWindow &window, sf::Event &event, sf::Font &font)
-	{
-		Instance().window = &window;
-		Instance().event = &event;
-		Instance().font = &font;
 	}
 
 	static UI *GetUI()
@@ -244,11 +237,8 @@ private:
 	std::unique_ptr<UI> queuedState;
 	UI *currentUi = nullptr;
 	Transition transition = Transition::None;
-
-	sf::RenderWindow *window;
-	sf::Event *event;
-	sf::Font *font;
-
+	
+	sf::Font font;
 	TextureMap textures;
 	std::unique_ptr<Initializer> initializer;
 };

@@ -23,9 +23,9 @@ public:
 	void clear();									// Clear the map
 	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
 	auto getPath() const { return m_currentPath; }
-	void draw(sf::RenderTarget &window);			// Draws the entire map right away
+	void draw(sf::RenderTarget &window);
 	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
-	void drawLayer(sf::RenderTarget &window, Layer *layer); // Draws a single layer in a window
+	void drawLayer(sf::RenderTarget &window, Layer *layer);
 	
 	TileLayer *getTileLayer(const std::string &layerName);
 	ObjectLayer *getObjectLayer(const std::string &layerName);

@@ -8,7 +8,7 @@ public:
 	PopupMenu();
 	virtual ~PopupMenu();
 
-	void draw() override; 
+	void draw(sf::RenderTarget &target) override;
 
 	Map m_menuBackground;
 };

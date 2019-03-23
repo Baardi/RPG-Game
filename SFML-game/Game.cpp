@@ -6,7 +6,7 @@
 #include "GamePopupMenu.hpp"
 #include <filesystem>
 
-Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", font, 50)
+Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", State::Font(), 50)
 {
 	m_pauseText.setPosition(400, 450);
 }
@@ -58,9 +58,9 @@ void Game::init()
 	loadProperties(m_map);
 }
 
-bool Game::frame()
+bool Game::frame(sf::Window &window)
 {
-	if (!UI::frame())
+	if (!UI::frame(window))
 		return false;
 
 	m_keyHandler.handleKeyInput();
@@ -91,14 +91,14 @@ void Game::resume()
 	m_clock.resume();
 }
 
-void Game::draw()
+void Game::draw(sf::RenderTarget &target)
 {
-	m_map.splitDraw(window, "Character", Map::DrawType::Back);
-	m_player.draw(window);
-	m_map.splitDraw(window, "Character", Map::DrawType::Front);
+	m_map.splitDraw(target, "Character", Map::DrawType::Back);
+	m_player.draw(target);
+	m_map.splitDraw(target, "Character", Map::DrawType::Front);
 
 	if (m_paused && State::IsCurrent(this))
-		window.draw(m_pauseText);
+		target.draw(m_pauseText);
 }
 
 void Game::loadProperties(const MapProperties &properties)

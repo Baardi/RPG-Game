@@ -14,10 +14,10 @@ public:
 
 	// Virtual overriden methods 
 	void init() override;
-	bool frame() override;
 	void pause() override;
 	void resume() override;
-	void draw() override;
+	bool frame(sf::Window &window) override;
+	void draw(sf::RenderTarget &target) override;
 
 private:
 	// Private Methods

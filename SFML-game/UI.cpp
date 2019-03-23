@@ -2,11 +2,6 @@
 #include "UI.hpp"
 #include "State.hpp"
 
-UI::UI() : window(*State::Instance().window),
-			event(*State::Instance().event),
-			font(*State::Instance().font)
-{
-}
 
 void UI::init()
 {
@@ -14,18 +9,18 @@ void UI::init()
 
 void UI::setDrawOrder()
 {
-	drawStack.clear();
-	for (auto curr = this; curr; curr = curr->parent)
-		drawStack.push_back(curr);
+	m_drawStack.clear();
+	for (auto curr = this; curr; curr = curr->m_pParent)
+		m_drawStack.push_back(curr);
 }
 
-void UI::drawAll()
+void UI::drawAll(sf::RenderWindow &window)
 {
 	window.clear(sf::Color::Black);
 
 	// Reverse iteration, so the parent is drawn in backround
-	for (auto it = drawStack.rbegin(); it != drawStack.rend(); ++it)
-		(*it)->draw();
+	for (auto it = m_drawStack.rbegin(); it != m_drawStack.rend(); ++it)
+		(*it)->draw(window);
 	
 	window.display();
 }
@@ -40,11 +35,11 @@ bool UI::pollEvent(sf::Event::EventType eventType)
 
 	case sf::Event::LostFocus:
 		pause();
-		respondable = false;
+		m_respondable = false;
 		return true;
 		
 	case sf::Event::GainedFocus:
-		respondable = true;
+		m_respondable = true;
 		return true;
 
 	default:
@@ -52,11 +47,12 @@ bool UI::pollEvent(sf::Event::EventType eventType)
 	}
 }
 
-void UI::HandleWindowEvents()
+void UI::handleWindowsEvents(sf::Window &window)
 {
+	sf::Event event;
 	while (window.pollEvent(event))
 	{
-		if (respondable)
+		if (m_respondable)
 			// Normal virtual pollEvent, overriding ui's can hook into
 			pollEvent(event.type);
 		else
@@ -67,18 +63,18 @@ void UI::HandleWindowEvents()
 
 void UI::pause()
 {
-	if (pausable)
+	if (m_pausable)
 		m_paused = true;
 }
 
 void UI::resume()
 {
-	if (pausable)
+	if (m_pausable)
 		m_paused = false;
 }
 
 void UI::toggle()
 {
-	if (pausable)
+	if (m_pausable)
 		m_paused ? resume() : pause();
 }

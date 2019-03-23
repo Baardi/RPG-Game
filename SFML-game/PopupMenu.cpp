@@ -10,8 +10,8 @@ PopupMenu::~PopupMenu()
 {
 }
 
-void PopupMenu::draw()
+void PopupMenu::draw(sf::RenderTarget &target)
 {
-	m_menuBackground.draw(window);
-	Menu::draw();
+	m_menuBackground.draw(target);
+	Menu::draw(target);
 }

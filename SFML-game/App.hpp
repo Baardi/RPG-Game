@@ -7,13 +7,12 @@ public:
 	App();
 	~App();
 
-	void init(); //set startup state etc
-	void run();  //run the game loop
+	void run();
+	void init();
+	bool frame();
 
 private:
-	static bool frame(); //Draws one gameframe. Returns false if window is closed, which will end the gameloop
+	sf::RenderWindow m_window;
 
-	sf::Font font;
-	sf::Event event;
-	sf::RenderWindow window;
+	// Todo: move font and texturemap (resources) from state to app
 };

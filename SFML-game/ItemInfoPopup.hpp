@@ -19,7 +19,7 @@ public:
 	virtual ~ItemInfoPopup() = default;
 
 	void init() override;
-	void draw() override; 
+	void draw(sf::RenderTarget &target) override; 
 
 	GameItem *m_item;
 	Map m_menuBackground;

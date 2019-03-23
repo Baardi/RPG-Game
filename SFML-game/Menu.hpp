@@ -13,8 +13,8 @@ public:
 protected:
 	// Overrides from UI
 	void init() override;
-	bool frame() override;
-	void draw() override;
+	bool frame(sf::Window &window) override;
+	void draw(sf::RenderTarget &target) override;
 
 	// Methods used by derived classes
 	Button &addMenuItem(const std::string &text, const std::function<void()> &action = []{});

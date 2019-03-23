@@ -26,7 +26,7 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 	loadProperties(layer);
 }
 
-void TileLayer::process(sftools::Chronometer &clock)
+void TileLayer::process(const sftools::Chronometer &clock)
 {
 	// Render each tile
 	for (int y = 0; y < m_height; y++)

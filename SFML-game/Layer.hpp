@@ -35,7 +35,7 @@ public:
 
 	virtual ~Layer() = default;
 	
-	virtual void process(sftools::Chronometer &clock) {}
+	virtual void process(const sftools::Chronometer &clock) {}
 	virtual void draw(sf::RenderTarget& window) {}
 	virtual void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) {}
 
@@ -48,7 +48,7 @@ protected:
 	// Calculate x and y position of given tile in the texture
 	sf::Vector2i getTileCoords(sf::Texture &texture, int tile) const;
 	static int GetTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets);
-	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, sftools::Chronometer& clock);
+	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);
 	
 	TileSize tileSize;
 };

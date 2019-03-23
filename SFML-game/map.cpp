@@ -35,7 +35,8 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	if (!parsingSuccessful)
 		return false;
 
-	m_currentPath = std::filesystem::canonical(filename).parent_path();
+	std::error_code ec;
+	m_currentPath = std::filesystem::weakly_canonical(filename, ec).parent_path();
 
 	// Get tile size information
 	tileSize.x = root["tilewidth"].asInt();
@@ -83,18 +84,18 @@ void Map::loadObjects(const Json::Value& layer)
 	m_objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
 }
 
-void Map::draw(sf::RenderTarget &window)
+void Map::draw(sf::RenderTarget &target)
 {
 	for (auto &layer : m_layers)
-		drawLayer(window, layer.get());
+		drawLayer(target, layer.get());
 }
 
-void Map::drawLayer(sf::RenderTarget& window, Layer* layer)
+void Map::drawLayer(sf::RenderTarget& target, Layer* layer)
 {
 	layer->process(m_clock);
 
 	if (layer->visible)
-		layer->draw(window);
+		layer->draw(target);
 }
 
 void Map::splitDraw(sf::RenderTarget &window, const std::string& byLayer, DrawType drawType)
@@ -155,7 +156,7 @@ void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads a
 
 		if (it == textures.end())
 		{
-			auto &&[it, inserted] = textures.try_emplace(image.string(), sf::Texture());
+			auto [it, inserted] = textures.try_emplace(image.string(), sf::Texture());
 			if (inserted)
 			{
 				it->second.loadFromFile(image.string());

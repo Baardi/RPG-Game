@@ -11,7 +11,7 @@ public:
 
 	void load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void draw(sf::RenderTarget& window) override;
-	void process(sftools::Chronometer &clock) override;
+	void process(const sftools::Chronometer &clock) override;
 
 	// Safe to use from map, safe in case of breaking the bounds of the layer array
 	bool containsTexture(double x, double y) const;

@@ -28,12 +28,13 @@ void ItemInfoPopup::init()
 	}
 }
 
-void ItemInfoPopup::draw()
+void ItemInfoPopup::draw(sf::RenderTarget &target)
 {
 	m_renderTexture.clear(sf::Color::Transparent);
 	m_menuBackground.draw(m_renderTexture);
 	m_renderTexture.display();
-	window.draw(m_renderSprite);
+
+	target.draw(m_renderSprite);
 	
-	Menu::draw();
+	Menu::draw(target);
 }
