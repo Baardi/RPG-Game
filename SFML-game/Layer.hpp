@@ -1,4 +1,5 @@
 #pragma once
+#include "MapProperties.hpp"
 
 using AnimationTileMap = std::map<int, std::vector< std::pair<int, sf::Time>>>;
 
@@ -33,7 +34,7 @@ struct TileSize
 	int s; // Spacing
 };
 
-class Layer
+class Layer : public MapProperties
 {
 public:
 	Layer(const TileSize &tileSize) : tileSize(tileSize) {}

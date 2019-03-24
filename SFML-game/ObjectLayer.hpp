@@ -2,7 +2,7 @@
 #include "Layer.hpp"
 #include "ObjectSprite.hpp"
 
-class ObjectLayer : public Layer, public MapProperties
+class ObjectLayer : public Layer
 {
 public:
 	ObjectLayer(const TileSize &tileSize) : Layer(tileSize) { }

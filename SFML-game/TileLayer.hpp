@@ -3,7 +3,7 @@
 #include "MapProperties.hpp"
 
 // Class representing a tile layer
-class TileLayer : public Layer, public MapProperties
+class TileLayer : public Layer
 {
 public:
 	TileLayer(const TileSize& tileSize);

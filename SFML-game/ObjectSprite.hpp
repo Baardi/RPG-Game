@@ -5,7 +5,7 @@
 #include "MapProperties.hpp"
 #include <optional>
 
-class ObjectSprite : public Layer, public GameObject, public MapProperties
+class ObjectSprite : public Layer, public GameObject
 {
 public:
 	ObjectSprite(const TileSize &tileSize) : Layer(tileSize) {}
