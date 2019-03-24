@@ -73,7 +73,7 @@ namespace sf::Collision {
 	/// Test for bounding box collision using the Separating Axis Theorem
 	/// Supports scaling and rotation
 	//////
-	bool BoundingBoxTest(sf::Transform transf1, sf::IntRect bounds1, sf::Transform transf2, sf::IntRect bounds2);
+	bool BoundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform transf2, sf::FloatRect bounds2);
 }
 
 #endif	/* COLLISION_H */

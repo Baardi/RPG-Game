@@ -129,12 +129,12 @@ bool CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2) {
 class OrientedBoundingBox // Used in the BoundingBoxTest
 {
 public:
-	OrientedBoundingBox(sf::Transform trans, sf::IntRect local) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
+	OrientedBoundingBox(sf::Transform transf, sf::FloatRect bounds) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
 	{
-		Points[0] = trans.transformPoint(0.f, 0.f);
-		Points[1] = trans.transformPoint(local.width, 0.f);
-		Points[2] = trans.transformPoint(local.width, local.height);
-		Points[3] = trans.transformPoint(0.f, local.height);
+		Points[0] = transf.transformPoint(0.f, 0.f);
+		Points[1] = transf.transformPoint(bounds.width, 0.f);
+		Points[2] = transf.transformPoint(bounds.width, bounds.height);
+		Points[3] = transf.transformPoint(0.f, bounds.height);
 	}
 
 	sf::Vector2f Points[4];
@@ -155,7 +155,7 @@ public:
 	}
 };
 
-bool BoundingBoxTest(sf::Transform transf1, sf::IntRect bounds1, sf::Transform transf2, sf::IntRect bounds2)
+bool BoundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform transf2, sf::FloatRect bounds2)
 {
 	OrientedBoundingBox OBB1(transf1, bounds1);
 	OrientedBoundingBox OBB2(transf2, bounds2);

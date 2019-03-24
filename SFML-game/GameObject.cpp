@@ -20,8 +20,8 @@ sf::FloatRect GameObject::getGlobalBounds() const
 
 bool GameObject::intersects(const GameObject &object) const
 {
-	auto bounds1 = static_cast<sf::IntRect>(this->getLocalBounds());
-	auto bounds2 = static_cast<sf::IntRect>(object.getLocalBounds());
+	auto bounds1 = this->getLocalBounds();
+	auto bounds2 = object.getLocalBounds();
 
 	auto transf1 = this->getTransform();
 	auto transf2 = object.getTransform();
@@ -31,11 +31,11 @@ bool GameObject::intersects(const GameObject &object) const
 
 bool GameObject::contains(double x, double y) const
 {
-	auto bounds1 = static_cast<sf::IntRect>(this->getLocalBounds());
-	auto bounds2 = sf::IntRect(x,y,0,0);
+	auto bounds1 = this->getLocalBounds();
+	auto bounds2 = sf::FloatRect();
 	
 	auto transf1 = this->getTransform();
-	auto transf2 = sf::Transform();
+	auto transf2 = sf::Transform().translate(x, y);
 
 	return sf::Collision::BoundingBoxTest(transf1, bounds1, transf2, bounds2);
 }
