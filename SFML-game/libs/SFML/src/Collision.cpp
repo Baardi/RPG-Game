@@ -1,6 +1,7 @@
 /* 
  * File:   collision.cpp
  * Author: Nick (original version), ahnonay (SFML2 compatibility)
+ * @@ NOTE: Modified by Bård Sigurd Møller, to fit my needs
  */
 
 #include "stdafx.h"

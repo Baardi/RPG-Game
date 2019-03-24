@@ -16,6 +16,8 @@
 
  */
 
+ // @@ NOTE: Modified by Bård Sigurd Møller, to fit my needs
+
 /*!
  @file sftools/Chronometer.hpp
  @brief Defines Chronometer
