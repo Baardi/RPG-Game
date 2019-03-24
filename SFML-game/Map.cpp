@@ -1,8 +1,10 @@
 #include "stdafx.h"
-#include <fstream>
 #include "Map.hpp"
-#include <filesystem>
+
+#include <fstream>
 #include "State.hpp"
+#include "TileLayer.hpp"
+#include "ObjectLayer.hpp"
 
 void Map::clear()
 {

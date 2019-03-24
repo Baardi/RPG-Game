@@ -1,6 +1,5 @@
 #pragma once
 #include "Layer.hpp"
-#include "MapProperties.hpp"
 
 struct Tile
 {

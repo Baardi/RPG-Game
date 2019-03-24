@@ -1,10 +1,12 @@
 #pragma once
 
-#include "TileLayer.hpp"
-#include "ObjectLayer.hpp"
-#include "MapProperties.hpp"
 #include "State.hpp"
+#include "MapProperties.hpp"
 #include <filesystem>
+#include "Layer.hpp"
+
+class TileLayer;
+class ObjectLayer;
 
 class Map : public MapProperties
 {

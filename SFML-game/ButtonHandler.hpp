@@ -13,7 +13,7 @@ public:
 	void handleInput(sf::Window &window);
 	void draw(sf::RenderTarget &target) const;
 
-	[[nodiscard]] size_t size() const noexcept { return m_buttons.size(); }
+	size_t size() const noexcept { return m_buttons.size(); }
 
 	void setFont(const sf::Font &font) { m_pFont = &font; }
 	const sf::Font &getFont() const { return *m_pFont; }

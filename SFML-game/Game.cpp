@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.hpp"
 #include "ObjectSprite.hpp"
+#include "ObjectLayer.hpp"
 #include "State.hpp"
 #include "MainMenu.hpp"
 #include "GamePopupMenu.hpp"
