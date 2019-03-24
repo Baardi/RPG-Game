@@ -25,12 +25,7 @@ bool Menu::frame(sf::Window &window)
 	if (!UI::frame(window))
 		return false;
 	
-	if (m_clock.getElapsedTime().asMilliseconds() > 100)
-	{
-		m_buttonHandler.handleInput(window);
-		m_clock.reset(true);
-	}
-	
+	m_buttonHandler.handleInput(window);	
 	m_keyHandler.handleKeyInput();
 	
 	return true;

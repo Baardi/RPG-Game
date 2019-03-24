@@ -6,8 +6,12 @@
 class ButtonHandler
 {
 public:
-	ButtonHandler() = default;
-	~ButtonHandler() = default;
+	ButtonHandler();
+	~ButtonHandler();
+
+	// Main methods. call these every frame
+	void handleInput(sf::Window &window);
+	void draw(sf::RenderTarget &target) const;
 
 	[[nodiscard]] size_t size() const noexcept { return m_buttons.size(); }
 
@@ -28,9 +32,6 @@ public:
 
 	Button &addButton(const std::string &text, const std::function<void()> &func);
 
-	void handleInput(sf::Window &window);
-	void draw(sf::RenderTarget &target) const;
-
 	auto &buttons() { return m_buttons; }
 	const auto &buttons() const { return m_buttons; }
 
@@ -42,15 +43,23 @@ private:
 	void handleMouseEvents(sf::Window &window); // TODO: implement, pollevent
 
 private:
+
+	// Variables for mouse/key-mode toggling and behaviour
+	std::optional<bool> m_mouseControl;
 	sf::Vector2i m_lastMousePos;
 	bool m_enterWasPressed = true;
-	std::optional<bool> m_mouseControl;
+	sftools::Chronometer m_clock;
+	sf::Time m_keyUpDownCooldown = sf::milliseconds(100);
+	
+	// Defaults for buttons
 	int m_defaultWidth = 250, m_defaultHeight = 60;
 	int m_defaultTextSize = 40;
 	int m_xCurr = 0, m_yCurr = 0;
 	int m_spacing = 10;
+	const sf::Font *m_pFont = nullptr;
+		
+	// Buttons
 	std::list<Button> m_buttons;
 	decltype(m_buttons)::iterator m_it;
-	const sf::Font *m_pFont = nullptr;
 };
 
