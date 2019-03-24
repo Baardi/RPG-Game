@@ -85,7 +85,7 @@ bool ButtonHandler::toogleInputMode()
 		m_mouseControl = false;
 	}
 
-	return *m_mouseControl;
+	return m_mouseControl.value();
 }
 
 void ButtonHandler::handleInput(sf::Window &window)

@@ -31,7 +31,10 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 		y -= height * std::cos(rotation * (M_PI / 180.0));
 	}
 
-	m_globalBounds = sf::FloatRect(x, y, width, height);
+	m_localBounds = sf::FloatRect(0, 0, width, height);
+
+	m_transform.rotate(rotation);
+	m_transform.translate(x, y);
 
 	auto textValue = object["text"];
 	if (!textValue.empty() && !gid)
@@ -98,9 +101,14 @@ void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationT
 	}
 }
 
-sf::FloatRect ObjectSprite::getGlobalBounds() const
+sf::FloatRect ObjectSprite::getLocalBounds() const
 {
-	return m_globalBounds;
+	return m_localBounds;
+}
+
+sf::Transform ObjectSprite::getTransform() const
+{
+	return m_transform;
 }
 
 void ObjectSprite::loadSpriteTexture(sf::Texture &texture, int tileid)

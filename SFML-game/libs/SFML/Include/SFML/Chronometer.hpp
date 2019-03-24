@@ -121,7 +121,7 @@ namespace sftools
         /*!
          @brief Pause or resume the chronometer
 
-         If the chronometer is running the it is paused;
+         If the chronometer is running then it is paused;
          otherwise it is resumes.
 
          @return Time elapsed
@@ -130,12 +130,7 @@ namespace sftools
          */
         sf::Time toggle()
         {
-            if (isRunning())    
-				pause();
-            else                
-				resume();
-
-            return getElapsedTime();
+            return isRunning() ? pause() : resume();
         }
 
         /*!
@@ -163,6 +158,36 @@ namespace sftools
 
 			throw std::runtime_error("Invalid enumerator value");
         }
+
+		/*!
+         @brief Give the amount of time elapsed since the chronometer was started, in seconds
+
+         @return Time elapsed in seconds
+         */
+		float getElapsedTime_s() const
+		{
+			return getElapsedTime().asSeconds();
+		}
+
+		/*!
+		 @brief Give the amount of time elapsed since the chronometer was started, in milliseconds
+
+		 @return Time elapsed in milliseconds
+		 */
+		sf::Int32 getElapsedTime_ms() const
+		{
+			return getElapsedTime().asMilliseconds();
+		}
+
+		/*!
+		 @brief Give the amount of time elapsed since the chronometer was started, in microseconds
+
+		 @return Time elapsed in microseconds
+		 */
+		sf::Int64 getElapsedTime_ys() const
+		{
+			return getElapsedTime().asMicroseconds();
+		}
 
         /*!
          @brief Implicit conversion to sf::Time

@@ -46,7 +46,6 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	m_height = root["height"].asInt();
 
 	loadTileSets(root, textures);
-
 	loadProperties(root);
 
 	// Read in each layer
@@ -66,8 +65,7 @@ void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
 	auto tmp = static_cast<TileLayer *>(m_layers.emplace_back(
-		std::make_unique<TileLayer>(tileSize))
-		.get());				   // vector, so the order is kept
+		std::make_unique<TileLayer>(tileSize)).get());				   // vector, so the order is kept
 
 	tmp->load(layer, tileSets, animatedTiles);
 	m_tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
@@ -77,8 +75,7 @@ void Map::loadObjects(const Json::Value& layer)
 {
 	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
-		std::make_unique<ObjectLayer>(tileSize))
-		.get());				   // vector, so the order is kept
+		std::make_unique<ObjectLayer>(tileSize)).get());				   // vector, so the order is kept
 	
 	objectLayer->load(layer, m_clock, tileSets, animatedTiles);
 	m_objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
@@ -92,8 +89,9 @@ void Map::draw(sf::RenderTarget &target)
 
 void Map::drawLayer(sf::RenderTarget& target, Layer* layer)
 {
-	layer->process(m_clock);
-
+	if (m_clock.isRunning())
+		layer->process(m_clock);
+	
 	if (layer->visible)
 		layer->draw(target);
 }

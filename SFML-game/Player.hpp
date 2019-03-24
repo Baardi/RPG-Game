@@ -23,11 +23,16 @@ enum class Action
 };
 	Player(sftools::Chronometer &clock, int x, int y);
 	~Player();
-	void draw(sf::RenderTarget &window) override;
-	sf::FloatRect getGlobalBounds() const override;
+	
+	sf::FloatRect getLocalBounds() const override;
+	sf::Transform getTransform() const override;
+
 	sf::Vector2<double> getPosition() const override;
 	void setPosition(double x, double y) override;
 	void setPosition(sf::Vector2<double> pos) override;
+
+	void draw(sf::RenderTarget &window) override;
+
 	void takeItem(ObjectSprite *item);
 	void handleKeyInput(Map &map);
 

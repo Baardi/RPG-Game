@@ -17,7 +17,8 @@ public:
 	void draw(sf::RenderTarget& window) override;
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
 
-	sf::FloatRect getGlobalBounds() const override;
+	sf::FloatRect getLocalBounds() const override;
+	sf::Transform getTransform() const override;
 
 	// Id of first tile
 	int gid;
@@ -40,6 +41,9 @@ private:
 
 	// AnimationData
 	AnimationTile m_animationTileInfo;
-	
-	sf::FloatRect m_globalBounds;  // May need a specifier for how to get GlobalBounds (via sprite or via x/y/width/height)
+
+	// As of now localbounds and globalbounds is the same. Consider overloads on move/scale/rotate, to mutate
+	sf::Transform m_transform;
+	sf::FloatRect m_localBounds;
+	sf::FloatRect m_globalBounds;
 };

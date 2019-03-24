@@ -36,9 +36,14 @@ void Player::draw(sf::RenderTarget &window)
 	window.draw(m_sprite);
 }
 
-sf::FloatRect Player::getGlobalBounds() const
+sf::FloatRect Player::getLocalBounds() const
 {
-	return m_sprite.getGlobalBounds();
+	return m_sprite.getLocalBounds();
+}
+
+sf::Transform Player::getTransform() const
+{
+	return m_sprite.getTransform();
 }
 
 void Player::setPosition(double x, double y)
@@ -69,11 +74,11 @@ void Player::handleKeyInput(Map &map)
 {
 	bool isMoving = false;
 
-	for (auto kvPair : m_dirMap)
+	for (auto [dir, key] : m_dirMap)
 	{
-		if (sf::Keyboard::isKeyPressed(kvPair.second))
+		if (sf::Keyboard::isKeyPressed(key))
 		{
-			m_dir = kvPair.first;
+			m_dir = dir;
 			isMoving = true;
 			break;
 		}
