@@ -19,7 +19,7 @@ struct AnimationTile
 {
 	int currentFrame = 0;
 	sf::Time lastTime;
-	std::vector<AnimationTileData> animationTileData;
+	std::vector<AnimationTileData> data;
 };
 
 // Small helper struct that contains tile size information
@@ -52,11 +52,11 @@ public:
 
 protected:
 	// Calculate x and y position of given tile in the texture
-	sf::Vector2i getTileCoords(sf::Texture &texture, int tile) const;
+	sf::Vector2i getTileCoords(const sf::Texture &texture, int tile) const;
 	static int GetTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets);
 	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);
 	
 	TileSize tileSize;
 };
 
-sf::Vector2i g_getTileCoords(sf::Texture &texture, int tile, const TileSize tileSize);
+sf::Vector2i g_getTileCoords(const sf::Texture &texture, int tile, const TileSize tileSize);

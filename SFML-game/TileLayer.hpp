@@ -2,6 +2,13 @@
 #include "Layer.hpp"
 #include "MapProperties.hpp"
 
+struct Tile
+{
+	int gid;
+	AnimationTile animation;
+	sf::Sprite sprite;
+};
+
 // Class representing a tile layer
 class TileLayer : public Layer
 {
@@ -17,25 +24,13 @@ public:
 	bool containsTexture(double x, double y) const;
 
 private:
-	void initArrays(int size); // Resizes vector according to width/height of layer
-	
 	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
-	void loadSpriteTexture(sf::Texture &texture, int tileid, int x, int y);
-	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile, int x, int y);
+	void loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture, int tileid, int x, int y);
+	void loadSpriteAnimation(const sf::Texture &texture, Tile &tile, std::vector<std::pair<int, sf::Time>> &animationTile);
 		
 	bool containsTextureTileCoords(int x, int y) const;
-	
-	// Should only be used internally, as there's no boundary check
-	template <class T>
-	T& getValue(std::vector<T> &arr, int x, int y);
-	template <class T>
-	const T& getValue(const std::vector<T> &arr, int x, int y) const;
 
-    // Use get (array, x, y) to access the map
-    std::vector<int> m_tilemap;
-	std::vector<AnimationTile> m_animationTilemap;
-	std::vector<sf::Sprite> m_textureMap;
-
-    // Size in tiles
+    // Layer representation
+    std::vector<Tile> m_tilemap;
 	int m_width, m_height;
 };

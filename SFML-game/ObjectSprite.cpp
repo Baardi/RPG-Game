@@ -63,7 +63,7 @@ void ObjectSprite::process(const sftools::Chronometer &clock)
 		return;
 
 	// Update animation
-	if (!m_animationTileInfo.animationTileData.empty())
+	if (!m_animationTileInfo.data.empty())
 		processAnimation(sprite, m_animationTileInfo, clock);
 }
 
@@ -131,7 +131,7 @@ void ObjectSprite::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pa
 		auto [tilex, tiley] = getTileCoords(texture, tile.first);
 		auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
-		m_animationTileInfo.animationTileData.emplace_back(tile.second, textureRect);
+		m_animationTileInfo.data.emplace_back(tile.second, textureRect);
 	}
 }
 
