@@ -31,7 +31,7 @@ enum class Action
 	void setPosition(double x, double y) override;
 	void setPosition(sf::Vector2<double> pos) override;
 
-	void draw(sf::RenderTarget &window) override;
+	void draw(sf::RenderTarget &target) override;
 
 	void takeItem(ObjectSprite *item);
 	void handleKeyInput(Map &map);

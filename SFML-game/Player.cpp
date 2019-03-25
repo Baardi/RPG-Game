@@ -31,9 +31,13 @@ Player::~Player()
 {
 }
 
-void Player::draw(sf::RenderTarget &window)
+void Player::draw(sf::RenderTarget &target)
 {
-	window.draw(m_sprite);
+	target.draw(m_sprite);
+
+#ifdef _DEBUG
+	drawDebugOutline(target);
+#endif // _DEBUG
 }
 
 sf::FloatRect Player::getLocalBounds() const

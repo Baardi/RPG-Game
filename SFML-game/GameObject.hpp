@@ -6,6 +6,7 @@ public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
+	
 	virtual sf::FloatRect getLocalBounds() const;
 	virtual sf::Transform getTransform() const;
 	sf::FloatRect getGlobalBounds() const;
@@ -18,4 +19,8 @@ public:
 	virtual void setPosition(sf::Vector2<double> pos) {}
 
 	virtual void draw(sf::RenderTarget &target) {}
+
+#ifdef _DEBUG 
+	void drawDebugOutline(sf::RenderTarget &target) const;
+#endif // _DEBUG
 };

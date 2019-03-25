@@ -33,8 +33,10 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 
 	m_localBounds = sf::FloatRect(0, 0, width, height);
 
-	m_transform.rotate(rotation);
-	m_transform.translate(x, y);
+	sf::Vector2f scale(1, 1);
+	sf::Vector2f origin(0, 0);
+	sf::Vector2f translation(x, y);
+	m_transform = sf::utility::computeTransform(origin, translation, scale, rotation);
 
 	auto textValue = object["text"];
 	if (!textValue.empty() && !gid)
@@ -73,6 +75,10 @@ void ObjectSprite::draw(sf::RenderTarget &target)
 		target.draw(sprite);
 	else if (text)
 		target.draw(*text);
+
+#ifdef _DEBUG
+	drawDebugOutline(target);
+#endif // _DEBUG
 }
 
 void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)

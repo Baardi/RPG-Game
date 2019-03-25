@@ -47,3 +47,22 @@ unsigned int sf::utility::parseTextStyle(const Json::Value &value)
 
 	return style;
 }
+
+sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f translation, sf::Vector2f scale, float rotation)
+{
+	float angle = -rotation * 3.141592654f / 180.f;
+	float cosine = static_cast<float>(std::cos(angle));
+	float sine = static_cast<float>(std::sin(angle));
+	float sxc = scale.x * cosine;
+	float syc = scale.y * cosine;
+	float sxs = scale.x * sine;
+	float sys = scale.y * sine;
+	float tx = -origin.x * sxc - origin.y * sys + translation.x;
+	float ty = origin.x * sxs - origin.y * syc + translation.y;
+
+	sf::Transform transform(sxc, sys, tx,
+		-sxs, syc, ty,
+		0.f, 0.f, 1.f);
+
+	return transform;
+}
