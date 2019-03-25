@@ -67,20 +67,20 @@ void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
 	auto tmp = static_cast<TileLayer *>(m_layers.emplace_back(
-		std::make_unique<TileLayer>(tileSize)).get());				   // vector, so the order is kept
+		std::make_unique<TileLayer>(tileSize)).get());
 
 	tmp->load(layer, tileSets, animatedTiles);
-	m_tileMap.try_emplace(tmp->name, tmp);   // so the layer can be retrieved later (e.g by game-class)
+	m_tileMap.try_emplace(tmp->name, tmp);
 }
 
 void Map::loadObjects(const Json::Value& layer)
 {
 	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
-		std::make_unique<ObjectLayer>(tileSize)).get());				   // vector, so the order is kept
+		std::make_unique<ObjectLayer>(tileSize)).get());
 	
-	objectLayer->load(layer, m_clock, tileSets, animatedTiles);
-	m_objectMap.try_emplace(objectLayer->name, objectLayer); // so the layer can be retrieved later (e.g by game-class)
+	objectLayer->load(layer, tileSets, animatedTiles);
+	m_objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 
 void Map::draw(sf::RenderTarget &target)
@@ -89,7 +89,7 @@ void Map::draw(sf::RenderTarget &target)
 		drawLayer(target, layer.get());
 }
 
-void Map::drawLayer(sf::RenderTarget& target, Layer* layer)
+void Map::drawLayer(sf::RenderTarget &target, Layer *layer)
 {
 	if (m_clock.isRunning())
 		layer->process(m_clock);
@@ -98,23 +98,27 @@ void Map::drawLayer(sf::RenderTarget& target, Layer* layer)
 		layer->draw(target);
 }
 
-void Map::splitDraw(sf::RenderTarget &window, const std::string& byLayer, DrawType drawType)
+void Map::drawFrontOf(sf::RenderTarget &target, const std::string &ofLayer)
 {
-	bool isDrawing = drawType == DrawType::Back;
+	bool isDrawing = false;
 
 	for (auto &layer : m_layers)
 	{
-		if (layer->name == byLayer)
-		{
-			if (isDrawing)
-				break;
-			
-			isDrawing = true;
-			continue;
-		}
-
 		if (isDrawing)
-			drawLayer(window, layer.get());
+			drawLayer(target, layer.get());
+		else if (layer->name == ofLayer)
+			isDrawing = true;
+	}
+}
+
+void Map::drawBackOf(sf::RenderTarget &target, const std::string &ofLayer)
+{
+	for (auto &layer : m_layers)
+	{
+		if (layer->name == ofLayer)
+			break;
+
+		drawLayer(target, layer.get());
 	}
 }
 
@@ -127,7 +131,25 @@ TileLayer *Map::getTileLayer(const std::string& layerName)
 	return nullptr;
 }
 
+const TileLayer *Map::getTileLayer(const std::string& layerName) const
+{
+	auto it = m_tileMap.find(layerName);
+	if (it != m_tileMap.end())
+		return it->second;
+
+	return nullptr;
+}
+
 ObjectLayer *Map::getObjectLayer(const std::string& layerName)
+{
+	auto it = m_objectMap.find(layerName);
+	if (it != m_objectMap.end())
+		return it->second;
+
+	return nullptr;
+}
+
+const ObjectLayer *Map::getObjectLayer(const std::string& layerName) const
 {
 	auto it = m_objectMap.find(layerName);
 	if (it != m_objectMap.end())

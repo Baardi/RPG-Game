@@ -6,7 +6,7 @@ ObjectLayer::~ObjectLayer()
 {
 }
 
-void ObjectLayer::load(const Json::Value& layer, const sftools::Chronometer &clock, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();

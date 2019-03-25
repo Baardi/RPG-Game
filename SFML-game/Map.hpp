@@ -10,9 +10,7 @@ class ObjectLayer;
 
 class Map : public MapProperties
 {
-public:
-	enum class DrawType{ Front, Back };
-	
+public:	
 	Map() = default;
 	~Map() = default;
 	
@@ -21,16 +19,22 @@ public:
 
 	Map(Map &&) = default;
 	Map &operator=(Map &&) = default;
-
-	void clear();									// Clear the map
-	bool load(const std::filesystem::path &filename, TextureMap &textures);			// Load map from Tiled JSON file
+	
+	// Load map from Tiled JSON file
+	bool load(const std::filesystem::path &filename, TextureMap &textures); 
+	void clear();									
+	
 	auto getPath() const { return m_currentPath; }
-	void draw(sf::RenderTarget &window);
-	void splitDraw(sf::RenderTarget &window, const std::string &byLayer, DrawType drawType); // The layer that is split by won't be drawn
-	void drawLayer(sf::RenderTarget &window, Layer *layer);
+	
+	void draw(sf::RenderTarget &target);
+	void drawFrontOf(sf::RenderTarget &target, const std::string &ofLayer);
+	void drawBackOf(sf::RenderTarget &target, const std::string &ofLayer);
+	void drawLayer(sf::RenderTarget &target, Layer *layer);
 	
 	TileLayer *getTileLayer(const std::string &layerName);
+	const TileLayer *getTileLayer(const std::string &layerName) const;
 	ObjectLayer *getObjectLayer(const std::string &layerName);
+	const ObjectLayer *getObjectLayer(const std::string &layerName) const;
 	
 	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
 

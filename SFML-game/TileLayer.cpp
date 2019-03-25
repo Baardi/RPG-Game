@@ -19,7 +19,7 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 	// Read in tilemap
 	for (unsigned int i = 0; i < data.size(); i++)
 	{
-		m_tilemap[i].gid = data[i].asInt();
+		m_tilemap[i].id = data[i].asInt();
 	}
 
 	loadTexture(tileSets, animatedTiles);
@@ -36,7 +36,7 @@ void TileLayer::process(const sftools::Chronometer &clock)
 			auto &tile = m_tilemap[x + y * m_width];
 
 			// Skip empty tiles
-			if (tile.gid == 0)
+			if (tile.id == 0)
 				continue;
 			
 			// Update animation
@@ -56,7 +56,7 @@ void TileLayer::draw(sf::RenderTarget& window)
 			auto &tile = m_tilemap[x + y * m_width];
 			
 			// Skip empty tiles
-			if (tile.gid == 0)
+			if (tile.id == 0)
 				continue;
 
 			window.draw(tile.sprite);
@@ -72,20 +72,20 @@ void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTile
 		{
 			auto &tile = m_tilemap[x + y * m_width];
 			
-			if (!tile.gid) 
+			if (!tile.id) 
 				continue;		// Skip empty tiles
 
-			int tileTextureValue = GetTextureIndex(tile.gid, tileSets);
+			int tileTextureValue = GetTextureIndex(tile.id, tileSets);
 			if (!tileTextureValue) 
 				continue;		// No texture found
 
 			sf::Texture *spriteTexture = tileSets[tileTextureValue];
 
 			// Check if theres animation
-			auto it = animatedTiles.find(tile.gid);
+			auto it = animatedTiles.find(tile.id);
 			if (it == animatedTiles.end())
 			{
-				loadSpriteTexture(tile.sprite, *spriteTexture, tile.gid - tileTextureValue, x, y);
+				loadSpriteTexture(tile.sprite, *spriteTexture, tile.id - tileTextureValue, x, y);
 			}
 			else
 			{
@@ -124,7 +124,7 @@ bool TileLayer::containsTextureTileCoords(int x, int y) const
 		return true; // Out of bounds
 
 	const auto &tile = m_tilemap[x + y * m_width];
-	return bool(tile.gid); // if (value is 0) => false, else => true
+	return bool(tile.id); // if (value is 0) => false, else => true
 }
 
 bool TileLayer::containsTexture(double x, double y) const

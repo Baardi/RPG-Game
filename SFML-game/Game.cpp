@@ -94,9 +94,9 @@ void Game::resume()
 
 void Game::draw(sf::RenderTarget &target)
 {
-	m_map.splitDraw(target, "Character", Map::DrawType::Back);
+	m_map.drawBackOf(target, "Character");
 	m_player.draw(target);
-	m_map.splitDraw(target, "Character", Map::DrawType::Front);
+	m_map.drawFrontOf(target, "Character");
 
 	if (m_paused && State::IsCurrent(this))
 		target.draw(m_pauseText);

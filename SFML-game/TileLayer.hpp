@@ -3,7 +3,7 @@
 
 struct Tile
 {
-	int gid;
+	int id;
 	AnimationTile animation;
 	sf::Sprite sprite;
 };

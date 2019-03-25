@@ -67,12 +67,12 @@ void ObjectSprite::process(const sftools::Chronometer &clock)
 		processAnimation(sprite, m_animationTileInfo, clock);
 }
 
-void ObjectSprite::draw(sf::RenderTarget &window)
+void ObjectSprite::draw(sf::RenderTarget &target)
 {
 	if (gid) 
-		window.draw(sprite);
+		target.draw(sprite);
 	else if (text)
-		window.draw(*text);
+		target.draw(*text);
 }
 
 void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
