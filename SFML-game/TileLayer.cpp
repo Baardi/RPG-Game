@@ -29,6 +29,29 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 
 void TileLayer::save(Json::Value &value) const
 {
+	Json::Value layer;
+
+	layer["type"] = "tilelayer";
+	layer["name"] = name;
+	layer["id"] = id;
+	layer["x"] = 0;
+	layer["y"] = 0;
+	layer["width"] = width;
+	layer["height"] = height;
+	layer["opacity"] = opacity;
+	layer["visible"] = visible;
+
+	// Implemented correctly, but causes the file to be unreadable
+	auto &data = layer["data"];
+	for (unsigned int i = 0; i < m_tilemap.size(); i++)
+	{
+		data.append(m_tilemap[i].id);
+	}
+
+	saveProperties(layer["properties"]);
+
+	if (!layer.empty())
+		value["layers"].append(layer);
 }
 
 void TileLayer::process(const sftools::Chronometer &clock)

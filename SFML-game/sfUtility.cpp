@@ -35,10 +35,17 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 	return color;
 }
 
+std::string sf::utility::parseColor(sf::Color color)
+{
+	// A really lame method that parses color codes from sf::color to tiled color format
+
+	char buf[2]; // Set up buffer for color components
+
+	return std::string("");
+}
+
 unsigned int sf::utility::parseTextStyle(const Json::Value &value)
 {
-	// Todo: test possibility to throw if error
-
 	unsigned int style = Text::Regular;
 
 	if (value["bold"].asBool())      style |= Text::Bold;
@@ -47,6 +54,18 @@ unsigned int sf::utility::parseTextStyle(const Json::Value &value)
 	if (value["underline"].asBool()) style |= Text::Underlined;
 
 	return style;
+}
+
+Json::Value sf::utility::parseTextStyle(unsigned int style)
+{
+	Json::Value value;
+
+	if (style & Text::Bold)			value["bold"] = true;
+	if (style & Text::Italic)		value["italic"] = true;
+	if (style & Text::StrikeThrough)value["strikeout"] = true;
+	if (style & Text::Underlined)	value["underline"] = true;
+
+	return value;
 }
 
 sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f translation, sf::Vector2f scale, float rotation)

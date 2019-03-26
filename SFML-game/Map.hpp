@@ -59,10 +59,12 @@ private:
 
 	std::map<int, sf::Texture *> tileSets;
 	void loadTileSets(const Json::Value &root, TextureMap &textures);
+	void saveTileSets(Json::Value &value) const;
 
 	// <animationtileid, animationdata< frame<tileid, duration>> >
 	AnimationTileMap animatedTiles;
 	void loadAnimatedTiles(int firstGid, const Json::Value &tileset);
+	void saveAnimatedTiles(Json::Value &value) const;
 
     // Handles regular layers
 	void loadLayer(const Json::Value& layer);
@@ -74,7 +76,7 @@ private:
 	 sftools::Chronometer m_clock;
 
 	// Map bounds
-	int m_width, m_height;
+	int width, height;
 
 	std::filesystem::path m_currentFile;
 	std::filesystem::path m_currentPath;

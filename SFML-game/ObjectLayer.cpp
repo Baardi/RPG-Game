@@ -25,14 +25,26 @@ void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& ti
 	}
 }
 
-void ObjectLayer::save(Json::Value &layer) const
+void ObjectLayer::save(Json::Value &value) const
 {
-	/*
-	Save object layer
-	*/
+	Json::Value layer;
+
+	layer["type"] = "objectgroup";
+	layer["draworder"] = "topdown";
+	layer["id"] = id;
+	layer["name"] = name;
+	layer["opacity"] = opacity;
+	layer["visible"] = visible;
+	layer["x"] = 0;
+	layer["y"] = 0;
+
+	saveProperties(layer["properties"]);
 
 	for (const auto &object : objects)
 		object->save(layer);
+
+	if (!layer.empty())
+		value["layers"].append(layer);
 }
 
 void ObjectLayer::process(const sftools::Chronometer &clock)

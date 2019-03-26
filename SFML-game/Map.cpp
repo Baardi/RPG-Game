@@ -15,6 +15,7 @@ void Map::clear()
 	animatedTiles.clear();
 	m_propertyMap.clear();
 	m_currentPath = "";
+	m_currentFile = "";
 
 	m_clock.reset(true);
 }
@@ -45,8 +46,8 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
 	tileSize.s = root["spacing"].asInt();
-	m_width = root["width"].asInt();
-	m_height = root["height"].asInt();
+	width = root["width"].asInt();
+	height = root["height"].asInt();
 
 	loadTileSets(root, textures);
 	loadProperties(root["properties"]);
@@ -69,9 +70,18 @@ bool Map::save(const std::filesystem::path &filename)
 	// Will contain the data we save
 	Json::Value value;
 
-	/*
-	General map save code
-	*/
+	// Store attributes from the map itself
+	value["version"] = 1.2;
+	value["type"] = "map";
+
+	value["width"] = width;
+	value["height"] = height;
+	value["tilewidth"] = tileSize.x;
+	value["tileheight"] = tileSize.y;
+	value["spacing"] = tileSize.s;
+
+	saveProperties(value["properties"]);
+	saveTileSets(value["tilesets"]);
 
 	for (auto &layer : m_layers)
 		layer->save(value);
@@ -79,9 +89,9 @@ bool Map::save(const std::filesystem::path &filename)
 	// Stream used for storing the data file as JSON in Tiled
 	std::ofstream file(filename);
 
-	// Writes the file
-	Json::StyledWriter styledWriter;
-	file << styledWriter.write(value);
+	// Write the file
+	Json::FastWriter fastWriter;
+	file << fastWriter.write(value);
 	file.close();
 
 	return file.good();
@@ -216,6 +226,19 @@ void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads a
 	}
 }
 
+void Map::saveTileSets(Json::Value &value) const
+{
+	for (auto[firstgid, texture] : tileSets)
+	{
+		Json::Value tileset;
+
+		tileset["firstgid"] = firstgid;
+
+		saveAnimatedTiles(value);
+		value.append(tileset);
+	}
+}
+
 void Map::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store info on animated tiles
 {
 	for (const auto &tile : tileset)
@@ -233,4 +256,8 @@ void Map::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store i
 
 		animatedTiles.try_emplace(firstGid + tileid, tileSetAnimations);
 	}
+}
+
+void Map::saveAnimatedTiles(Json::Value &value) const
+{
 }

@@ -59,9 +59,53 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setStyle(sf::utility::parseTextStyle(textValue));
 }
 
-void ObjectSprite::save(Json::Value &layer)
+void ObjectSprite::save(Json::Value &layer) const
 {
+	Json::Value object;
 
+	object["height"] = height;
+	object["id"] = id;
+	object["name"] = name;
+	object["rotation"] = rotation;
+	object["type"] = type;
+	object["visible"] = visible;
+	object["width"] = width;
+	object["height"] = height;
+
+	float json_x = x;
+	float json_y = y;
+	if (gid)
+	{
+		json_x -= height * std::sin(rotation * (M_PI / 180.0));
+		json_y += height * std::cos(rotation * (M_PI / 180.0));
+	}
+	object["x"] = json_x;
+	object["y"] = json_y;
+
+	unsigned int json_gid = gid;
+	if (horflip) json_gid += Map::FLIP_MULTIPLIER;
+	if (verflip) json_gid += Map::FLIP_MULTIPLIER * 2;
+	object["gid"] = json_gid;
+
+	if (text)
+		saveText(object["text"]);
+
+	saveProperties(object["properties"]);
+
+	if (!object.empty())
+		layer["objects"].append(object);
+}
+
+void ObjectSprite::saveText(Json::Value &textValue) const
+{
+	unsigned int style = text->getStyle();
+
+	if (style & sf::Text::Bold)			textValue["bold"] = true;
+	if (style & sf::Text::Italic)		textValue["italic"] = true;
+	if (style & sf::Text::StrikeThrough)textValue["strikeout"] = true;
+	if (style & sf::Text::Underlined)	textValue["underline"] = true;
+
+	textValue["pixelsize"] = text->getCharacterSize();
 }
 
 void ObjectSprite::process(const sftools::Chronometer &clock)

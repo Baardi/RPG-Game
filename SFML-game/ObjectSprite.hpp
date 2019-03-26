@@ -13,7 +13,8 @@ public:
 
 	void load(const Json::Value &layer, const Json::Value &object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void loadText(const Json::Value &textValue);
-	void save(Json::Value &layer);
+	void save(Json::Value &layer) const override;
+	void saveText(Json::Value &textValue) const;
 
 	void process(const sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget &target) override;

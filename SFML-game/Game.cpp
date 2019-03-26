@@ -20,6 +20,8 @@ void Game::init()
 {
 	UI::init();
 	
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("json.sav")); });
+
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, State::Push<MainMenu>);
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      State::Reset<MainMenu>);
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      State::PushChild<GamePopupMenu>);

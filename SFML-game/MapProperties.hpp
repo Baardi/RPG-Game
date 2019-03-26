@@ -14,7 +14,8 @@ public:
 		if (it == m_propertyMap.end())
 			return false;
 
-		const T *castedValue = std::any_cast<T>(&it->second);
+		auto [type, anyObj] = it->second;
+		const T *castedValue = std::any_cast<T>(&anyObj);
 		if (!castedValue)
 			return false;
 		
@@ -22,19 +23,9 @@ public:
 		return true;
 	}
 
-	template <class T>
-	T getProperty(const std::string &propertyName) const
-	{
-		// Unsafe to use
-		return std::any_cast<T>(m_propertyMap.find(propertyName)->second);
-	}
-
-	bool containsProperty(const std::string &propertyName) const
-	{
-		return m_propertyMap.find(propertyName) != m_propertyMap.end();
-	}
-
 protected:
 	void loadProperties(const Json::Value &properties);
-	std::map<std::string, std::any> m_propertyMap;
+	void saveProperties(Json::Value &properties) const;
+
+	std::map<std::string, std::pair<std::string, std::any>> m_propertyMap;
 };
