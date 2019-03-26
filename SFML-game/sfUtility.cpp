@@ -31,7 +31,8 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 		alpha = std::stoi(buf, nullptr, 16);	// Copy alpha component
 	}
 
-	return Color(red, green, blue, alpha);		// Construct the color
+	Color color(red, green, blue, alpha);
+	return color;
 }
 
 unsigned int sf::utility::parseTextStyle(const Json::Value &value)
@@ -60,7 +61,7 @@ sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f tr
 	float tx = -origin.x * sxc - origin.y * sys + translation.x;
 	float ty = origin.x * sxs - origin.y * syc + translation.y;
 
-	sf::Transform transform(sxc, sys, tx,
+	Transform transform(sxc, sys, tx,
 		-sxs, syc, ty,
 		0.f, 0.f, 1.f);
 

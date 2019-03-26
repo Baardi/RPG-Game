@@ -14,8 +14,8 @@ public:
 	void load(const Json::Value &layer, const Json::Value &object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void loadText(const Json::Value &textValue);
 	void process(const sftools::Chronometer &clock) override;
-	void draw(sf::RenderTarget& window) override;
-	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
+	void draw(sf::RenderTarget &target) override;
+	void loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles) override;
 
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
@@ -42,8 +42,6 @@ private:
 	// AnimationData
 	AnimationTile m_animationTileInfo;
 
-	// As of now localbounds and globalbounds is the same. Consider overloads on move/scale/rotate, to mutate
 	sf::Transform m_transform;
 	sf::FloatRect m_localBounds;
-	sf::FloatRect m_globalBounds;
 };

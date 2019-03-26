@@ -5,7 +5,6 @@ class GameObject
 public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
-
 	
 	virtual sf::FloatRect getLocalBounds() const;
 	virtual sf::Transform getTransform() const;
