@@ -50,6 +50,7 @@ void Game::init()
 		if (!tmpMap.load(m_map.getPath() / mapFile, State::Textures()))
 			return; // Give user a message, invalid entrance
 
+		m_map.save(m_map.getFile().replace_extension("json.sav"));
 		m_map = std::move(tmpMap);
 		loadProperties(m_map);
 		m_player.setPosition(pos.x, pos.y);

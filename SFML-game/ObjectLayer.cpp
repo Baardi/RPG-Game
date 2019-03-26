@@ -25,6 +25,16 @@ void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& ti
 	}
 }
 
+void ObjectLayer::save(Json::Value &layer) const
+{
+	/*
+	Save object layer
+	*/
+
+	for (const auto &object : objects)
+		object->save(layer);
+}
+
 void ObjectLayer::process(const sftools::Chronometer &clock)
 {
 	for (auto &object : objects)

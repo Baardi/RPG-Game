@@ -64,6 +64,29 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 	return true;
 }
 
+bool Map::save(const std::filesystem::path &filename)
+{
+	// Will contain the data we save
+	Json::Value value;
+
+	/*
+	General map save code
+	*/
+
+	for (auto &layer : m_layers)
+		layer->save(value);
+
+	// Stream used for storing the data file as JSON in Tiled
+	std::ofstream file(filename);
+
+	// Writes the file
+	Json::StyledWriter styledWriter;
+	file << styledWriter.write(value);
+	file.close();
+
+	return file.good();
+}
+
 void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer

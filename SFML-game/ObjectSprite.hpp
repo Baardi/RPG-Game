@@ -13,8 +13,11 @@ public:
 
 	void load(const Json::Value &layer, const Json::Value &object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
 	void loadText(const Json::Value &textValue);
+	void save(Json::Value &layer);
+
 	void process(const sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget &target) override;
+	
 	void loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles) override;
 
 	sf::FloatRect getLocalBounds() const override;

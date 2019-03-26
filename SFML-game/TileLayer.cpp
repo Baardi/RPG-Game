@@ -27,6 +27,10 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 	loadProperties(layer["properties"]);
 }
 
+void TileLayer::save(Json::Value &value) const
+{
+}
+
 void TileLayer::process(const sftools::Chronometer &clock)
 {
 	// Render each tile

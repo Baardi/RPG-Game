@@ -21,7 +21,12 @@ public:
 	Map &operator=(Map &&) = default;
 	
 	// Load map from Tiled JSON file
-	bool load(const std::filesystem::path &filename, TextureMap &textures); 
+	bool load(const std::filesystem::path &filename, TextureMap &textures);
+
+	// Save to from Tiled JSON file
+	bool save(const std::filesystem::path &filename);
+
+	// Clear map in memory
 	void clear();									
 	
 	auto getPath() const { return m_currentPath; }

@@ -9,6 +9,8 @@ public:
 	~ObjectLayer();
 
 	void load(const Json::Value &layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
+	void save(Json::Value &layer) const override;
+	
 	void process(const sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget &target) override;
 	void loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles) override;

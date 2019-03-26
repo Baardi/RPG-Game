@@ -59,6 +59,11 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setStyle(sf::utility::parseTextStyle(textValue));
 }
 
+void ObjectSprite::save(Json::Value &layer)
+{
+
+}
+
 void ObjectSprite::process(const sftools::Chronometer &clock)
 {
 	if (gid == 0)

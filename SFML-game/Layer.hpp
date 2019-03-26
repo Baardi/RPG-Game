@@ -41,6 +41,7 @@ public:
 
 	virtual ~Layer() = default;
 	
+	virtual void save(Json::Value &layer) const {}
 	virtual void process(const sftools::Chronometer &clock) {}
 	virtual void draw(sf::RenderTarget& target) {}
 	virtual void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) {}
