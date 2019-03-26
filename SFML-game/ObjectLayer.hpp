@@ -15,7 +15,7 @@ public:
 	void removeSprite(ObjectSprite *sprite);
 	ObjectSprite *getIntersectedObject(const GameObject &other);
 
+	int id;
 	std::vector<std::unique_ptr<ObjectSprite>> objects;
-
 	// todo std::map<int gid, ObjectSprite *>
 };

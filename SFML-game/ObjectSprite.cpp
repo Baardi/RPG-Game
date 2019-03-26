@@ -9,13 +9,13 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 {
 	// Load basic object info
 	name = object["name"].asString();
-
 	width = object["width"].asFloat();
 	height = object["height"].asFloat();
 	rotation = object["rotation"].asFloat();
 	type = object["type"].asString();
 	visible = object["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
+	id = layer["id"].asInt();
 
 	unsigned int json_gid = object["gid"].asUInt();
 	verflip = json_gid / (Map::FLIP_MULTIPLIER * 2);
@@ -42,7 +42,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 	if (!textValue.empty() && !gid)
 		loadText(textValue);
 
-	loadProperties(object);
+	loadProperties(object["properties"]);
 	loadTexture(tileSets, animatedTiles);
 }
 

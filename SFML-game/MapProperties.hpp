@@ -35,6 +35,6 @@ public:
 	}
 
 protected:
-	void loadProperties(const Json::Value &object);
+	void loadProperties(const Json::Value &properties);
 	std::map<std::string, std::any> m_propertyMap;
 };

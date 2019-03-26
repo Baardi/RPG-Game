@@ -49,6 +49,7 @@ public:
 	bool visible;
 	std::string type;
 	float opacity;
+	int id;
 
 protected:
 	// Calculate x and y position of given tile in the texture

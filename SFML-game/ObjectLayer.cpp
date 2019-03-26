@@ -12,7 +12,8 @@ void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& ti
 	type = layer["type"].asString();
 	visible = layer["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
-	loadProperties(layer);
+	id = layer["id"].asInt();
+	loadProperties(layer["properties"]);
 
 	// Get all mapObjects from layer
 	for (const auto &object : layer["objects"])

@@ -11,6 +11,7 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 	name = layer["name"].asString();
 	visible = layer["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
+	id = layer["id"].asInt();
 
 	// Prepare tilemap
 	auto &data = layer["data"];
@@ -23,7 +24,7 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 	}
 
 	loadTexture(tileSets, animatedTiles);
-	loadProperties(layer);
+	loadProperties(layer["properties"]);
 }
 
 void TileLayer::process(const sftools::Chronometer &clock)
