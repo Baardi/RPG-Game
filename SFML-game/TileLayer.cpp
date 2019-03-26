@@ -76,7 +76,7 @@ void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTile
 			if (!tile.id) 
 				continue;		// Skip empty tiles
 
-			int tileTextureValue = GetTextureIndex(tile.id, tileSets);
+			int tileTextureValue = getTextureIndex(tile.id, tileSets);
 			if (!tileTextureValue) 
 				continue;		// No texture found
 

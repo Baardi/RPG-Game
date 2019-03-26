@@ -54,7 +54,7 @@ public:
 protected:
 	// Calculate x and y position of given tile in the texture
 	sf::Vector2i getTileCoords(const sf::Texture &texture, int tile) const;
-	static int GetTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets);
+	static int getTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets);
 	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);
 	
 	TileSize tileSize;

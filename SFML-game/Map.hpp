@@ -25,7 +25,8 @@ public:
 	void clear();									
 	
 	auto getPath() const { return m_currentPath; }
-	
+	auto getFile() const { return m_currentFile; }
+
 	void draw(sf::RenderTarget &target);
 	void drawFrontOf(sf::RenderTarget &target, const std::string &ofLayer);
 	void drawBackOf(sf::RenderTarget &target, const std::string &ofLayer);
@@ -70,6 +71,7 @@ private:
 	// Map bounds
 	int m_width, m_height;
 
+	std::filesystem::path m_currentFile;
 	std::filesystem::path m_currentPath;
 public:
 	static constexpr unsigned int FLIP_MULTIPLIER = 1073741824; /*std::pow(2, 30)*/

@@ -15,7 +15,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 	type = object["type"].asString();
 	visible = object["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
-	id = layer["id"].asInt();
+	id = object["id"].asInt();
 
 	unsigned int json_gid = object["gid"].asUInt();
 	verflip = json_gid / (Map::FLIP_MULTIPLIER * 2);
@@ -81,12 +81,12 @@ void ObjectSprite::draw(sf::RenderTarget &target)
 #endif // _DEBUG
 }
 
-void ObjectSprite::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void ObjectSprite::loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles)
 {
 	if (!gid)
 		return;
 
-	int tileTextureValue = GetTextureIndex(gid, tileSets);
+	int tileTextureValue = getTextureIndex(gid, tileSets);
 	if (!tileTextureValue) // No texture found
 		return;
 

@@ -38,7 +38,8 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 		return false;
 
 	std::error_code ec;
-	m_currentPath = std::filesystem::weakly_canonical(filename, ec).parent_path();
+	m_currentFile = std::filesystem::weakly_canonical(filename, ec);
+	m_currentPath = m_currentFile.parent_path();
 
 	// Get tile size information
 	tileSize.x = root["tilewidth"].asInt();

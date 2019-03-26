@@ -31,22 +31,22 @@ void ObjectLayer::process(const sftools::Chronometer &clock)
 		object->process(clock);
 }
 
-void ObjectLayer::draw(sf::RenderTarget& window)
+void ObjectLayer::draw(sf::RenderTarget &target)
 {
 	for (auto &object : objects)
 	{
 		if (object->visible)
-			object->draw(window);
+			object->draw(target);
 	}
 }
 
-void ObjectLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void ObjectLayer::loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles)
 {
 	for (auto &object : objects)
 		object->loadTexture(tileSets, animatedTiles);
 }
 
-void ObjectLayer::removeSprite(ObjectSprite* sprite)
+void ObjectLayer::removeSprite(ObjectSprite *sprite)
 {
 	auto it = std::find_if(objects.begin(), objects.end(), 
 		[sprite](auto &object) { return object.get() == sprite;});
@@ -57,7 +57,7 @@ void ObjectLayer::removeSprite(ObjectSprite* sprite)
 	objects.erase(it);
 }
 
-ObjectSprite *ObjectLayer::getIntersectedObject(const GameObject& other)
+ObjectSprite *ObjectLayer::getIntersectedObject(const GameObject &other)
 {
 	for (auto &object : objects)
 	{
