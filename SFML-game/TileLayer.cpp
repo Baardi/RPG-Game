@@ -6,8 +6,8 @@ TileLayer::~TileLayer() {}
 
 void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
-	m_width = layer["width"].asInt();
-	m_height = layer["height"].asInt();
+	width = layer["width"].asInt();
+	height = layer["height"].asInt();
 	name = layer["name"].asString();
 	visible = layer["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
@@ -29,11 +29,11 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 void TileLayer::process(const sftools::Chronometer &clock)
 {
 	// Render each tile
-	for (int y = 0; y < m_height; y++)
+	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < m_width; x++)
+		for (int x = 0; x < width; x++)
 		{
-			auto &tile = m_tilemap[x + y * m_width];
+			auto &tile = m_tilemap[x + y * width];
 
 			// Skip empty tiles
 			if (tile.id == 0)
@@ -49,11 +49,11 @@ void TileLayer::process(const sftools::Chronometer &clock)
 void TileLayer::draw(sf::RenderTarget& window)
 {
 	// Render each tile
-	for (int y = 0; y < m_height; y++)
+	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < m_width; x++)
+		for (int x = 0; x < width; x++)
 		{
-			auto &tile = m_tilemap[x + y * m_width];
+			auto &tile = m_tilemap[x + y * width];
 			
 			// Skip empty tiles
 			if (tile.id == 0)
@@ -66,11 +66,11 @@ void TileLayer::draw(sf::RenderTarget& window)
 
 void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
 {
-	for (int y = 0; y < m_height; y++)
+	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < m_width; x++)
+		for (int x = 0; x < width; x++)
 		{
-			auto &tile = m_tilemap[x + y * m_width];
+			auto &tile = m_tilemap[x + y * width];
 			
 			if (!tile.id) 
 				continue;		// Skip empty tiles
@@ -120,10 +120,10 @@ void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, std:
 
 bool TileLayer::containsTextureTileCoords(int x, int y) const
 {
-	if (x >= m_width || y >= m_height || x < 0 || y < 0)
+	if (x >= width || y >= height || x < 0 || y < 0)
 		return true; // Out of bounds
 
-	const auto &tile = m_tilemap[x + y * m_width];
+	const auto &tile = m_tilemap[x + y * width];
 	return bool(tile.id); // if (value is 0) => false, else => true
 }
 

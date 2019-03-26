@@ -31,5 +31,5 @@ private:
 
     // Layer representation
     std::vector<Tile> m_tilemap;
-	int m_width, m_height;
+	int width, height;
 };
