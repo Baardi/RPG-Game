@@ -8,7 +8,7 @@ public:
 	Inventory() = default;
 	~Inventory() = default;
 
-	void AddItem(ObjectSprite *sprite);
+	void takeItem(std::unique_ptr<GameItem> &&item);
 	const auto &Items() const { return m_items; }
 
 	auto size() const { return m_items.size(); }

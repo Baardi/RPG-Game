@@ -5,6 +5,7 @@
 #include "KeyHandler.hpp"
 #include "IntersectionHandler.hpp"
 #include "Music.hpp"
+#include "ObjectFactory.hpp"
 
 class Game : public UI
 {
@@ -36,4 +37,7 @@ private:
 
 	KeyHandler m_keyHandler;
 	IntersectionHandler m_intersectionHandler;
+
+	ObjectFactory<GameItem> m_itemFactory;
+	ObjectFactory<ObjectSprite> m_spriteFactory;
 };

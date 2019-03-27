@@ -1,14 +1,7 @@
 #include "stdafx.h"
 #include "Inventory.hpp"
 
-void Inventory::AddItem(ObjectSprite *sprite)
+void Inventory::takeItem(std::unique_ptr<GameItem> &&item)
 {
-	auto item = std::unique_ptr<GameItem>(Object::create<GameItem>(sprite->type));
-	if (!item)
-		item = std::make_unique<GameItem>();
-
-	item->construct(sprite->gid, sprite->name, sprite->sprite);
-	item->applyProperties(*sprite);
-
 	m_items.push_back(std::move(item));
 }

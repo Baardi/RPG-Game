@@ -174,7 +174,6 @@
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ButtonHandler.hpp" />
     <ClInclude Include="Character.hpp" />
-    <ClInclude Include="DerivedTest.hpp" />
     <ClInclude Include="DialogInterface.hpp" />
     <ClInclude Include="Equipment.hpp" />
     <ClInclude Include="GameItem.hpp" />
@@ -187,6 +186,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="MapProperties.hpp" />
     <ClInclude Include="Music.hpp" />
+    <ClInclude Include="ObjectFactory.hpp" />
     <ClInclude Include="ObjectSprite.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PopupMenu.hpp" />
@@ -202,7 +202,6 @@
     <ClInclude Include="State.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TypeMapper.hpp" />
     <ClInclude Include="UI.hpp" />
     <ClInclude Include="SfUtility.hpp" />
     <ClInclude Include="Valuable.hpp" />
@@ -213,7 +212,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="DerivedTest.cpp" />
     <ClCompile Include="DialogInterface.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameItem.cpp" />

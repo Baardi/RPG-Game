@@ -120,9 +120,6 @@
     <ClInclude Include="SfUtility.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="TypeMapper.hpp">
-      <Filter>Handlers</Filter>
-    </ClInclude>
     <ClInclude Include="GamePopupMenu.hpp">
       <Filter>Menus</Filter>
     </ClInclude>
@@ -131,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="MainMenu.hpp">
       <Filter>Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="DerivedTest.hpp">
-      <Filter>Handlers</Filter>
     </ClInclude>
     <ClInclude Include="IntersectionHandler.hpp">
       <Filter>Handlers</Filter>
@@ -146,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="DialogInterface.hpp">
       <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +222,6 @@
       <Filter>Menus</Filter>
     </ClCompile>
     <ClCompile Include="IntersectionHandler.cpp">
-      <Filter>Handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="DerivedTest.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
     <ClCompile Include="Stats.cpp">

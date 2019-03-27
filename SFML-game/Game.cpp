@@ -6,6 +6,8 @@
 #include "MainMenu.hpp"
 #include "GamePopupMenu.hpp"
 #include <filesystem>
+#include "Weapon.hpp"
+#include "Valuable.hpp"
 
 Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", State::Font(), 50)
 {
@@ -20,6 +22,9 @@ void Game::init()
 {
 	UI::init();
 	
+	m_itemFactory.registerType<Weapon>("Weapon");
+	m_itemFactory.registerType<Valuable>("Valuable");
+
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("json.sav")); });
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, State::Push<MainMenu>);
@@ -34,7 +39,11 @@ void Game::init()
 	
 	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer* layer, ObjectSprite* item)
 	{
-		m_player.takeItem(item);
+		auto &createdItem = m_itemFactory.create(item->type);
+		createdItem->construct(item->gid, item->name, item->sprite);
+		createdItem->applyProperties(*item);
+		m_player.takeItem(std::move(createdItem));
+
 		layer->removeSprite(item);
 	});
 

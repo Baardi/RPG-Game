@@ -69,9 +69,9 @@ sf::Vector2<double> Player::getPosition() const
 	return sf::Vector2(x, y);
 }
 
-void Player::takeItem(ObjectSprite *item)
+void Player::takeItem(std::unique_ptr<GameItem> &&item)
 {
-	m_inventory.AddItem(item);
+	m_inventory.takeItem(std::move(item));
 }
 
 void Player::handleKeyInput(Map &map)

@@ -33,7 +33,7 @@ enum class Action
 
 	void draw(sf::RenderTarget &target) override;
 
-	void takeItem(ObjectSprite *item);
+	void takeItem(std::unique_ptr<GameItem> &&item);
 	void handleKeyInput(Map &map);
 
 

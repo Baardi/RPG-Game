@@ -1,8 +1,7 @@
 #pragma once
 #include "TileLayer.hpp"
-#include "TypeMapper.hpp"
 
-class GameItem : public Object
+class GameItem
 {
 public:
 	GameItem() = default;
