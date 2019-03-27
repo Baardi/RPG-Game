@@ -254,11 +254,11 @@
     <ClCompile Include="SfUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="libs\SFML\src\Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileSet.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\SFML\Collision.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
