@@ -38,6 +38,6 @@ private:
 	KeyHandler m_keyHandler;
 	IntersectionHandler m_intersectionHandler;
 
-	ObjectFactory<GameItem> m_itemFactory;
-	ObjectFactory<ObjectSprite> m_spriteFactory;
+	GameItemFactory m_itemFactory;
+	ObjectSpriteFactory m_spriteFactory;
 };

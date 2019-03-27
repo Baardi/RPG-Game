@@ -4,6 +4,7 @@
 #include "State.hpp"
 #include "InventoryUI.hpp"
 #include "DialogInterface.hpp"
+#include "TileLayer.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {

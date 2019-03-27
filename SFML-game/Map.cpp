@@ -20,7 +20,7 @@ void Map::clear()
 	m_clock.reset(true);
 }
 
-bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
+bool Map::load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &ojectFactory)
 {
 	clear();
 
@@ -59,7 +59,7 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures)
 			loadLayer(layer);
 		
 		else if (layer["type"] == "objectgroup")
-			loadObjects(layer);
+			loadObjects(layer, ojectFactory);
 	}
 
 	return true;
@@ -107,13 +107,13 @@ void Map::loadLayer(const Json::Value& layer)
 	m_tileMap.try_emplace(tmp->name, tmp);
 }
 
-void Map::loadObjects(const Json::Value& layer)
+void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory)
 {
 	// Store info on layer
 	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
 		std::make_unique<ObjectLayer>(tileSize)).get());
 	
-	objectLayer->load(layer, tileSets, animatedTiles);
+	objectLayer->load(layer, tileSets, animatedTiles, spriteFactory);
 	m_objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 

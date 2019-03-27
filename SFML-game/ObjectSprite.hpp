@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "MapProperties.hpp"
 #include <optional>
+#include "ObjectFactory.hpp"
 
 class ObjectSprite : public Layer, public GameObject
 {
@@ -49,3 +50,5 @@ private:
 	sf::Transform m_transform;
 	sf::FloatRect m_localBounds;
 };
+
+using ObjectSpriteFactory = ObjectFactory<ObjectSprite, const TileSize &>;

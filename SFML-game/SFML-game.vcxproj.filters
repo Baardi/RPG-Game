@@ -142,7 +142,7 @@
       <Filter>Menus</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFactory.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ public:
 	ObjectLayer(const TileSize &tileSize) : Layer(tileSize) { }
 	~ObjectLayer();
 
-	void load(const Json::Value &layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
+	void load(const Json::Value &layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, const ObjectSpriteFactory &spriteFactory);
 	void save(Json::Value &value) const override;
 	
 	void process(const sftools::Chronometer &clock) override;

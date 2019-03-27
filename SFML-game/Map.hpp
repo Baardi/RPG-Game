@@ -1,9 +1,8 @@
 #pragma once
 
 #include "State.hpp"
-#include "MapProperties.hpp"
 #include <filesystem>
-#include "Layer.hpp"
+#include "ObjectSprite.hpp"
 
 class TileLayer;
 class ObjectLayer;
@@ -21,7 +20,7 @@ public:
 	Map &operator=(Map &&) = default;
 	
 	// Load map from Tiled JSON file
-	bool load(const std::filesystem::path &filename, TextureMap &textures);
+	bool load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &ojectFactory = ObjectSpriteFactory());
 
 	// Save to from Tiled JSON file
 	bool save(const std::filesystem::path &filename);
@@ -70,7 +69,7 @@ private:
 	void loadLayer(const Json::Value& layer);
 
 	// Handles object layers
-	void loadObjects(const Json::Value& layer);
+	void loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory);
 
 	// Shared clock for all animated tiles
 	 sftools::Chronometer m_clock;

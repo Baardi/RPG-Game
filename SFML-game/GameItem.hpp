@@ -1,5 +1,7 @@
 #pragma once
-#include "TileLayer.hpp"
+#include "ObjectFactory.hpp"
+
+class MapProperties;
 
 class GameItem
 {
@@ -20,3 +22,5 @@ private:
 	int m_gid;
 	std::string m_name;
 };
+
+using GameItemFactory = ObjectFactory<GameItem>;
