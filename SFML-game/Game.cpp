@@ -25,7 +25,7 @@ void Game::init()
 	m_itemFactory.registerType<Weapon>("Weapon");
 	m_itemFactory.registerType<Valuable>("Valuable");
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("json.sav")); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav")); });
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, State::Push<MainMenu>);
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      State::Reset<MainMenu>);
@@ -57,18 +57,14 @@ void Game::init()
 		entrance->getProperty("SpawnX", &pos.x);
 		entrance->getProperty("SpawnY", &pos.y);
 
-		Map tmpMap;
-		if (!tmpMap.load(m_map.getPath() / mapFile, State::Textures()))
-			return; // Give user a message, invalid entrance
-
-		m_map.save(m_map.getFile().replace_extension("json.sav"));
-		m_map = std::move(tmpMap);
-		loadProperties(m_map);
+		if (!loadMap(m_map.getPath() / mapFile))
+			return; // Give user error message, invalid entrance
+		
+		m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav"));
 		m_player.setPosition(pos.x, pos.y);
 	});
 
-	m_map.load("data/Maps/Intro village.json", State::Textures());
-	loadProperties(m_map);
+	loadMap("data/Maps/Intro village.json");
 }
 
 bool Game::frame(sf::Window &window)
@@ -112,6 +108,28 @@ void Game::draw(sf::RenderTarget &target)
 
 	if (m_paused && State::IsCurrent(this))
 		target.draw(m_pauseText);
+}
+
+bool Game::loadMap(const std::filesystem::path &mapFile)
+{
+	auto savFile = std::filesystem::path(mapFile)
+		.replace_extension("")
+		.replace_extension("json.sav");
+
+	std::error_code ec;
+	std::filesystem::path mapToLoad;
+	if (std::filesystem::exists(savFile, ec))
+		mapToLoad = m_map.getPath() / savFile;
+	else
+		mapToLoad = m_map.getPath() / mapFile;
+
+	Map tmpMap;
+	if (!tmpMap.load(mapToLoad, State::Textures()))
+		return false;
+
+	m_map = std::move(tmpMap);
+	loadProperties(m_map);
+	return true;
 }
 
 void Game::loadProperties(const MapProperties &properties)

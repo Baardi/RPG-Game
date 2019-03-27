@@ -72,6 +72,9 @@ bool Map::save(const std::filesystem::path &filename)
 	// Store attributes from the map itself
 	value["version"] = 1.2;
 	value["type"] = "map";
+	value["orientation"] = "orthogonal";
+	value["renderorder"] = "right-down";
+	value["infinite"] = false;
 
 	value["width"] = width;
 	value["height"] = height;

@@ -22,6 +22,8 @@ public:
 
 private:
 	// Private Methods
+	bool loadMap(const std::filesystem::path &mapFile);
+
 	void loadMusic(const MapProperties &map, Music &music);
 	void loadProperties(const MapProperties &map);
 
