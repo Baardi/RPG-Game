@@ -84,7 +84,7 @@ bool Map::save(const std::filesystem::path &filename)
 	saveTileSets(value["tilesets"]);
 
 	for (auto &layer : m_layers)
-		layer->save(value);
+		layer->save(value["layers"]);
 
 	// Stream used for storing the data file as JSON in Tiled
 	std::ofstream file(filename);

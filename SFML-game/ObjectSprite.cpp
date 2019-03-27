@@ -59,7 +59,7 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setStyle(sf::utility::parseTextStyle(textValue));
 }
 
-void ObjectSprite::save(Json::Value &layer) const
+void ObjectSprite::save(Json::Value &objects) const
 {
 	Json::Value object;
 
@@ -87,13 +87,13 @@ void ObjectSprite::save(Json::Value &layer) const
 	if (verflip) json_gid += Map::FLIP_MULTIPLIER * 2;
 	object["gid"] = json_gid;
 
-	if (text)
+	if (text.has_value())
 		saveText(object["text"]);
 
 	saveProperties(object["properties"]);
 
 	if (!object.empty())
-		layer["objects"].append(object);
+		objects.append(object);
 }
 
 void ObjectSprite::saveText(Json::Value &textValue) const
@@ -105,7 +105,9 @@ void ObjectSprite::saveText(Json::Value &textValue) const
 	if (style & sf::Text::StrikeThrough)textValue["strikeout"] = true;
 	if (style & sf::Text::Underlined)	textValue["underline"] = true;
 
+	textValue["text"] = text->getString().toAnsiString();
 	textValue["pixelsize"] = text->getCharacterSize();
+	textValue["color"] = sf::utility::parseColor(text->getFillColor());
 }
 
 void ObjectSprite::process(const sftools::Chronometer &clock)

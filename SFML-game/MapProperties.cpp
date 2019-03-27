@@ -54,14 +54,13 @@ void MapProperties::saveProperties(Json::Value &properties) const
 			if (castedValue)
 				value["value"] = (*castedValue).string();
 		}
-
-		// @@ To be implemented
-		/*else if (type == "color")
+		
+		else if (type == "color")
 		{
-			auto castedValue = std::any_cast<sf::Color*>(&anyObj);
+			auto castedValue = std::any_cast<sf::Color>(&anyObj);
 			if (castedValue)
-				value["value"] = sf::utility::parseColour(*castedValue);
-		}*/
+				value["value"] = sf::utility::parseColor(*castedValue);
+		}
 
 		else if (type == "int")
 		{

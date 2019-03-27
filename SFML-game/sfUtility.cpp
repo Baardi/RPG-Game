@@ -3,45 +3,34 @@
 
 sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
-	// A really lame method that parses color codes from tiled into sf::color.
-	// Throws exception if the length isn't 7 or 9
 	auto stringSize = colorCode.size();
 	if (stringSize != 7  && stringSize != 9)
-		throw std::runtime_error("Yikes");
-
-	char buf[2]; // Set up buffer for color components
+		throw std::runtime_error("Wrong string length. Can't parse color");
 	
-	buf[0] = colorCode[stringSize - 6];
-	buf[1] = colorCode[stringSize - 5];
-	auto red = std::stoi(buf, nullptr, 16);		// Copy red component
+	std::string colorRgb(colorCode.end() - 6, colorCode.end());
+	unsigned int colorSumRgb = std::stoul(colorRgb.c_str(), nullptr, 16);
 
-	buf[0] = colorCode[stringSize - 4];
-	buf[1] = colorCode[stringSize - 3];
-	auto green = std::stoi(buf, nullptr, 16);	// Copy green component
-
-	buf[0] = colorCode[stringSize - 2];
-	buf[1] = colorCode[stringSize - 1];
-	auto blue = std::stoi(buf, nullptr, 16);	// Copy blue component
-
-	auto alpha = 255;
-	if (stringSize == 9)
+	unsigned int colorSumAlpha = 255;
+	if (colorCode.length() == 9) // Tiled omits the value if alpha-value is 0xff
 	{
-		buf[0] = colorCode[1];
-		buf[1] = colorCode[2];
-		alpha = std::stoi(buf, nullptr, 16);	// Copy alpha component
+		std::string colorAlpha(colorCode.begin() + 1, colorCode.begin() + 3);
+		colorSumAlpha = std::stoul(colorAlpha.c_str(), nullptr, 16);
 	}
 
-	Color color(red, green, blue, alpha);
+	Color color((colorSumRgb << 8) + colorSumAlpha);
 	return color;
 }
 
 std::string sf::utility::parseColor(sf::Color color)
 {
-	// A really lame method that parses color codes from sf::color to tiled color format
+	unsigned int colorSum = color.b + (color.g << 8) + (color.r << 16);
+	if (color.a != 255)
+		colorSum += (color.a << 24); // Tiled omits the value if alpha-value is 0xff
 
-	char buf[2]; // Set up buffer for color components
+	std::stringstream stream;
+	stream << "#" << std::hex << colorSum;
 
-	return std::string("");
+	return stream.str();
 }
 
 unsigned int sf::utility::parseTextStyle(const Json::Value &value)
