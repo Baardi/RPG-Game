@@ -8,12 +8,12 @@ public:
 	ObjectLayer(const TileSize &tileSize) : Layer(tileSize) { }
 	~ObjectLayer();
 
-	void load(const Json::Value &layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, const ObjectSpriteFactory &spriteFactory);
+	void load(const Json::Value &layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory);
 	void save(Json::Value &layers) const override;
 	
 	void process(const sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget &target) override;
-	void loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles) override;
+	void loadTexture(const std::map<int, TileSet> &tileSets) override;
 	void removeSprite(ObjectSprite *sprite);
 	ObjectSprite *getIntersectedObject(const GameObject &other);
 

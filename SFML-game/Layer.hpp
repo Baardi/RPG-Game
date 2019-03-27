@@ -1,18 +1,18 @@
 #pragma once
 #include "MapProperties.hpp"
 
+class TileSet;
+
+// <animationtileid, animationdata< frame<tileid, duration>> >
 using AnimationTileMap = std::map<int, std::vector< std::pair<int, sf::Time>>>;
 
 struct AnimationTileData
 {
-	AnimationTileData(sf::Time duration, sf::IntRect intRect) : duration(duration), intRect(intRect) {}
-	
+	AnimationTileData(sf::Time duration, sf::IntRect intRect) :
+		duration(duration), intRect(intRect) {}
+
 	sf::Time duration;
 	sf::IntRect intRect;
-
-	float	  duration_s()	{ return duration.asSeconds(); }
-	sf::Int32 duration_ms() { return duration.asMilliseconds(); }
-	sf::Int64 duration_ys() { return duration.asMicroseconds(); }
 };
 
 struct AnimationTile
@@ -44,7 +44,7 @@ public:
 	virtual void save(Json::Value &layer) const {}
 	virtual void process(const sftools::Chronometer &clock) {}
 	virtual void draw(sf::RenderTarget& target) {}
-	virtual void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) {}
+	virtual void loadTexture(const std::map<int, TileSet> &tileSets) {}
 
 	std::string name;
 	bool visible;
@@ -55,7 +55,7 @@ public:
 protected:
 	// Calculate x and y position of given tile in the texture
 	sf::Vector2i getTileCoords(const sf::Texture &texture, int tile) const;
-	static int getTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets);
+	static int getTextureIndex(int tileValue, const std::map<int, TileSet> &tileSets);
 	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);
 	
 	TileSize tileSize;

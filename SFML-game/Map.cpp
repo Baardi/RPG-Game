@@ -9,10 +9,9 @@
 void Map::clear()
 {
 	m_layers.clear();
-	tileSets.clear();
+	m_tileSets.clear();
 	m_objectMap.clear();
 	m_tileMap.clear();
-	animatedTiles.clear();
 	m_propertyMap.clear();
 	m_currentPath = "";
 	m_currentFile = "";
@@ -20,7 +19,7 @@ void Map::clear()
 	m_clock.reset(true);
 }
 
-bool Map::load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &ojectFactory)
+bool Map::load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &spriteFactory)
 {
 	clear();
 
@@ -59,7 +58,7 @@ bool Map::load(const std::filesystem::path &filename, TextureMap &textures, cons
 			loadLayer(layer);
 		
 		else if (layer["type"] == "objectgroup")
-			loadObjects(layer, ojectFactory);
+			loadObjects(layer, spriteFactory);
 	}
 
 	return true;
@@ -81,7 +80,9 @@ bool Map::save(const std::filesystem::path &filename)
 	value["spacing"] = tileSize.s;
 
 	saveProperties(value["properties"]);
-	saveTileSets(value["tilesets"]);
+
+	for (auto[firstgid, tileset] : m_tileSets)
+		tileset.save(value["tilesets"]);
 
 	for (auto &layer : m_layers)
 		layer->save(value["layers"]);
@@ -103,7 +104,7 @@ void Map::loadLayer(const Json::Value& layer)
 	auto tmp = static_cast<TileLayer *>(m_layers.emplace_back(
 		std::make_unique<TileLayer>(tileSize)).get());
 
-	tmp->load(layer, tileSets, animatedTiles);
+	tmp->load(layer, m_tileSets);
 	m_tileMap.try_emplace(tmp->name, tmp);
 }
 
@@ -113,8 +114,18 @@ void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &sprit
 	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
 		std::make_unique<ObjectLayer>(tileSize)).get());
 	
-	objectLayer->load(layer, tileSets, animatedTiles, spriteFactory);
+	objectLayer->load(layer, m_tileSets, spriteFactory);
 	m_objectMap.try_emplace(objectLayer->name, objectLayer);
+}
+
+void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
+{
+	for (auto &val : root["tilesets"])
+	{
+		TileSet tileset;
+		tileset.load(val, m_currentPath, textures);
+		m_tileSets.try_emplace(tileset.firstgid, tileset);
+	}
 }
 
 void Map::draw(sf::RenderTarget &target)
@@ -200,64 +211,4 @@ void Map::pause()
 void Map::resume()
 {
 	m_clock.resume();
-}
-
-void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
-{
-	for (auto &val : root["tilesets"])
-	{
-		auto image = m_currentPath / val["image"].asString();
-		int firstgid = val["firstgid"].asInt();
-		auto it = textures.find(image.string());
-
-		if (it == textures.end())
-		{
-			auto [it, inserted] = textures.try_emplace(image.string(), sf::Texture());
-			if (inserted)
-			{
-				it->second.loadFromFile(image.string());
-				tileSets.try_emplace(firstgid, &it->second);
-			}
-		}
-		else
-			tileSets.try_emplace(firstgid, &it->second);
-		
-		loadAnimatedTiles(firstgid, val["tiles"]);
-	}
-}
-
-void Map::saveTileSets(Json::Value &value) const
-{
-	for (auto[firstgid, texture] : tileSets)
-	{
-		Json::Value tileset;
-
-		tileset["firstgid"] = firstgid;
-
-		saveAnimatedTiles(value);
-		value.append(tileset);
-	}
-}
-
-void Map::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store info on animated tiles
-{
-	for (const auto &tile : tileset)
-	{
-		int tileid = tile["id"].asInt();
-
-		std::vector<std::pair<int, sf::Time>> tileSetAnimations;
-		for (const auto &animation : tile["animation"])
-		{
-			int animationTileId = animation["tileid"].asInt();
-			int animationTileDuration_ms = animation["duration"].asInt();
-
-			tileSetAnimations.emplace_back(animationTileId, sf::milliseconds(animationTileDuration_ms));
-		}
-
-		animatedTiles.try_emplace(firstGid + tileid, tileSetAnimations);
-	}
-}
-
-void Map::saveAnimatedTiles(Json::Value &value) const
-{
 }

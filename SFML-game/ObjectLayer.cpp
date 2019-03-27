@@ -6,7 +6,7 @@ ObjectLayer::~ObjectLayer()
 {
 }
 
-void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles, const ObjectSpriteFactory &spriteFactory)
+void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();
@@ -19,7 +19,7 @@ void ObjectLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& ti
 	for (const auto &object : layer["objects"])
 	{
 		auto &sprite = spriteFactory.create(type, tileSize);
-		sprite->load(layer, object, tileSets, animatedTiles);
+		sprite->load(layer, object, tileSets);
 		objects.push_back(std::move(sprite));
 	}
 }
@@ -61,10 +61,10 @@ void ObjectLayer::draw(sf::RenderTarget &target)
 	}
 }
 
-void ObjectLayer::loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles)
+void ObjectLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 {
 	for (auto &object : objects)
-		object->loadTexture(tileSets, animatedTiles);
+		object->loadTexture(tileSets);
 }
 
 void ObjectLayer::removeSprite(ObjectSprite *sprite)

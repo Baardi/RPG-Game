@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Layer.hpp"
+#include "TileSet.hpp"
 
 sf::Vector2i Layer::getTileCoords(const sf::Texture &texture, int tile) const
 {
 	return g_getTileCoords(texture, tile, tileSize);
 }
 
-int Layer::getTextureIndex(int tileValue, const std::map<int, sf::Texture*>& tileSets)
+int Layer::getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets)
 {
 	int tileTextureValue = 0;
 

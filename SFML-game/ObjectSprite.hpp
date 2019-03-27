@@ -1,6 +1,6 @@
 #pragma once
 #include <any>
-#include "Layer.hpp"
+#include "TileSet.hpp"
 #include "GameObject.hpp"
 #include "MapProperties.hpp"
 #include <optional>
@@ -12,7 +12,7 @@ public:
 	ObjectSprite(const TileSize &tileSize) : Layer(tileSize) {}
 	~ObjectSprite() = default;
 
-	void load(const Json::Value &layer, const Json::Value &object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
+	void load(const Json::Value &layer, const Json::Value &object, const std::map<int, TileSet> &tileSets);
 	void loadText(const Json::Value &textValue);
 	void save(Json::Value &objects) const override;
 	void saveText(Json::Value &textValue) const;
@@ -20,7 +20,7 @@ public:
 	void process(const sftools::Chronometer &clock) override;
 	void draw(sf::RenderTarget &target) override;
 	
-	void loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles) override;
+	void loadTexture(const std::map<int, TileSet> &tileSets) override;
 
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
@@ -31,8 +31,8 @@ public:
 	sf::Sprite sprite;
 
 protected:
-	void loadSpriteTexture(sf::Texture &texture, int tileid);
-	void loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile);
+	void loadSpriteTexture(const sf::Texture &texture, int tileid);
+	void loadSpriteAnimation(const sf::Texture &texture, const std::vector<std::pair<int, sf::Time>> &animationTile);
 	sf::IntRect getTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
 private:

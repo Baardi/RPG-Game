@@ -144,6 +144,9 @@
     <ClInclude Include="ObjectFactory.hpp">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="TileSet.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="libs\SFML\src\Collision.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileSet.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

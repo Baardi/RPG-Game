@@ -20,7 +20,7 @@ public:
 	Map &operator=(Map &&) = default;
 	
 	// Load map from Tiled JSON file
-	bool load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &ojectFactory = ObjectSpriteFactory());
+	bool load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &spriteFactory = ObjectSpriteFactory());
 
 	// Save to from Tiled JSON file
 	bool save(const std::filesystem::path &filename);
@@ -56,14 +56,8 @@ public:
 private:
 	TileSize tileSize;
 
-	std::map<int, sf::Texture *> tileSets;
+	std::map<int, TileSet> m_tileSets;
 	void loadTileSets(const Json::Value &root, TextureMap &textures);
-	void saveTileSets(Json::Value &value) const;
-
-	// <animationtileid, animationdata< frame<tileid, duration>> >
-	AnimationTileMap animatedTiles;
-	void loadAnimatedTiles(int firstGid, const Json::Value &tileset);
-	void saveAnimatedTiles(Json::Value &value) const;
 
     // Handles regular layers
 	void loadLayer(const Json::Value& layer);

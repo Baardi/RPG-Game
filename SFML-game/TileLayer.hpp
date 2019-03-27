@@ -15,7 +15,7 @@ public:
 	TileLayer(const TileSize& tileSize);
 	~TileLayer();
 
-	void load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles);
+	void load(const Json::Value& layer, const std::map<int, TileSet> &tileSets);
 	void save(Json::Value &layers) const override;
 
 	void draw(sf::RenderTarget& window) override;
@@ -25,9 +25,9 @@ public:
 	bool containsTexture(double x, double y) const;
 
 private:
-	void loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles) override;
+	void loadTexture(const std::map<int, TileSet> &tileSets) override;
 	void loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture, int tileid, int x, int y);
-	void loadSpriteAnimation(const sf::Texture &texture, Tile &tile, std::vector<std::pair<int, sf::Time>> &animationTile);
+	void loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile);
 		
 	bool containsTextureTileCoords(int x, int y) const;
 

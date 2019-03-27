@@ -5,7 +5,7 @@
 #include <corecrt_math_defines.h>
 #include "map.hpp"
 
-void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, const std::map<int, TileSet> &tileSets)
 {
 	// Load basic object info
 	name = object["name"].asString();
@@ -43,7 +43,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, std
 		loadText(textValue);
 
 	loadProperties(object["properties"]);
-	loadTexture(tileSets, animatedTiles);
+	loadTexture(tileSets);
 }
 
 void ObjectSprite::loadText(const Json::Value &textValue)
@@ -92,8 +92,7 @@ void ObjectSprite::save(Json::Value &objects) const
 
 	saveProperties(object["properties"]);
 
-	if (!object.empty())
-		objects.append(object);
+	objects.append(object);
 }
 
 void ObjectSprite::saveText(Json::Value &textValue) const
@@ -132,7 +131,7 @@ void ObjectSprite::draw(sf::RenderTarget &target)
 #endif // _DEBUG
 }
 
-void ObjectSprite::loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationTileMap &animatedTiles)
+void ObjectSprite::loadTexture(const std::map<int, TileSet> &tileSets)
 {
 	if (!gid)
 		return;
@@ -141,7 +140,9 @@ void ObjectSprite::loadTexture(std::map<int, sf::Texture*> &tileSets, AnimationT
 	if (!tileTextureValue) // No texture found
 		return;
 
-	sf::Texture *spriteTexture = tileSets[tileTextureValue];
+	const TileSet &tileset = tileSets.find(tileTextureValue)->second;
+	const sf::Texture *spriteTexture = tileset.texture;
+	const AnimationTileMap &animatedTiles = tileset.animatedTiles;
 
 	// Check if theres animation
 	auto it = animatedTiles.find(gid);
@@ -168,7 +169,7 @@ sf::Transform ObjectSprite::getTransform() const
 	return m_transform;
 }
 
-void ObjectSprite::loadSpriteTexture(sf::Texture &texture, int tileid)
+void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 {
 	auto [tilex, tiley] = getTileCoords(texture, tileid);
 	auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
@@ -181,7 +182,7 @@ void ObjectSprite::loadSpriteTexture(sf::Texture &texture, int tileid)
 	sprite.setScale(width / static_cast<float>(tileSize.x), height / static_cast<float>(tileSize.y));
 }
 
-void ObjectSprite::loadSpriteAnimation(sf::Texture &texture, std::vector<std::pair<int, sf::Time>> &animationTile)
+void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const std::vector<std::pair<int, sf::Time>> &animationTile)
 {
 	for (const auto &tile : animationTile)
 	{

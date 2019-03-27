@@ -83,7 +83,6 @@ void MapProperties::saveProperties(Json::Value &properties) const
 				value["value"] = *castedValue;
 		}
 
-		if (!value.empty())
-			properties.append(value);
+		properties.append(value);
 	}
 }

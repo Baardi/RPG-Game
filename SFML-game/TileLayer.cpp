@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "TileLayer.hpp"
+#include "TileSet.hpp"
 
 TileLayer::TileLayer(const TileSize& tileSize) : Layer(tileSize) {}
 TileLayer::~TileLayer() {}
 
-void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
 {
 	width = layer["width"].asInt();
 	height = layer["height"].asInt();
@@ -23,7 +24,7 @@ void TileLayer::load(const Json::Value& layer, std::map<int, sf::Texture*>& tile
 		m_tilemap[i].id = data[i].asInt();
 	}
 
-	loadTexture(tileSets, animatedTiles);
+	loadTexture(tileSets);
 	loadProperties(layer["properties"]);
 }
 
@@ -48,8 +49,7 @@ void TileLayer::save(Json::Value &layers) const
 
 	saveProperties(layer["properties"]);
 
-	if (!layer.empty())
-		layers.append(layer);
+	layers.append(layer);
 }
 
 void TileLayer::process(const sftools::Chronometer &clock)
@@ -90,7 +90,7 @@ void TileLayer::draw(sf::RenderTarget& window)
 	}
 }
 
-void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTileMap &animatedTiles)
+void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 {
 	for (int y = 0; y < height; y++)
 	{
@@ -105,7 +105,9 @@ void TileLayer::loadTexture(std::map<int, sf::Texture*>& tileSets, AnimationTile
 			if (!tileTextureValue) 
 				continue;		// No texture found
 
-			sf::Texture *spriteTexture = tileSets[tileTextureValue];
+			const TileSet &tileset = tileSets.find(tileTextureValue)->second;
+			const sf::Texture *spriteTexture = tileset.texture;
+			const AnimationTileMap &animatedTiles = tileset.animatedTiles;
 
 			// Check if theres animation
 			auto it = animatedTiles.find(tile.id);
@@ -134,7 +136,7 @@ void TileLayer::loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture
 	sprite.setPosition(x*tileSize.x, y*tileSize.y);
 }
 
-void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, std::vector<std::pair<int, sf::Time>> &animationTile)
+void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile)
 {
 	for (const auto [tileid, duration]: animationTile)
 	{
