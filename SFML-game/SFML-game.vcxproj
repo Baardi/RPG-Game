@@ -176,8 +176,9 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="App.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ButtonHandler.hpp" />
-    <ClInclude Include="Character.hpp" />
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="DialogInterface.hpp" />
+    <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="Equipment.hpp" />
     <ClInclude Include="GameItem.hpp" />
     <ClInclude Include="GameObject.hpp" />
@@ -215,8 +216,9 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
-    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="DialogInterface.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />

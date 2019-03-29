@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "Weapon.hpp"
 #include "Valuable.hpp"
+#include "Enemy.hpp"
 
 Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", State::Font(), 50)
 {
@@ -21,9 +22,10 @@ Game::~Game()
 void Game::init()
 {
 	UI::init();
-	
+
 	m_itemFactory.registerType<Weapon>("Weapon");
 	m_itemFactory.registerType<Valuable>("Valuable");
+	m_spriteFactory.registerType<Enemy>("Enemy");
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav")); });
 
@@ -37,7 +39,24 @@ void Game::init()
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,		[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
-	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer* layer, ObjectSprite* item)
+	m_intersectionHandler.registerEvent("Enemies", [this](ObjectLayer *layer, ObjectSprite *sprite)
+	{
+		auto enemy = dynamic_cast<Enemy *>(sprite);
+		if (!enemy)
+			return;
+
+		m_player.fight(*enemy);
+
+		// Probably need a better way, such as a foreach method on map
+		if (enemy->isDead())
+			layer->removeSprite(enemy);
+
+		// Find out what to do with player
+		if (m_player.isDead())
+			State::Switch<Game>();
+	});
+
+	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer *layer, ObjectSprite *item)
 	{
 		auto &createdItem = m_itemFactory.create(item->type);
 		createdItem->construct(item->gid, item->name, item->sprite);
@@ -47,7 +66,7 @@ void Game::init()
 		layer->removeSprite(item);
 	});
 
-	m_intersectionHandler.registerEvent("Entrance", [this](ObjectLayer* layer, ObjectSprite* entrance)
+	m_intersectionHandler.registerEvent("Entrance", [this](ObjectLayer *layer, ObjectSprite *entrance)
 	{
 		std::filesystem::path mapFile;
 		if (!entrance->getProperty("EntranceTo", &mapFile))
@@ -60,7 +79,6 @@ void Game::init()
 		if (!loadMap(m_map.getPath() / mapFile))
 			return; // Give user error message, invalid entrance
 		
-		m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav"));
 		m_player.setPosition(pos.x, pos.y);
 	});
 
@@ -124,9 +142,12 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 		mapToLoad = m_map.getPath() / mapFile;
 
 	Map tmpMap;
-	if (!tmpMap.load(mapToLoad, State::Textures()))
+	if (!tmpMap.load(mapToLoad, State::Textures(), m_spriteFactory))
 		return false;
 
+	if (m_map.getFile() != "")
+		m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav"));
+	
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);
 	return true;

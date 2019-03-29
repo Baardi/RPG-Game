@@ -1,11 +1,11 @@
 #pragma once
-#include "Character.hpp"
+#include "Entity.hpp"
 #include "Inventory.hpp"
 #include "ObjectSprite.hpp"
 
 class Map;
 
-class Player : public Character
+class Player : public GameObject, public Entity
 {
 public:
 enum class Dir
@@ -52,7 +52,6 @@ private:
 	sf::Texture m_texture;
 	TileSize m_tilesize;
 	Inventory m_inventory;
-	Stats m_stats;
 
 	std::map<Dir, sf::Keyboard::Key> m_dirMap;
 	std::map<Action, sf::Keyboard::Key> m_actionMap;

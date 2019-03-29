@@ -2,12 +2,8 @@
 #include "Layer.hpp"
 #include "TileSet.hpp"
 
-sf::Vector2i Layer::getTileCoords(const sf::Texture &texture, int tile) const
-{
-	return g_getTileCoords(texture, tile, tileSize);
-}
 
-int Layer::getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets)
+int getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets)
 {
 	int tileTextureValue = 0;
 
@@ -20,7 +16,7 @@ int Layer::getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets
 	return tileTextureValue;
 }
 
-void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, const sftools::Chronometer& clock)
+void processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, const sftools::Chronometer& clock)
 {
 	auto &animationTileData = animationTile.data;
 	int &currentFrame = animationTile.currentFrame;
@@ -42,7 +38,7 @@ void Layer::processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, c
 	}
 }
 
-sf::Vector2i g_getTileCoords(const sf::Texture &texture, int tile, const TileSize tileSize)
+sf::Vector2i getTileCoords(const sf::Texture &texture, int tile, TileSize tileSize)
 {
 	int tileXcount = texture.getSize().x / (tileSize.x + tileSize.s);
 

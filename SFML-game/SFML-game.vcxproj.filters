@@ -34,6 +34,9 @@
     <Filter Include="Handlers">
       <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObjectFactory">
+      <UniqueIdentifier>{ce043334-1815-4ff6-8e41-53be4ebb9d10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -53,9 +56,6 @@
     </ClInclude>
     <ClInclude Include="Valuable.hpp">
       <Filter>GameItems</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.hpp">
-      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="Stats.hpp">
       <Filter>Header Files</Filter>
@@ -141,10 +141,16 @@
     <ClInclude Include="DialogInterface.hpp">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFactory.hpp">
+    <ClInclude Include="TileSet.hpp">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="TileSet.hpp">
+    <ClInclude Include="Enemy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.hpp">
       <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
@@ -215,9 +221,6 @@
     <ClCompile Include="DialogInterface.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
@@ -259,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="libs\SFML\Collision.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -249,8 +249,19 @@
                  "height":32,
                  "id":104,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":509,
@@ -261,8 +272,19 @@
                  "height":32,
                  "id":105,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":611,
@@ -273,8 +295,19 @@
                  "height":32,
                  "id":106,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":10
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":652,
@@ -285,8 +318,19 @@
                  "height":32,
                  "id":107,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":717,
@@ -297,8 +341,19 @@
                  "height":32,
                  "id":108,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":752,
@@ -309,8 +364,19 @@
                  "height":32,
                  "id":109,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":609,
@@ -321,8 +387,19 @@
                  "height":32,
                  "id":110,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"Damage",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"HP",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"Enemy",
                  "visible":true,
                  "width":32,
                  "x":594,

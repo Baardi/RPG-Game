@@ -17,4 +17,5 @@ struct Stats
 	int HP		= 0;
 	int Attack	= 0;
 	int Defence = 0;
+	int Damage	= 0;
 };

@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "ObjectLayer.hpp"
-#include "map.hpp"
-
-ObjectLayer::~ObjectLayer()
-{
-}
+#include "Map.hpp"
 
 void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
 {
@@ -18,7 +14,7 @@ void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &t
 	// Get all mapObjects from layer
 	for (const auto &object : layer["objects"])
 	{
-		auto &sprite = spriteFactory.create(type, tileSize);
+		auto &sprite = spriteFactory.create(object["type"].asString(), tileSize);
 		sprite->load(layer, object, tileSets);
 		objects.push_back(std::move(sprite));
 	}
@@ -73,7 +69,7 @@ void ObjectLayer::removeSprite(ObjectSprite *sprite)
 		[sprite](auto &object) { return object.get() == sprite;});
 
 	if (it == objects.end())
-		throw;
+		return;
 	
 	objects.erase(it);
 }

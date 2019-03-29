@@ -12,8 +12,8 @@ struct Tile
 class TileLayer : public Layer
 {
 public:
-	TileLayer(const TileSize& tileSize);
-	~TileLayer();
+	TileLayer(TileSize tileSize) : Layer(tileSize) {}
+	~TileLayer() = default;
 
 	void load(const Json::Value& layer, const std::map<int, TileSet> &tileSets);
 	void save(Json::Value &layers) const override;

@@ -3,7 +3,7 @@
 #include <functional>
 
  template <class Base, class ...Args>
-class ObjectFactory
+class ObjectFactory : public std::enable_if_t< std::has_virtual_destructor_v<Base> >
 {
 public:
 	template <class Derived>
@@ -17,13 +17,14 @@ public:
 		return inserted;
 	}
 
-	std::unique_ptr<Base> create(const std::string &type, Args &&...args) const
+	template <class ...Args2>
+	std::unique_ptr<Base> create(const std::string &type, Args2 &&...args) const
 	{
 		auto it = m_map.find(type);
 		if (it != m_map.end())
-			return it->second(std::forward<Args>(args)...);
+			return it->second(std::forward<Args2>(args)...);
 
-		return std::make_unique<Base>(std::forward<Args>(args)...);
+		return std::make_unique<Base>(std::forward<Args2>(args)...);
 	}
 
 private:

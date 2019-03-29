@@ -7,6 +7,7 @@ Stats Stats::get(const MapProperties &properties)
 
 	properties.getProperty("Attack"	,	&stats.Attack	);
 	properties.getProperty("Defence",   &stats.Defence	);
+	properties.getProperty("Damage" ,	&stats.Damage	);
 	properties.getProperty("HP"		,	&stats.HP 		);
 
 	return stats;
@@ -16,9 +17,10 @@ Stats Stats::operator+(const Stats &other) const
 {
 	Stats stats;
 
-	stats.Attack  =	Attack	+ other.Attack	;
-	stats.Defence = Defence + other.Defence	;
-	stats.HP      =	HP		+ other.HP		;
+	stats.Attack	= Attack	+ other.Attack	;
+	stats.Defence	= Defence	+ other.Defence	;
+	stats.Damage	= Damage	+ other.Damage	;
+	stats.HP		= HP		+ other.HP		;
 
 	return stats;
 }
@@ -29,6 +31,7 @@ Stats Stats::operator-() const
 
 	stats.Attack	= -Attack	;
 	stats.Defence	= -Defence	;
+	stats.Damage	= -Damage	;
 	stats.HP		= -HP		;
 
 	return stats;

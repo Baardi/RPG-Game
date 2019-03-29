@@ -37,8 +37,7 @@ struct TileSize
 class Layer : public MapProperties
 {
 public:
-	Layer(const TileSize &tileSize) : tileSize(tileSize) {}
-
+	Layer(TileSize tileSize) : tileSize(tileSize) {}
 	virtual ~Layer() = default;
 	
 	virtual void save(Json::Value &layer) const {}
@@ -51,14 +50,9 @@ public:
 	std::string type;
 	float opacity;
 	int id;
-
-protected:
-	// Calculate x and y position of given tile in the texture
-	sf::Vector2i getTileCoords(const sf::Texture &texture, int tile) const;
-	static int getTextureIndex(int tileValue, const std::map<int, TileSet> &tileSets);
-	static void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);
-	
 	TileSize tileSize;
 };
 
-sf::Vector2i g_getTileCoords(const sf::Texture &texture, int tile, const TileSize tileSize);
+int getTextureIndex(int tileValue, const std::map<int, TileSet> &tileSets);
+void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);	
+sf::Vector2i getTileCoords(const sf::Texture &texture, int tile, TileSize tileSize);

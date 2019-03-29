@@ -2,9 +2,6 @@
 #include "TileLayer.hpp"
 #include "TileSet.hpp"
 
-TileLayer::TileLayer(const TileSize& tileSize) : Layer(tileSize) {}
-TileLayer::~TileLayer() {}
-
 void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
 {
 	width = layer["width"].asInt();
@@ -128,7 +125,7 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 
 void TileLayer::loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture, int tileid, int x, int y)
 {
-	auto [tilex, tiley] = getTileCoords(texture, tileid);
+	auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
@@ -140,7 +137,7 @@ void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, cons
 {
 	for (const auto [tileid, duration]: animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tileid);
+		auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
 		auto rect = sf::IntRect(tilex, tiley, tileSize.x, tileSize.y);
 		tile.animation.data.emplace_back(duration, rect);
 	}

@@ -6,29 +6,45 @@
 #include <optional>
 #include "ObjectFactory.hpp"
 
-class ObjectSprite : public Layer, public GameObject
+class ObjectSprite : public MapProperties, public GameObject
 {
 public:
-	ObjectSprite(const TileSize &tileSize) : Layer(tileSize) {}
-	~ObjectSprite() = default;
+	ObjectSprite(const TileSize &tileSize) : tileSize(tileSize) {}
+	virtual ~ObjectSprite() = default;
+
+	virtual void applyProperties() {}
 
 	void load(const Json::Value &layer, const Json::Value &object, const std::map<int, TileSet> &tileSets);
 	void loadText(const Json::Value &textValue);
-	void save(Json::Value &objects) const override;
+	void save(Json::Value &objects) const;
 	void saveText(Json::Value &textValue) const;
 
-	void process(const sftools::Chronometer &clock) override;
+	void process(const sftools::Chronometer &clock);
 	void draw(sf::RenderTarget &target) override;
 	
-	void loadTexture(const std::map<int, TileSet> &tileSets) override;
+	void loadTexture(const std::map<int, TileSet> &tileSets);
 
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
 
 	// Id of first tile
 	int gid;
-
 	sf::Sprite sprite;
+	std::string name;
+	std::string type;
+	bool visible;
+
+	// Location on screen
+	float x, y;
+	float width, height;
+	float rotation;
+	bool horflip, verflip;
+	float opacity;
+	int id;
+
+	TileSize tileSize;
+
+	std::optional<sf::Text> text;
 
 protected:
 	void loadSpriteTexture(const sf::Texture &texture, int tileid);
@@ -36,13 +52,6 @@ protected:
 	sf::IntRect getTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
 
 private:
-	// Location on screen
-	float x, y;
-	float width, height;
-	float rotation;
-	bool horflip, verflip;
-
-	std::optional<sf::Text> text;
 
 	// AnimationData
 	AnimationTile m_animationTileInfo;
@@ -51,4 +60,4 @@ private:
 	sf::FloatRect m_localBounds;
 };
 
-using ObjectSpriteFactory = ObjectFactory<ObjectSprite, const TileSize &>;
+using ObjectSpriteFactory = ObjectFactory<ObjectSprite, TileSize>;

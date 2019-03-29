@@ -5,8 +5,8 @@
 class ObjectLayer : public Layer
 {
 public:
-	ObjectLayer(const TileSize &tileSize) : Layer(tileSize) { }
-	~ObjectLayer();
+	ObjectLayer(TileSize tileSize) : Layer(tileSize) { }
+	~ObjectLayer() = default;
 
 	void load(const Json::Value &layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory);
 	void save(Json::Value &layers) const override;

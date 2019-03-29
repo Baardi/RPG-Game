@@ -25,6 +25,10 @@ Player::Player(sftools::Chronometer &clock, int x, int y)
 	m_actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
 	m_actionMap.emplace(Action::Talk,		sf::Keyboard::Key::T);
 	
+	// Put these as default stats temporarily
+	m_stats.HP = 10;
+	m_stats.Damage = 2;
+		
 	Player::setPosition(x, y);
 }
 

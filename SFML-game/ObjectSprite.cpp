@@ -43,6 +43,8 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 		loadText(textValue);
 
 	loadProperties(object["properties"]);
+	applyProperties();
+
 	loadTexture(tileSets);
 }
 
@@ -171,7 +173,7 @@ sf::Transform ObjectSprite::getTransform() const
 
 void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 {
-	auto [tilex, tiley] = getTileCoords(texture, tileid);
+	auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
 	auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
@@ -186,7 +188,7 @@ void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const std::ve
 {
 	for (const auto &tile : animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tile.first);
+		auto [tilex, tiley] = getTileCoords(texture, tile.first, tileSize);
 		auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
 		m_animationTileInfo.data.emplace_back(tile.second, textureRect);
