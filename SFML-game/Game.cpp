@@ -39,6 +39,11 @@ void Game::init()
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,		[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move( 0, -1); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move(-1,  0); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move( 0,  1); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move( 1,  0); });
+
 	m_intersectionHandler.registerEvent("Enemies", [this](ObjectLayer *layer, ObjectSprite *sprite)
 	{
 		auto enemy = dynamic_cast<Enemy *>(sprite);
@@ -80,9 +85,10 @@ void Game::init()
 			return; // Give user error message, invalid entrance
 		
 		m_player.setPosition(pos.x, pos.y);
+		updateDrawRect();
 	});
 
-	loadMap("data/Maps/Intro village.json");
+	loadMap("data/Maps/LargeCastle.json");
 }
 
 bool Game::frame(sf::Window &window)
@@ -94,7 +100,7 @@ bool Game::frame(sf::Window &window)
 
 	if (!m_paused)
 	{
-		m_player.handleKeyInput(m_map);
+		m_player.handleKeyInput(*this, m_map);
 		m_intersectionHandler.handleEvents(m_map, m_player);
 		m_clock.reset(true);
 	}
@@ -120,12 +126,18 @@ void Game::resume()
 
 void Game::draw(sf::RenderTarget &target)
 {
-	m_map.drawBackOf(target, "Character");
-	m_player.draw(target);
-	m_map.drawFrontOf(target, "Character");
+	m_renderTexture.clear(sf::Color::Black);
+
+	m_map.drawBackOf(m_renderTexture, "Character");
+	m_player.draw(m_renderTexture);
+	m_map.drawFrontOf(m_renderTexture, "Character");
 
 	if (m_paused && State::IsCurrent(this))
-		target.draw(m_pauseText);
+		m_renderTexture.draw(m_pauseText);
+
+	m_renderTexture.display();
+	
+	target.draw(m_renderSprite);
 }
 
 bool Game::loadMap(const std::filesystem::path &mapFile)
@@ -150,6 +162,11 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 	
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);
+
+	m_renderTexture.create(m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y);
+	m_renderSprite.setTexture(m_renderTexture.getTexture());
+	updateDrawRect();
+
 	return true;
 }
 
@@ -165,4 +182,13 @@ void Game::loadMusic(const MapProperties &properties, Music &music)
 		music.load(m_map.getPath() / musicFile);
 	else
 		music.reset();
+}
+
+void Game::updateDrawRect()
+{
+	auto playerpos = m_player.getPosition();
+	auto playerbounds = m_player.getLocalBounds();
+	auto newX = 480 /*window bounds*/- playerbounds.width / 2 - playerpos.x;
+	auto newY = 480 /*window bounds*/ - playerbounds.height / 2 - playerpos.y;
+	m_renderSprite.setPosition(newX, newY);
 }

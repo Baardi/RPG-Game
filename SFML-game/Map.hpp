@@ -53,8 +53,11 @@ public:
 	std::map<std::string, ObjectLayer *> m_objectMap;
 	std::map<std::string, TileLayer *> m_tileMap;
 
-private:
+	// Map bounds
+	int width, height;
+
 	TileSize tileSize;
+private:
 
 	std::map<int, TileSet> m_tileSets;
 	void loadTileSets(const Json::Value &root, TextureMap &textures);
@@ -67,10 +70,7 @@ private:
 
 	// Shared clock for all animated tiles
 	 sftools::Chronometer m_clock;
-
-	// Map bounds
-	int width, height;
-
+	 
 	std::filesystem::path m_currentFile;
 	std::filesystem::path m_currentPath;
 public:

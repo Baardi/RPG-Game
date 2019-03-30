@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Player.hpp"
-#include "map.hpp"
+#include "Map.hpp"
 #include "State.hpp"
 #include "InventoryUI.hpp"
 #include "DialogInterface.hpp"
 #include "TileLayer.hpp"
+#include "Game.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {
@@ -79,7 +80,7 @@ void Player::takeItem(std::unique_ptr<GameItem> &&item)
 	m_inventory.takeItem(std::move(item));
 }
 
-void Player::handleKeyInput(Map &map)
+void Player::handleKeyInput(Game &game, Map &map)
 {
 	bool isMoving = false;
 
@@ -109,8 +110,11 @@ void Player::handleKeyInput(Map &map)
 		auto walkables = map.getTileLayer("Walkables");
 
 		if (!(unWalkables && unWalkables->containsTexture(newX, newY)) || (walkables && walkables->containsTexture(newX, newY)))
+		{
 			setPosition(newX, newY);
-		
+			game.updateDrawRect();
+		}
+
 		m_counter = (m_counter + 1) % m_counterMax;
 		m_sprite.setTextureRect(sf::IntRect(int(float(m_counter) / (float(m_counterMax) / 4.0)) * m_tilesize.x, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
 	}

@@ -39,7 +39,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 	m_transform = sf::utility::computeTransform(origin, translation, scale, rotation);
 
 	auto textValue = object["text"];
-	if (!textValue.empty() && !gid)
+	if (!textValue.empty())
 		loadText(textValue);
 
 	loadProperties(object["properties"]);
@@ -106,7 +106,7 @@ void ObjectSprite::saveText(Json::Value &textValue) const
 	if (style & sf::Text::StrikeThrough)textValue["strikeout"] = true;
 	if (style & sf::Text::Underlined)	textValue["underline"] = true;
 
-	textValue["text"] = text->getString().toAnsiString();
+	textValue["text"] = std::string(text->getString());
 	textValue["pixelsize"] = text->getCharacterSize();
 	textValue["color"] = sf::utility::parseColor(text->getFillColor());
 }
@@ -142,7 +142,7 @@ void ObjectSprite::loadTexture(const std::map<int, TileSet> &tileSets)
 	if (!tileTextureValue) // No texture found
 		return;
 
-	const TileSet &tileset = tileSets.find(tileTextureValue)->second;
+	tileset = tileSets.find(tileTextureValue)->second;
 	const sf::Texture *spriteTexture = tileset.texture;
 	const AnimationTileMap &animatedTiles = tileset.animatedTiles;
 
@@ -173,7 +173,7 @@ sf::Transform ObjectSprite::getTransform() const
 
 void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 {
-	auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
+	auto [tilex, tiley] = getTileCoords(texture, tileid, tileset.tileSize);
 	auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
@@ -181,22 +181,24 @@ void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 	sprite.setTextureRect(textureRect);
 	sprite.setPosition(x, y);
 	sprite.setRotation(rotation);
-	sprite.setScale(width / static_cast<float>(tileSize.x), height / static_cast<float>(tileSize.y));
+	sprite.setScale(width / static_cast<float>(tileset.tileSize.x), height / static_cast<float>(tileset.tileSize.y));
 }
 
 void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const std::vector<std::pair<int, sf::Time>> &animationTile)
 {
-	for (const auto &tile : animationTile)
+	for (const auto [tileid, duration] : animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tile.first, tileSize);
+		auto [tilex, tiley] = getTileCoords(texture, tileid, tileset.tileSize);
 		auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
 
-		m_animationTileInfo.data.emplace_back(tile.second, textureRect);
+		m_animationTileInfo.data.emplace_back(duration, textureRect);
 	}
 }
 
 sf::IntRect ObjectSprite::getTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) const // Set texture rect differently depending on flip
 {
+	auto &tileSize = tileset.tileSize;
+
 	int txXPos = verflip ? tilex + tileSize.x : tilex;
 	int txYPos = horflip ? tiley + tileSize.y : tiley;
 	int txXSize = verflip ? -tileSize.x : tileSize.x;

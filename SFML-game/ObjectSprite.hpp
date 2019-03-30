@@ -9,7 +9,7 @@
 class ObjectSprite : public MapProperties, public GameObject
 {
 public:
-	ObjectSprite(const TileSize &tileSize) : tileSize(tileSize) {}
+	ObjectSprite() = default;
 	virtual ~ObjectSprite() = default;
 
 	virtual void applyProperties() {}
@@ -34,6 +34,9 @@ public:
 	std::string type;
 	bool visible;
 
+	// Tileset used by sprite
+	TileSet tileset; 
+
 	// Location on screen
 	float x, y;
 	float width, height;
@@ -41,9 +44,7 @@ public:
 	bool horflip, verflip;
 	float opacity;
 	int id;
-
-	TileSize tileSize;
-
+	
 	std::optional<sf::Text> text;
 
 protected:
@@ -60,4 +61,4 @@ private:
 	sf::FloatRect m_localBounds;
 };
 
-using ObjectSpriteFactory = ObjectFactory<ObjectSprite, TileSize>;
+using ObjectSpriteFactory = ObjectFactory<ObjectSprite>;

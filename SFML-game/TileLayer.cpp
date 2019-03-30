@@ -69,7 +69,7 @@ void TileLayer::process(const sftools::Chronometer &clock)
 	}
 }
 
-void TileLayer::draw(sf::RenderTarget& window)
+void TileLayer::draw(sf::RenderTarget &target)
 {
 	// Render each tile
 	for (int y = 0; y < height; y++)
@@ -82,7 +82,7 @@ void TileLayer::draw(sf::RenderTarget& window)
 			if (tile.id == 0)
 				continue;
 
-			window.draw(tile.sprite);
+			target.draw(tile.sprite);
 		}
 	}
 }

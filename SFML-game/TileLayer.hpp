@@ -18,7 +18,7 @@ public:
 	void load(const Json::Value& layer, const std::map<int, TileSet> &tileSets);
 	void save(Json::Value &layers) const override;
 
-	void draw(sf::RenderTarget& window) override;
+	void draw(sf::RenderTarget &target) override;
 	void process(const sftools::Chronometer &clock) override;
 
 	// Safe to use from map, safe in case of breaking the bounds of the layer array

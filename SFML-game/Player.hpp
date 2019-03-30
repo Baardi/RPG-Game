@@ -4,6 +4,7 @@
 #include "ObjectSprite.hpp"
 
 class Map;
+class Game;
 
 class Player : public GameObject, public Entity
 {
@@ -34,7 +35,7 @@ enum class Action
 	void draw(sf::RenderTarget &target) override;
 
 	void takeItem(std::unique_ptr<GameItem> &&item);
-	void handleKeyInput(Map &map);
+	void handleKeyInput(Game &game, Map &map);
 
 
 private:
@@ -43,7 +44,7 @@ private:
 	double x = 400, y = 400;
 
 	Dir m_dir = Dir::Down;
-	double m_speed = 1.5;
+	double m_speed = 5.5;
 	int m_counter = 0;
 	const int m_counterMax = 25;
 	sf::Int32 m_lastTime;

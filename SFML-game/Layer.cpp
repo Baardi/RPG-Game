@@ -9,7 +9,7 @@ int getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets)
 
 	for (auto [tmpKeyVal, texture] : tileSets)
 	{
-		if (tmpKeyVal > tileTextureValue && tmpKeyVal < tileValue)
+		if (tmpKeyVal > tileTextureValue && tmpKeyVal <= tileValue)
 			tileTextureValue = tmpKeyVal;
 	}
 

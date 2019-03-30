@@ -9,6 +9,7 @@ public:
 	template <class Derived>
 	bool registerType(const std::string &type)
 	{
+		static_assert(std::is_base_of_v<Base, Derived>, "type \"Derived\" is not derived from type \"Base\"");
 		auto[it, inserted] = m_map.try_emplace(type, [](Args &&...args)
 		{
 			return std::make_unique<Derived>(std::forward<Args>(args)...);
@@ -30,4 +31,3 @@ public:
 private:
 	std::map<std::string, std::function<std::unique_ptr<Base>(Args...)>> m_map;
 };
-

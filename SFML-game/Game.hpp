@@ -20,6 +20,7 @@ public:
 	bool frame(sf::Window &window) override;
 	void draw(sf::RenderTarget &target) override;
 
+	void updateDrawRect(); // player needs access to this
 private:
 	// Private Methods
 	bool loadMap(const std::filesystem::path &mapFile);
@@ -42,4 +43,7 @@ private:
 
 	GameItemFactory m_itemFactory;
 	ObjectSpriteFactory m_spriteFactory;
+
+	sf::RenderTexture m_renderTexture;
+	sf::Sprite m_renderSprite;
 };

@@ -14,7 +14,7 @@ void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &t
 	// Get all mapObjects from layer
 	for (const auto &object : layer["objects"])
 	{
-		auto &sprite = spriteFactory.create(object["type"].asString(), tileSize);
+		auto &sprite = spriteFactory.create(object["type"].asString());
 		sprite->load(layer, object, tileSets);
 		objects.push_back(std::move(sprite));
 	}
@@ -38,8 +38,7 @@ void ObjectLayer::save(Json::Value &layers) const
 	for (const auto &object : objects)
 		object->save(layer["objects"]);
 
-	if (!layer.empty())
-		layers.append(layer);
+	layers.append(layer);
 }
 
 void ObjectLayer::process(const sftools::Chronometer &clock)
