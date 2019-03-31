@@ -35,7 +35,7 @@ public:
 	bool visible;
 
 	// Tileset used by sprite
-	TileSet tileset; 
+	const TileSet *tileset;
 
 	// Location on screen
 	float x, y;

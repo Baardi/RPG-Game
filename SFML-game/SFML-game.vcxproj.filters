@@ -34,9 +34,6 @@
     <Filter Include="Handlers">
       <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObjectFactory">
-      <UniqueIdentifier>{ce043334-1815-4ff6-8e41-53be4ebb9d10}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -141,9 +138,6 @@
     <ClInclude Include="TileSet.hpp">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.hpp">
       <Filter>Characters</Filter>
     </ClInclude>
@@ -151,10 +145,13 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="StateHandler.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>App</Filter>
     </ClInclude>
     <ClInclude Include="ResourceHandler.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.hpp">
+      <Filter>Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,17 +263,17 @@
     <ClCompile Include="libs\SFML\Collision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
-    <ClCompile Include="StateHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="StateHandler.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

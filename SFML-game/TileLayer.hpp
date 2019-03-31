@@ -6,6 +6,7 @@ struct Tile
 	int id;
 	AnimationTile animation;
 	sf::Sprite sprite;
+	const TileSet *tileset;
 };
 
 // Class representing a tile layer
@@ -26,7 +27,7 @@ public:
 
 private:
 	void loadTexture(const std::map<int, TileSet> &tileSets) override;
-	void loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture, int tileid, int x, int y);
+	void loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, int x, int y);
 	void loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile);
 		
 	bool containsTextureTileCoords(int x, int y) const;

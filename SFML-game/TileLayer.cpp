@@ -102,31 +102,32 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 			if (!tileTextureValue) 
 				continue;		// No texture found
 
-			const TileSet &tileset = tileSets.find(tileTextureValue)->second;
-			const sf::Texture *spriteTexture = tileset.texture;
-			const AnimationTileMap &animatedTiles = tileset.animatedTiles;
+			tile.tileset = &tileSets.find(tileTextureValue)->second;
+			const sf::Texture &spriteTexture = *tile.tileset->texture;
+			const AnimationTileMap &animatedTiles = tile.tileset->animatedTiles;
 
 			// Check if theres animation
 			auto it = animatedTiles.find(tile.id);
 			if (it == animatedTiles.end())
 			{
-				loadSpriteTexture(tile.sprite, *spriteTexture, tile.id - tileTextureValue, x, y);
+				loadSpriteTexture(tile, spriteTexture, tile.id - tileTextureValue, x, y);
 			}
 			else
 			{
 				// First animationtile decides first texturerect
 				auto &animationTile = it->second;
-				loadSpriteTexture(tile.sprite, *spriteTexture, animationTile[0].first, x, y);
-				loadSpriteAnimation(*spriteTexture, tile, animationTile);
+				loadSpriteTexture(tile, spriteTexture, animationTile[0].first, x, y);
+				loadSpriteAnimation(spriteTexture, tile, animationTile);
 			}
 		}
 	}
 }
 
-void TileLayer::loadSpriteTexture(sf::Sprite &sprite, const sf::Texture &texture, int tileid, int x, int y)
+void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, int x, int y)
 {
-	auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
+	auto [tilex, tiley] = getTileCoords(texture, tileid, tile.tileset->tileSize);
 
+	auto &sprite = tile.sprite;
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));

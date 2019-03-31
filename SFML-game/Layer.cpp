@@ -42,8 +42,8 @@ sf::Vector2i getTileCoords(const sf::Texture &texture, int tile, TileSize tileSi
 {
 	int tileXcount = texture.getSize().x / (tileSize.x + tileSize.s);
 
-	int x = (tile % tileXcount) * (tileSize.x + tileSize.s);
-	int y = (tile / tileXcount) * (tileSize.x + tileSize.s);
+	int x = tileSize.m + (tile % tileXcount) * (tileSize.x + tileSize.s);
+	int y = tileSize.m + (tile / tileXcount) * (tileSize.x + tileSize.s);
 
 	return sf::Vector2i(x, y);
 }

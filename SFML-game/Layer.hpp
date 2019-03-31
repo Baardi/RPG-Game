@@ -26,12 +26,14 @@ struct AnimationTile
 struct TileSize
 {
 	TileSize() = default;
-	TileSize(int size) : x(size), y(size), s(0) {}
-	TileSize(int size, int spacing) : x(size), y(size), s(spacing) {}
-	TileSize(int xSize, int ySize, int spacing) : x(xSize), y(ySize), s(spacing) {}
+	TileSize(int size) : x(size), y(size), s(0), m(0) {}
+	TileSize(int size, int spacing) : x(size), y(size), s(spacing), m(0) {}
+	TileSize(int xSize, int ySize, int spacing) : x(xSize), y(ySize), s(spacing), m(0) {}
+	TileSize(int xSize, int ySize, int spacing, int margin) : x(xSize), y(ySize), s(spacing), m(margin) {}
 	int x; // Width
 	int y; // Height
 	int s; // Spacing
+	int m; // Margin
 };
 
 class Layer : public MapProperties

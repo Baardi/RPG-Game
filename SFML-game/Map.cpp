@@ -43,7 +43,6 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 	// Get tile size information
 	tileSize.x = root["tilewidth"].asInt();
 	tileSize.y = root["tileheight"].asInt();
-	tileSize.s = root["spacing"].asInt();
 	width = root["width"].asInt();
 	height = root["height"].asInt();
 
@@ -79,7 +78,6 @@ bool Map::save(const std::filesystem::path &filename)
 	value["height"] = height;
 	value["tilewidth"] = tileSize.x;
 	value["tileheight"] = tileSize.y;
-	value["spacing"] = tileSize.s;
 
 	saveProperties(value["properties"]);
 

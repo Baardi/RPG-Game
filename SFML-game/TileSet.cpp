@@ -11,6 +11,7 @@ void TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 	tileSize.x = tilesetVal["tilewidth"].asInt();
 	tileSize.y = tilesetVal["tileheight"].asInt();
 	tileSize.s = tilesetVal["spacing"].asInt();
+	tileSize.m = tilesetVal["margin"].asInt();
 
 	auto imagePath = directory / tilesetVal["image"].asString();
 	auto it = textures.find(imagePath.string());
@@ -42,6 +43,7 @@ void TileSet::save(Json::Value &tilesets) const
 	tilesetVal["tilewidth"] = tileSize.x;
 	tilesetVal["tileheight"] = tileSize.y;
 	tilesetVal["spacing"] = tileSize.s;
+	tilesetVal["margin"] = tileSize.m;
 
 	saveAnimatedTiles(tilesetVal["tiles"]);
 
