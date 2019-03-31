@@ -101,24 +101,29 @@ public:
 		m_queuedState->setParent(parent);
 	}
 
-	bool isRunning()
+	bool isRunning() const
 	{
 		return m_stateStack.size() > 0;
 	}
 
-	bool inTransition()
+	bool inTransition() const
 	{
 		return m_transition != Transition::None;
 	}
 
-	size_t size()
+	size_t size() const
 	{
 		return m_stateStack.size();
 	}
 
-	bool isCurrent(UI *state)
+	bool isCurrent(UI *state) const
 	{
 		return m_currentUi == state;
+	}
+
+	const UI *getCurrentUI() const
+	{
+		return m_currentUi;
 	}
 
 	UI *getCurrentUI()
