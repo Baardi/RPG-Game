@@ -23,9 +23,9 @@ public:
 	{
 		auto it = m_map.find(type);
 		if (it != m_map.end())
-			return it->second(std::forward<Args2>(args)...);
+			return it->second(std::forward<Args>(args)...);
 
-		return std::make_unique<Base>(std::forward<Args2>(args)...);
+		return std::make_unique<Base>(std::forward<Args>(args)...);
 	}
 
 private:
