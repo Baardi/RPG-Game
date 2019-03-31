@@ -1,6 +1,5 @@
 #pragma once
 
-#include "State.hpp"
 #include <filesystem>
 #include "ObjectSprite.hpp"
 
@@ -20,7 +19,7 @@ public:
 	Map &operator=(Map &&) = default;
 	
 	// Load map from Tiled JSON file
-	bool load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &spriteFactory = ObjectSpriteFactory());
+	bool load(const std::filesystem::path &filename, std::map<std::string, sf::Texture> &textures, const ObjectSpriteFactory &spriteFactory = ObjectSpriteFactory());
 
 	// Save to from Tiled JSON file
 	bool save(const std::filesystem::path &filename);
@@ -60,7 +59,7 @@ public:
 private:
 
 	std::map<int, TileSet> m_tileSets;
-	void loadTileSets(const Json::Value &root, TextureMap &textures);
+	void loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures);
 
     // Handles regular layers
 	void loadLayer(const Json::Value& layer);

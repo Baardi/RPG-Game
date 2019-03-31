@@ -1,38 +1,36 @@
 #pragma once
-#include <thread>
 
 class UI
 {
+	friend class StateHandler;
 public:
 	UI() = default;
 	virtual ~UI() = default;
 	
 	virtual void init();
 	virtual bool frame(sf::Window &window) { return true; }
-	virtual bool pollEvent(sf::Event::EventType eventType); // When overriding, remember to call parent
-
-	void handleWindowsEvents(sf::Window &window);
-
-	// Possibly belongs to state
-	bool isRespondable() const { return m_respondable; }
-
+	virtual void pollEvent(sf::Event::EventType eventType) {}
+	
 	virtual void pause();
 	virtual void resume();
 	void toggle();
 
 	virtual void draw(sf::RenderTarget &target) {}
-	void drawAll(sf::RenderWindow &window);
+	void drawAll();
 	void setDrawOrder();
 	
-	void setParent(UI *parent) { this->m_pParent = parent; } // To stack Ui's upon each other
-	UI *getParent() const { return m_pParent; }
-
+	void setParent(UI *parent) { this->m_parent = parent; } // To stack Ui's upon each other
+	UI *getParent() const { return m_parent; }
+	
+	sf::RenderWindow &window() { return *m_window; }
+	StateHandler &stateHandler() { return *m_stateHandler; }
 protected:
 	bool m_paused = false;
 	bool m_pausable = true;
 
 private:
-	bool m_respondable = true; // Maybe need a test to see if it's valid on ui creation
-	UI *m_pParent = nullptr;
+	sf::RenderWindow *m_window; 
+	StateHandler *m_stateHandler;
+	UI *m_parent = nullptr;
 	std::vector<UI *> m_drawStack;
 };

@@ -1,15 +1,16 @@
 #include "stdafx.h"
 #include "InventoryUI.hpp"
-#include "State.hpp"
 #include "MainMenu.hpp"
 #include "Inventory.hpp"
 #include "ItemInfoPopup.hpp"
+#include "StateHandler.hpp"
+#include "ResourceHandler.hpp"
 
-InventoryUI::InventoryUI()
+InventoryUI::InventoryUI(Inventory &inventory) : inventory(&inventory)
 {
 	x = 70;
 	y = 120;
-	m_menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
+	m_menuBackground.load("data/Menus/PopupMenu.json", resourceHandler().textures());
 }
 
 InventoryUI::~InventoryUI()
@@ -18,13 +19,8 @@ InventoryUI::~InventoryUI()
 
 void InventoryUI::init()
 {
-	addMenuItem("Back", State::Pop);
+	addMenuItem("Back", [this] { stateHandler().popState(); });
 
-	auto inventoryInitializer = State::GetInitializer<InventoryInitializer>();
-	if (!inventoryInitializer)
-		return;
-
-	inventory = &inventoryInitializer->inventory;
 	for (auto &item : inventory->Items())
 	{
 		auto &button = addMenuItem(item->name(), item->sprite());
@@ -33,8 +29,7 @@ void InventoryUI::init()
 
 		button.setActionHandler([this, pItem, buttonPos]
 		{
-			State::PushChild<ItemInfoPopup>();
-			State::SetInitializer<ItemInfoInitializer>(pItem, buttonPos.x + 380, buttonPos.y);
+			stateHandler().pushChild<ItemInfoPopup>(pItem, buttonPos.x + 380, buttonPos.y);
 		});
 	}
 }

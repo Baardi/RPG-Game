@@ -1,5 +1,5 @@
 #pragma once
-#include "State.hpp"
+#include "StateHandler.hpp"
 
 class App
 {
@@ -13,6 +13,5 @@ public:
 
 private:
 	sf::RenderWindow m_window;
-
-	// Todo: move font and texturemap (resources) from state to app
+	StateHandler m_stateHandler;
 };

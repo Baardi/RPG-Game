@@ -1,13 +1,14 @@
 #include "stdafx.h"
-#include "State.hpp"
+#include "StateHandler.hpp"
+#include "ResourceHandler.hpp"
 #include "Menu.hpp"
 
 Menu::Menu()
 {
 	m_clock.resume();
 
-	m_buttonHandler.setFont(State::Font());
-	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, State::Pop);
+	m_buttonHandler.setFont(resourceHandler().font());
+	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, [this] { stateHandler().popState(); });
 }
 
 Menu::~Menu()

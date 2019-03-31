@@ -194,6 +194,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="ObjectSprite.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PopupMenu.hpp" />
+    <ClInclude Include="ResourceHandler.hpp" />
+    <ClInclude Include="StateHandler.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="StatsInterface.hpp" />
     <ClInclude Include="ItemInfoPopup.hpp" />
@@ -203,7 +205,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="Layer.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="ObjectLayer.hpp" />
-    <ClInclude Include="State.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TileSet.hpp" />
@@ -240,6 +241,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />
+    <ClCompile Include="ResourceHandler.cpp" />
+    <ClCompile Include="StateHandler.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="StatsInterface.cpp" />
     <ClCompile Include="ItemInfoPopup.cpp" />

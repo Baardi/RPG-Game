@@ -2,15 +2,16 @@
 #include "Game.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectLayer.hpp"
-#include "State.hpp"
 #include "MainMenu.hpp"
 #include "GamePopupMenu.hpp"
 #include <filesystem>
 #include "Weapon.hpp"
 #include "Valuable.hpp"
 #include "Enemy.hpp"
+#include "StateHandler.hpp"
+#include "ResourceHandler.hpp"
 
-Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", State::Font(), 50)
+Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", resourceHandler().font(), 50)
 {
 	m_pauseText.setPosition(400, 450);
 }
@@ -29,20 +30,20 @@ void Game::init()
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav")); });
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, State::Push<MainMenu>);
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      State::Reset<MainMenu>);
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      State::PushChild<GamePopupMenu>);
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      State::Switch<Game>);
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateHandler().pushState<MainMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      [this] { stateHandler().reset<MainMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      [this] { stateHandler().pushChild<GamePopupMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      [this] { stateHandler().switchState<Game>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::P,      [this] { toggle(); });
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::M,				[this] { m_music.toggle(); } );
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,		[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move( 0, -1); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move(-1,  0); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move( 0,  1); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move( 1,  0); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move( 0,  7); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move( 7,  0); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move( 0, -7); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move(-7,  0); });
 
 	m_intersectionHandler.registerEvent("Enemies", [this](ObjectLayer *layer, ObjectSprite *sprite)
 	{
@@ -58,7 +59,7 @@ void Game::init()
 
 		// Find out what to do with player
 		if (m_player.isDead())
-			State::Switch<Game>();
+			stateHandler().switchState<Game>();
 	});
 
 	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer *layer, ObjectSprite *item)
@@ -132,12 +133,11 @@ void Game::draw(sf::RenderTarget &target)
 	m_player.draw(m_renderTexture);
 	m_map.drawFrontOf(m_renderTexture, "Character");
 
-	if (m_paused && State::IsCurrent(this))
-		m_renderTexture.draw(m_pauseText);
-
 	m_renderTexture.display();
 	
 	target.draw(m_renderSprite);
+	if (m_paused && stateHandler().isCurrent(this))
+		target.draw(m_pauseText);
 }
 
 bool Game::loadMap(const std::filesystem::path &mapFile)
@@ -154,7 +154,7 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 		mapToLoad = m_map.getPath() / mapFile;
 
 	Map tmpMap;
-	if (!tmpMap.load(mapToLoad, State::Textures(), m_spriteFactory))
+	if (!tmpMap.load(mapToLoad, resourceHandler().textures(), m_spriteFactory))
 		return false;
 
 	if (m_map.getFile() != "")

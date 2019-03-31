@@ -1,11 +1,11 @@
 #pragma once
-#include "State.hpp"
-#include "map.hpp"
+#include "Map.hpp"
 #include "Player.hpp"
 #include "KeyHandler.hpp"
 #include "IntersectionHandler.hpp"
 #include "Music.hpp"
 #include "ObjectFactory.hpp"
+#include "UI.hpp"
 
 class Game : public UI
 {

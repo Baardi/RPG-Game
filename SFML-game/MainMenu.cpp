@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "MainMenu.hpp"
-#include "State.hpp"
+#include "StateHandler.hpp"
 #include "Game.hpp"
 
 void MainMenu::init()
 {
-	if (State::IsRunning())
-		addMenuItem("Resume", State::Pop);
+	if (stateHandler().isRunning())
+		addMenuItem("Resume", [this] { stateHandler().popState(); });
 
-	addMenuItem("New Game", State::Reset<Game>);
-	addMenuItem("Exit", State::Exit);
+	addMenuItem("New Game", [this] { stateHandler().reset<Game>(); });
+	addMenuItem("Exit", [this] { stateHandler().exit(); });
 }

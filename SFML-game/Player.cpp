@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Player.hpp"
 #include "Map.hpp"
-#include "State.hpp"
 #include "InventoryUI.hpp"
 #include "DialogInterface.hpp"
 #include "TileLayer.hpp"
 #include "Game.hpp"
+#include "StateHandler.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {
@@ -95,12 +95,9 @@ void Player::handleKeyInput(Game &game, Map &map)
 	}
 	
 	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Inventory]))
-	{
-		State::PushChild<InventoryUI>(); // Inventory popup
-		State::SetInitializer<InventoryInitializer>(m_inventory);
-	}
+		game.stateHandler().pushChild<InventoryUI>(m_inventory); // Inventory popup
 	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Talk]))
-		State::PushChild<DialogInterface>(); // Inventory popup;// Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
+		game.stateHandler().pushChild<DialogInterface>(); // Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 
 	if (isMoving)
 	{

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DialogInterface.hpp"
-#include "State.hpp"
-
+#include "StateHandler.hpp"
+#include "ResourceHandler.hpp"
 
 DialogInterface::DialogInterface()
 {
@@ -18,7 +18,7 @@ void DialogInterface::init()
 	y = 780;
 	colorSelect = sf::Color::Blue;
 	colorUnselect = sf::Color::Black;
-	m_menuBackground.load("data/Menus/MessageBox.json", State::Textures());
+	m_menuBackground.load("data/Menus/MessageBox.json", resourceHandler().textures());
 
-	addMenuItem("This is a dummy message", State::Pop);
+	addMenuItem("This is a dummy message", [this] { stateHandler().popState(); });
 }

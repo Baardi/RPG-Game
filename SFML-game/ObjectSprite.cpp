@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ObjectSprite.hpp"
-#include "State.hpp"
 #include "sfUtility.hpp"
 #include <corecrt_math_defines.h>
 #include "map.hpp"
+#include "ResourceHandler.hpp"
 
 void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, const std::map<int, TileSet> &tileSets)
 {
@@ -55,7 +55,7 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setFillColor(sf::utility::parseColor(textValue["color"].asString()));
 	text->setString(textValue["text"].asString());
 	text->setCharacterSize(textValue["pixelsize"].asInt());
-	text->setFont(State::Font());
+	text->setFont(resourceHandler().font());
 	text->setPosition(x, y);
 	text->setRotation(rotation);
 	text->setStyle(sf::utility::parseTextStyle(textValue));

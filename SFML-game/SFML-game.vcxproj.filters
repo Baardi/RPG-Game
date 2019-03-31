@@ -114,9 +114,6 @@
     <ClInclude Include="Inventory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="SfUtility.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -152,6 +149,12 @@
     </ClInclude>
     <ClInclude Include="ObjectFactory.hpp">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="StateHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandler.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="StateHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

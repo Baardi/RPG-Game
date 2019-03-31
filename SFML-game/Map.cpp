@@ -2,7 +2,6 @@
 #include "Map.hpp"
 
 #include <fstream>
-#include "State.hpp"
 #include "TileLayer.hpp"
 #include "ObjectLayer.hpp"
 
@@ -19,7 +18,7 @@ void Map::clear()
 	m_clock.reset(true);
 }
 
-bool Map::load(const std::filesystem::path &filename, TextureMap &textures, const ObjectSpriteFactory &spriteFactory)
+bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::Texture> &textures, const ObjectSpriteFactory &spriteFactory)
 {
 	clear();
 
@@ -121,7 +120,7 @@ void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &sprit
 	m_objectMap.try_emplace(objectLayer->name, objectLayer);
 }
 
-void Map::loadTileSets(const Json::Value &root, TextureMap &textures) // Loads all the images used by the json file as textures
+void Map::loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{

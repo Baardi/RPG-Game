@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GamePopupMenu.hpp"
-#include "State.hpp"
+#include "StateHandler.hpp"
+#include "ResourceHandler.hpp"
 #include "Game.hpp"
 
 GamePopupMenu::GamePopupMenu()
@@ -11,10 +12,10 @@ GamePopupMenu::GamePopupMenu()
 
 void GamePopupMenu::init()
 {
-	m_menuBackground.load("data/Menus/PopupMenu.json", State::Textures());
+	m_menuBackground.load("data/Menus/PopupMenu.json", resourceHandler().textures());
 
-	if (State::IsRunning())
-		addMenuItem("Resume", State::Pop);
+	if (stateHandler().isRunning())
+		addMenuItem("Resume", [this] { stateHandler().popState(); });
 
-	addMenuItem("New Game", State::Reset<Game>);
+	addMenuItem("New Game", [this] { stateHandler().reset<Game>(); });
 }
