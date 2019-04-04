@@ -34,6 +34,9 @@
     <Filter Include="Handlers">
       <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="App\Ui">
+      <UniqueIdentifier>{6d4f054a-bc2e-4578-a2aa-0f9c9ad52a9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -90,12 +93,6 @@
     <ClInclude Include="Player.hpp">
       <Filter>Characters</Filter>
     </ClInclude>
-    <ClInclude Include="UI.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="App.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="InventoryUI.hpp">
       <Filter>Menus</Filter>
     </ClInclude>
@@ -144,14 +141,23 @@
     <ClInclude Include="ObjectFactory.hpp">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="StateHandler.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHandler.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.hpp">
       <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="SavFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.hpp">
+      <Filter>App\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>App\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="App\App.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App\ResourceManager.hpp">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,15 +172,6 @@
     </ClCompile>
     <ClCompile Include="ObjectLayer.cpp">
       <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="SFML-game.cpp">
-      <Filter>App</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Map</Filter>
@@ -266,14 +263,23 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceHandler.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="StateHandler.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>App\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>App\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="App\App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="App\ResourceManager.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="App\SFML-game.cpp">
+      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

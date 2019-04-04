@@ -1,18 +1,26 @@
 #include "stdafx.h"
-#include "UI.hpp"
+#include "UiState.hpp"
 
-void UI::init()
-{
+using ui::State;
+
+void State::setParent(State *parent)
+{ 
+	this->m_parent = parent; 
 }
 
-void UI::setDrawOrder()
+State *State::getParent() const 
+{ 
+	return m_parent; 
+}
+
+void State::buildDrawStack()
 {
 	m_drawStack.clear();
 	for (auto curr = this; curr; curr = curr->m_parent)
 		m_drawStack.push_back(curr);
 }
 
-void UI::drawAll()
+void State::drawAll()
 {
 	m_window->clear(sf::Color::Black);
 
@@ -23,19 +31,19 @@ void UI::drawAll()
 	m_window->display();
 }
 
-void UI::pause()
+void State::pause()
 {
 	if (m_pausable)
 		m_paused = true;
 }
 
-void UI::resume()
+void State::resume()
 {
 	if (m_pausable)
 		m_paused = false;
 }
 
-void UI::toggle()
+void State::toggle()
 {
 	if (m_pausable)
 		m_paused ? resume() : pause();

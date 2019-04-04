@@ -5,9 +5,11 @@
 #include "IntersectionHandler.hpp"
 #include "Music.hpp"
 #include "ObjectFactory.hpp"
-#include "UI.hpp"
+#include "App/Ui/State.hpp"
 
-class Game : public UI
+namespace ui {
+
+class Game : public ui::State
 {
 public:
 	Game();
@@ -17,7 +19,7 @@ public:
 	void init() override;
 	void pause() override;
 	void resume() override;
-	bool frame(sf::Window &window) override;
+	bool frame() override;
 	void draw(sf::RenderTarget &target) override;
 
 	void updateDrawRect(); // player needs access to this
@@ -47,3 +49,5 @@ private:
 	sf::RenderTexture m_renderTexture;
 	sf::Sprite m_renderSprite;
 };
+
+}

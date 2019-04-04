@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Game.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectLayer.hpp"
 #include "MainMenu.hpp"
@@ -8,10 +7,14 @@
 #include "Weapon.hpp"
 #include "Valuable.hpp"
 #include "Enemy.hpp"
-#include "StateHandler.hpp"
-#include "ResourceHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
+#include "App/ResourceManager.hpp"
+#include "SavFile.hpp"
+#include "Game.hpp"
 
-Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", resourceHandler().font(), 50)
+using ui::Game;
+
+Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", resources().font(), 50)
 {
 	m_pauseText.setPosition(400, 450);
 }
@@ -22,18 +25,18 @@ Game::~Game()
 
 void Game::init()
 {
-	UI::init();
+	State::init();
 
 	m_itemFactory.registerType<Weapon>("Weapon");
 	m_itemFactory.registerType<Valuable>("Valuable");
 	m_spriteFactory.registerType<Enemy>("Enemy");
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav")); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(getSaveFile(m_map.getFile())); });
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateHandler().pushState<MainMenu>(); });
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      [this] { stateHandler().reset<MainMenu>(); });
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      [this] { stateHandler().pushChild<GamePopupMenu>(); });
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      [this] { stateHandler().switchState<Game>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateMachine().pushState<MainMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      [this] { stateMachine().reset<MainMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      [this] { stateMachine().pushChild<GamePopupMenu>(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      [this] { stateMachine().switchState<Game>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::P,      [this] { toggle(); });
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::M,				[this] { m_music.toggle(); } );
@@ -59,7 +62,7 @@ void Game::init()
 
 		// Find out what to do with player
 		if (m_player.isDead())
-			stateHandler().switchState<Game>();
+			stateMachine().switchState<Game>();
 	});
 
 	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer *layer, ObjectSprite *item)
@@ -92,9 +95,9 @@ void Game::init()
 	loadMap("data/Maps/LargeCastle.json");
 }
 
-bool Game::frame(sf::Window &window)
+bool Game::frame()
 {
-	if (!UI::frame(window))
+	if (!State::frame())
 		return false;
 
 	m_keyHandler.handleKeyInput();
@@ -111,7 +114,7 @@ bool Game::frame(sf::Window &window)
 
 void Game::pause()
 {
-	UI::pause();
+	State::pause();
 	m_music.pause();
 	m_map.pause();
 	m_clock.pause();
@@ -119,7 +122,7 @@ void Game::pause()
 
 void Game::resume()
 {
-	UI::resume();
+	State::resume();
 	m_music.play();
 	m_map.resume();
 	m_clock.resume();
@@ -136,29 +139,20 @@ void Game::draw(sf::RenderTarget &target)
 	m_renderTexture.display();
 	
 	target.draw(m_renderSprite);
-	if (m_paused && stateHandler().isCurrent(this))
+	if (m_paused && stateMachine().isCurrent(this))
 		target.draw(m_pauseText);
 }
 
 bool Game::loadMap(const std::filesystem::path &mapFile)
 {
-	auto savFile = std::filesystem::path(mapFile)
-		.replace_extension("")
-		.replace_extension("json.sav");
-
-	std::error_code ec;
-	std::filesystem::path mapToLoad;
-	if (std::filesystem::exists(savFile, ec))
-		mapToLoad = m_map.getPath() / savFile;
-	else
-		mapToLoad = m_map.getPath() / mapFile;
+	auto mapToLoad = m_map.getPath() / getLoadFile(mapFile);
 
 	Map tmpMap;
-	if (!tmpMap.load(mapToLoad, resourceHandler().textures(), m_spriteFactory))
+	if (!tmpMap.load(mapToLoad, resources().textures(), m_spriteFactory))
 		return false;
 
 	if (m_map.getFile() != "")
-		m_map.save(m_map.getFile().replace_extension("").replace_extension("json.sav"));
+		m_map.save(getSaveFile(m_map.getFile()));
 	
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);

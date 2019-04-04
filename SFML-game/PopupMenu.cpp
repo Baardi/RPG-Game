@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PopupMenu.hpp"
 
+using ui::PopupMenu;
 
 PopupMenu::PopupMenu()
 {

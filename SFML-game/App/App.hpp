@@ -1,5 +1,5 @@
 #pragma once
-#include "StateHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
 
 class App
 {
@@ -13,5 +13,5 @@ public:
 
 private:
 	sf::RenderWindow m_window;
-	StateHandler m_stateHandler;
+	ui::StateMachine m_stateMachine;
 };

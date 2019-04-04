@@ -77,7 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SFML-game;$(IncludePath)</IncludePath>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,7 +86,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SFML-game;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,6 +114,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)SFML-game\libs\json;$(SolutionDir)SFML-game\libs\SFML;$(SolutionDir)..\SFML\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,7 +175,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="App.hpp" />
+    <ClInclude Include="App\App.hpp" />
+    <ClInclude Include="App\ResourceManager.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ButtonHandler.hpp" />
     <ClInclude Include="Entity.hpp" />
@@ -194,8 +197,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="ObjectSprite.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PopupMenu.hpp" />
-    <ClInclude Include="ResourceHandler.hpp" />
-    <ClInclude Include="StateHandler.hpp" />
+    <ClInclude Include="SavFile.hpp" />
+    <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="StatsInterface.hpp" />
     <ClInclude Include="ItemInfoPopup.hpp" />
@@ -208,13 +211,15 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TileSet.hpp" />
-    <ClInclude Include="UI.hpp" />
+    <ClInclude Include="State.hpp" />
     <ClInclude Include="SfUtility.hpp" />
     <ClInclude Include="Valuable.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
+    <ClCompile Include="App\App.cpp" />
+    <ClCompile Include="App\ResourceManager.cpp" />
+    <ClCompile Include="App\SFML-game.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -241,8 +246,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />
-    <ClCompile Include="ResourceHandler.cpp" />
-    <ClCompile Include="StateHandler.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="StatsInterface.cpp" />
     <ClCompile Include="ItemInfoPopup.cpp" />
@@ -251,7 +255,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="SFML-game.cpp" />
     <ClCompile Include="ObjectLayer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -260,7 +263,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TileSet.cpp" />
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="SfUtility.cpp" />
     <ClCompile Include="Valuable.cpp" />
     <ClCompile Include="Weapon.cpp" />

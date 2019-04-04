@@ -1,10 +1,12 @@
 #pragma once
-#include "UI.hpp"
+#include "App/Ui/State.hpp"
 #include <functional>
 #include "KeyHandler.hpp"
 #include "ButtonHandler.hpp"
 
-class Menu : public UI
+namespace ui {
+
+class Menu : public ui::State
 {
 public:
 	Menu();
@@ -13,7 +15,7 @@ public:
 protected:
 	// Overrides from UI
 	void init() override;
-	bool frame(sf::Window &window) override;
+	bool frame() override;
 	void draw(sf::RenderTarget &target) override;
 
 	// Methods used by derived classes
@@ -41,3 +43,5 @@ private:
 	KeyHandler m_keyHandler;
 	ButtonHandler m_buttonHandler;
 };
+
+}

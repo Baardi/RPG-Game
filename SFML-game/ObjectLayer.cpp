@@ -12,6 +12,7 @@ void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &t
 	loadProperties(layer["properties"]);
 
 	// Get all mapObjects from layer
+	objects.reserve(layer["objects"].size());
 	for (const auto &object : layer["objects"])
 	{
 		auto &sprite = spriteFactory.create(object["type"].asString());

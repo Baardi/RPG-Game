@@ -2,7 +2,9 @@
 #include "PopupMenu.hpp"
 #include "GameItem.hpp"
 
-class ItemInfoPopup : public PopupMenu
+namespace ui {
+
+class ItemInfoPopup : public ui::PopupMenu
 {
 public:
 	ItemInfoPopup(GameItem *item, int x, int y) :
@@ -20,3 +22,4 @@ public:
 	sf::Sprite m_renderSprite;
 };
 
+}

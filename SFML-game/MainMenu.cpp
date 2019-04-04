@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "MainMenu.hpp"
-#include "StateHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
 #include "Game.hpp"
+
+using ui::MainMenu;
 
 void MainMenu::init()
 {
-	if (stateHandler().isRunning())
-		addMenuItem("Resume", [this] { stateHandler().popState(); });
+	if (stateMachine().isRunning())
+		addMenuItem("Resume", [this] { stateMachine().popState(); });
 
-	addMenuItem("New Game", [this] { stateHandler().reset<Game>(); });
-	addMenuItem("Exit", [this] { stateHandler().exit(); });
+	addMenuItem("New Game", [this] { stateMachine().reset<Game>(); });
+	addMenuItem("Exit", [this] { stateMachine().exit(); });
 }

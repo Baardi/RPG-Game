@@ -2,13 +2,17 @@
 #include "PopupMenu.hpp"
 #include "Inventory.hpp"
 
-class InventoryUI : public PopupMenu
+namespace ui {
+
+class InventoryPopup : public ui::PopupMenu
 {
 public:
-	InventoryUI(Inventory &inventory);
-	~InventoryUI();
+	InventoryPopup(Inventory &inventory);
+	~InventoryPopup();
 	void init() override;
 
 private:
 	Inventory *inventory;
 };
+
+}

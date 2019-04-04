@@ -13,7 +13,7 @@ void TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 	tileSize.s = tilesetVal["spacing"].asInt();
 	tileSize.m = tilesetVal["margin"].asInt();
 
-	auto imagePath = directory / tilesetVal["image"].asString();
+	auto imagePath = directory / image;
 	auto it = textures.find(imagePath.string());
 	if (it == textures.end())
 	{

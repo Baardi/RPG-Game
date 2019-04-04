@@ -5,7 +5,7 @@
 #include "DialogInterface.hpp"
 #include "TileLayer.hpp"
 #include "Game.hpp"
-#include "StateHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {
@@ -80,7 +80,7 @@ void Player::takeItem(std::unique_ptr<GameItem> &&item)
 	m_inventory.takeItem(std::move(item));
 }
 
-void Player::handleKeyInput(Game &game, Map &map)
+void Player::handleKeyInput(ui::Game &game, Map &map)
 {
 	bool isMoving = false;
 
@@ -95,9 +95,9 @@ void Player::handleKeyInput(Game &game, Map &map)
 	}
 	
 	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Inventory]))
-		game.stateHandler().pushChild<InventoryUI>(m_inventory); // Inventory popup
+		game.stateMachine().pushChild<ui::InventoryPopup>(m_inventory); // Inventory popup
 	if (sf::Keyboard::isKeyPressed(m_actionMap[Action::Talk]))
-		game.stateHandler().pushChild<DialogInterface>(); // Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
+		game.stateMachine().pushChild<ui::DialogInterface>(); // Get sprite-id, then start the dialog tree that matches that sprite id. Give necessary parameters
 
 	if (isMoving)
 	{

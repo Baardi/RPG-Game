@@ -3,23 +3,25 @@
 #include "MainMenu.hpp"
 #include "Inventory.hpp"
 #include "ItemInfoPopup.hpp"
-#include "StateHandler.hpp"
-#include "ResourceHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
+#include "App/ResourceManager.hpp"
 
-InventoryUI::InventoryUI(Inventory &inventory) : inventory(&inventory)
+using ui::InventoryPopup;
+
+InventoryPopup::InventoryPopup(Inventory &inventory) : inventory(&inventory)
 {
 	x = 70;
 	y = 120;
-	m_menuBackground.load("data/Menus/PopupMenu.json", resourceHandler().textures());
+	m_menuBackground.load("data/Menus/PopupMenu.json", resources().textures());
 }
 
-InventoryUI::~InventoryUI()
+InventoryPopup::~InventoryPopup()
 {
 }
 
-void InventoryUI::init()
+void InventoryPopup::init()
 {
-	addMenuItem("Back", [this] { stateHandler().popState(); });
+	addMenuItem("Back", [this] { stateMachine().popState(); });
 
 	for (auto &item : inventory->Items())
 	{
@@ -29,7 +31,7 @@ void InventoryUI::init()
 
 		button.setActionHandler([this, pItem, buttonPos]
 		{
-			stateHandler().pushChild<ItemInfoPopup>(pItem, buttonPos.x + 380, buttonPos.y);
+			stateMachine().pushChild<ItemInfoPopup>(pItem, buttonPos.x + 380, buttonPos.y);
 		});
 	}
 }

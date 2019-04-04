@@ -1,14 +1,16 @@
 #include "stdafx.h"
-#include "StateHandler.hpp"
-#include "ResourceHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
+#include "App/ResourceManager.hpp"
 #include "Menu.hpp"
+
+using ui::Menu;
 
 Menu::Menu()
 {
 	m_clock.resume();
 
-	m_buttonHandler.setFont(resourceHandler().font());
-	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, [this] { stateHandler().popState(); });
+	m_buttonHandler.setFont(resources().font());
+	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, [this] { stateMachine().popState(); });
 }
 
 Menu::~Menu()
@@ -17,16 +19,16 @@ Menu::~Menu()
 
 void Menu::init()
 {
-	UI::init();
+	State::init();
 	m_pausable = false;
 }
 
-bool Menu::frame(sf::Window &window)
+bool Menu::frame()
 {
-	if (!UI::frame(window))
+	if (!State::frame())
 		return false;
 	
-	m_buttonHandler.handleInput(window);	
+	m_buttonHandler.handleInput(window());	
 	m_keyHandler.handleKeyInput();
 	
 	return true;

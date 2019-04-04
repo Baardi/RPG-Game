@@ -1,7 +1,9 @@
 #pragma once
 #include "PopupMenu.hpp"
 
-class DialogInterface : public PopupMenu
+namespace ui {
+
+class DialogInterface : public ui::PopupMenu
 {
 public:
 	DialogInterface();
@@ -9,3 +11,4 @@ public:
 	void init() override;
 };
 
+}

@@ -1,29 +1,29 @@
 #pragma once
-#include "UI.hpp"
+#include "App/Ui/State.hpp"
 #include <iostream>
+
+namespace ui {
 
 // The different transition types
 enum class Transition
 {
-	None = 0,	// Do nothing. Always turns to None after a transition
-	Push = 1,	// Adds a new state to the stack
-	Switch = 2,	// Removes a state from the stack, and push a new one (theoretically the same as pop)
-	Pop = 2,	// Remove a state from the stack, continuing executing the previous state in stack
-	Reset = 3,	// Removes all states, then and push a new one (theoretically the same as Exit)
-	Exit = 3	// Removes all states, which causes the program to exit
+	None = 0,	//             Do nothing. Always turns to None after a transition
+	Push = 1,	// Push:       Adds a new state to the stack
+	Pop = 2,	// Pop/Switch: Removes a state from the stack. Can push a new one
+	Reset = 3,	// Exit/Reset: Removes all states. Can push a new one 
 };
 
-// Class for storing and handling different states in the application
-class StateHandler
+// Class for storing and handling different ui-states in the application
+class StateMachine
 {
 public:
-	StateHandler() = default;
-	~StateHandler() = default;
+	StateMachine() = default;
+	~StateMachine() = default;
 
-	StateHandler(const StateHandler &) = delete;
-	StateHandler(StateHandler &&) = delete;
-	StateHandler &operator=(const StateHandler &) = delete;
-	StateHandler &operator=(StateHandler &&) = delete;
+	StateMachine(const StateMachine &) = delete;
+	StateMachine(StateMachine &&) = delete;
+	StateMachine &operator=(const StateMachine &) = delete;
+	StateMachine &operator=(StateMachine &&) = delete;
 	
 	// Sets a transition, to be done after current frame
 	void setState(Transition transition)
@@ -33,7 +33,7 @@ public:
 	}
 
 	// Sets a transition, to be done after current frame
-	void setState(Transition transition, std::unique_ptr<UI> &&state)
+	void setState(Transition transition, std::unique_ptr<State> &&state)
 	{
 		m_transition = transition;
 		m_queuedState = std::move(state);
@@ -51,7 +51,7 @@ public:
 	template<class T, class... _Valty>
 	void switchState(_Valty&&... _Val)
 	{
-		setState(Transition::Switch, std::make_unique<T>(
+		setState(Transition::Pop, std::make_unique<T>(
 			std::forward<_Valty>(_Val)...));
 	}
 
@@ -72,7 +72,7 @@ public:
 	// Close the app
 	void exit()
 	{
-		setState(Transition::Exit);
+		setState(Transition::Reset);
 	}
 
 	// Put a child to current ui
@@ -80,14 +80,14 @@ public:
 	void pushChild(_Valty&&... _Val)
 	{
 		pushState<T>(std::forward<_Valty>(_Val)...);
-		m_queuedState->setParent(m_currentUi);
+		m_queuedState->setParent(m_currentState);
 	}
 
 	// Hides, but doesn't remove the current ui, and put a child to the previous one
 	template<class T, class... _Valty>
 	void chainChild(_Valty&&... _Val)
 	{
-		auto prevParent = m_currentUi ? m_currentUi->getParent() : nullptr;
+		auto prevParent = m_currentState ? m_currentState->getParent() : nullptr;
 		pushState<T>(std::forward<_Valty>(_Val)...);
 		m_queuedState->setParent(prevParent);
 	}
@@ -116,19 +116,19 @@ public:
 		return m_stateStack.size();
 	}
 
-	bool isCurrent(UI *state) const
+	bool isCurrent(State *state) const
 	{
-		return m_currentUi == state;
+		return m_currentState == state;
 	}
 
-	const UI *getCurrentUI() const
+	const State *currentUiState() const
 	{
-		return m_currentUi;
+		return m_currentState;
 	}
 
-	UI *getCurrentUI()
+	State *currentUiState()
 	{
-		return m_currentUi;
+		return m_currentState;
 	}
 
 	bool isRespondable() const 
@@ -137,15 +137,17 @@ public:
 	}
 
 	// Should only be called by App
+	void setWindow(sf::RenderWindow &window);
 	void performTransition();
 	void handleWindowEvents();
-	void setWindow(sf::RenderWindow &window);
 
-private:
+private:	
 	bool m_respondable = true;
 	sf::RenderWindow *m_window = nullptr;
-	std::vector<std::unique_ptr<UI>> m_stateStack;
-	std::unique_ptr<UI> m_queuedState;
-	UI *m_currentUi = nullptr;
+	std::vector<std::unique_ptr<State>> m_stateStack;
+	std::unique_ptr<State> m_queuedState;
+	State *m_currentState = nullptr;
 	Transition m_transition = Transition::None;
 };
+
+}

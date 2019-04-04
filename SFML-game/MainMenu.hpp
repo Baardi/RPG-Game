@@ -1,10 +1,14 @@
 #pragma once
 #include "Menu.hpp"
 
-class MainMenu : public Menu
+namespace ui {
+
+class MainMenu : public ui::Menu
 {
 public:
 	MainMenu() = default;
 	~MainMenu() = default;
 	void init() override;
 };
+
+}

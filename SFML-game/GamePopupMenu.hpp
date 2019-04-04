@@ -1,6 +1,9 @@
 #pragma once
 #include "PopupMenu.hpp"
-class GamePopupMenu : public PopupMenu
+
+namespace ui {
+
+class GamePopupMenu : public ui::PopupMenu
 {
 public:
 	GamePopupMenu();
@@ -8,3 +11,4 @@ public:
 	void init() override;
 };
 
+}

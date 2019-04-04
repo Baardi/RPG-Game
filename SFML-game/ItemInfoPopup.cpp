@@ -1,18 +1,20 @@
 #include "stdafx.h"
 #include "ItemInfoPopup.hpp"
 #include "Equipment.hpp"
-#include "StateHandler.hpp"
-#include "ResourceHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
+#include "App/ResourceManager.hpp"
+
+using ui::ItemInfoPopup;
 
 void ItemInfoPopup::init()
 {
-	m_menuBackground.load("data/Menus/Subpopup.json", resourceHandler().textures());
+	m_menuBackground.load("data/Menus/Subpopup.json", resources().textures());
 
 	m_renderTexture.create(352, 352);
 	m_renderSprite.setPosition(x - 20, y - 20);
 	m_renderSprite.setTexture(m_renderTexture.getTexture());
 
-	addMenuItem("Back", [this] { stateHandler().popState(); });
+	addMenuItem("Back", [this] { stateMachine().popState(); });
 
 	auto equipment = dynamic_cast<Equipment *>(m_item);
 	if (equipment)

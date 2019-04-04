@@ -2,7 +2,7 @@
 #include "App.hpp"
 #include <iostream>
 #include "MainMenu.hpp"
-#include "ResourceHandler.hpp"
+#include "ResourceManager.hpp"
 
 App::App()
 {
@@ -17,13 +17,13 @@ void App::init()
 	m_window.create(sf::VideoMode(960, 960), "RPG");
 	m_window.setFramerateLimit(50); // <-- should be a setting
 
-	if (!resourceHandler().font().loadFromFile("data/Asul-regular.ttf"))
+	if (!resources().font().loadFromFile("data/Asul-regular.ttf"))
 	{
 		std::cout << "file can not be loaded, sorry!" << std::endl;
 	}
 
-	m_stateHandler.setWindow(m_window);
-	m_stateHandler.pushState<MainMenu>();
+	m_stateMachine.setWindow(m_window);
+	m_stateMachine.pushState<ui::MainMenu>();
 }
 
 void App::run()
@@ -38,20 +38,20 @@ bool App::frame()
 	sftools::Chronometer clock;
 	clock.reset(true);
 
-	if (m_stateHandler.inTransition())
+	if (m_stateMachine.inTransition())
 	{
-		m_stateHandler.performTransition();
+		m_stateMachine.performTransition();
 		std::cout << clock.getElapsedTime().asSeconds() << std::endl;
 	}
 
-	if (!m_stateHandler.isRunning())
+	if (!m_stateMachine.isRunning())
 		return false;
 
-	auto currentUi = m_stateHandler.getCurrentUI();
+	auto currentUi = m_stateMachine.currentUiState();
 	
-	m_stateHandler.handleWindowEvents();
-	if (m_stateHandler.isRespondable())
-		currentUi->frame(m_window);
+	m_stateMachine.handleWindowEvents();
+	if (m_stateMachine.isRespondable())
+		currentUi->frame();
 	
 	currentUi->drawAll();
 

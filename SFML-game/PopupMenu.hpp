@@ -2,7 +2,9 @@
 #include "Menu.hpp"
 #include "Map.hpp"
 
-class PopupMenu : public Menu
+namespace ui {
+
+class PopupMenu : public ui::Menu
 {
 public:
 	PopupMenu();
@@ -13,3 +15,4 @@ public:
 	Map m_menuBackground;
 };
 
+}

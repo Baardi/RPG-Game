@@ -1,14 +1,15 @@
 #include "stdafx.h"
-#include "StateHandler.hpp"
+#include "App/Ui/StateMachine.hpp"
 
-// Completes a queued transition
+using ui::StateMachine;
 
-void StateHandler::performTransition()
+void StateMachine::performTransition()
 {
+	// Completes a queued transition
 	std::cout << std::to_string(size()) + std::string(" -> ");
 
 	if (isRunning())
-		m_currentUi->pause();
+		m_currentState->pause();
 
 	if (m_transition == Transition::Pop)
 		m_stateStack.pop_back();
@@ -21,26 +22,22 @@ void StateHandler::performTransition()
 	if (m_queuedState)
 	{
 		m_queuedState->m_window = m_window;
-		m_queuedState->m_stateHandler = this;
+		m_queuedState->m_stateMachine = this;
 		m_queuedState->init();
 		m_stateStack.emplace_back(std::move(m_queuedState));
 	}
 
 	if (isRunning())
 	{
-		m_currentUi = m_stateStack.back().get();
-		m_currentUi->setDrawOrder();
-		m_currentUi->resume();
-	}
-	else
-	{
-		m_currentUi = nullptr;
+		m_currentState = m_stateStack.back().get();
+		m_currentState->buildDrawStack();
+		m_currentState->resume();
 	}
 
 	std::cout << std::to_string(size()) << std::endl;
 }
 
-void StateHandler::handleWindowEvents()
+void StateMachine::handleWindowEvents()
 {
 	sf::Event event;
 	while (m_window->pollEvent(event))
@@ -52,8 +49,8 @@ void StateHandler::handleWindowEvents()
 			break;
 
 		case sf::Event::LostFocus:
-			if (m_currentUi)
-				m_currentUi->pause();
+			if (m_currentState)
+				m_currentState->pause();
 
 			m_respondable = false;
 			break;
@@ -64,11 +61,11 @@ void StateHandler::handleWindowEvents()
 		}
 
 		if (m_respondable)
-			m_currentUi->pollEvent(event.type);
+			m_currentState->pollEvent(event.type);
 	}
 }
 
-void StateHandler::setWindow(sf::RenderWindow &window)
+void StateMachine::setWindow(sf::RenderWindow &window)
 {
 	m_window = &window;
 	for (auto &ui : m_stateStack)

@@ -50,6 +50,7 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 	loadProperties(root["properties"]);
 
 	// Read in each layer
+	m_layers.reserve(root["layers"].size());
 	for (Json::Value& layer: root["layers"])
 	{
 		if (layer["type"] == "tilelayer")
@@ -101,21 +102,21 @@ bool Map::save(const std::filesystem::path &filename)
 void Map::loadLayer(const Json::Value& layer)
 {
 	// Store info on layer
-	auto tmp = static_cast<TileLayer *>(m_layers.emplace_back(
-		std::make_unique<TileLayer>(tileSize)).get());
-
+	auto tmp = std::make_unique<TileLayer>(tileSize);
 	tmp->load(layer, m_tileSets);
-	m_tileMap.try_emplace(tmp->name, tmp);
+
+	m_tileMap.try_emplace(tmp->name, tmp.get());
+	m_layers.push_back(std::move(tmp));
 }
 
 void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory)
 {
 	// Store info on layer
-	auto objectLayer = static_cast<ObjectLayer *>(m_layers.emplace_back(
-		std::make_unique<ObjectLayer>(tileSize)).get());
-	
+	auto objectLayer = std::make_unique<ObjectLayer>(tileSize);
 	objectLayer->load(layer, m_tileSets, spriteFactory);
-	m_objectMap.try_emplace(objectLayer->name, objectLayer);
+	
+	m_objectMap.try_emplace(objectLayer->name, objectLayer.get());
+	m_layers.push_back(std::move(objectLayer));
 }
 
 void Map::loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures) // Loads all the images used by the json file as textures
