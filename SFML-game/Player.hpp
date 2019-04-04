@@ -4,7 +4,6 @@
 #include "ObjectSprite.hpp"
 
 class Map;
-
 namespace ui { class Game; }
 
 class Player : public GameObject, public Entity

@@ -145,7 +145,7 @@ void Game::draw(sf::RenderTarget &target)
 
 bool Game::loadMap(const std::filesystem::path &mapFile)
 {
-	auto mapToLoad = m_map.getPath() / getLoadFile(mapFile);
+	auto mapToLoad = getLoadFile(mapFile);
 
 	Map tmpMap;
 	if (!tmpMap.load(mapToLoad, resources().textures(), m_spriteFactory))
