@@ -159,6 +159,9 @@
     <ClInclude Include="App\ResourceManager.hpp">
       <Filter>App</Filter>
     </ClInclude>
+    <ClInclude Include="ImageLayer.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="App\SFML-game.cpp">
       <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLayer.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

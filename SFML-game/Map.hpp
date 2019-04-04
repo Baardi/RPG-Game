@@ -56,6 +56,9 @@ public:
 	int width, height;
 
 	TileSize tileSize;
+
+	std::optional<sf::Color> backgroundColor;
+	sf::RectangleShape maprect;
 private:
 
 	std::map<int, TileSet> m_tileSets;
@@ -66,6 +69,9 @@ private:
 
 	// Handles object layers
 	void loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory);
+
+	// Handles image layers
+	void loadImageLayer(const Json::Value& layer, std::map<std::string, sf::Texture> &textures);
 
 	// Shared clock for all animated tiles
 	 sftools::Chronometer m_clock;

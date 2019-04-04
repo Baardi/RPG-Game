@@ -186,6 +186,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="GameItem.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GamePopupMenu.hpp" />
+    <ClInclude Include="ImageLayer.hpp" />
     <ClInclude Include="IntersectionHandler.hpp" />
     <ClInclude Include="Inventory.hpp" />
     <ClInclude Include="InventoryUI.hpp" />
@@ -229,6 +230,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePopupMenu.cpp" />
+    <ClCompile Include="ImageLayer.cpp" />
     <ClCompile Include="IntersectionHandler.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />

@@ -5,7 +5,7 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
 	auto stringSize = colorCode.size();
 	if (stringSize != 7  && stringSize != 9)
-		throw std::runtime_error("Wrong string length. Can't parse color");
+		throw sf::Color::Black; // Default color is black
 	
 	std::string colorRgb(colorCode.end() - 6, colorCode.end());
 	unsigned int colorSumRgb = std::stoul(colorRgb.c_str(), nullptr, 16);

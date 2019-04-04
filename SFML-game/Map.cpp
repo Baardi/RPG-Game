@@ -4,6 +4,8 @@
 #include <fstream>
 #include "TileLayer.hpp"
 #include "ObjectLayer.hpp"
+#include "ImageLayer.hpp"
+#include "SfUtility.hpp"
 
 void Map::clear()
 {
@@ -46,7 +48,17 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 	width = root["width"].asInt();
 	height = root["height"].asInt();
 
+	maprect.setSize(sf::Vector2f(width*tileSize.x, height*tileSize.y));
+	if (!root["backgroundcolor"].empty())
+	{
+		backgroundColor = sf::utility::parseColor(root["backgroundcolor"].asString());
+		maprect.setFillColor(*backgroundColor);
+	}
+		
+	// Load tilets
 	loadTileSets(root, textures);
+
+	// Load properties
 	loadProperties(root["properties"]);
 
 	// Read in each layer
@@ -58,6 +70,9 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 		
 		else if (layer["type"] == "objectgroup")
 			loadObjects(layer, spriteFactory);
+
+		else if (layer["type"] == "imagelayer")
+			loadImageLayer(layer, textures);
 	}
 
 	return true;
@@ -80,11 +95,17 @@ bool Map::save(const std::filesystem::path &filename)
 	value["tilewidth"] = tileSize.x;
 	value["tileheight"] = tileSize.y;
 
+	if (backgroundColor.has_value())
+		value["backgroundcolor"] = sf::utility::parseColor(*backgroundColor);
+
+	// Save properties
 	saveProperties(value["properties"]);
 
+	// Save tilesets
 	for (auto[firstgid, tileset] : m_tileSets)
 		tileset.save(value["tilesets"]);
 
+	// Save layers
 	for (auto &layer : m_layers)
 		layer->save(value["layers"]);
 
@@ -119,18 +140,30 @@ void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &sprit
 	m_layers.push_back(std::move(objectLayer));
 }
 
+void Map::loadImageLayer(const Json::Value &layer, std::map<std::string, sf::Texture> &textures)
+{
+	// Store info on layer
+	auto imageLayer = std::make_unique<ImageLayer>(tileSize);
+	imageLayer->load(layer, m_currentPath, textures);
+
+	m_layers.push_back(std::move(imageLayer));
+}
+
 void Map::loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures) // Loads all the images used by the json file as textures
 {
 	for (auto &val : root["tilesets"])
 	{
 		TileSet tileset;
 		tileset.load(val, m_currentPath, textures);
-		m_tileSets.try_emplace(tileset.firstgid, tileset);
+		m_tileSets.try_emplace(tileset.firstgid, std::move(tileset));
 	}
 }
 
 void Map::draw(sf::RenderTarget &target)
 {
+	if (backgroundColor.has_value())
+		target.draw(maprect);
+
 	for (auto &layer : m_layers)
 		drawLayer(target, layer.get());
 }

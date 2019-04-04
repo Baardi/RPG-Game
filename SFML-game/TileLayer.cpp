@@ -4,6 +4,7 @@
 
 void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
 {
+	type = layer["type"].asString();
 	width = layer["width"].asInt();
 	height = layer["height"].asInt();
 	name = layer["name"].asString();
