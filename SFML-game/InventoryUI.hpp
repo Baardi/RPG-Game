@@ -2,9 +2,9 @@
 #include "PopupMenu.hpp"
 #include "Inventory.hpp"
 
-namespace ui {
+namespace appstate {
 
-class InventoryPopup : public ui::PopupMenu
+class InventoryPopup : public appstate::PopupMenu
 {
 public:
 	InventoryPopup(Inventory &inventory);

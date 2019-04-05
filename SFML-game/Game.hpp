@@ -5,11 +5,11 @@
 #include "IntersectionHandler.hpp"
 #include "Music.hpp"
 #include "ObjectFactory.hpp"
-#include "App/Ui/State.hpp"
+#include "App/State.hpp"
 
-namespace ui {
+namespace appstate {
 
-class Game : public ui::State
+class Game : public appstate::State
 {
 public:
 	Game();

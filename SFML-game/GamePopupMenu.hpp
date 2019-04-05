@@ -1,9 +1,9 @@
 #pragma once
 #include "PopupMenu.hpp"
 
-namespace ui {
+namespace appstate {
 
-class GamePopupMenu : public ui::PopupMenu
+class GamePopupMenu : public appstate::PopupMenu
 {
 public:
 	GamePopupMenu();

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "MainMenu.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "Game.hpp"
 
-using ui::MainMenu;
+using appstate::MainMenu;
 
 void MainMenu::init()
 {

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "App/Ui/State.hpp"
+#include "App/State.hpp"
 
-using ui::State;
+using appstate::State;
 
 void State::setParent(State *parent)
 { 

@@ -2,9 +2,9 @@
 #include "PopupMenu.hpp"
 #include "GameItem.hpp"
 
-namespace ui {
+namespace appstate {
 
-class ItemInfoPopup : public ui::PopupMenu
+class ItemInfoPopup : public appstate::PopupMenu
 {
 public:
 	ItemInfoPopup(GameItem *item, int x, int y) :

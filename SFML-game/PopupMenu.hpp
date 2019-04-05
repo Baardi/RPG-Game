@@ -2,9 +2,9 @@
 #include "Menu.hpp"
 #include "Map.hpp"
 
-namespace ui {
+namespace appstate {
 
-class PopupMenu : public ui::Menu
+class PopupMenu : public appstate::Menu
 {
 public:
 	PopupMenu();

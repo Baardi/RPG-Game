@@ -34,9 +34,6 @@
     <Filter Include="Handlers">
       <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App\Ui">
-      <UniqueIdentifier>{6d4f054a-bc2e-4578-a2aa-0f9c9ad52a9f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -79,9 +76,6 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="Map.hpp">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.hpp">
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="Game.hpp">
@@ -138,20 +132,11 @@
     <ClInclude Include="Entity.hpp">
       <Filter>Characters</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFactory.hpp">
-      <Filter>Map</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.hpp">
       <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="SavFile.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.hpp">
-      <Filter>App\Ui</Filter>
-    </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>App\Ui</Filter>
     </ClInclude>
     <ClInclude Include="App\App.hpp">
       <Filter>App</Filter>
@@ -161,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="ImageLayer.hpp">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.hpp">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -174,9 +171,6 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="ObjectLayer.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
@@ -269,12 +263,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>App\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>App\Ui</Filter>
-    </ClCompile>
     <ClCompile Include="App\App.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -286,6 +274,15 @@
     </ClCompile>
     <ClCompile Include="ImageLayer.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,10 +3,10 @@
 #include "MainMenu.hpp"
 #include "Inventory.hpp"
 #include "ItemInfoPopup.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-using ui::InventoryPopup;
+using appstate::InventoryPopup;
 
 InventoryPopup::InventoryPopup(Inventory &inventory) : inventory(&inventory)
 {

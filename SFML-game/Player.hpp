@@ -4,7 +4,7 @@
 #include "ObjectSprite.hpp"
 
 class Map;
-namespace ui { class Game; }
+namespace appstate { class Game; }
 
 class Player : public GameObject, public Entity
 {
@@ -35,7 +35,7 @@ enum class Action
 	void draw(sf::RenderTarget &target) override;
 
 	void takeItem(std::unique_ptr<GameItem> &&item);
-	void handleKeyInput(ui::Game &game, Map &map);
+	void handleKeyInput(appstate::Game &game, Map &map);
 
 
 private:

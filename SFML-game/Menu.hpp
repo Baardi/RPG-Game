@@ -1,12 +1,12 @@
 #pragma once
-#include "App/Ui/State.hpp"
+#include "App/State.hpp"
 #include <functional>
 #include "KeyHandler.hpp"
 #include "ButtonHandler.hpp"
 
-namespace ui {
+namespace appstate {
 
-class Menu : public ui::State
+class Menu : public appstate::State
 {
 public:
 	Menu();

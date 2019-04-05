@@ -7,12 +7,12 @@
 #include "Weapon.hpp"
 #include "Valuable.hpp"
 #include "Enemy.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 #include "SavFile.hpp"
 #include "Game.hpp"
 
-using ui::Game;
+using appstate::Game;
 
 Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", resources().font(), 50)
 {

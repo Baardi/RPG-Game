@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "GamePopupMenu.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 #include "Game.hpp"
 
-using ui::GamePopupMenu;
+using appstate::GamePopupMenu;
 
 GamePopupMenu::GamePopupMenu()
 {

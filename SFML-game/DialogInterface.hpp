@@ -1,9 +1,9 @@
 #pragma once
 #include "PopupMenu.hpp"
 
-namespace ui {
+namespace appstate {
 
-class DialogInterface : public ui::PopupMenu
+class DialogInterface : public appstate::PopupMenu
 {
 public:
 	DialogInterface();

@@ -23,7 +23,7 @@ void App::init()
 	}
 
 	m_stateMachine.setWindow(m_window);
-	m_stateMachine.pushState<ui::MainMenu>();
+	m_stateMachine.pushState<appstate::MainMenu>();
 }
 
 void App::run()

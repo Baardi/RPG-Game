@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "DialogInterface.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-using ui::DialogInterface;
+using appstate::DialogInterface;
 
 DialogInterface::DialogInterface()
 {

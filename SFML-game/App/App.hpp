@@ -1,5 +1,5 @@
 #pragma once
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 
 class App
 {
@@ -13,5 +13,5 @@ public:
 
 private:
 	sf::RenderWindow m_window;
-	ui::StateMachine m_stateMachine;
+	appstate::StateMachine m_stateMachine;
 };

@@ -1,8 +1,8 @@
 #pragma once
-#include "App/Ui/State.hpp"
+#include "App/State.hpp"
 #include <iostream>
 
-namespace ui {
+namespace appstate {
 
 // The different transition types
 enum class Transition

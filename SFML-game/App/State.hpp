@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ui {
+namespace appstate {
 
 class State
 {

@@ -7,7 +7,7 @@
 class ImageLayer : public Layer
 {
 public:
-	ImageLayer(TileSize tileSize) : Layer(tileSize) {}
+	ImageLayer(TileSize tileSize) : Layer(tileSize), x(0), y(0) {}
 	~ImageLayer() = default;
 
 	void load(const Json::Value &layer, const std::filesystem::path &directory, std::map<std::string, sf::Texture> &textures);

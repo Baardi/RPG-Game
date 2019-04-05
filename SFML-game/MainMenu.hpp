@@ -1,9 +1,9 @@
 #pragma once
 #include "Menu.hpp"
 
-namespace ui {
+namespace appstate {
 
-class MainMenu : public ui::Menu
+class MainMenu : public appstate::Menu
 {
 public:
 	MainMenu() = default;

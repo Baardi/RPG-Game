@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "ItemInfoPopup.hpp"
 #include "Equipment.hpp"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-using ui::ItemInfoPopup;
+using appstate::ItemInfoPopup;
 
 void ItemInfoPopup::init()
 {

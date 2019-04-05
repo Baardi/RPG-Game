@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "App/Ui/StateMachine.hpp"
+#include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 #include "Menu.hpp"
 
-using ui::Menu;
+using appstate::Menu;
 
 Menu::Menu()
 {

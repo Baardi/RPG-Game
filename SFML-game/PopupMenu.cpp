@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PopupMenu.hpp"
 
-using ui::PopupMenu;
+using appstate::PopupMenu;
 
 PopupMenu::PopupMenu()
 {
