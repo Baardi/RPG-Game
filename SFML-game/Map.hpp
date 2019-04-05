@@ -64,8 +64,11 @@ private:
 	std::map<int, TileSet> m_tileSets;
 	void loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures);
 
+	// Handles group of layers
+	void loadLayers(const Json::Value& layer, std::map<std::string, sf::Texture>& textures, const ObjectSpriteFactory& spriteFactory);
+
     // Handles regular layers
-	void loadLayer(const Json::Value& layer);
+	void loadTileLayer(const Json::Value& layer);
 
 	// Handles object layers
 	void loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory);

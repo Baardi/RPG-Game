@@ -60,20 +60,10 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 
 	// Load properties
 	loadProperties(root["properties"]);
-
+	
 	// Read in each layer
 	m_layers.reserve(root["layers"].size());
-	for (Json::Value& layer: root["layers"])
-	{
-		if (layer["type"] == "tilelayer")
-			loadLayer(layer);
-		
-		else if (layer["type"] == "objectgroup")
-			loadObjects(layer, spriteFactory);
-
-		else if (layer["type"] == "imagelayer")
-			loadImageLayer(layer, textures);
-	}
+	loadLayers(root["layers"], textures, spriteFactory);
 
 	return true;
 }
@@ -120,7 +110,35 @@ bool Map::save(const std::filesystem::path &filename)
 	return file.good();
 }
 
-void Map::loadLayer(const Json::Value& layer)
+void Map::loadTileSets(const Json::Value& root, std::map<std::string, sf::Texture>& textures) // Loads all the images used by the json file as textures
+{
+	for (auto& val : root["tilesets"])
+	{
+		TileSet tileset;
+		tileset.load(val, m_currentPath, textures);
+		m_tileSets.try_emplace(tileset.firstgid, std::move(tileset));
+	}
+}
+
+void Map::loadLayers(const Json::Value& layers, std::map<std::string, sf::Texture>& textures, const ObjectSpriteFactory& spriteFactory)
+{
+	for (const Json::Value& layer : layers)
+	{
+		if (layer["type"] == "tilelayer")
+			loadTileLayer(layer);
+
+		else if (layer["type"] == "objectgroup")
+			loadObjects(layer, spriteFactory);
+
+		else if (layer["type"] == "imagelayer")
+			loadImageLayer(layer, textures);
+
+		else if (layer["type"] == "group")
+			loadLayers(layer["layers"], textures, spriteFactory);
+	}
+}
+
+void Map::loadTileLayer(const Json::Value& layer)
 {
 	// Store info on layer
 	auto tmp = std::make_unique<TileLayer>(tileSize);
@@ -147,16 +165,6 @@ void Map::loadImageLayer(const Json::Value &layer, std::map<std::string, sf::Tex
 	imageLayer->load(layer, m_currentPath, textures);
 
 	m_layers.push_back(std::move(imageLayer));
-}
-
-void Map::loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures) // Loads all the images used by the json file as textures
-{
-	for (auto &val : root["tilesets"])
-	{
-		TileSet tileset;
-		tileset.load(val, m_currentPath, textures);
-		m_tileSets.try_emplace(tileset.firstgid, std::move(tileset));
-	}
 }
 
 void Map::draw(sf::RenderTarget &target)
