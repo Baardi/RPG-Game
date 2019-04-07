@@ -109,7 +109,7 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 
 			// Check if theres animation
 			auto it = animatedTiles.find(tile.id);
-			if (it == animatedTiles.end())
+			if (it == animatedTiles.end() || it->second.empty())
 			{
 				loadSpriteTexture(tile, spriteTexture, tile.id - tileTextureValue, x, y);
 			}

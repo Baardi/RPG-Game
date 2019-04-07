@@ -85,6 +85,7 @@ void TileSet::saveAnimatedTiles(Json::Value &tileset) const
 			tilesetAnimation["animation"].append(animationFrameVal);
 		}
 
-		tileset.append(tilesetAnimation);
+		if (!tilesetAnimation.empty())
+			tileset.append(tilesetAnimation);
 	}
 }
