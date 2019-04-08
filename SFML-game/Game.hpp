@@ -6,6 +6,7 @@
 #include "Music.hpp"
 #include "ObjectFactory.hpp"
 #include "App/State.hpp"
+#include "FringeDrawer.hpp"
 
 namespace appstate {
 
@@ -35,6 +36,7 @@ private:
 
 	// "Personal" class variables
 	Player m_player;
+	FringeDrawer m_fringeDrawer;
 
 	Music m_music;
 	Map m_map;

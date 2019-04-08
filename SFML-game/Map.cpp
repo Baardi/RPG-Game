@@ -6,6 +6,7 @@
 #include "ObjectLayer.hpp"
 #include "ImageLayer.hpp"
 #include "SfUtility.hpp"
+#include "FringeDrawer.hpp"
 
 void Map::clear()
 {
@@ -173,39 +174,34 @@ void Map::draw(sf::RenderTarget &target)
 		target.draw(maprect);
 
 	for (auto &layer : m_layers)
-		drawLayer(target, layer.get());
+		drawLayer(target, layer.get(), nullptr);
 }
 
-void Map::drawLayer(sf::RenderTarget &target, Layer *layer)
+void Map::drawWithFringe(sf::RenderTarget &target, const std::string & splitLayer, FringeDrawer &fringeDrawer)
+{
+	if (backgroundColor.has_value())
+		target.draw(maprect);
+
+	for (auto &layer : m_layers)
+	{
+		if (layer->name == splitLayer)
+			drawLayer(target, layer.get(), &fringeDrawer);
+		else
+			drawLayer(target, layer.get(), nullptr);
+	}
+}
+
+void Map::drawLayer(sf::RenderTarget &target, Layer *layer, FringeDrawer *fringeDrawer)
 {
 	if (m_clock.isRunning())
 		layer->process(m_clock);
 	
 	if (layer->visible)
-		layer->draw(target);
-}
-
-void Map::drawFrontOf(sf::RenderTarget &target, const std::string &ofLayer)
-{
-	bool isDrawing = false;
-
-	for (auto &layer : m_layers)
 	{
-		if (isDrawing)
-			drawLayer(target, layer.get());
-		else if (layer->name == ofLayer)
-			isDrawing = true;
-	}
-}
-
-void Map::drawBackOf(sf::RenderTarget &target, const std::string &ofLayer)
-{
-	for (auto &layer : m_layers)
-	{
-		if (layer->name == ofLayer)
-			break;
-
-		drawLayer(target, layer.get());
+		if (fringeDrawer)
+			layer->drawWithFringe(target, *fringeDrawer);
+		else
+			layer->draw(target);
 	}
 }
 

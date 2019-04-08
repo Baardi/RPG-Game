@@ -183,6 +183,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="DialogInterface.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="Equipment.hpp" />
+    <ClInclude Include="FringeDrawer.hpp" />
     <ClInclude Include="GameItem.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GamePopupMenu.hpp" />

@@ -20,6 +20,7 @@ public:
 	void save(Json::Value &layers) const override;
 
 	void draw(sf::RenderTarget &target) override;
+	void drawWithFringe(sf::RenderTarget& target, FringeDrawer &fringeDrawer) override;
 	void process(const sftools::Chronometer &clock) override;
 
 	// Safe to use from map, safe in case of breaking the bounds of the layer array

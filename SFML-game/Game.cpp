@@ -14,7 +14,7 @@
 
 using appstate::Game;
 
-Game::Game(): m_player(m_clock, 400, 400), m_pauseText("Paused", resources().font(), 50)
+Game::Game(): m_player(m_clock, 160, 160), m_pauseText("Paused", resources().font(), 50)
 {
 	m_pauseText.setPosition(400, 450);
 }
@@ -30,6 +30,8 @@ void Game::init()
 	m_itemFactory.registerType<Weapon>("Weapon");
 	m_itemFactory.registerType<Valuable>("Valuable");
 	m_spriteFactory.registerType<Enemy>("Enemy");
+
+	m_fringeDrawer.addObject(m_player);
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(getSaveFile(m_map.getFile())); });
 
@@ -92,7 +94,7 @@ void Game::init()
 		updateDrawRect();
 	});
 
-	loadMap("data/Maps/LargeCastle.json");
+	loadMap("data/Maps/fringetest.json");
 }
 
 bool Game::frame()
@@ -130,14 +132,12 @@ void Game::resume()
 
 void Game::draw(sf::RenderTarget &target)
 {
+	// Draw to renderTexture
 	m_renderTexture.clear(sf::Color::Black);
-
-	m_map.drawBackOf(m_renderTexture, "Character");
-	m_player.draw(m_renderTexture);
-	m_map.drawFrontOf(m_renderTexture, "Character");
-
+	m_map.drawWithFringe(m_renderTexture, "Fringe", m_fringeDrawer);
 	m_renderTexture.display();
 	
+	// Draw to target
 	target.draw(m_renderSprite);
 	if (m_paused && stateMachine().isCurrent(this))
 		target.draw(m_pauseText);

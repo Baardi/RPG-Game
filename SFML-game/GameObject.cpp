@@ -40,6 +40,14 @@ bool GameObject::contains(double x, double y) const
 	return sf::Collision::BoundingBoxTest(transf1, bounds1, transf2, bounds2);
 }
 
+sf::Vector2f GameObject::getBottomRightPosition() const
+{
+	auto pos = getPosition();
+	auto bounds = getGlobalBounds();
+
+	return sf::Vector2f(pos.x + bounds.width, pos.y + bounds.height);
+}
+
 #ifdef _DEBUG 
 void GameObject::drawDebugOutline(sf::RenderTarget &target) const
 {

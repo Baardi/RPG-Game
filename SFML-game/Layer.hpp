@@ -2,6 +2,7 @@
 #include "MapProperties.hpp"
 
 class TileSet;
+class FringeDrawer;
 
 // <animationtileid, animationdata< frame<tileid, duration>> >
 using AnimationTileMap = std::map<int, std::vector< std::pair<int, sf::Time>>>;
@@ -41,6 +42,7 @@ public:
 	virtual void save(Json::Value &layer) const {}
 	virtual void process(const sftools::Chronometer &clock) {}
 	virtual void draw(sf::RenderTarget& target) {}
+	virtual void drawWithFringe(sf::RenderTarget& target, FringeDrawer &fringeDrawer) { draw(target); }
 	virtual void loadTexture(const std::map<int, TileSet> &tileSets) {}
 
 	std::string name;

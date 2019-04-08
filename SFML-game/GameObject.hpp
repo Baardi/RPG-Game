@@ -13,9 +13,10 @@ public:
 	bool intersects(const GameObject &object) const;
 	bool contains(double x, double y) const;
 
-	virtual sf::Vector2<double> getPosition() const { return sf::Vector2<double>(); }
-	virtual void setPosition(double x, double y) {}
-	virtual void setPosition(sf::Vector2<double> pos) {}
+	sf::Vector2f getBottomRightPosition() const;
+	virtual sf::Vector2f getPosition() const { return sf::Vector2f(); }
+	virtual void setPosition(float x, float y) {}
+	virtual void setPosition(sf::Vector2f pos) {}
 
 	virtual void draw(sf::RenderTarget &target) {}
 

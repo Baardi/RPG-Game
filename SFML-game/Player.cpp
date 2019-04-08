@@ -56,23 +56,23 @@ sf::Transform Player::getTransform() const
 	return m_sprite.getTransform();
 }
 
-void Player::setPosition(double x, double y)
+void Player::setPosition(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 	m_sprite.setPosition(x, y);
 }
 
-void Player::setPosition(sf::Vector2<double> pos)
+void Player::setPosition(sf::Vector2f pos)
 {
 	this->x = pos.x;
 	this->y = pos.y;
-	m_sprite.setPosition(static_cast<sf::Vector2f>(pos));
+	m_sprite.setPosition(pos);
 }
 
-sf::Vector2<double> Player::getPosition() const
+sf::Vector2f Player::getPosition() const
 {
-	return sf::Vector2(x, y);
+	return sf::Vector2(float(x), float(y));
 }
 
 void Player::takeItem(std::unique_ptr<GameItem> &&item)
@@ -103,10 +103,8 @@ void Player::handleKeyInput(appstate::Game &game, Map &map)
 	{
 		auto [newX, newY] = move(m_dir, x, y);
 
-		auto unWalkables = map.getTileLayer("Unwalkables");
-		auto walkables = map.getTileLayer("Walkables");
-
-		if (!(unWalkables && unWalkables->containsTexture(newX, newY)) || (walkables && walkables->containsTexture(newX, newY)))
+		auto collisionLayer = map.getTileLayer("Collision");
+		if (!(collisionLayer && collisionLayer->containsTexture(newX, newY)))
 		{
 			setPosition(newX, newY);
 			game.updateDrawRect();

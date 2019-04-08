@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TileLayer.hpp"
 #include "TileSet.hpp"
+#include "FringeDrawer.hpp"
 
 void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
 {
@@ -88,6 +89,25 @@ void TileLayer::draw(sf::RenderTarget &target)
 	}
 }
 
+void TileLayer::drawWithFringe(sf::RenderTarget &target, FringeDrawer &fringeDrawer)
+{	
+	// Render each tile
+	for (int y = 0; y < height; y++)
+	{
+		fringeDrawer.drawBetween(target, y*tileSize.y, (y+1)*tileSize.y);
+		for (int x = 0; x < width; x++)
+		{
+			auto &tile = m_tilemap[x + y * width];
+			
+			// Skip empty tiles
+			if (tile.id == 0)
+				continue;
+
+			target.draw(tile.sprite);
+		}
+	}
+}
+
 void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 {
 	for (int y = 0; y < height; y++)
@@ -127,20 +147,21 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, int x, int y)
 {
 	auto [tilex, tiley] = getTileCoords(texture, tileid, tile.tileset->tileSize);
+	auto tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileSize.x, tileSize.y));
-	sprite.setPosition(x*tileSize.x, y*tileSize.y);
+	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileset->tileSize.x, tileset->tileSize.y));
+	sprite.setPosition(x*tileSize.x + tileSize.x-tileset->tileSize.x, y*tileSize.y + tileSize.y - tileset->tileSize.y);
 }
 
 void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile)
 {
 	for (const auto [tileid, duration]: animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tileid, tileSize);
-		auto rect = sf::IntRect(tilex, tiley, tileSize.x, tileSize.y);
+		auto [tilex, tiley] = getTileCoords(texture, tileid, tile.tileset->tileSize);
+		auto rect = sf::IntRect(tilex, tiley, tile.tileset->tileSize.x, tile.tileset->tileSize.y);
 		tile.animation.data.emplace_back(duration, rect);
 	}
 }

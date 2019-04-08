@@ -159,6 +159,9 @@
     <ClInclude Include="StateMachine.hpp">
       <Filter>App</Filter>
     </ClInclude>
+    <ClInclude Include="FringeDrawer.hpp">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

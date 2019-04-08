@@ -28,9 +28,9 @@ enum class Action
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
 
-	sf::Vector2<double> getPosition() const override;
-	void setPosition(double x, double y) override;
-	void setPosition(sf::Vector2<double> pos) override;
+	sf::Vector2f getPosition() const override;
+	void setPosition(float x, float y) override;
+	void setPosition(sf::Vector2f pos) override;
 
 	void draw(sf::RenderTarget &target) override;
 
