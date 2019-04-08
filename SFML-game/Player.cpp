@@ -104,7 +104,7 @@ void Player::handleKeyInput(appstate::Game &game, Map &map)
 		auto [newX, newY] = move(m_dir, x, y);
 
 		auto collisionLayer = map.getTileLayer("Collision");
-		if (!(collisionLayer && collisionLayer->containsTexture(newX, newY)))
+		if ((!collisionLayer || !collisionLayer->containsTexture(newX, newY)))
 		{
 			setPosition(newX, newY);
 			game.updateDrawRect();
