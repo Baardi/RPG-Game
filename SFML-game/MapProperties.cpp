@@ -12,75 +12,84 @@ void MapProperties::loadProperties(const Json::Value &properties)
 		auto propertyValue = property["value"];
 
 		if (propertyType == "string")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("string", std::make_any<std::string>(propertyValue.asString())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<std::string>(propertyValue.asString()));
 
 		else if (propertyType == "file")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("file", std::make_any<std::filesystem::path>(propertyValue.asString())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<std::filesystem::path>(propertyValue.asString()));
 
 		else if (propertyType == "color")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("color", std::make_any<sf::Color>(sf::utility::parseColor(propertyValue.asString()))));
+			m_propertyMap.try_emplace(propertyName, std::make_any<sf::Color>(sf::utility::parseColor(propertyValue.asString())));
 
 		else if (propertyType == "int")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("int", std::make_any<int>(propertyValue.asInt())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<int>(propertyValue.asInt()));
 
 		else if (propertyType == "float")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("float", std::make_any<float>(propertyValue.asFloat())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<float>(propertyValue.asFloat()));
 
 		else if (propertyType == "bool")
-			m_propertyMap.try_emplace(propertyName, std::make_pair("bool", std::make_any<bool>(propertyValue.asBool())));
+			m_propertyMap.try_emplace(propertyName, std::make_any<bool>(propertyValue.asBool()));
 	}
 }
 
 void MapProperties::saveProperties(Json::Value &properties) const
 {
-	for (const auto[propertyName, pair] : m_propertyMap)
+	for (const auto &[propertyName, anyObj] : m_propertyMap)
 	{
-		auto[type, anyObj] = pair;
-
 		Json::Value value;
 		value["name"] = propertyName;
-		value["type"] = type;
 		
-		if (type == "string")
+		if (anyObj.type() == typeid(std::string))
 		{
-			auto castedValue = std::any_cast<std::string>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<std::string>(&anyObj))
+			{
 				value["value"] = *castedValue;
+				value["type"] = "string";
+			}
 		}
 
-		else if (type == "file")
+		else if (anyObj.type() == typeid(std::filesystem::path))
 		{
-			auto castedValue = std::any_cast<std::filesystem::path>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<std::filesystem::path>(&anyObj))
+			{
 				value["value"] = (*castedValue).string();
+				value["type"] = "file";
+			}
 		}
 		
-		else if (type == "color")
+		else if (anyObj.type() == typeid(sf::Color))
 		{
-			auto castedValue = std::any_cast<sf::Color>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<sf::Color>(&anyObj))
+			{
 				value["value"] = sf::utility::parseColor(*castedValue);
+				value["type"] = "color";
+			}
 		}
 
-		else if (type == "int")
+		else if (anyObj.type() == typeid(int))
 		{
-			auto castedValue = std::any_cast<int>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<int>(&anyObj))
+			{
 				value["value"] = *castedValue;
+				value["type"] = "int";
+			}
 		}
 
-		else if (type == "float")
+		else if (anyObj.type() == typeid(float))
 		{
-			auto castedValue = std::any_cast<float>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<float>(&anyObj))
+			{
 				value["value"] = *castedValue;
+				value["type"] = "float";
+			}
 		}
 
-		else if (type == "bool")
+		else if (anyObj.type() == typeid(bool))
 		{
-			auto castedValue = std::any_cast<bool>(&anyObj);
-			if (castedValue)
+			if (auto castedValue = std::any_cast<bool>(&anyObj))
+			{
 				value["value"] = *castedValue;
+				value["type"] = "bool";
+			}
 		}
 
 		properties.append(value);

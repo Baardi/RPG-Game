@@ -14,8 +14,7 @@ public:
 		if (it == m_propertyMap.end())
 			return false;
 
-		auto [type, anyObj] = it->second;
-		const T *castedValue = std::any_cast<T>(&anyObj);
+		const T *castedValue = std::any_cast<T>(&it->second);
 		if (!castedValue)
 			return false;
 		
@@ -27,5 +26,5 @@ protected:
 	void loadProperties(const Json::Value &properties);
 	void saveProperties(Json::Value &properties) const;
 
-	std::map<std::string, std::pair<std::string, std::any>> m_propertyMap;
+	std::map<std::string, std::any> m_propertyMap;
 };
