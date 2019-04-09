@@ -153,14 +153,14 @@
     <ClInclude Include="GameObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.hpp">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="FringeDrawer.hpp">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="App\State.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App\StateMachine.hpp">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,10 +281,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
+    <ClCompile Include="App\State.cpp">
       <Filter>App</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
+    <ClCompile Include="App\StateMachine.cpp">
       <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>

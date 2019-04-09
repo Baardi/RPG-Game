@@ -177,6 +177,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
   <ItemGroup>
     <ClInclude Include="App\App.hpp" />
     <ClInclude Include="App\ResourceManager.hpp" />
+    <ClInclude Include="App\State.hpp" />
+    <ClInclude Include="App\StateMachine.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ButtonHandler.hpp" />
     <ClInclude Include="Entity.hpp" />
@@ -200,7 +202,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PopupMenu.hpp" />
     <ClInclude Include="SavFile.hpp" />
-    <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="Stats.hpp" />
     <ClInclude Include="StatsInterface.hpp" />
     <ClInclude Include="ItemInfoPopup.hpp" />
@@ -213,7 +214,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TileSet.hpp" />
-    <ClInclude Include="State.hpp" />
     <ClInclude Include="SfUtility.hpp" />
     <ClInclude Include="Valuable.hpp" />
     <ClInclude Include="Weapon.hpp" />
@@ -222,6 +222,8 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\ResourceManager.cpp" />
     <ClCompile Include="App\SFML-game.cpp" />
+    <ClCompile Include="App\State.cpp" />
+    <ClCompile Include="App\StateMachine.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -249,7 +251,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopupMenu.cpp" />
-    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="StatsInterface.cpp" />
     <ClCompile Include="ItemInfoPopup.cpp" />
@@ -266,7 +267,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TileSet.cpp" />
-    <ClCompile Include="State.cpp" />
     <ClCompile Include="SfUtility.cpp" />
     <ClCompile Include="Valuable.cpp" />
     <ClCompile Include="Weapon.cpp" />

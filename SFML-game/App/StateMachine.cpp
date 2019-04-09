@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UiStateMachine.hpp"
+#include "App/StateMachine.hpp"
 
-using ui::StateMachine;
+using appstate::StateMachine;
 
 void StateMachine::performTransition()
 {
