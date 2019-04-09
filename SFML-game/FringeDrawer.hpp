@@ -5,7 +5,6 @@
 /* 
 *	Helper class to enable intermediate drawing within a layer
 */
-
 class FringeDrawer
 {
 public:

@@ -106,6 +106,8 @@ void TileLayer::drawWithFringe(sf::RenderTarget &target, FringeDrawer &fringeDra
 			target.draw(tile.sprite);
 		}
 	}
+
+	fringeDrawer.drawBetween(target, height*tileSize.y, (height+1)*tileSize.y);
 }
 
 void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
@@ -177,6 +179,9 @@ bool TileLayer::containsTextureTileCoords(int x, int y) const
 
 bool TileLayer::containsTexture(double x, double y) const
 {
+	if ((x+1) > (width-1) * tileSize.x || (y+1) > (height-1) * tileSize.y || x < 0 || y < 0)
+		return true; // Out of bounds
+
 	// Checks the tile the centre of the player is in
-	return containsTextureTileCoords(0.5 + x / (tileSize.x + tileSize.s), 0.5 + y / (tileSize.y + tileSize.s));
+	return containsTextureTileCoords(std::floorf(0.5 + x / (tileSize.x + tileSize.s)), std::floorf(0.5 + y / (tileSize.y + tileSize.s)));
 }

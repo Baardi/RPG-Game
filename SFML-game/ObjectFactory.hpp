@@ -2,7 +2,7 @@
 #include <map>
 #include <functional>
 
- template <class Base, class ...Args>
+template <class Base, class ...Args>
 class ObjectFactory : public std::enable_if_t< std::has_virtual_destructor_v<Base> >
 {
 public:

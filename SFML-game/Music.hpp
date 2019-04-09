@@ -1,11 +1,11 @@
 #pragma once
 #include <filesystem>
 
+/*
+*	Wrapper for sf::Music class
+*/
 class Music
 {
-/**
-* Wrapper for sf::Music class
-*/
 public:
 	Music();
 	~Music() = default;

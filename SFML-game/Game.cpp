@@ -33,7 +33,11 @@ void Game::init()
 
 	m_fringeDrawer.addObject(m_player);
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] { m_map.save(getSaveFile(m_map.getFile())); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] 
+	{ 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+			m_map.save(getSaveFile(m_map.getFile())); 
+	});
 
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateMachine().pushState<MainMenu>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      [this] { stateMachine().reset<MainMenu>(); });
@@ -94,7 +98,7 @@ void Game::init()
 		updateDrawRect();
 	});
 
-	loadMap("data/Maps/fringetest.json");
+	loadMap("data/Maps/LargeCastle.json");
 }
 
 bool Game::frame()
