@@ -98,7 +98,7 @@ void Game::init()
 		updateDrawRect();
 	});
 
-	loadMap("data/Maps/LargeCastle.json");
+	loadMap("data/Maps/CustomTilesetTest.json");
 }
 
 bool Game::frame()
