@@ -1,9 +1,29 @@
 #include "stdafx.h"
 #include "KeyHandler.hpp"
 
+void KeyInfo::invoke() 
+{ 
+	m_func(); 
+}
+
+bool KeyInfo::isPressed() const
+{
+	for (auto &key : m_keys)
+	{
+		if (!sf::Keyboard::isKeyPressed(key))
+			return false;
+	}
+	return true;
+}
+
+std::vector<sf::Keyboard::Key> KeyInfo::keys() const
+{
+	return m_keys; 
+}
+
 bool KeyInfo::invokeIfReady()
 {
-	if (!sf::Keyboard::isKeyPressed(m_key))
+	if (!isPressed())
 	{
 		m_wasPressed = false;
 		return false;

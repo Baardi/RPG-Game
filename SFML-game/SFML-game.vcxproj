@@ -193,6 +193,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="IntersectionHandler.hpp" />
     <ClInclude Include="Inventory.hpp" />
     <ClInclude Include="InventoryUI.hpp" />
+    <ClInclude Include="KeyHandler.inl" />
     <ClInclude Include="KeyHandler.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="MapProperties.hpp" />

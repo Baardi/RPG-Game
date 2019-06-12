@@ -32,13 +32,12 @@ void Game::init()
 	m_spriteFactory.registerType<Enemy>("Enemy");
 
 	m_fringeDrawer.addObject(m_player);
-
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::S, [this] 
-	{ 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-			m_map.save(getSaveFile(m_map.getFile())); 
-	});
-
+	
+	m_keyHandler.onKeyComboPressed(sf::Keyboard::S, sf::Keyboard::LControl, [this]
+		{
+			m_map.save(getSaveFile(m_map.getFile()));
+		});
+	
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateMachine().pushState<MainMenu>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Q,      [this] { stateMachine().reset<MainMenu>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Z,      [this] { stateMachine().pushChild<GamePopupMenu>(); });
