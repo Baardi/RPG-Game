@@ -35,10 +35,10 @@ public:
 	KeyInfo &whileKeyPressed(sf::Keyboard::Key key, const std::function<void()> &func);
 	
 	template <class... KeysAndFunc>
-	KeyInfo &onKeyComboPressed(KeysAndFunc &&... keysAndFunc);
+	KeyInfo &onKeyComboPressed(KeysAndFunc &&...keysAndFunc);
 
 	template <class... KeysAndFunc>
-	KeyInfo &whileKeyComboPressed(KeysAndFunc &&... keysAndFunc);
+	KeyInfo &whileKeyComboPressed(KeysAndFunc &&...keysAndFunc);
 
 	void handleKeyInput();
 
