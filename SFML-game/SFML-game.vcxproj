@@ -23,7 +23,7 @@
     <ProjectGuid>{DD282108-5C16-446E-B8D0-6C9C9182A9B3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SFMLgame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <ProjectName>RPG Game</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -43,13 +43,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -193,7 +193,6 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="IntersectionHandler.hpp" />
     <ClInclude Include="Inventory.hpp" />
     <ClInclude Include="InventoryUI.hpp" />
-    <ClInclude Include="KeyHandler.inl" />
     <ClInclude Include="KeyHandler.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="MapProperties.hpp" />

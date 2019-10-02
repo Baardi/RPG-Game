@@ -162,9 +162,6 @@
     <ClInclude Include="App\StateMachine.hpp">
       <Filter>App</Filter>
     </ClInclude>
-    <ClInclude Include="KeyHandler.inl">
-      <Filter>Handlers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -272,9 +269,6 @@
     <ClCompile Include="App\App.cpp">
       <Filter>App</Filter>
     </ClCompile>
-    <ClCompile Include="App\ResourceManager.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="App\SFML-game.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -288,6 +282,9 @@
       <Filter>App</Filter>
     </ClCompile>
     <ClCompile Include="App\StateMachine.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="App\ResourceManager.cpp">
       <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
