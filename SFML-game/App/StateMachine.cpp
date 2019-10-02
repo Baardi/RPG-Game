@@ -71,3 +71,26 @@ void StateMachine::setWindow(sf::RenderWindow &window)
 	for (auto &ui : m_stateStack)
 		ui->m_window = &window;
 }
+
+bool StateMachine::runFrame()
+{	
+	// Todo cooldown for keypress when switching state
+
+	if (inTransition())
+	{
+		sftools::Chronometer clock;
+		clock.reset(true);
+		performTransition();
+		std::cout << clock.getElapsedTime_s() << std::endl;
+	}
+
+	if (!isRunning())
+		return false;
+
+	handleWindowEvents();
+	if (isRespondable())
+		m_currentState->frame();
+
+	m_currentState->drawAll();
+	return true;
+}

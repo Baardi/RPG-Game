@@ -20,7 +20,7 @@ public:
 	/*
 	*	Draws all stored objects with a bottom right coordinate between given y-minimum and y-maximum
 	*/
-	void drawBetween(sf::RenderTarget &target, float yMin, float yMax)
+	void drawBetween(sf::RenderTarget &target, float yMin, float yMax) const
 	{
 		for (auto &object : m_objects)
 		{
@@ -28,6 +28,19 @@ public:
 			if (objPos.y <= yMax && objPos.y > yMin)
 				object->draw(target);
 		}
+	}
+
+	/*
+	*	Sorts objects before drawing a frame
+	*/
+	void sortObjects()
+	{
+		std::sort(m_objects.begin(), m_objects.end(), [] (const GameObject *left, const GameObject *right)
+		{
+			auto leftPos = left->getBottomRightPosition();
+			auto rightPos = left->getBottomRightPosition();
+			return leftPos.y < rightPos.y;
+		});
 	}
 
 private:

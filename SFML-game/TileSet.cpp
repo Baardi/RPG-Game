@@ -14,19 +14,11 @@ void TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 	tileSize.m = tilesetVal["margin"].asInt();
 
 	auto imagePath = directory / image;
-	auto it = textures.find(imagePath.string());
-	if (it == textures.end())
-	{
-		auto[it, inserted] = textures.try_emplace(imagePath.string(), sf::Texture());
-		if (inserted)
-		{
-			it->second.loadFromFile(imagePath.string());
-			texture = &it->second;
-		}
-	}
-	else
-		texture = &it->second;
-
+	auto [it, inserted] = textures.try_emplace(imagePath.string());
+	texture = &it->second;
+	if (inserted)
+		it->second.loadFromFile(imagePath.string());
+	
 	loadAnimatedTiles(firstgid, tilesetVal["tiles"]);
 }
 

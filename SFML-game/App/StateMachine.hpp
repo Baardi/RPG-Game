@@ -138,10 +138,12 @@ public:
 
 	// Should only be called by App
 	void setWindow(sf::RenderWindow &window);
+	bool runFrame();
+
+private:
 	void performTransition();
 	void handleWindowEvents();
 
-private:	
 	bool m_respondable = true;
 	sf::RenderWindow *m_window = nullptr;
 	std::vector<std::unique_ptr<State>> m_stateStack;

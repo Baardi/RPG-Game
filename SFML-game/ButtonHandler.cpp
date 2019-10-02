@@ -117,7 +117,7 @@ void ButtonHandler::handleKeyEvents(sf::Window &window)
 	if (m_buttons.empty())
 		return;
 	
-	if (m_it._Ptr == nullptr)
+	if (m_it == m_buttons.end())
 	{
 		m_it = m_buttons.begin();
 		m_it->select();
@@ -161,11 +161,11 @@ void ButtonHandler::handleKeyEvents(sf::Window &window)
 
 void ButtonHandler::handleMouseEvents(sf::Window &window)
 {
-	m_it._Ptr = nullptr;
+	m_it = m_buttons.end();
 	auto pos = sf::Mouse::getPosition(window);
 	for (auto it = m_buttons.begin(); it != m_buttons.end(); ++it)
 	{
-		if (it->contains(pos.x, pos.y) && !m_it._Ptr)
+		if (it->contains(pos.x, pos.y) && m_it == m_buttons.end())
 		{
 			m_it = it;
 			it->select();
@@ -176,6 +176,6 @@ void ButtonHandler::handleMouseEvents(sf::Window &window)
 		}
 	}
 
-	if (m_it._Ptr && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (m_it != m_buttons.end() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		m_it->invoke();
 }

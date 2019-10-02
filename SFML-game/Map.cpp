@@ -105,6 +105,7 @@ bool Map::save(const std::filesystem::path &filename)
 
 	// Write the file
 	Json::FastWriter fastWriter;
+	fastWriter.omitEndingLineFeed();
 	file << fastWriter.write(value);
 	file.close();
 

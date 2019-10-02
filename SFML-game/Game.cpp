@@ -33,7 +33,7 @@ void Game::init()
 
 	m_fringeDrawer.addObject(m_player);
 	
-	m_keyHandler.onKeyComboPressed(sf::Keyboard::S, sf::Keyboard::LControl, [this]
+	m_keyHandler.onKeyComboPressed({ sf::Keyboard::S, sf::Keyboard::LControl }, [this]
 		{
 			m_map.save(getSaveFile(m_map.getFile()));
 		});
@@ -97,7 +97,7 @@ void Game::init()
 		updateDrawRect();
 	});
 
-	loadMap("data/Maps/CustomTilesetTest.json");
+	loadMap("data/Maps/LargeCastle.json");
 }
 
 bool Game::frame()
@@ -137,6 +137,7 @@ void Game::draw(sf::RenderTarget &target)
 {
 	// Draw to renderTexture
 	m_renderTexture.clear(sf::Color::Black);
+	m_fringeDrawer.sortObjects();
 	m_map.drawWithFringe(m_renderTexture, "Fringe", m_fringeDrawer);
 	m_renderTexture.display();
 	
@@ -185,7 +186,8 @@ void Game::updateDrawRect()
 {
 	auto playerpos = m_player.getPosition();
 	auto playerbounds = m_player.getLocalBounds();
-	auto newX = 480 /*window bounds*/- playerbounds.width / 2 - playerpos.x;
-	auto newY = 480 /*window bounds*/ - playerbounds.height / 2 - playerpos.y;
+	auto windowsize = window().getSize();
+	auto newX = windowsize.x / 2 - playerbounds.width  / 2 - playerpos.x;
+	auto newY = windowsize.y / 2 - playerbounds.height / 2 - playerpos.y;
 	m_renderSprite.setPosition(newX, newY);
 }

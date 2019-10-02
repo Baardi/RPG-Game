@@ -33,17 +33,11 @@ public:
 	KeyInfo &addKey(KeyInfo keyInfo);
 	KeyInfo &onKeyPressed(sf::Keyboard::Key key, const std::function<void()> &func);
 	KeyInfo &whileKeyPressed(sf::Keyboard::Key key, const std::function<void()> &func);
-	
-	template <class... KeysAndFunc>
-	KeyInfo &onKeyComboPressed(KeysAndFunc &&...keysAndFunc);
-
-	template <class... KeysAndFunc>
-	KeyInfo &whileKeyComboPressed(KeysAndFunc &&...keysAndFunc);
+	KeyInfo &onKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func);
+	KeyInfo &whileKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func);
 
 	void handleKeyInput();
 
 private:
 	std::list<KeyInfo> m_keys;
 };
-
-#include "KeyHandler.inl"
