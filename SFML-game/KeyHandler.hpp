@@ -33,8 +33,8 @@ public:
 	KeyInfo &addKey(KeyInfo keyInfo);
 	KeyInfo &onKeyPressed(sf::Keyboard::Key key, const std::function<void()> &func);
 	KeyInfo &whileKeyPressed(sf::Keyboard::Key key, const std::function<void()> &func);
-	KeyInfo &onKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func);
-	KeyInfo &whileKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func);
+	KeyInfo &onKeyComboPressed(std::vector<sf::Keyboard::Key> keys, const std::function<void()>& func);
+	KeyInfo &whileKeyComboPressed(std::vector<sf::Keyboard::Key> keys, const std::function<void()>& func);
 
 	void handleKeyInput();
 

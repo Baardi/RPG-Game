@@ -53,14 +53,14 @@ KeyInfo &KeyHandler::whileKeyPressed(sf::Keyboard::Key key, const std::function<
 	return m_keys.emplace_back(key, false, func);
 }
 
-KeyInfo &KeyHandler::onKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func)
+KeyInfo &KeyHandler::onKeyComboPressed(std::vector<sf::Keyboard::Key> keys, const std::function<void()>& func)
 {
-	return m_keys.emplace_back(keys, true, func);
+	return m_keys.emplace_back(std::move(keys), true, func);
 }
 
-KeyInfo &KeyHandler::whileKeyComboPressed(std::initializer_list<sf::Keyboard::Key> keys, const std::function<void()>& func)
+KeyInfo &KeyHandler::whileKeyComboPressed(std::vector<sf::Keyboard::Key> keys, const std::function<void()>& func)
 {
-	return m_keys.emplace_back(keys, false, func);
+	return m_keys.emplace_back(std::move(keys), false, func);
 }
 
 void KeyHandler::handleKeyInput()

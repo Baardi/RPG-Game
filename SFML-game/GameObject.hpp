@@ -11,7 +11,7 @@ public:
 	sf::FloatRect getGlobalBounds() const;
 
 	bool intersects(const GameObject &object) const;
-	bool contains(double x, double y) const;
+	bool contains(sf::Vector2f offset) const;
 
 	sf::Vector2f getBottomRightPosition() const;
 	virtual sf::Vector2f getPosition() const { return sf::Vector2f(); }
