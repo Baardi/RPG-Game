@@ -58,3 +58,15 @@ Stats &Stats::operator-=(const Stats &other)
 	*this = (*this) - other;
 	return *this;
 }
+
+std::string Stats::toString()
+{
+	std::stringstream sstream;
+
+	sstream << "Attack"  << Attack << '\n';
+	sstream << "Defence" << Defence << '\n';
+	sstream << "Damage"  << Damage << '\n';
+	sstream << "HP"		 << HP;
+
+	return sstream.str();
+}

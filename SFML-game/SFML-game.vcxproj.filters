@@ -162,6 +162,9 @@
     <ClInclude Include="App\StateMachine.hpp">
       <Filter>App</Filter>
     </ClInclude>
+    <ClInclude Include="MouseHandler.hpp">
+      <Filter>Handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="App\ResourceManager.cpp">
       <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseHandler.cpp">
+      <Filter>Handlers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

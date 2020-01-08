@@ -29,9 +29,9 @@ void InventoryPopup::init()
 		auto buttonPos = button.getPosition();
 		auto pItem = item.get();
 
-		button.setActionHandler([this, pItem, buttonPos]
+		button.setActionHandler([&]
 		{
-			stateMachine().pushChild<ItemInfoPopup>(pItem, buttonPos.x + 380, buttonPos.y);
+			stateMachine().pushChild<ItemInfoPopup>(item.get(), buttonPos.x + 380, buttonPos.y);
 		});
 	}
 }

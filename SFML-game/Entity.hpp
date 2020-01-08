@@ -13,17 +13,17 @@ public:
 
 	virtual void fight(Entity &other) 
 	{
-		if (m_fightTimer.getElapsedTime_s() > 1)
-			hit(other, m_stats.Damage);
-
-		if (other.m_fightTimer.getElapsedTime_s() > 1)
-			other.hit(*this, other.m_stats.Damage);
+		hit(other, m_stats.Damage);
 	}
 
 	void hit(Entity &other, int damage)
 	{
-		other.m_stats.HP -= damage;
-		m_fightTimer.reset(true);
+		// TODO: 
+		if (m_fightTimer.getElapsedTime_s() > 1)
+		{
+			other.m_stats.HP -= damage;
+			m_fightTimer.reset(true);
+		}
 	}
 
 	bool isDead()
@@ -31,6 +31,7 @@ public:
 		return m_stats.HP <= 0;
 	}
 
+	// Don't mess with this stuff during overrride
 	sftools::Chronometer m_fightTimer;
 	Stats m_stats;
 };

@@ -148,13 +148,13 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 
 void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, int x, int y)
 {
-	auto [tilex, tiley] = getTileCoords(texture, tileid, tile.tileset->tileSize);
+	auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
 	auto tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
 	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(tilex, tiley, tileset->tileSize.x, tileset->tileSize.y));
+	sprite.setTextureRect(sf::IntRect(coord.x, coord.y, tileset->tileSize.x, tileset->tileSize.y));
 	sprite.setPosition(x*tileSize.x + tileSize.x-tileset->tileSize.x, y*tileSize.y + tileSize.y - tileset->tileSize.y);
 }
 
@@ -162,8 +162,8 @@ void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, cons
 {
 	for (const auto [tileid, duration]: animationTile)
 	{
-		auto [tilex, tiley] = getTileCoords(texture, tileid, tile.tileset->tileSize);
-		auto rect = sf::IntRect(tilex, tiley, tile.tileset->tileSize.x, tile.tileset->tileSize.y);
+		auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
+		auto rect = sf::IntRect(coord.x, coord.y, tile.tileset->tileSize.x, tile.tileset->tileSize.y);
 		tile.animation.data.emplace_back(duration, rect);
 	}
 }

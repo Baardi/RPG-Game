@@ -6,6 +6,7 @@
 #include "TileLayer.hpp"
 #include "Game.hpp"
 #include "App/StateMachine.hpp"
+#include "App/ResourceManager.hpp"
 
 Player::Player(sftools::Chronometer &clock, int x, int y)
 {
@@ -26,9 +27,24 @@ Player::Player(sftools::Chronometer &clock, int x, int y)
 	m_actionMap.emplace(Action::Inventory,	sf::Keyboard::Key::I);
 	m_actionMap.emplace(Action::Talk,		sf::Keyboard::Key::T);
 	
+	m_mouseHandler.onButtonPressed(sf::Mouse::Button::Left, [&]() 
+		{
+			if (!m_fightTimer)
+				m_fightTimer.emplace().reset(true);
+		});
+
+	m_textFighting.setFont(resources().font());
+	m_textFighting.setPosition(0, 0);
+	m_textFighting.setCharacterSize(10);
+	m_textFighting.setString("Fighting");
+
+	m_textStats.setFont(resources().font());
+	m_textStats.setPosition(0, 25);
+	m_textFighting.setCharacterSize(10);
+
 	// Put these as default stats temporarily
-	m_stats.HP = 10;
-	m_stats.Damage = 2;
+	m_stats.HP = 30;
+	m_stats.Damage = 5;
 		
 	Player::setPosition(x, y);
 }
@@ -40,10 +56,26 @@ Player::~Player()
 void Player::draw(sf::RenderTarget &target)
 {
 	target.draw(m_sprite);
-
 #ifdef _DEBUG
 	drawDebugOutline(target);
 #endif // _DEBUG
+}
+
+void Player::drawToWindow(sf::RenderTarget &target)
+{
+	target.draw(m_textStats);
+	
+	if (m_fightTimer)
+		target.draw(m_textFighting);
+}
+
+void Player::fight(Entity& other)
+{
+	if (m_fightTimer)
+	{
+		hit(other, m_stats.Damage);
+		m_fightTimer = std::nullopt;
+	}
 }
 
 sf::FloatRect Player::getLocalBounds() const
@@ -82,6 +114,13 @@ void Player::takeItem(std::unique_ptr<GameItem> &&item)
 
 void Player::handleKeyInput(appstate::Game &game, Map &map)
 {
+	if (m_fightTimer && m_fightTimer->getElapsedTime_ms() > 300)
+		m_fightTimer = std::nullopt;
+
+	m_textStats.setString(m_stats.toString());
+	m_mouseHandler.handleMouseInput();
+	m_keyHandler.handleKeyInput();
+
 	bool isMoving = false;
 
 	for (auto [dir, key] : m_dirMap)

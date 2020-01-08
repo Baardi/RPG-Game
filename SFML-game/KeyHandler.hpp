@@ -24,8 +24,7 @@ private:
 
 class KeyHandler
 {
-	// Maps a key into an action within an UI
-	// Should not be used in menus
+	// Maps a key to an action within
 public:
 	KeyHandler() = default;
 	~KeyHandler() = default;

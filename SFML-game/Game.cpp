@@ -59,6 +59,7 @@ void Game::init()
 		if (!enemy)
 			return;
 
+		enemy->fight(m_player);
 		m_player.fight(*enemy);
 
 		// Probably need a better way, such as a foreach method on map
@@ -97,7 +98,7 @@ void Game::init()
 		updateDrawRect();
 	});
 
-	loadMap("data/Maps/LargeCastle.json");
+	loadMap("data/Maps/Intro village.json");
 }
 
 bool Game::frame()
@@ -143,6 +144,7 @@ void Game::draw(sf::RenderTarget &target)
 	
 	// Draw to target
 	target.draw(m_renderSprite);
+	m_player.drawToWindow(target);
 	if (m_paused && stateMachine().isCurrent(this))
 		target.draw(m_pauseText);
 }

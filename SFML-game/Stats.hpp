@@ -13,6 +13,8 @@ struct Stats
 	Stats &operator+=(const Stats &other);
 	Stats &operator-=(const Stats &other);
 
+	std::string toString();
+
 	// Stats
 	int HP		= 0;
 	int Attack	= 0;

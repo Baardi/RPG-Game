@@ -196,6 +196,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClInclude Include="KeyHandler.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="MapProperties.hpp" />
+    <ClInclude Include="MouseHandler.hpp" />
     <ClInclude Include="Music.hpp" />
     <ClInclude Include="ObjectFactory.hpp" />
     <ClInclude Include="ObjectSprite.hpp" />
@@ -247,6 +248,7 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="libs\SFML\Collision.cpp" />
     <ClCompile Include="MapProperties.cpp" />
+    <ClCompile Include="MouseHandler.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Player.cpp" />

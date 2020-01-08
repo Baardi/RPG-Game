@@ -3,7 +3,7 @@
 #include <functional>
 
 template <class Base, class ...Args>
-class ObjectFactory : public std::enable_if_t< std::has_virtual_destructor_v<Base> >
+class ObjectFactory : public std::enable_if_t< std::has_virtual_destructor_v<Base> && !std::is_abstract_v<Base> >
 {
 public:
 	template <class Derived>

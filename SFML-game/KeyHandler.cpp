@@ -30,11 +30,10 @@ bool KeyInfo::invokeIfReady()
 	}
 	
 	bool isReady = !(m_isModal && m_wasPressed);
-	m_wasPressed = true;
-
 	if (isReady)
 		m_func();
-
+	
+	m_wasPressed = true;
 	return isReady;
 }
 
