@@ -5,7 +5,7 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
 	auto stringSize = colorCode.size();
 	if (stringSize != 7  && stringSize != 9)
-		throw sf::Color::Black; // Default color is black
+		return sf::Color::Black; // Default color is black
 	
 	std::string colorRgb(colorCode.end() - 6, colorCode.end());
 	unsigned int colorSumRgb = std::stoul(colorRgb.c_str(), nullptr, 16);
@@ -60,18 +60,14 @@ Json::Value sf::utility::parseTextStyle(unsigned int style)
 sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f translation, sf::Vector2f scale, float rotation)
 {
 	float angle = -rotation * 3.141592654f / 180.f;
-	float cosine = static_cast<float>(std::cos(angle));
-	float sine = static_cast<float>(std::sin(angle));
-	float sxc = scale.x * cosine;
-	float syc = scale.y * cosine;
-	float sxs = scale.x * sine;
-	float sys = scale.y * sine;
+	float sxc = scale.x * cos(angle);
+	float syc = scale.y * cos(angle);
+	float sxs = scale.x * sin(angle);
+	float sys = scale.y * sin(angle);
 	float tx = -origin.x * sxc - origin.y * sys + translation.x;
 	float ty = origin.x * sxs - origin.y * syc + translation.y;
 
-	Transform transform(sxc, sys, tx,
-		-sxs, syc, ty,
-		0.f, 0.f, 1.f);
-
-	return transform;
+	return Transform(sxc, sys, tx,
+					-sxs, syc, ty,
+					0.f, 0.f, 1.f);
 }

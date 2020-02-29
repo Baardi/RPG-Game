@@ -29,7 +29,7 @@ public:
 	void setVolume(double volume);
 
 private:
-	double m_volume = 100;
+	double m_volume;
 	std::filesystem::path m_currentFile;
 	sf::Music m_music;
 	bool m_muted;

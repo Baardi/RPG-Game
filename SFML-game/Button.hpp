@@ -74,7 +74,7 @@ public:
 	// Usage2: button.setActionHandler([]
 	// { doWhatever(); });
 	// Usage3: button.setActionHandler(std::bind(&Game::somefunc, this));
-	void setActionHandler(const std::function<void()> &func);
+	void onClicked(const std::function<void()> &func);
 
 	void invoke() const;
 

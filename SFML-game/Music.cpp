@@ -2,7 +2,9 @@
 #include "Music.hpp"
 #include <iostream>
 
-Music::Music()
+Music::Music() :
+	m_muted(false),
+	m_volume(100)
 {
 	m_music.setLoop(true);
 }

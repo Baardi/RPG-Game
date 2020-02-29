@@ -83,5 +83,5 @@ private:
 	std::filesystem::path m_currentPath;
 
 public:
-	static constexpr unsigned int FLIP_MULTIPLIER = 1073741824; /*std::pow(2, 30)*/
+	static constexpr unsigned int FLIP_MULTIPLIER = 1 << 30; /* 1073741824*/
 };

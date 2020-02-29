@@ -68,7 +68,7 @@ Button &ButtonHandler::addButton(const std::string &text, const std::function<vo
 	button.setTextSize(m_defaultTextSize);
 	button.setPosition(m_xCurr, m_yCurr);
 	button.setText(text);
-	button.setActionHandler(func);
+	button.onClicked(func);
 
 	auto bounds = button.getGlobalBounds();
 	m_yCurr = bounds.top + bounds.height + m_spacing;

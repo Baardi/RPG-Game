@@ -52,7 +52,7 @@ sf::FloatRect Button::getGlobalBounds() const
 	return m_sprite.getGlobalBounds();
 }
 
-void Button::setActionHandler(const std::function<void()> &func)
+void Button::onClicked(const std::function<void()> &func)
 {
 	m_func = func;
 }
