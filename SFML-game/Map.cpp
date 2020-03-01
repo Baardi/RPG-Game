@@ -126,16 +126,15 @@ void Map::loadLayers(const Json::Value& layers, std::map<std::string, sf::Textur
 {
 	for (const Json::Value& layer : layers)
 	{
-		if (layer["type"] == "tilelayer")
+		const auto layerType = layer["type"].asString();
+
+		if (layerType == "tilelayer")
 			loadTileLayer(layer);
-
-		else if (layer["type"] == "objectgroup")
+		else if (layerType == "objectgroup")
 			loadObjects(layer, spriteFactory);
-
-		else if (layer["type"] == "imagelayer")
+		else if (layerType == "imagelayer")
 			loadImageLayer(layer, textures);
-
-		else if (layer["type"] == "group")
+		else if (layerType == "group")
 			loadLayers(layer["layers"], textures, spriteFactory);
 	}
 }

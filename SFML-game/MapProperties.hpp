@@ -1,9 +1,13 @@
 #pragma once
-#include <any>
+#include <variant>
+#include <filesystem>
+
+using PropertyType = std::variant<std::string, std::filesystem::path, sf::Color, int, float, bool>;
 
 class MapProperties
 {
 public:
+
 	MapProperties() = default;
 	virtual ~MapProperties() {}
 	
@@ -14,17 +18,20 @@ public:
 		if (it == m_propertyMap.end())
 			return false;
 
-		const T *castedValue = std::any_cast<T>(&it->second);
-		if (!castedValue)
+		try
+		{
+			*property = std::get<T>(it->second);
+			return true;
+		}
+		catch (std::bad_variant_access &)
+		{
 			return false;
-		
-		*property = *castedValue;
-		return true;
+		}
 	}
 
 protected:
 	void loadProperties(const Json::Value &properties);
 	void saveProperties(Json::Value &properties) const;
 
-	std::map<std::string, std::any> m_propertyMap;
+	std::map<std::string, PropertyType> m_propertyMap;
 };
