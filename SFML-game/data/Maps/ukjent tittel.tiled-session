@@ -1,0 +1,255 @@
+{
+    "activeFile": "Intro village.json",
+    "automapping.whileDrawing": false,
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "JSON-kartfiler (*.json)",
+    "fileStates": {
+        "Base.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "CustomTilesetTest.json": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 12656,
+                "y": 2324
+            }
+        },
+        "D:/Tiled/examples/desert.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 404,
+                "y": 636
+            }
+        },
+        "D:/Tiled/examples/isometric_grass_and_water.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 834,
+                "y": 852
+            }
+        },
+        "D:/Tiled/examples/sewers.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 524.5,
+                "y": 597.5
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Intro map.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 479,
+                "y": 610
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/Inventory.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/MessageBox.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/Mission Tab.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/Player Portrait.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 233,
+                "y": 504
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/PopupMenu.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 129,
+                "y": 636
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/Spells.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/Menus/SubPopup.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 773,
+                "y": -222
+            }
+        },
+        "D:/repos/RPG-Game/SFML-game/data/desert1.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -17,
+                "y": -122
+            }
+        },
+        "Intro house.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "Intro map.json": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1490.909090909091,
+                "y": 330.3030303030303
+            }
+        },
+        "Intro village.json": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 632.6666666666666,
+                "y": 542
+            }
+        },
+        "Intro village.json#Detonation_tilset": {
+            "scaleInDock": 1
+        },
+        "Intro village.json#ProjectUtumnoTileset": {
+            "scaleInDock": 1
+        },
+        "Intro village.json#Town": {
+            "scaleInDock": 1
+        },
+        "Intro village.json#mountain_landscape": {
+            "scaleInDock": 1
+        },
+        "Intro village.json#snowWIPTiles": {
+            "scaleInDock": 1
+        },
+        "Intro village2 (2).json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 544,
+                "y": 444
+            }
+        },
+        "LargeCastle.json": {
+            "scale": 0.125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 6744,
+                "y": 3888
+            }
+        },
+        "Palace.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 839,
+                "y": 636
+            }
+        },
+        "Route 1.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 855,
+                "y": 784
+            }
+        },
+        "Test_with_spacing.json": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1248,
+                "y": 2208
+            }
+        },
+        "desert test.json": {
+            "scale": 0.5,
+            "selectedLayer": 11,
+            "viewCenter": {
+                "x": 310,
+                "y": 376
+            }
+        },
+        "fringetest.json": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 76,
+                "y": 311
+            }
+        },
+        "imagelayer.json": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 556,
+                "y": 1700
+            }
+        }
+    },
+    "loadedWorlds": [
+        "D:/repos/RPG-Game/SFML-game/data/Maps/Intro village.json"
+    ],
+    "map.fixedSize": true,
+    "map.height": 10,
+    "map.lastUsedExportFilter": "Tiled-kartfiler (*.tmx *.xml)",
+    "map.lastUsedFormat": "json",
+    "map.orientation": 1,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 10,
+    "openFiles": [
+        "Intro village.json"
+    ],
+    "project": "ukjent tittel.tiled-project",
+    "property.type": "object",
+    "recentFiles": [
+        "Intro village.json"
+    ],
+    "stampsFolder": "C:/Users/Bård Sigurd Møller/AppData/Roaming/Tiled",
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFilter": "JSON-rutebrettfiler (*.json)",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 96,
+        "width": 32
+    },
+    "tileset.transparentColor": "#ff00ff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": false
+}
