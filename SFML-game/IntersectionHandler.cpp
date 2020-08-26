@@ -5,13 +5,13 @@
 
 void IntersectionHandler::handleEvents(const Map &map, GameObject &object)
 {
-	for (auto [layerName, layer] : map.m_objectMap)
+	for (const auto &[layerName, layer] : map.m_objectMap)
 	{
-		auto it = intersectionMap.find(layerName);
+		const auto it = intersectionMap.find(layerName);
 		if (it == intersectionMap.end())
 			continue;
 
-		auto sprite = layer->getIntersectedObject(object);
+		auto *sprite = layer->getIntersectedObject(object);
 		if (!sprite)
 			continue;
 		

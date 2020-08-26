@@ -14,10 +14,10 @@ void Map::clear()
 	m_tileSets.clear();
 	m_objectMap.clear();
 	m_tileMap.clear();
-	m_currentPath = "";
-	m_currentFile = "";
+	m_currentFile.clear();
+	m_currentPath.clear();
 
-	resetProperties();
+	clearProperties();
 	m_clock.reset(true);
 }
 
@@ -40,7 +40,7 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 		return false;
 
 	std::error_code ec;
-	m_currentFile = std::filesystem::weakly_canonical(filename, ec);
+	m_currentFile = std::filesystem::weakly_canonical(filename, ec); // NOTE: weakly_canonical has some issues with mapped drives. Doesn't matter for me though
 	m_currentPath = m_currentFile.parent_path();
 
 	// Get tile size information
@@ -135,7 +135,7 @@ void Map::loadLayers(const Json::Value& layers, std::map<std::string, sf::Textur
 		else if (layerType == "imagelayer")
 			loadImageLayer(layer, textures);
 		else if (layerType == "group")
-			loadLayers(layer["layers"], textures, spriteFactory);
+			loadLayers(layer["layers"], textures, spriteFactory); // Dumb flat hiearchy, but drawOrder is still preserved
 	}
 }
 

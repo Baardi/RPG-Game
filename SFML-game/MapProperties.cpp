@@ -2,14 +2,9 @@
 #include "MapProperties.hpp"
 #include "sfUtility.hpp"
 
-void MapProperties::resetProperties()
-{
-	m_properties.clear();
-}
-
 void MapProperties::loadProperties(const Json::Value &properties)
 {
-	for (auto &property : properties)
+	for (const auto &property : properties)
 	{
 		const auto propertyName = property["name"].asString();
 		const auto propertyType = property["type"].asString();
@@ -67,4 +62,9 @@ void MapProperties::saveProperties(Json::Value &properties) const
 		
 		properties.append(value);
 	}
+}
+
+void MapProperties::clearProperties()
+{
+	m_properties.clear();
 }

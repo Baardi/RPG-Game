@@ -26,9 +26,9 @@ public:
 	}
 
 protected:
-	void resetProperties();
 	void loadProperties(const Json::Value &properties);
 	void saveProperties(Json::Value &properties) const;
+	void clearProperties();
 
 	std::map<std::string, PropertyType> m_properties;
 };

@@ -28,8 +28,11 @@ public:
 	// Clear map in memory
 	void clear();									
 	
-	auto getPath() const { return m_currentPath; }
-	auto getFile() const { return m_currentFile; }
+	// Current loaded file
+	std::filesystem::path getFile() const { return m_currentFile; }
+
+	// Working directory used by map. Always parent path of current file
+	std::filesystem::path getPath() const { return m_currentPath; } 
 
 	void draw(sf::RenderTarget &target);
 	void drawWithFringe(sf::RenderTarget &target, const std::string &splitLayer, FringeDrawer &fringeDrawer);
@@ -45,8 +48,8 @@ public:
 	void pause();
 	void resume();
 
-	// The owner of the Layer-pointers, used to draws
-	std::vector<std::unique_ptr<Layer>> m_layers;
+	// The owner of the Layer-pointers, used to draw
+	std::vector<std::unique_ptr<Layer>> m_layers; // TODO: Refactor into tree
 
 	// Sorted collection of layers
 	std::map<std::string, ObjectLayer *> m_objectMap;
@@ -77,11 +80,11 @@ private:
 	void loadImageLayer(const Json::Value& layer, std::map<std::string, sf::Texture> &textures);
 
 	// Shared clock for all animated tiles
-	 sftools::Chronometer m_clock;
+	sftools::Chronometer m_clock;
 	 
 	std::filesystem::path m_currentFile;
 	std::filesystem::path m_currentPath;
 
 public:
-	static constexpr unsigned int FLIP_MULTIPLIER = 1 << 30; /* 1073741824*/
+	static constexpr unsigned int FLIP_MULTIPLIER = 0b1 << 30; /* 1073741824*/
 };
