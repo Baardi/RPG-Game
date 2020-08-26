@@ -1,34 +1,38 @@
 #include "stdafx.h"
 #include "MapProperties.hpp"
 #include "sfUtility.hpp"
-#include <filesystem>
+
+void MapProperties::resetProperties()
+{
+	m_properties.clear();
+}
 
 void MapProperties::loadProperties(const Json::Value &properties)
 {
 	for (auto &property : properties)
 	{
-		auto propertyName = property["name"].asString();
-		auto propertyType = property["type"].asString();
-		auto propertyValue = property["value"];
+		const auto propertyName = property["name"].asString();
+		const auto propertyType = property["type"].asString();
+		const auto propertyValue = property["value"];
 
 		if (propertyType == "string")
-			m_propertyMap[propertyName] = propertyValue.asString();
+			m_properties[propertyName] = propertyValue.asString();
 		else if (propertyType == "file")
-			m_propertyMap[propertyName] = std::filesystem::path{ propertyValue.asString() };
+			m_properties[propertyName] = std::filesystem::path{ propertyValue.asString() };
 		else if (propertyType == "color")
-			m_propertyMap[propertyName] = sf::utility::parseColor(propertyValue.asString());
+			m_properties[propertyName] = sf::utility::parseColor(propertyValue.asString());
 		else if (propertyType == "int")
-			m_propertyMap[propertyName] = propertyValue.asInt();
+			m_properties[propertyName] = propertyValue.asInt();
 		else if (propertyType == "float")
-			m_propertyMap[propertyName] = propertyValue.asFloat();
+			m_properties[propertyName] = propertyValue.asFloat();
 		else if (propertyType == "bool")
-			m_propertyMap[propertyName] = propertyValue.asBool();
+			m_properties[propertyName] = propertyValue.asBool();
 	}
 }
 
 void MapProperties::saveProperties(Json::Value &properties) const
 {
-	for (const auto &[propertyName, propertyValue] : m_propertyMap)
+	for (const auto &[propertyName, propertyValue] : m_properties)
 	{
 		Json::Value value;
 		value["name"] = propertyName;
@@ -48,18 +52,18 @@ void MapProperties::saveProperties(Json::Value &properties) const
 				return "bool";
 			}, propertyValue);
 		
-		if (propertyValue.index() == 0)
-			value["value"] = std::get<0>(propertyValue);
-		else if (propertyValue.index() == 1)
-			value["value"] = std::get<1>(propertyValue).string();
-		else if (propertyValue.index() == 2)
-			value["value"] = sf::utility::parseColor(std::get<2>(propertyValue));
-		else if (propertyValue.index() == 3)
-			value["value"] = std::get<3>(propertyValue);
-		else if (propertyValue.index() == 4)
-			value["value"] = std::get<4>(propertyValue);
-		else if (propertyValue.index() == 5)
-			value["value"] = std::get<5>(propertyValue);
+		if (const auto stringValue = std::get_if<std::string>(&propertyValue))
+			value["value"] = *stringValue;
+		else if (const auto filePathValue = std::get_if<std::filesystem::path>(&propertyValue))
+			value["value"] = filePathValue->string();
+		else if (const auto colorValue = std::get_if<sf::Color>(&propertyValue))
+			value["value"] = sf::utility::serializeColor(*colorValue);
+		else if (const auto intValue = std::get_if<int>(&propertyValue))
+			value["value"] = *intValue;
+		else if (const auto floatValue = std::get_if<float>(&propertyValue))
+			value["value"] = *floatValue;
+		else if (const auto boolValue = std::get_if<bool>(&propertyValue))
+			value["value"] = *boolValue;
 		
 		properties.append(value);
 	}

@@ -1,30 +1,31 @@
 #include "stdafx.h"
 #include "sfUtility.hpp"
+#include <string_view>
 
 sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
-	auto stringSize = colorCode.size();
+	const size_t stringSize = colorCode.size();
 	if (stringSize != 7  && stringSize != 9)
 		return sf::Color::Black; // Default color is black
 	
-	std::string colorRgb(colorCode.end() - 6, colorCode.end());
-	unsigned int colorSumRgb = std::stoul(colorRgb.c_str(), nullptr, 16);
+	const char *colorSumRgbHexStr = &*(colorCode.end() - 6);
+	unsigned int colorSumRgb = std::stoul(colorSumRgbHexStr, nullptr, 16);
 
-	unsigned int colorSumAlpha = 255;
+	unsigned int colorAlphaValue = 0xff;
 	if (colorCode.length() == 9) // Tiled omits the value if alpha-value is 0xff
 	{
 		std::string colorAlpha(colorCode.begin() + 1, colorCode.begin() + 3);
-		colorSumAlpha = std::stoul(colorAlpha.c_str(), nullptr, 16);
+		colorAlphaValue = std::stoul(colorAlpha.c_str(), nullptr, 16);
 	}
 
-	Color color((colorSumRgb << 8) + colorSumAlpha);
+	sf::Color color((colorSumRgb << 8) + colorAlphaValue);
 	return color;
 }
 
-std::string sf::utility::parseColor(sf::Color color)
+std::string sf::utility::serializeColor(sf::Color color)
 {
 	unsigned int colorSum = color.b + (color.g << 8) + (color.r << 16);
-	if (color.a != 255)
+	if (color.a != 0xff)
 		colorSum += (color.a << 24); // Tiled omits the value if alpha-value is 0xff
 
 	std::stringstream stream;
@@ -45,7 +46,7 @@ unsigned int sf::utility::parseTextStyle(const Json::Value &value)
 	return style;
 }
 
-Json::Value sf::utility::parseTextStyle(unsigned int style)
+Json::Value sf::utility::serializeTextStyle(unsigned int style)
 {
 	Json::Value value;
 
@@ -59,13 +60,13 @@ Json::Value sf::utility::parseTextStyle(unsigned int style)
 
 sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f translation, sf::Vector2f scale, float rotation)
 {
-	float angle = -rotation * 3.141592654f / 180.f;
-	float sxc = scale.x * cos(angle);
-	float syc = scale.y * cos(angle);
-	float sxs = scale.x * sin(angle);
-	float sys = scale.y * sin(angle);
-	float tx = -origin.x * sxc - origin.y * sys + translation.x;
-	float ty = origin.x * sxs - origin.y * syc + translation.y;
+	const float angle = -rotation * 3.141592654f / 180.f;
+	const float sxc = scale.x * std::cos(angle);
+	const float syc = scale.y * std::cos(angle);
+	const float sxs = scale.x * std::sin(angle);
+	const float sys = scale.y * std::sin(angle);
+	const float tx = -origin.x * sxc - origin.y * sys + translation.x;
+	const float ty =  origin.x * sxs - origin.y * syc + translation.y;
 
 	return Transform(sxc, sys, tx,
 					-sxs, syc, ty,

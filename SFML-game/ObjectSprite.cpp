@@ -108,7 +108,7 @@ void ObjectSprite::saveText(Json::Value &textValue) const
 
 	textValue["text"] = std::string(text->getString());
 	textValue["pixelsize"] = text->getCharacterSize();
-	textValue["color"] = sf::utility::parseColor(text->getFillColor());
+	textValue["color"] = sf::utility::serializeColor(text->getFillColor());
 }
 
 void ObjectSprite::process(const sftools::Chronometer &clock)

@@ -5,10 +5,10 @@ Stats Stats::get(const MapProperties &properties)
 {
 	Stats stats;
 
-	properties.getProperty("Attack"	,	&stats.Attack	);
-	properties.getProperty("Defence",   &stats.Defence	);
-	properties.getProperty("Damage" ,	&stats.Damage	);
-	properties.getProperty("HP"		,	&stats.HP 		);
+	properties.getProperty("Attack"	,	stats.Attack	);
+	properties.getProperty("Defence",   stats.Defence	);
+	properties.getProperty("Damage" ,	stats.Damage	);
+	properties.getProperty("HP"		,	stats.HP 		);
 
 	return stats;
 }
@@ -59,7 +59,7 @@ Stats &Stats::operator-=(const Stats &other)
 	return *this;
 }
 
-std::string Stats::toString()
+std::string Stats::toString() const
 {
 	std::stringstream sstream;
 

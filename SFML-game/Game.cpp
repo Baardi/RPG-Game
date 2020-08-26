@@ -84,12 +84,12 @@ void Game::init()
 	m_intersectionHandler.registerEvent("Entrance", [this](ObjectLayer *layer, ObjectSprite *entrance)
 	{
 		std::filesystem::path mapFile;
-		if (!entrance->getProperty("EntranceTo", &mapFile))
+		if (!entrance->getProperty("EntranceTo", mapFile))
 			return; // Give user a message, invalid entrance
 
 		auto pos = static_cast<sf::Vector2i>(m_player.getPosition());
-		entrance->getProperty("SpawnX", &pos.x);
-		entrance->getProperty("SpawnY", &pos.y);
+		entrance->getProperty("SpawnX", pos.x);
+		entrance->getProperty("SpawnY", pos.y);
 
 		if (!loadMap(m_map.getPath() / mapFile))
 			return; // Give user error message, invalid entrance
@@ -178,7 +178,7 @@ void Game::loadProperties(const MapProperties &properties)
 void Game::loadMusic(const MapProperties &properties, Music &music)
 {
 	std::filesystem::path musicFile;
-	if (properties.getProperty("Music", &musicFile))
+	if (properties.getProperty("Music", musicFile))
 		music.load(m_map.getPath() / musicFile);
 	else
 		music.reset();

@@ -50,7 +50,7 @@ void ImageLayer::save(Json::Value &layers) const
 	layer["id"] = id;
 
 	if (transparentcolor.has_value())
-		layer["transparentcolor"] = sf::utility::parseColor(*transparentcolor);
+		layer["transparentcolor"] = sf::utility::serializeColor(*transparentcolor);
 	
 	layers.append(layer);
 }

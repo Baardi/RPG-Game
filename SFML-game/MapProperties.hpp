@@ -2,36 +2,33 @@
 #include <variant>
 #include <filesystem>
 
-using PropertyType = std::variant<std::string, std::filesystem::path, sf::Color, int, float, bool>;
-
 class MapProperties
 {
 public:
-
+	using PropertyType = std::variant<std::string, std::filesystem::path, sf::Color, int, float, bool>;
+	
 	MapProperties() = default;
-	virtual ~MapProperties() {}
+	virtual ~MapProperties() = default;
 	
 	template <class T>
-	bool getProperty(const std::string &propertyName, T *property) const
+	bool getProperty(const std::string &propertyName, T &property) const
 	{
-		auto it = m_propertyMap.find(propertyName);
-		if (it == m_propertyMap.end())
+		auto it = m_properties.find(propertyName);
+		if (it == m_properties.end())
 			return false;
 
-		try
-		{
-			*property = std::get<T>(it->second);
-			return true;
-		}
-		catch (std::bad_variant_access &)
-		{
-			return false;
-		}
+		auto foundProperty = std::get_if<T>(&it->second);
+		if (!foundProperty)
+		  return false;
+
+		property = *foundProperty;
+		return true;
 	}
 
 protected:
+	void resetProperties();
 	void loadProperties(const Json::Value &properties);
 	void saveProperties(Json::Value &properties) const;
 
-	std::map<std::string, PropertyType> m_propertyMap;
+	std::map<std::string, PropertyType> m_properties;
 };

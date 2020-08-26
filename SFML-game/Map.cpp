@@ -14,10 +14,10 @@ void Map::clear()
 	m_tileSets.clear();
 	m_objectMap.clear();
 	m_tileMap.clear();
-	m_propertyMap.clear();
 	m_currentPath = "";
 	m_currentFile = "";
 
+	resetProperties();
 	m_clock.reset(true);
 }
 
@@ -87,7 +87,7 @@ bool Map::save(const std::filesystem::path &filename)
 	value["tileheight"] = tileSize.y;
 
 	if (backgroundColor.has_value())
-		value["backgroundcolor"] = sf::utility::parseColor(*backgroundColor);
+		value["backgroundcolor"] = sf::utility::serializeColor(*backgroundColor);
 
 	// Save properties
 	saveProperties(value["properties"]);
