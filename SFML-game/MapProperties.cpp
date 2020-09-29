@@ -31,7 +31,7 @@ void MapProperties::saveProperties(Json::Value &properties) const
 	{
 		Json::Value value;
 		value["name"] = propertyName;
-		value["type"] = std::visit([](auto &&arg) {
+		value["type"] = std::visit([](auto &&arg) -> Json::Value {
 			using T = std::decay_t<decltype(arg)>;
 			if constexpr (std::is_same_v<T, std::string>)
 				return "string";
@@ -46,20 +46,17 @@ void MapProperties::saveProperties(Json::Value &properties) const
 			else if constexpr (std::is_same_v<T, bool>)
 				return "bool";
 			}, propertyValue);
-		
-		if (const auto stringValue = std::get_if<std::string>(&propertyValue))
-			value["value"] = *stringValue;
-		else if (const auto filePathValue = std::get_if<std::filesystem::path>(&propertyValue))
-			value["value"] = filePathValue->string();
-		else if (const auto colorValue = std::get_if<sf::Color>(&propertyValue))
-			value["value"] = sf::utility::serializeColor(*colorValue);
-		else if (const auto intValue = std::get_if<int>(&propertyValue))
-			value["value"] = *intValue;
-		else if (const auto floatValue = std::get_if<float>(&propertyValue))
-			value["value"] = *floatValue;
-		else if (const auto boolValue = std::get_if<bool>(&propertyValue))
-			value["value"] = *boolValue;
-		
+
+		value["value"] = std::visit([](auto &&arg) -> Json::Value {
+			using T = std::decay_t<decltype(arg)>;
+			if constexpr (std::is_same_v<T, std::filesystem::path>)
+				return arg.string();
+			else if constexpr (std::is_same_v<T, sf::Color>)
+				return sf::utility::serializeColor(arg);
+			else 
+				return arg;
+			}, propertyValue);
+				
 		properties.append(value);
 	}
 }
