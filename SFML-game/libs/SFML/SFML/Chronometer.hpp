@@ -202,7 +202,7 @@ namespace sftools
             return getElapsedTime();
         }
 
-		Chronometer &Chronometer::operator-=(sf::Time const &time)
+		Chronometer &operator-=(sf::Time const &time)
 		{
 			m_time -= time;
 			return *this;
