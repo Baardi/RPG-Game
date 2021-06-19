@@ -1,29 +1,120 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RPG Game", "SFML-game\SFML-game.vcxproj", "{DD282108-5C16-446E-B8D0-6C9C9182A9B3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-audio", ".build\SFML\src\SFML\Audio\sfml-audio.vcxproj", "{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SFML", "SFML", "{B857D471-BCB8-4287-9878-57C498AF410B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-graphics", ".build\SFML\src\SFML\Graphics\sfml-graphics.vcxproj", "{4451724A-2042-38A6-B9E2-DFA6C8F233DD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-network", ".build\SFML\src\SFML\Network\sfml-network.vcxproj", "{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-system", ".build\SFML\src\SFML\System\sfml-system.vcxproj", "{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-window", ".build\SFML\src\SFML\Window\sfml-window.vcxproj", "{50725E55-D8F2-30CA-9778-1B06B6846063}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		MinSizeRel|x64 = MinSizeRel|x64
+		MinSizeRel|x86 = MinSizeRel|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		RelWithDebInfo|x64 = RelWithDebInfo|x64
+		RelWithDebInfo|x86 = RelWithDebInfo|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Debug|x64.ActiveCfg = Debug|x64
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Debug|x64.Build.0 = Debug|x64
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Debug|x86.ActiveCfg = Debug|Win32
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Debug|x86.Build.0 = Debug|Win32
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.MinSizeRel|x64.ActiveCfg = Release|x64
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.MinSizeRel|x64.Build.0 = Release|x64
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.MinSizeRel|x86.ActiveCfg = Release|Win32
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.MinSizeRel|x86.Build.0 = Release|Win32
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Release|x64.ActiveCfg = Release|x64
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Release|x64.Build.0 = Release|x64
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Release|x86.ActiveCfg = Release|Win32
 		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.Release|x86.Build.0 = Release|Win32
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.RelWithDebInfo|x64.Build.0 = Release|x64
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
+		{DD282108-5C16-446E-B8D0-6C9C9182A9B3}.RelWithDebInfo|x86.Build.0 = Release|Win32
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Debug|x64.ActiveCfg = Debug|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Debug|x64.Build.0 = Debug|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Debug|x86.ActiveCfg = Debug|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.MinSizeRel|x86.ActiveCfg = MinSizeRel|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Release|x64.ActiveCfg = Release|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Release|x64.Build.0 = Release|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.Release|x86.ActiveCfg = Release|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Debug|x64.ActiveCfg = Debug|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Debug|x64.Build.0 = Debug|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Debug|x86.ActiveCfg = Debug|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.MinSizeRel|x86.ActiveCfg = MinSizeRel|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Release|x64.ActiveCfg = Release|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Release|x64.Build.0 = Release|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.Release|x86.ActiveCfg = Release|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Debug|x64.ActiveCfg = Debug|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Debug|x64.Build.0 = Debug|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Debug|x86.ActiveCfg = Debug|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.MinSizeRel|x86.ActiveCfg = MinSizeRel|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Release|x64.ActiveCfg = Release|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Release|x64.Build.0 = Release|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.Release|x86.ActiveCfg = Release|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Debug|x64.ActiveCfg = Debug|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Debug|x64.Build.0 = Debug|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Debug|x86.ActiveCfg = Debug|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.MinSizeRel|x86.ActiveCfg = MinSizeRel|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Release|x64.ActiveCfg = Release|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Release|x64.Build.0 = Release|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.Release|x86.ActiveCfg = Release|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Debug|x64.ActiveCfg = Debug|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Debug|x64.Build.0 = Debug|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Debug|x86.ActiveCfg = Debug|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.MinSizeRel|x86.ActiveCfg = MinSizeRel|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Release|x64.ActiveCfg = Release|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Release|x64.Build.0 = Release|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.Release|x86.ActiveCfg = Release|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{50725E55-D8F2-30CA-9778-1B06B6846063}.RelWithDebInfo|x86.ActiveCfg = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4CD13C2-63E6-3E8A-A63C-0F46C0C7479A} = {B857D471-BCB8-4287-9878-57C498AF410B}
+		{4451724A-2042-38A6-B9E2-DFA6C8F233DD} = {B857D471-BCB8-4287-9878-57C498AF410B}
+		{E7B21585-BE2D-3493-9D38-A1AAEE2AA1BB} = {B857D471-BCB8-4287-9878-57C498AF410B}
+		{1D20380D-04C4-32C4-9846-1C5F1CE3B32B} = {B857D471-BCB8-4287-9878-57C498AF410B}
+		{50725E55-D8F2-30CA-9778-1B06B6846063} = {B857D471-BCB8-4287-9878-57C498AF410B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {577A8FAB-67D0-46D4-B7F8-DC5E4D0832A5}
