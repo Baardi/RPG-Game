@@ -50,7 +50,7 @@ public:
 protected:
 	void loadSpriteTexture(const sf::Texture &texture, int tileid);
 	void loadSpriteAnimation(const sf::Texture &texture, const std::vector<std::pair<int, sf::Time>> &animationTile);
-	sf::IntRect getTextureRectToUse(int tilex, int tiley, bool verflip = false, bool horflip = false) const;
+	static sf::IntRect getTextureRectToUse(TileSize tileSize, int tilex, int tiley, bool verflip = false, bool horflip = false);
 
 private:
 

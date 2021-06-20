@@ -11,7 +11,7 @@ Button::Button(const sf::Font &font) : m_pFont(&font)
 void Button::setPosition(double x, double y)
 {	
 	// Move textbox
-	m_sprite.setPosition(x, y);
+	m_sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
 
 	// Always centralize text afterwards	
 	auto bounds = m_sprite.getGlobalBounds();
@@ -27,8 +27,8 @@ void Button::setSize(double width, double height)
 {
 	// Scale textbox
 	auto rect = m_sprite.getTextureRect();
-	rect.width = width;
-	rect.height = height;
+	rect.width = static_cast<int>(width);
+	rect.height = static_cast<int>(height);
 	m_sprite.setTextureRect(rect);
 
 	// Always centralize text afterwards	
@@ -44,7 +44,7 @@ sf::Vector2f Button::getSize() const
 
 bool Button::contains(double x, double y) const
 {
-	return getGlobalBounds().contains(x, y);
+	return getGlobalBounds().contains(static_cast<float>(x), static_cast<float>(y));
 }
 
 sf::FloatRect Button::getGlobalBounds() const
@@ -99,9 +99,9 @@ void Button::centralizeText(sf::IntRect bounds)
 {
 	auto textHeight = getTextSize();
 
-	auto newX = bounds.left + 0.1 * double(bounds.width);
-	auto newY = bounds.top + double(bounds.height) / 2.0 - double(textHeight) / 2.0;
-	m_text.setPosition(newX, newY);
+	auto newX = bounds.left + 0.1 * static_cast<double>(bounds.width);
+	auto newY = bounds.top + static_cast<double>(bounds.height) / 2.0 - static_cast<double>(textHeight) / 2.0;
+	m_text.setPosition(static_cast<float>(newX), static_cast<float>(newY));
 }
 
 void Button::setSelectionColour(sf::Color colour)

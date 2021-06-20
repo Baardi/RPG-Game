@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "sfUtility.hpp"
 #include <string_view>
+#include <sstream>
+#include <numbers>
 
 sf::Color sf::utility::parseColor(const std::string &colorCode)
 {
@@ -50,25 +52,25 @@ Json::Value sf::utility::serializeTextStyle(unsigned int style)
 {
 	Json::Value value;
 
-	if (style & Text::Bold)			value["bold"] = true;
-	if (style & Text::Italic)		value["italic"] = true;
-	if (style & Text::StrikeThrough)value["strikeout"] = true;
-	if (style & Text::Underlined)	value["underline"] = true;
+	if (style & Text::Bold)					 value["bold"]			= true;
+	if (style & Text::Italic)				 value["italic"]		= true;
+	if (style & Text::StrikeThrough) value["strikeout"]	= true;
+	if (style & Text::Underlined)		 value["underline"]	= true;
 
 	return value;
 }
 
 sf::Transform sf::utility::computeTransform(sf::Vector2f origin, sf::Vector2f translation, sf::Vector2f scale, float rotation)
 {
-	const float angle = -rotation * 3.141592654f / 180.f;
-	const float sxc = scale.x * std::cos(angle);
-	const float syc = scale.y * std::cos(angle);
-	const float sxs = scale.x * std::sin(angle);
-	const float sys = scale.y * std::sin(angle);
+	const float theta = -rotation * std::numbers::pi_v<float> / 180.f;
+	const float sxc = scale.x * std::cos(theta);
+	const float syc = scale.y * std::cos(theta);
+	const float sxs = scale.x * std::sin(theta);
+	const float sys = scale.y * std::sin(theta);
 	const float tx = -origin.x * sxc - origin.y * sys + translation.x;
 	const float ty =  origin.x * sxs - origin.y * syc + translation.y;
 
 	return Transform(sxc, sys, tx,
-					-sxs, syc, ty,
-					0.f, 0.f, 1.f);
+									-sxs, syc, ty,
+									0.f, 0.f, 1.f);
 }

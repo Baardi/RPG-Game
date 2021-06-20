@@ -11,7 +11,7 @@ public:
 	virtual ~GameItem() = default;
 
 	void construct(int gid, const std::string &name, const sf::Sprite &sprite);
-	virtual void applyProperties(const MapProperties &properties) {}
+	virtual void applyProperties([[maybe_unused]]const MapProperties &properties) {}
 
 	const std::string& name() const { return m_name; }
 	int gid() const { return m_gid; }

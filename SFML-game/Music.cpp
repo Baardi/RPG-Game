@@ -21,30 +21,30 @@ bool Music::load(const std::filesystem::path &file)
 		reset();
 	}
 
-	return m_currentFile != "";
+	return m_currentFile.has_value();
 }
 
 void Music::reset()
 {
 	stop();
-	m_currentFile = "";
+	m_currentFile.reset();
 }
 
 void Music::play()
 {
-	if (m_currentFile != "")
+	if (m_currentFile.has_value())
 		m_music.play();
 }
 
 void Music::pause()
 {
-	if (m_currentFile != "")
+	if (m_currentFile.has_value())
 		m_music.pause();
 }
 
 void Music::stop()
 {
-	if (m_currentFile != "")
+	if (m_currentFile.has_value())
 		m_music.stop();
 }
 

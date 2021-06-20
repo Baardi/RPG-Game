@@ -23,6 +23,9 @@ void Map::clear()
 
 bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::Texture> &textures, const ObjectSpriteFactory &spriteFactory)
 {
+// Fix by swapping jsoncpp with something else
+#pragma warning (push, 0)
+#pragma warning (disable: 4996)
 	clear();
 
 	// Will contain the data we read in
@@ -49,7 +52,7 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 	width = root["width"].asInt();
 	height = root["height"].asInt();
 
-	maprect.setSize(sf::Vector2f(width*tileSize.x, height*tileSize.y));
+	maprect.setSize({ static_cast<float>(width * tileSize.x), static_cast<float>(height * tileSize.y) });
 	if (!root["backgroundcolor"].empty())
 	{
 		backgroundColor = sf::utility::parseColor(root["backgroundcolor"].asString());
@@ -67,10 +70,15 @@ bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::
 	loadLayers(root["layers"], textures, spriteFactory);
 
 	return true;
+#pragma warning (pop)
 }
 
 bool Map::save(const std::filesystem::path &filename)
 {
+// Fix by swapping jsoncpp with something else
+#pragma warning (push, 0)
+#pragma warning (disable: 4996)
+
 	// Will contain the data we save
 	Json::Value value;
 
@@ -110,6 +118,7 @@ bool Map::save(const std::filesystem::path &filename)
 	file.close();
 
 	return file.good();
+#pragma warning (pop)
 }
 
 void Map::loadTileSets(const Json::Value& root, std::map<std::string, sf::Texture>& textures) // Loads all the images used by the json file as textures

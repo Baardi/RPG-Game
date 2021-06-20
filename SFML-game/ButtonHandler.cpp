@@ -55,7 +55,7 @@ int ButtonHandler::getDefaultTextSize() const
 Button &ButtonHandler::addButton(const std::string &text, const std::function<void()> &func)
 {
 	if (!m_pFont)
-		throw std::exception("No current font");
+		throw std::runtime_error("No current font");
 
 	auto &button = m_buttons.emplace_back(*m_pFont);
 	if (m_buttons.size() == 1)
@@ -71,7 +71,7 @@ Button &ButtonHandler::addButton(const std::string &text, const std::function<vo
 	button.onClicked(func);
 
 	auto bounds = button.getGlobalBounds();
-	m_yCurr = bounds.top + bounds.height + m_spacing;
+	m_yCurr = static_cast<int>(bounds.top) + static_cast<int>(bounds.height) + m_spacing;
 
 	return button;
 }
@@ -112,7 +112,7 @@ void ButtonHandler::draw(sf::RenderTarget &target) const
 		button.draw(target);
 }
 
-void ButtonHandler::handleKeyEvents(sf::Window &window)
+void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 {
 	if (m_buttons.empty())
 		return;

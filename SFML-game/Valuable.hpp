@@ -6,6 +6,6 @@ public:
 	Valuable();
 	~Valuable();
 
-	void applyProperties(const MapProperties &properties) {} // Dummy implementation
+	void applyProperties([[maybe_unused]]const MapProperties &properties) {} // Dummy implementation
 };
 

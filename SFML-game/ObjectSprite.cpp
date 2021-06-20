@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ObjectSprite.hpp"
 #include "sfUtility.hpp"
-#include <corecrt_math_defines.h>
+#include <numbers>
 #include "map.hpp"
 #include "App/ResourceManager.hpp"
 
@@ -27,8 +27,8 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 
 	if (gid)
 	{
-		x += height * std::sin(rotation * (M_PI / 180.0));
-		y -= height * std::cos(rotation * (M_PI / 180.0));
+		x += height * std::sinf(rotation * (std::numbers::pi_v<float> / 180.0f));
+		y -= height * std::cosf(rotation * (std::numbers::pi_v<float> / 180.0f));
 	}
 
 	m_localBounds = sf::FloatRect(0, 0, width, height);
@@ -78,8 +78,8 @@ void ObjectSprite::save(Json::Value &objects) const
 	float json_y = y;
 	if (gid)
 	{
-		json_x -= height * std::sin(rotation * (M_PI / 180.0));
-		json_y += height * std::cos(rotation * (M_PI / 180.0));
+		json_x -= height * std::sinf(rotation * (std::numbers::pi_v<float> / 180.0f));
+		json_y += height * std::cosf(rotation * (std::numbers::pi_v<float> / 180.0f));
 	}
 	object["x"] = json_x;
 	object["y"] = json_y;
@@ -174,9 +174,9 @@ sf::Transform ObjectSprite::getTransform() const
 void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 {
 	auto [tilex, tiley] = getTileCoords(texture, tileid, tileset->tileSize);
-	auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
+	auto textureRect = getTextureRectToUse(tileset->tileSize, tilex, tiley, verflip, horflip);
 
-	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
+	sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(textureRect);
 	sprite.setPosition(x, y);
@@ -189,20 +189,18 @@ void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const std::ve
 	for (const auto [tileid, duration] : animationTile)
 	{
 		auto [tilex, tiley] = getTileCoords(texture, tileid, tileset->tileSize);
-		auto textureRect = getTextureRectToUse(tilex, tiley, verflip, horflip);
+		auto textureRect = getTextureRectToUse(tileset->tileSize, tilex, tiley, verflip, horflip);
 
 		m_animationTileInfo.data.emplace_back(duration, textureRect);
 	}
 }
 
-sf::IntRect ObjectSprite::getTextureRectToUse(int tilex, int tiley, bool verflip, bool horflip) const // Set texture rect differently depending on flip
+sf::IntRect ObjectSprite::getTextureRectToUse(TileSize tileSize, int tilex, int tiley, bool verflip, bool horflip) // Set texture rect differently depending on flip
 {
-	auto &tileSize = tileset->tileSize;
-
-	int txXPos = verflip ? tilex + tileSize.x : tilex;
-	int txYPos = horflip ? tiley + tileSize.y : tiley;
-	int txXSize = verflip ? -tileSize.x : tileSize.x;
-	int txYSize = horflip ? -tileSize.y : tileSize.y;
+	const int txXPos = verflip ? tilex + tileSize.x : tilex;
+	const int txYPos = horflip ? tiley + tileSize.y : tiley;
+	const int txXSize = verflip ? -tileSize.x : tileSize.x;
+	const int txYSize = horflip ? -tileSize.y : tileSize.y;
 
 	return sf::IntRect(txXPos, txYPos, txXSize, txYSize);
 }

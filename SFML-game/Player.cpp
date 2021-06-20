@@ -8,7 +8,7 @@
 #include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-Player::Player(sftools::Chronometer &clock, int x, int y)
+Player::Player([[maybe_unused]]sftools::Chronometer &clock, double x, double y)
 {
 	m_texture.loadFromFile("data/Player Sprites/Warrior.png");
 	m_tilesize.x = m_texture.getSize().x / 4;
@@ -88,26 +88,26 @@ sf::Transform Player::getTransform() const
 	return m_sprite.getTransform();
 }
 
-void Player::setPosition(float x, float y)
+void Player::setPosition(double x, double y)
 {
-	this->x = x;
-	this->y = y;
-	m_sprite.setPosition(x, y);
+	m_x = x;
+	m_y = y;
+	m_sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
 }
 
 void Player::setPosition(sf::Vector2f pos)
 {
-	this->x = pos.x;
-	this->y = pos.y;
+	m_x = pos.x;
+	m_y = pos.y;
 	m_sprite.setPosition(pos);
 }
 
 sf::Vector2f Player::getPosition() const
 {
-	return sf::Vector2(float(x), float(y));
+	return sf::Vector2f(static_cast<float>(m_x), static_cast<float>(m_y));
 }
 
-void Player::takeItem(std::unique_ptr<GameItem> &&item)
+void Player::takeItem(std::unique_ptr<GameItem> item)
 {
 	m_inventory.takeItem(std::move(item));
 }
@@ -140,7 +140,7 @@ void Player::handleKeyInput(appstate::Game &game, Map &map)
 
 	if (isMoving)
 	{
-		auto [newX, newY] = move(m_dir, x, y);
+		auto [newX, newY] = move(m_dir, m_x, m_y);
 
 		auto collisionLayer = map.getTileLayer("Collision");
 		if ((!collisionLayer || !collisionLayer->containsTexture(newX, newY)))
@@ -159,7 +159,7 @@ void Player::handleKeyInput(appstate::Game &game, Map &map)
 	}
 }
 
-sf::Vector2<double> Player::move(Dir dir, const double prevX, const double prevY) const
+sf::Vector2f Player::move(Dir dir, const double prevX, const double prevY) const
 {
 	double newX = prevX;
 	double newY = prevY;
@@ -183,5 +183,5 @@ sf::Vector2<double> Player::move(Dir dir, const double prevX, const double prevY
 		break;
 	}
 
-	return sf::Vector2(newX, newY);
+	return sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY));
 }

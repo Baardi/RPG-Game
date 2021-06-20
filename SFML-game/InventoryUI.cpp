@@ -26,12 +26,11 @@ void InventoryPopup::init()
 	for (auto &item : inventory->Items())
 	{
 		auto &button = addMenuItem(item->name(), item->sprite());
-		auto buttonPos = button.getPosition();
-		auto pItem = item.get();
 
-		button.onClicked([&]
+		button.onClicked([this, item = item.get(), &button = button]
 		{
-			stateMachine().pushChild<ItemInfoPopup>(item.get(), buttonPos.x + 380, buttonPos.y);
+			auto buttonPos = button.getPosition();
+			stateMachine().pushChild<ItemInfoPopup>(item, static_cast<int>(buttonPos.x) + 380, static_cast<int>(buttonPos.y));
 		});
 	}
 }

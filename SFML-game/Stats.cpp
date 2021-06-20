@@ -3,24 +3,23 @@
 
 Stats Stats::get(const MapProperties &properties)
 {
-	Stats stats;
-
-	properties.getProperty("Attack"	,	stats.Attack	);
-	properties.getProperty("Defence",   stats.Defence	);
-	properties.getProperty("Damage" ,	stats.Damage	);
-	properties.getProperty("HP"		,	stats.HP 		);
-
-	return stats;
+	return Stats 
+	{
+		.HP		  = properties.getProperty<int>("HP"	  ).value_or(0),
+		.Attack	  = properties.getProperty<int>("Attack"  ).value_or(0),
+		.Defence  = properties.getProperty<int>("Defence" ).value_or(0),
+		.Damage	  = properties.getProperty<int>("Damage"  ).value_or(0)
+	};
 }
 
 Stats Stats::operator+(const Stats &other) const
 {
 	Stats stats;
 
+	stats.HP		= HP		+ other.HP		;
 	stats.Attack	= Attack	+ other.Attack	;
 	stats.Defence	= Defence	+ other.Defence	;
 	stats.Damage	= Damage	+ other.Damage	;
-	stats.HP		= HP		+ other.HP		;
 
 	return stats;
 }
@@ -29,10 +28,10 @@ Stats Stats::operator-() const
 {
 	Stats stats;
 
-	stats.Attack	= -Attack	;
-	stats.Defence	= -Defence	;
-	stats.Damage	= -Damage	;
-	stats.HP		= -HP		;
+	stats.HP		= -HP	  ;
+	stats.Attack	= -Attack ;
+	stats.Defence	= -Defence;
+	stats.Damage	= -Damage ;
 
 	return stats;
 }
@@ -63,10 +62,10 @@ std::string Stats::toString() const
 {
 	std::stringstream sstream;
 
-	sstream << "Attack"  << Attack << '\n';
-	sstream << "Defence" << Defence << '\n';
-	sstream << "Damage"  << Damage << '\n';
-	sstream << "HP"		 << HP;
+	sstream << "HP"			<< HP		<<	'\n';
+	sstream << "Attack"		<< Attack	<<	'\n';
+	sstream << "Defence"	<< Defence	<<	'\n';
+	sstream << "Damage"		<< Damage	<<	'\n';
 
 	return sstream.str();
 }

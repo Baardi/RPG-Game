@@ -44,7 +44,7 @@ Button &Menu::addMenuItem(const std::string &text, const std::function<void()> &
 	button.setTextSelectionColour(colorSelect);
 	button.setTextDeselectionColour(colorUnselect);
 	button.setTextSize(textSize);
-	button.setPosition(x, y + spacing * index);
+	button.setPosition(static_cast<double>(x), static_cast<double>(y + spacing * index));
 	
 	return button;
 }

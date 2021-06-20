@@ -44,8 +44,8 @@ void Game::init()
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::R,      [this] { stateMachine().switchState<Game>(); });
 	m_keyHandler.onKeyPressed(sf::Keyboard::Key::P,      [this] { toggle(); });
 
-	m_keyHandler.onKeyPressed(sf::Keyboard::Key::M,				[this] { m_music.toggle(); } );
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,		[this] { m_music.incVolume(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::M,						[this] { m_music.toggle(); } );
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,			[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move( 0,  7); });
@@ -81,20 +81,21 @@ void Game::init()
 		layer->removeSprite(item);
 	});
 
-	m_intersectionHandler.registerEvent("Entrance", [this](ObjectLayer *layer, ObjectSprite *entrance)
+	m_intersectionHandler.registerEvent("Entrance", [this]([[maybe_unused]]ObjectLayer *layer, ObjectSprite *entrance)
 	{
-		std::filesystem::path mapFile;
-		if (!entrance->getProperty("EntranceTo", mapFile))
+		const auto mapFile = entrance->getProperty<std::filesystem::path>("EntranceTo");
+		if (!mapFile)
 			return; // Give user a message, invalid entrance
 
-		auto pos = static_cast<sf::Vector2i>(m_player.getPosition());
-		entrance->getProperty("SpawnX", pos.x);
-		entrance->getProperty("SpawnY", pos.y);
+		const auto spawnX = entrance->getProperty<int>("SpawnX");
+		const auto spawnY = entrance->getProperty<int>("SpawnY");
 
-		if (!loadMap(m_map.getPath() / mapFile))
+		if (!loadMap(m_map.getPath() / *mapFile))
 			return; // Give user error message, invalid entrance
 		
-		m_player.setPosition(pos.x, pos.y);
+		if (spawnX.has_value() && spawnY.has_value())
+			m_player.setPosition(*spawnX, *spawnY);
+		
 		updateDrawRect();
 	});
 
@@ -177,9 +178,8 @@ void Game::loadProperties(const MapProperties &properties)
 
 void Game::loadMusic(const MapProperties &properties, Music &music)
 {
-	std::filesystem::path musicFile;
-	if (properties.getProperty("Music", musicFile))
-		music.load(m_map.getPath() / musicFile);
+	if (const auto musicFile = properties.getProperty<std::filesystem::path>("Music"))
+		music.load(m_map.getPath() / *musicFile);
 	else
 		music.reset();
 }

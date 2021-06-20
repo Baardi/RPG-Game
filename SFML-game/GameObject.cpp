@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameObject.hpp"
-#include "SFML/Collision.hpp"
+#include "libs/SFML/SFML/Collision.hpp"
 
 sf::FloatRect GameObject::getLocalBounds() const
 {
@@ -28,13 +28,13 @@ bool GameObject::intersects(const GameObject &object) const
 	return sf::Collision::BoundingBoxTest(transf1, bounds1, transf2, bounds2);
 }
 
-bool GameObject::contains(sf::Vector2f offset) const
+bool GameObject::contains(sf::Vector2f pos) const
 {
 	auto bounds1 = this->getLocalBounds();
 	auto bounds2 = sf::FloatRect();
 	
 	auto transf1 = this->getTransform();
-	auto transf2 = sf::Transform().translate(offset);
+	auto transf2 = sf::Transform().translate(pos);
 
 	return sf::Collision::BoundingBoxTest(transf1, bounds1, transf2, bounds2);
 }

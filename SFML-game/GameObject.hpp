@@ -15,10 +15,10 @@ public:
 
 	sf::Vector2f getBottomRightPosition() const;
 	virtual sf::Vector2f getPosition() const { return sf::Vector2f(); }
-	virtual void setPosition(float x, float y) {}
-	virtual void setPosition(sf::Vector2f pos) {}
+	virtual void setPosition([[maybe_unused]]double x, [[maybe_unused]]double y) {}
+	virtual void setPosition([[maybe_unused]]sf::Vector2f pos) {}
 
-	virtual void draw(sf::RenderTarget &target) {}
+	virtual void draw([[maybe_unused]]sf::RenderTarget &target) {}
 
 #ifdef _DEBUG 
 	void drawDebugOutline(sf::RenderTarget &target) const;

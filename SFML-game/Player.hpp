@@ -24,14 +24,14 @@ enum class Action
 	Talk, // Right?
 	Inventory
 };
-	Player(sftools::Chronometer &clock, int x, int y);
+	Player(sftools::Chronometer &clock, double x, double y);
 	~Player();
 	
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
 
 	sf::Vector2f getPosition() const override;
-	void setPosition(float x, float y) override;
+	void setPosition(double x, double y) override;
 	void setPosition(sf::Vector2f pos) override;
 
 	void draw(sf::RenderTarget &target) override;
@@ -39,14 +39,14 @@ enum class Action
 
 	void fight(Entity& other) override;
 
-	void takeItem(std::unique_ptr<GameItem> &&item);
+	void takeItem(std::unique_ptr<GameItem> item);
 	void handleKeyInput(appstate::Game &game, Map &map);
 
 
 private:
-	sf::Vector2<double> move(Dir dir, const double prevX, const double prevY) const;
+	sf::Vector2f move(Dir dir, const double prevX, const double prevY) const;
 
-	double x = 400, y = 400;
+	double m_x = 400, m_y = 400;
 
 	Dir m_dir = Dir::Down;
 	double m_speed = 5.5;

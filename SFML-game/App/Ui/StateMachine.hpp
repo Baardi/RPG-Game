@@ -33,34 +33,34 @@ public:
 	}
 
 	// Sets a transition, to be done after current frame
-	void setState(Transition transition, std::unique_ptr<State> &&state)
+	void setState(Transition transition, std::unique_ptr<State> state)
 	{
 		m_transition = transition;
 		m_queuedState = std::move(state);
 	}
 
 	// Add a new ui, and hide, but doesn't remove the previous ones
-	template<class T, class... _Valty>
-	void pushState(_Valty&&... _Val)
+	template<class T, class... Args>
+	void pushState(Args&&... args)
 	{
 		setState(Transition::Push, std::make_unique<T>(
-			std::forward<_Valty>(_Val)...));
+			std::forward<Args>(args)...));
 	}
 
 	// Replace current ui with a new one
-	template<class T, class... _Valty>
-	void switchState(_Valty&&... _Val)
+	template<class T, class... Args>
+	void switchState(Args&&... args)
 	{
 		setState(Transition::Pop, std::make_unique<T>(
-			std::forward<_Valty>(_Val)...));
+			std::forward<Args>(args)...));
 	}
 
 	// Remove all ui's and add a new one
-	template<class T, class... _Valty>
-	void reset(_Valty&&... _Val)
+	template<class T, class... Args>
+	void reset(Args&&... args)
 	{
 		setState(Transition::Reset, std::make_unique<T>(
-			std::forward<_Valty>(_Val)...));
+			std::forward<Args>(args)...));
 	}
 
 	// Remove current ui
@@ -76,28 +76,28 @@ public:
 	}
 
 	// Put a child to current ui
-	template<class T, class... _Valty>
-	void pushChild(_Valty&&... _Val)
+	template<class T, class... Args>
+	void pushChild(Args&&... args)
 	{
-		pushState<T>(std::forward<_Valty>(_Val)...);
+		pushState<T>(std::forward<Args>(args)...);
 		m_queuedState->setParent(m_currentState);
 	}
 
 	// Hides, but doesn't remove the current ui, and put a child to the previous one
-	template<class T, class... _Valty>
-	void chainChild(_Valty&&... _Val)
+	template<class T, class... Args>
+	void chainChild(Args&&... args)
 	{
 		auto prevParent = m_currentState ? m_currentState->getParent() : nullptr;
-		pushState<T>(std::forward<_Valty>(_Val)...);
+		pushState<T>(std::forward<Args>(args)...);
 		m_queuedState->setParent(prevParent);
 	}
 
 	// Removes the current ui, and put a child ui to previous one
-	template<class T, class... _Valty>
-	void switchChild(_Valty&&... _Val)
+	template<class T, class... Args>
+	void switchChild(Args&&... args)
 	{
 		auto parent = size() >= 2 ? m_stateStack[size() - 1] : nullptr;
-		switchState<T>(std::forward<_Valty>(_Val)...);
+		switchState<T>(std::forward<Args>(args)...);
 		m_queuedState->setParent(parent);
 	}
 

@@ -11,7 +11,7 @@ void ItemInfoPopup::init()
 	m_menuBackground.load("data/Menus/Subpopup.json", resources().textures());
 
 	m_renderTexture.create(352, 352);
-	m_renderSprite.setPosition(x - 20, y - 20);
+	m_renderSprite.setPosition(static_cast<float>(x - 20), static_cast<float>(y - 20));
 	m_renderSprite.setTexture(m_renderTexture.getTexture());
 
 	addMenuItem("Back", [this] { stateMachine().popState(); });

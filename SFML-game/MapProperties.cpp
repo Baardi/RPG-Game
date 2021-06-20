@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MapProperties.hpp"
 #include "sfUtility.hpp"
+#include <format>
 
 void MapProperties::loadProperties(const Json::Value &properties)
 {

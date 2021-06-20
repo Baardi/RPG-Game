@@ -152,10 +152,10 @@ void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int ti
 	auto tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
-	sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
+	sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(coord.x, coord.y, tileset->tileSize.x, tileset->tileSize.y));
-	sprite.setPosition(x*tileSize.x + tileSize.x-tileset->tileSize.x, y*tileSize.y + tileSize.y - tileset->tileSize.y);
+	sprite.setPosition(static_cast<float>(x*tileSize.x + tileSize.x-tileset->tileSize.x), static_cast<float>(y*tileSize.y + tileSize.y - tileset->tileSize.y));
 }
 
 void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile)
@@ -183,5 +183,5 @@ bool TileLayer::containsTexture(double x, double y) const
 		return true; // Out of bounds
 
 	// Checks the tile the centre of the player is in
-	return containsTextureTileCoords(std::floorf(0.5 + x / (tileSize.x + tileSize.s)), std::floorf(0.5 + y / (tileSize.y + tileSize.s)));
+	return containsTextureTileCoords(static_cast<int>(std::floor(0.5 + x / static_cast<double>(tileSize.x + tileSize.s))), static_cast<int>(std::floor(0.5 + y / static_cast<double>(tileSize.y + tileSize.s))));
 }

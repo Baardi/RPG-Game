@@ -18,18 +18,18 @@ void ImageLayer::load(const Json::Value &layer, const std::filesystem::path &dir
 		transparentcolor = sf::utility::parseColor(layer["transparentcolor"].asString());
 	}
 		
-	m_sprite.setPosition(x, y);
-	m_sprite.setColor(sf::Color(255, 255, 255, (256 * opacity) - 1));
+	m_sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
+	m_sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
 
 	auto imagePath = directory / image;
 	auto it = textures.find(imagePath.string());
 	if (it == textures.end())
 	{
-		auto[it, inserted] = textures.try_emplace(imagePath.string(), sf::Texture());
+		auto[it2, inserted] = textures.try_emplace(imagePath.string(), sf::Texture());
 		if (inserted)
 		{
-			it->second.loadFromFile(imagePath.string());
-			m_sprite.setTexture(it->second);
+			it2->second.loadFromFile(imagePath.string());
+			m_sprite.setTexture(it2->second);
 		}
 	}
 	else

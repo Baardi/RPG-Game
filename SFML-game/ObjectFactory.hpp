@@ -2,14 +2,19 @@
 #include <map>
 #include <functional>
 
-template <class Base, class ...Args>
-class ObjectFactory : public std::enable_if_t< std::has_virtual_destructor_v<Base> && !std::is_abstract_v<Base> >
+template <typename Base>
+concept ObjectFactoryBase = requires
+{
+	std::has_virtual_destructor_v<Base> && !std::is_abstract_v<Base>;
+};
+
+template <ObjectFactoryBase Base, class ...Args>
+class ObjectFactory
 {
 public:
 	template <class Derived>
-	bool registerType(const std::string &type)
+	bool registerType(const std::string& type) requires(std::derived_from<Derived, Base>)
 	{
-		static_assert(std::is_base_of_v<Base, Derived>, "type \"Derived\" is not derived from type \"Base\"");
 		auto[it, inserted] = m_map.try_emplace(type, [](Args &&...args)
 		{
 			return std::make_unique<Derived>(std::forward<Args>(args)...);

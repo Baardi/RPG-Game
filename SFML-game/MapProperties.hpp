@@ -1,6 +1,7 @@
 #pragma once
 #include <variant>
 #include <filesystem>
+#include <optional>
 
 class MapProperties
 {
@@ -11,18 +12,17 @@ public:
 	virtual ~MapProperties() = default;
 	
 	template <class T>
-	bool getProperty(const std::string &propertyName, T &property) const
+	std::optional<T> getProperty(const std::string &propertyName) const
 	{
 		auto it = m_properties.find(propertyName);
 		if (it == m_properties.end())
-			return false;
+			return {};
 
-		auto foundProperty = std::get_if<T>(&it->second);
-		if (!foundProperty)
-		  return false;
+		auto property = std::get_if<T>(&it->second);
+		if (!property)
+		  return {};
 
-		property = *foundProperty;
-		return true;
+		return *property;
 	}
 
 protected:

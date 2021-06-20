@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ObjectLayer.hpp"
 #include "Map.hpp"
+#include <ranges>
 
 void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
 {
@@ -65,8 +66,7 @@ void ObjectLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 
 void ObjectLayer::removeSprite(ObjectSprite *sprite)
 {
-	auto it = std::find_if(objects.begin(), objects.end(), 
-		[sprite](auto &object) { return object.get() == sprite;});
+	auto it = std::ranges::find_if(objects, [sprite](const auto &object) { return object.get() == sprite;});
 
 	if (it == objects.end())
 		return;
@@ -76,11 +76,10 @@ void ObjectLayer::removeSprite(ObjectSprite *sprite)
 
 ObjectSprite *ObjectLayer::getIntersectedObject(const GameObject &other)
 {
-	for (auto &object : objects)
-	{
-		if (object->intersects(other))
-			return object.get();
-	}
+	auto it = std::ranges::find_if(objects, [&other](const auto &object) { return object->intersects(other); });
 
-	return nullptr;
+	if (it == objects.end())
+		return nullptr;
+	
+	return &**it;
 }

@@ -11,13 +11,13 @@ public:
 	
 	virtual void init() {}
 	virtual bool frame() { return true; }
-	virtual void pollEvent(sf::Event::EventType eventType) {}
+	virtual void pollEvent([[maybe_unused]]sf::Event::EventType&) {}
 	
 	virtual void pause();
 	virtual void resume();
 	void toggle();
 
-	virtual void draw(sf::RenderTarget &target) {}
+	virtual void draw([[maybe_unused]]sf::RenderTarget &target) {}
 	void drawAll();
 	
 	sf::RenderWindow &window() { return *m_window; }

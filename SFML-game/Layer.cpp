@@ -24,15 +24,17 @@ void processAnimation(sf::Sprite& sprite, AnimationTile& animationTile, const sf
 
 	sf::Time currentTime = clock.getElapsedTime();
 
-	if (currentTime > lastTime + animationTileData[currentFrame].duration)
+	bool updated = false;
+	while (currentTime > lastTime + animationTileData[currentFrame].duration)
 	{
-		do
-		{
-			lastTime += animationTileData[currentFrame].duration; // To keep it in sync, just increment by the duration
-			currentFrame = (currentFrame + 1) % animationTileData.size();
-		}
-		while (currentTime > lastTime + animationTileData[currentFrame].duration);
+		lastTime += animationTileData[currentFrame].duration; // To keep it in sync, just increment by the duration
+		currentFrame = (currentFrame + 1) % animationTileData.size();
+		
+		updated = true;
+	}
 
+	if (updated)
+	{
 		sf::IntRect &rect = animationTileData[currentFrame].intRect;
 		sprite.setTextureRect(rect);
 	}

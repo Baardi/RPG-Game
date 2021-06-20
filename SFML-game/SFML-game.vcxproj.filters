@@ -34,6 +34,9 @@
     <Filter Include="Handlers">
       <UniqueIdentifier>{44b87002-4a2e-4c1e-a9de-01344f58c5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{85f5e764-28a1-4479-9b58-8e295541a530}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="MouseHandler.hpp">
       <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.hpp">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
