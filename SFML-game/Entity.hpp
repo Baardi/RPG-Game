@@ -12,11 +12,8 @@ public:
 	virtual ~Entity() = default;
 
 	virtual void fight(Entity &other) 
-	{	
-		auto& _this = *this;
-		
-		_this.hit(other, _this.m_stats.Damage);
-		other.hit(_this, other.m_stats.Damage);
+	{
+		hit(other, m_stats.Damage);
 	}
 
 	void hit(Entity &other, int damage)
