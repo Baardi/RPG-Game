@@ -17,6 +17,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-system", ".build\SFML\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml-window", ".build\SFML\src\SFML\Window\sfml-window.vcxproj", "{50725E55-D8F2-30CA-9778-1B06B6846063}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonCpp", "JsonCpp\JsonCpp.vcxproj", "{F4C257BD-18AB-4040-A66B-44DD936E2A96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsonCpp", "JsonCpp", "{55D05DBB-C96B-4EDF-BF9A-A1916C901415}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

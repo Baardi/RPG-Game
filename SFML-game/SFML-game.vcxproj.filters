@@ -236,9 +236,6 @@
     <ClCompile Include="StatsInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="libs\json\jsoncpp.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="ItemInfoPopup.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
