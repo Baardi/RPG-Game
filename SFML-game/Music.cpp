@@ -13,7 +13,7 @@ bool Music::load(const std::filesystem::path &file)
 {	
 	if (file.has_filename() && m_music.openFromFile(file.string()))
 	{
-		m_currentFile = std::filesystem::canonical(file);
+		m_currentFile = std::filesystem::absolute(file);
 		play();
 	}
 	else
