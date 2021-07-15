@@ -16,11 +16,11 @@ public:
 	{
 		auto it = m_properties.find(propertyName);
 		if (it == m_properties.end())
-			return {};
+			return std::nullopt;
 
 		auto property = std::get_if<T>(&it->second);
 		if (!property)
-		  return {};
+		  return std::nullopt;
 
 		return *property;
 	}

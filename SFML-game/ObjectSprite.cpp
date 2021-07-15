@@ -156,7 +156,7 @@ void ObjectSprite::loadTexture(const std::map<int, TileSet> &tileSets)
 	{
 		// First animationtile decides first texturerect
 		auto &animationTile = it->second;
-		loadSpriteTexture(spriteTexture, animationTile[0].first);
+		loadSpriteTexture(spriteTexture, animationTile[0].tileid);
 		loadSpriteAnimation(spriteTexture, animationTile);
 	}
 }
@@ -184,9 +184,9 @@ void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 	sprite.setScale(width / static_cast<float>(tileset->tileSize.x), height / static_cast<float>(tileset->tileSize.y));
 }
 
-void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const std::vector<std::pair<int, sf::Time>> &animationTile)
+void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const Animation &animation)
 {
-	for (const auto [tileid, duration] : animationTile)
+	for (const auto [tileid, duration] : animation)
 	{
 		auto [tilex, tiley] = getTileCoords(texture, tileid, tileset->tileSize);
 		auto textureRect = getTextureRectToUse(tileset->tileSize, tilex, tiley, verflip, horflip);

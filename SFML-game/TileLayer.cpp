@@ -139,7 +139,7 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 			{
 				// First animationtile decides first texturerect
 				auto &animationTile = it->second;
-				loadSpriteTexture(tile, spriteTexture, animationTile[0].first, x, y);
+				loadSpriteTexture(tile, spriteTexture, animationTile[0].tileid, x, y);
 				loadSpriteAnimation(spriteTexture, tile, animationTile);
 			}
 		}
@@ -158,9 +158,9 @@ void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int ti
 	sprite.setPosition(static_cast<float>(x*tileSize.x + tileSize.x-tileset->tileSize.x), static_cast<float>(y*tileSize.y + tileSize.y - tileset->tileSize.y));
 }
 
-void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const std::vector<std::pair<int, sf::Time>> &animationTile)
+void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const Animation &animation)
 {
-	for (const auto [tileid, duration]: animationTile)
+	for (const auto [tileid, duration]: animation)
 	{
 		auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
 		auto rect = sf::IntRect(coord.x, coord.y, tile.tileset->tileSize.x, tile.tileset->tileSize.y);

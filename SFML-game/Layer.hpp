@@ -4,8 +4,16 @@
 class TileSet;
 class FringeDrawer;
 
-// <animationtileid, animationdata< frame<tileid, duration>> >
-using AnimationTileMap = std::map<int, std::vector< std::pair<int, sf::Time>>>;
+struct AnimationFrame
+{
+	int tileid;
+	sf::Time duration;
+};
+
+using Animation = std::vector<AnimationFrame>;
+
+// <gid, animation>
+using AnimationTileMap = std::map<int, Animation>;
 
 struct AnimationTileData
 {

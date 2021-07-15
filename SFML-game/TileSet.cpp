@@ -48,13 +48,13 @@ void TileSet::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Sto
 	{
 		int tileid = tile["id"].asInt();
 
-		std::vector<std::pair<int, sf::Time>> tileSetAnimations;
+		Animation tileSetAnimations;
 		for (const auto &animation : tile["animation"])
 		{
 			int animationTileId = animation["tileid"].asInt();
 			int animationTileDuration_ms = animation["duration"].asInt();
 
-			tileSetAnimations.emplace_back(animationTileId, sf::milliseconds(animationTileDuration_ms));
+			tileSetAnimations.push_back({ animationTileId, sf::milliseconds(animationTileDuration_ms) });
 		}
 
 		animatedTiles.try_emplace(firstGid + tileid, tileSetAnimations);
