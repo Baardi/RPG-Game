@@ -76,34 +76,41 @@ Button &ButtonHandler::addButton(const std::string &text, const std::function<vo
 	return button;
 }
 
-bool ButtonHandler::toogleInputMode()
+ButtonHandler::InputMode ButtonHandler::updateInputMode()
 {
 	auto currMousePos = sf::Mouse::getPosition();
 
-	if (!m_mouseControl.has_value())
+	if (m_inputMode == InputMode::None)
 	{
 		m_lastMousePos = currMousePos;
-		m_mouseControl = false;
+		m_inputMode = InputMode::Keys;
 	}
 
 	if (m_lastMousePos != currMousePos)
 	{
 		m_lastMousePos = currMousePos;
-		m_mouseControl = true;
+		m_inputMode = InputMode::Mouse;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	{
-		m_mouseControl = false;
+		m_inputMode = InputMode::Keys;
 	}
 
-	return m_mouseControl.value();
+	return m_inputMode;
 }
 
 void ButtonHandler::handleInput(sf::Window &window)
 {
-	toogleInputMode() ? handleMouseEvents(window) : handleKeyEvents(window);
+	switch (updateInputMode())
+	{
+	case InputMode::Keys:
+		handleKeyEvents(window);
+
+	case InputMode::Mouse:
+		handleMouseEvents(window);
+	}
 }
 
 void ButtonHandler::draw(sf::RenderTarget &target) const

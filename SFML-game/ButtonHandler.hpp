@@ -38,14 +38,15 @@ public:
 	//auto &operator[](size_t index) { return m_buttons[index]; }
 	//const auto &operator[](size_t index) const { return m_buttons[index]; }
 private:
-	bool toogleInputMode();
+	enum class InputMode{ None, Mouse, Keys };
+	InputMode updateInputMode();
 	void handleKeyEvents(sf::Window &window);
 	void handleMouseEvents(sf::Window &window); // TODO: implement, pollevent
 
 private:
 
 	// Variables for mouse/key-mode toggling and behaviour
-	std::optional<bool> m_mouseControl;
+	InputMode m_inputMode;
 	sf::Vector2i m_lastMousePos;
 	bool m_enterWasPressed = true;
 	sftools::Chronometer m_clock;
