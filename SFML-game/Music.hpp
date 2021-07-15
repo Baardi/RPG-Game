@@ -1,6 +1,5 @@
 #pragma once
 #include <filesystem>
-#include <optional>
 
 /*
 *	Wrapper for sf::Music class
@@ -31,7 +30,7 @@ public:
 
 private:
 	double m_volume;
-	std::optional<std::filesystem::path> m_currentFile;
+	std::filesystem::path m_currentFile;
 	sf::Music m_music;
 	bool m_muted;
 };

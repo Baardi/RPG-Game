@@ -21,30 +21,30 @@ bool Music::load(const std::filesystem::path &file)
 		reset();
 	}
 
-	return m_currentFile.has_value();
+	return m_currentFile.has_filename();
 }
 
 void Music::reset()
 {
 	stop();
-	m_currentFile.reset();
+	m_currentFile.clear();
 }
 
 void Music::play()
 {
-	if (m_currentFile.has_value())
+	if (m_currentFile.has_filename())
 		m_music.play();
 }
 
 void Music::pause()
 {
-	if (m_currentFile.has_value())
+	if (m_currentFile.has_filename())
 		m_music.pause();
 }
 
 void Music::stop()
 {
-	if (m_currentFile.has_value())
+	if (m_currentFile.has_filename())
 		m_music.stop();
 }
 
@@ -57,7 +57,7 @@ void Music::mute()
 void Music::unmute()
 {
 	m_muted = false;
-	m_music.setVolume(float(m_volume));
+	m_music.setVolume(static_cast<float>(m_volume));
 }
 
 void Music::toggle()
@@ -68,18 +68,18 @@ void Music::toggle()
 void Music::incVolume()
 {
 	if (m_volume < 100.0)
-		m_music.setVolume(float(++m_volume));
+		m_music.setVolume(static_cast<float>(++m_volume));
 }
 
 void Music::decVolume()
 {
 	if (m_volume > 0.0)
-		m_music.setVolume(float(--m_volume));
+		m_music.setVolume(static_cast<float>(--m_volume));
 }
 
 void Music::setVolume(double volume)
 {
 	if (volume >= 0.0 && volume <= 100.0)
-		m_music.setVolume(float(m_volume = volume));
+		m_music.setVolume(static_cast<float>(m_volume = volume));
 }
 
