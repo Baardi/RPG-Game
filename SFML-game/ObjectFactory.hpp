@@ -3,17 +3,14 @@
 #include <functional>
 
 template <typename Base>
-concept ObjectFactoryBase = requires
-{
-	std::has_virtual_destructor_v<Base> && !std::is_abstract_v<Base>;
-};
+concept ObjectFactoryBase = std::has_virtual_destructor_v<Base> && !std::is_abstract_v<Base>;
 
 template <ObjectFactoryBase Base, class ...Args>
 class ObjectFactory
 {
 public:
 	template <class Derived>
-	bool registerType(const std::string& type) requires(std::derived_from<Derived, Base>)
+	bool registerType(const std::string &type) requires std::derived_from<Derived, Base>
 	{
 		auto[it, inserted] = m_map.try_emplace(type, [](Args &&...args)
 		{
