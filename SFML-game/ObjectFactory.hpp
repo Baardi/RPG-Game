@@ -9,8 +9,8 @@ template <ObjectFactoryBase Base, class ...Args>
 class ObjectFactory
 {
 public:
-	template <class Derived>
-	bool registerType(const std::string &type) requires std::derived_from<Derived, Base>
+	template <std::derived_from<Base> Derived>
+	bool registerType(const std::string &type)
 	{
 		auto[it, inserted] = m_map.try_emplace(type, [](Args &&...args)
 		{
