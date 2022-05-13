@@ -2,11 +2,13 @@
 #include <filesystem>
 #include "Layer.hpp"
 
+#include "App/ResourceManager.hpp"
+
 class TileSet
 {
 public:
-	void load(const Json::Value &root, const std::filesystem::path &directory, std::map<std::string, sf::Texture> &textures);
-	void save(Json::Value &tilesets) const;
+	bool load(const Json::Value &root, const std::filesystem::path &directory, Textures &textures);
+	bool save(Json::Value &tilesets) const;
 	
 	AnimationTileMap animatedTiles;
 	void loadAnimatedTiles(int firstGid, const Json::Value &tileset);

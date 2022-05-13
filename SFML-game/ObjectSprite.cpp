@@ -31,7 +31,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 		y -= height * std::cosf(rotation * (std::numbers::pi_v<float> / 180.0f));
 	}
 
-	m_localBounds = sf::FloatRect(0, 0, width, height);
+	m_localBounds = sf::FloatRect({ 0.0f, 0.0f }, { width, height });
 
 	sf::Vector2f scale(1, 1);
 	sf::Vector2f origin(0, 0);
@@ -56,8 +56,8 @@ void ObjectSprite::loadText(const Json::Value &textValue)
 	text->setString(textValue["text"].asString());
 	text->setCharacterSize(textValue["pixelsize"].asInt());
 	text->setFont(resources().font());
-	text->setPosition(x, y);
-	text->setRotation(rotation);
+	text->setPosition({ x, y });
+	text->setRotation(sf::degrees(rotation));
 	text->setStyle(sf::utility::parseTextStyle(textValue));
 }
 
@@ -179,9 +179,9 @@ void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 	sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(textureRect);
-	sprite.setPosition(x, y);
-	sprite.setRotation(rotation);
-	sprite.setScale(width / static_cast<float>(tileset->tileSize.x), height / static_cast<float>(tileset->tileSize.y));
+	sprite.setPosition({ x, y });
+	sprite.setRotation(sf::degrees(rotation));
+	sprite.setScale({ width / static_cast<float>(tileset->tileSize.x), height / static_cast<float>(tileset->tileSize.y) });
 }
 
 void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const Animation &animation)
@@ -202,5 +202,5 @@ sf::IntRect ObjectSprite::getTextureRectToUse(TileSize tileSize, int tilex, int 
 	const int txXSize = verflip ? -tileSize.x : tileSize.x;
 	const int txYSize = horflip ? -tileSize.y : tileSize.y;
 
-	return sf::IntRect(txXPos, txYPos, txXSize, txYSize);
+	return sf::IntRect({ txXPos, txYPos }, { txXSize, txYSize });
 }

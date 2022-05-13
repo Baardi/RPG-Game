@@ -10,8 +10,7 @@ using appstate::InventoryPopup;
 
 InventoryPopup::InventoryPopup(Inventory &inventory) : inventory(&inventory)
 {
-	x = 70;
-	y = 120;
+	pos = { 70, 120 };
 	m_menuBackground.load("data/Menus/PopupMenu.json", resources().textures());
 }
 
@@ -29,8 +28,8 @@ void InventoryPopup::init()
 
 		button.onClicked([this, item = item.get(), &button = button]
 		{
-			auto buttonPos = button.getPosition();
-			stateMachine().pushChild<ItemInfoPopup>(item, static_cast<int>(buttonPos.x) + 380, static_cast<int>(buttonPos.y));
+			const auto buttonPos = static_cast<sf::Vector2i>(button.getPosition()) + sf::Vector2i{ 380, 0 };
+			stateMachine().pushChild<ItemInfoPopup>(item, buttonPos);
 		});
 	}
 }

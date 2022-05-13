@@ -24,14 +24,13 @@ enum class Action
 	Talk, // Right?
 	Inventory
 };
-	Player(sftools::Chronometer &clock, double x, double y);
+	Player(sftools::Chronometer &clock, sf::Vector2f pos);
 	~Player();
 	
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;
 
 	sf::Vector2f getPosition() const override;
-	void setPosition(double x, double y) override;
 	void setPosition(sf::Vector2f pos) override;
 
 	void draw(sf::RenderTarget &target) override;
@@ -44,12 +43,10 @@ enum class Action
 
 
 private:
-	sf::Vector2f move(Dir dir, const double prevX, const double prevY) const;
-
-	double m_x = 400, m_y = 400;
+	sf::Vector2f move(Dir dir, sf::Vector2f prevPos) const;
 
 	Dir m_dir = Dir::Down;
-	double m_speed = 5.5;
+	float m_speed = 5.5;
 	int m_counter = 0;
 	const int m_counterMax = 25;
 	sf::Int32 m_lastTime;

@@ -8,8 +8,7 @@ using appstate::GamePopupMenu;
 
 GamePopupMenu::GamePopupMenu()
 {
-	x = 70;
-	y = 120;
+	pos = { 70, 120 };
 }
 
 void GamePopupMenu::init()

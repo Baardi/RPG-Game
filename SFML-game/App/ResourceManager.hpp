@@ -1,5 +1,7 @@
 #pragma once
 
+using Textures = std::map<std::filesystem::path, sf::Texture>;
+
 class ResourceManager
 {
 	friend ResourceManager &resources();
@@ -12,7 +14,7 @@ class ResourceManager
 	ResourceManager &operator=(ResourceManager &&) = delete;
 		
 	sf::Font m_font;
-	std::map<std::string, sf::Texture> m_textures;
+	Textures m_textures;
 
 public:
 	auto &font() { return m_font; }

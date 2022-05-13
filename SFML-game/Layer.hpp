@@ -47,10 +47,10 @@ public:
 	Layer(TileSize tileSize) : tileSize(tileSize) {}
 	virtual ~Layer() = default;
 	
-	virtual void save([[maybe_unused]]Json::Value &layer) const {}
+	virtual bool save([[maybe_unused]] Json::Value &layer) const = 0;
 	virtual void process([[maybe_unused]]const sftools::Chronometer &clock) {}
-	virtual void draw([[maybe_unused]]sf::RenderTarget& target) {}
-	virtual void drawWithFringe(sf::RenderTarget& target, [[maybe_unused]]FringeDrawer &fringeDrawer) { draw(target); }
+	virtual void draw([[maybe_unused]]sf::RenderTarget &target) {}
+	virtual void drawWithFringe(sf::RenderTarget &target, [[maybe_unused]]FringeDrawer &fringeDrawer) { draw(target); }
 	virtual void loadTexture([[maybe_unused]]const std::map<int, TileSet> &tileSets) {}
 
 	std::string name;

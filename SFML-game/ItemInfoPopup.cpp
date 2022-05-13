@@ -10,8 +10,10 @@ void ItemInfoPopup::init()
 {
 	m_menuBackground.load("data/Menus/Subpopup.json", resources().textures());
 
-	m_renderTexture.create(352, 352);
-	m_renderSprite.setPosition(static_cast<float>(x - 20), static_cast<float>(y - 20));
+	if (!m_renderTexture.create(352u, 352u))
+		std::cout << "Failed creating renderTexture";
+
+	m_renderSprite.setPosition(static_cast<sf::Vector2f>(pos - sf::Vector2i{ 20, 20 }));
 	m_renderSprite.setTexture(m_renderTexture.getTexture());
 
 	addMenuItem("Back", [this] { stateMachine().popState(); });

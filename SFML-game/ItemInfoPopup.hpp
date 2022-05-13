@@ -7,8 +7,8 @@ namespace appstate {
 class ItemInfoPopup : public appstate::PopupMenu
 {
 public:
-	ItemInfoPopup(GameItem *item, int x, int y) :
-		m_item(item), x(x), y(y) {}
+	ItemInfoPopup(GameItem *item, sf::Vector2i pos) :
+		m_item(item), m_pos(pos) {}
 
 	virtual ~ItemInfoPopup() = default;
 
@@ -16,7 +16,7 @@ public:
 	void draw(sf::RenderTarget &target) override; 
 	
 	GameItem *m_item;
-	int x, y;
+	sf::Vector2i m_pos;
 	Map m_menuBackground;
 	sf::RenderTexture m_renderTexture;
 	sf::Sprite m_renderSprite;

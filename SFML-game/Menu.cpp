@@ -44,7 +44,7 @@ Button &Menu::addMenuItem(const std::string &text, const std::function<void()> &
 	button.setTextSelectionColour(colorSelect);
 	button.setTextDeselectionColour(colorUnselect);
 	button.setTextSize(textSize);
-	button.setPosition(static_cast<double>(x), static_cast<double>(y + spacing * index));
+	button.setPosition({static_cast<float>(pos.x), static_cast<float>(pos.y + spacing * index) });
 	
 	return button;
 }
@@ -61,7 +61,7 @@ sf::Sprite &Menu::addMenuSprite(const sf::Sprite& sprite, const Button &button)
 	auto &addedSprite = m_menusprites.emplace_back(sprite); // Yes I want a copy
 
 	auto buttonPos = button.getPosition();
-	addedSprite.setPosition(buttonPos.x + spriteSpacing, buttonPos.y);
+	addedSprite.setPosition({ buttonPos.x + spriteSpacing, buttonPos.y });
 
 	return addedSprite;
 }

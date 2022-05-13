@@ -14,9 +14,9 @@
 
 using appstate::Game;
 
-Game::Game(): m_player(m_clock, 160, 160), m_pauseText("Paused", resources().font(), 50)
+Game::Game() : m_player{ m_clock, { 160, 160 } }, m_pauseText{ "Paused", resources().font(), 50 }
 {
-	m_pauseText.setPosition(400, 450);
+	m_pauseText.setPosition({ 400, 450 });
 }
 
 Game::~Game()
@@ -48,10 +48,10 @@ void Game::init()
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,			[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move( 0,  7); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move( 7,  0); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move( 0, -7); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move(-7,  0); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move({ 0,  7 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move({ 7,  0 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move({ 0, -7 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move({ -7, 0 }); });
 
 	m_intersectionHandler.registerEvent("Enemies", [this](ObjectLayer *layer, ObjectSprite *sprite)
 	{
@@ -81,20 +81,20 @@ void Game::init()
 		layer->removeSprite(item);
 	});
 
-	m_intersectionHandler.registerEvent("Entrance", [this]([[maybe_unused]]ObjectLayer *layer, ObjectSprite *entrance)
-	{
-		const auto mapFile = entrance->getProperty<std::filesystem::path>("EntranceTo");
-		if (!mapFile)
-			return; // Give user a message, invalid entrance
+	m_intersectionHandler.registerEvent("Entrance", [this]([[maybe_unused]] ObjectLayer* layer, ObjectSprite* entrance)
+		{
+			const auto mapFile = entrance->getProperty<std::filesystem::path>("EntranceTo");
+			if (!mapFile)
+				return; // Give user a message, invalid entrance
 
-		const auto spawnX = entrance->getProperty<int>("SpawnX");
-		const auto spawnY = entrance->getProperty<int>("SpawnY");
+			const auto spawnX = entrance->getProperty<int>("SpawnX");
+			const auto spawnY = entrance->getProperty<int>("SpawnY");
 
-		if (!loadMap(m_map.getPath() / *mapFile))
-			return; // Give user error message, invalid entrance
-		
-		if (spawnX.has_value() && spawnY.has_value())
-			m_player.setPosition(*spawnX, *spawnY);
+			if (!loadMap(m_map.getPath() / *mapFile))
+				return; // Give user error message, invalid entrance
+
+			if (spawnX.has_value() && spawnY.has_value())
+				m_player.setPosition({ static_cast<float>(*spawnX), static_cast<float>(*spawnY) });
 		
 		updateDrawRect();
 	});
@@ -164,7 +164,9 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);
 
-	m_renderTexture.create(m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y);
+	if (!m_renderTexture.create(m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y))
+		return false;
+
 	m_renderSprite.setTexture(m_renderTexture.getTexture());
 	updateDrawRect();
 
@@ -186,10 +188,12 @@ void Game::loadMusic(const MapProperties &properties, Music &music)
 
 void Game::updateDrawRect()
 {
-	auto playerpos = m_player.getPosition();
-	auto playerbounds = m_player.getLocalBounds();
-	auto windowsize = window().getSize();
-	auto newX = windowsize.x / 2 - playerbounds.width  / 2 - playerpos.x;
-	auto newY = windowsize.y / 2 - playerbounds.height / 2 - playerpos.y;
-	m_renderSprite.setPosition(newX, newY);
+	const auto playerPos = m_player.getPosition();
+	const auto playerBounds = m_player.getLocalBounds();
+	const auto windowSize = window().getSize();
+
+	const float newX = windowSize.x / 2 - playerBounds.width  / 2 - playerPos.x;
+	const float newY = windowSize.y / 2 - playerBounds.height / 2 - playerPos.y;
+
+	m_renderSprite.setPosition({ newX, newY });
 }

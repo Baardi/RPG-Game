@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "TileSet.hpp"
+#include <iostream>
 
-void TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &directory, std::map<std::string, sf::Texture> &textures)
+bool TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &directory, Textures &textures)
 {
 	image = tilesetVal["image"].asString();
 	firstgid = tilesetVal["firstgid"].asInt();
@@ -15,14 +16,22 @@ void TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 
 	auto imagePath = directory / image;
 	auto [it, inserted] = textures.try_emplace(imagePath.string());
-	texture = &it->second;
 	if (inserted)
-		it->second.loadFromFile(imagePath.string());
+	{
+		if (!it->second.loadFromFile(imagePath))
+		{
+			std::cout << "Failed loading texture";
+
+			return false;
+		}
+	}
 	
 	loadAnimatedTiles(firstgid, tilesetVal["tiles"]);
+	
+	return true;
 }
 
-void TileSet::save(Json::Value &tilesets) const
+bool TileSet::save(Json::Value &tilesets) const
 {
 	Json::Value tilesetVal;
 
@@ -40,6 +49,8 @@ void TileSet::save(Json::Value &tilesets) const
 	saveAnimatedTiles(tilesetVal["tiles"]);
 
 	tilesets.append(tilesetVal);
+
+	return true;
 }
 
 void TileSet::loadAnimatedTiles(int firstGid, const Json::Value &tileset) // Store info on animated tiles

@@ -20,26 +20,24 @@ int ButtonHandler::getSpacing() const
 	return m_spacing;
 }
 
-void ButtonHandler::setNextPosition(int x, int y)
+void ButtonHandler::setNextPosition(sf::Vector2i pos)
 {
-	m_xCurr = x;
-	m_yCurr = y;
+	m_posCurr = pos;
 }
 
-std::pair<int, int> ButtonHandler::getNextPosition() const
+sf::Vector2i ButtonHandler::getNextPosition() const
 {
-	return std::make_pair(m_xCurr, m_yCurr);
+	return m_posCurr;
 }
 
-void ButtonHandler::setDefaultSize(int width, int height)
+void ButtonHandler::setDefaultSize(sf::Vector2i size)
 {
-	m_defaultWidth = width;
-	m_defaultHeight = height;
+	m_defaultSize = size;
 }
 
-std::pair<int, int> ButtonHandler::getDefaultSize() const
+sf::Vector2i ButtonHandler::getDefaultSize() const
 {
-	return std::make_pair(m_defaultWidth, m_defaultHeight);
+	return m_defaultSize;
 }
 
 void ButtonHandler::setDefaultTextSize(int size) 
@@ -64,14 +62,14 @@ Button &ButtonHandler::addButton(const std::string &text, const std::function<vo
 		m_it = m_buttons.begin();
 	}
 
-	button.setSize(m_defaultWidth, m_defaultHeight);
+	button.setSize(static_cast<sf::Vector2f>(m_defaultSize));
 	button.setTextSize(m_defaultTextSize);
-	button.setPosition(m_xCurr, m_yCurr);
+	button.setPosition(static_cast<sf::Vector2f>(m_posCurr));
 	button.setText(text);
 	button.onClicked(func);
 
 	auto bounds = button.getGlobalBounds();
-	m_yCurr = static_cast<int>(bounds.top) + static_cast<int>(bounds.height) + m_spacing;
+	m_posCurr.y = static_cast<int>(bounds.top) + static_cast<int>(bounds.height) + m_spacing;
 
 	return button;
 }
@@ -93,7 +91,7 @@ ButtonHandler::InputMode ButtonHandler::updateInputMode()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
 		m_inputMode = InputMode::Keys;
 	}
@@ -107,9 +105,11 @@ void ButtonHandler::handleInput(sf::Window &window)
 	{
 	case InputMode::Keys:
 		handleKeyEvents(window);
+		break;
 
 	case InputMode::Mouse:
 		handleMouseEvents(window);
+		break;
 	}
 }
 
@@ -154,7 +154,7 @@ void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 		m_clock -= m_keyUpDownCooldown;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
 		if (!m_enterWasPressed)
 			m_it->invoke();
@@ -169,10 +169,10 @@ void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 void ButtonHandler::handleMouseEvents(sf::Window &window)
 {
 	m_it = m_buttons.end();
-	auto pos = sf::Mouse::getPosition(window);
+	const auto pos = sf::Mouse::getPosition(window);
 	for (auto it = m_buttons.begin(); it != m_buttons.end(); ++it)
 	{
-		if (it->contains(pos.x, pos.y) && m_it == m_buttons.end())
+		if (it->contains(static_cast<sf::Vector2f>(pos)) && m_it == m_buttons.end())
 		{
 			m_it = it;
 			it->select();

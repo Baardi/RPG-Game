@@ -23,9 +23,9 @@ protected:
 	Button &addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
 
 	// Data members changable by derived classes
-	int x = 400, y = 400;
-	int spacing = 50, spriteSpacing = 220;
-	int textSize = 40;
+	sf::Vector2i pos{ 400, 400 };
+	int spacing{ 50 }, spriteSpacing{ 220 };
+	int textSize{ 40 };
 	sf::Color colorSelect = sf::Color::Yellow;
 	sf::Color colorUnselect = sf::Color::White;
 

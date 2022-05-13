@@ -59,8 +59,8 @@ private:
 BitmaskManager Bitmasks;
  
 bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, sf::Uint8 AlphaLimit) {
-	sf::FloatRect Intersection; 
-	if (Object1.getGlobalBounds().intersects(Object2.getGlobalBounds(), Intersection)) {
+	
+	if (const auto intersection = Object1.getGlobalBounds().findIntersection(Object2.getGlobalBounds())) {
 		sf::IntRect O1SubRect = Object1.getTextureRect();
 		sf::IntRect O2SubRect = Object2.getTextureRect();
 
@@ -68,11 +68,11 @@ bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, sf::
 		sf::Uint8* mask2 = Bitmasks.GetMask(Object2.getTexture());
 
 		// Loop through our pixels
-		for (int i = static_cast<int>(Intersection.left); i < static_cast<int>(Intersection.left+Intersection.width); i++) {
-			for (int j = static_cast<int>(Intersection.top); j < static_cast<int>(Intersection.top+Intersection.height); j++) {
+		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) {
+			for (int j = static_cast<int>(intersection->top); j < static_cast<int>(intersection->top + intersection->height); j++) {
  
-				sf::Vector2f o1v = Object1.getInverseTransform().transformPoint(static_cast<float>(i), static_cast<float>(j));
-				sf::Vector2f o2v = Object2.getInverseTransform().transformPoint(static_cast<float>(i), static_cast<float>(j));
+				sf::Vector2f o1v = Object1.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
+				sf::Vector2f o2v = Object2.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
  
 				// Make sure pixels fall within the sprite's subrect
 				if (o1v.x > 0 && o1v.y > 0 && o2v.x > 0 && o2v.y > 0 &&
@@ -131,10 +131,10 @@ class OrientedBoundingBox // Used in the BoundingBoxTest
 public:
 	OrientedBoundingBox(sf::Transform transf, sf::FloatRect bounds) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
 	{
-		Points[0] = transf.transformPoint(0.f, 0.f);
-		Points[1] = transf.transformPoint(bounds.width, 0.f);
-		Points[2] = transf.transformPoint(bounds.width, bounds.height);
-		Points[3] = transf.transformPoint(0.f, bounds.height);
+		Points[0] = transf.transformPoint({ 0.f, 0.f });
+		Points[1] = transf.transformPoint({ bounds.width, 0.f });
+		Points[2] = transf.transformPoint({ bounds.width, bounds.height });
+		Points[3] = transf.transformPoint({ 0.f, bounds.height });
 	}
 
 	sf::Vector2f Points[4];

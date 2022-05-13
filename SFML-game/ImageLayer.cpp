@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "ImageLayer.hpp"
 #include "SfUtility.hpp"
+#include <iostream>
 
-void ImageLayer::load(const Json::Value &layer, const std::filesystem::path &directory, std::map<std::string, sf::Texture>& textures)
+bool ImageLayer::load(const Json::Value &layer, const std::filesystem::path &directory, Textures &textures)
 {
 	type = layer["type"].asString();
 	image = layer["image"].asString();
@@ -17,26 +18,28 @@ void ImageLayer::load(const Json::Value &layer, const std::filesystem::path &dir
 	{
 		transparentcolor = sf::utility::parseColor(layer["transparentcolor"].asString());
 	}
-		
-	m_sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
+
+	m_sprite.setPosition(sf::Vector2f{ static_cast<float>(x), static_cast<float>(y) });
 	m_sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
 
-	auto imagePath = directory / image;
-	auto it = textures.find(imagePath.string());
-	if (it == textures.end())
+	const auto imagePath = directory / image;
+	const auto [it, inserted] = textures.try_emplace(imagePath);
+	if (inserted)
 	{
-		auto[it2, inserted] = textures.try_emplace(imagePath.string(), sf::Texture());
-		if (inserted)
+		if (!it->second.loadFromFile(imagePath))
 		{
-			it2->second.loadFromFile(imagePath.string());
-			m_sprite.setTexture(it2->second);
+			std::cout << "Failed loading texture";
+
+			return false;
 		}
 	}
-	else
-		m_sprite.setTexture(it->second);
+
+	m_sprite.setTexture(it->second);
+
+	return true;
 }
 
-void ImageLayer::save(Json::Value &layers) const
+bool ImageLayer::save(Json::Value &layers) const
 {
 	Json::Value layer;
 
@@ -53,6 +56,8 @@ void ImageLayer::save(Json::Value &layers) const
 		layer["transparentcolor"] = sf::utility::serializeColor(*transparentcolor);
 	
 	layers.append(layer);
+
+	return true;
 }
 
 void ImageLayer::draw(sf::RenderTarget &target)

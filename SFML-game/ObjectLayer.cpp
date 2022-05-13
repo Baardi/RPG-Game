@@ -3,7 +3,7 @@
 #include "Map.hpp"
 #include <ranges>
 
-void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
+bool ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();
@@ -20,9 +20,11 @@ void ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &t
 		sprite->load(layer, object, tileSets);
 		objects.push_back(std::move(sprite));
 	}
+
+	return true;
 }
 
-void ObjectLayer::save(Json::Value &layers) const
+bool ObjectLayer::save(Json::Value &layers) const
 {
 	Json::Value layer;
 
@@ -41,6 +43,8 @@ void ObjectLayer::save(Json::Value &layers) const
 		object->save(layer["objects"]);
 
 	layers.append(layer);
+	
+	return true;
 }
 
 void ObjectLayer::process(const sftools::Chronometer &clock)

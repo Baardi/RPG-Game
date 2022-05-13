@@ -3,7 +3,7 @@
 #include "TileSet.hpp"
 #include "FringeDrawer.hpp"
 
-void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
+bool TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
 {
 	type = layer["type"].asString();
 	width = layer["width"].asInt();
@@ -25,9 +25,11 @@ void TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &til
 
 	loadTexture(tileSets);
 	loadProperties(layer["properties"]);
+
+	return true;
 }
 
-void TileLayer::save(Json::Value &layers) const
+bool TileLayer::save(Json::Value &layers) const
 {
 	Json::Value layer;
 
@@ -49,6 +51,8 @@ void TileLayer::save(Json::Value &layers) const
 	saveProperties(layer["properties"]);
 
 	layers.append(layer);
+
+	return true;
 }
 
 void TileLayer::process(const sftools::Chronometer &clock)
@@ -133,55 +137,55 @@ void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
 			auto it = animatedTiles.find(tile.id);
 			if (it == animatedTiles.end() || it->second.empty())
 			{
-				loadSpriteTexture(tile, spriteTexture, tile.id - tileTextureValue, x, y);
+				loadSpriteTexture(tile, spriteTexture, tile.id - tileTextureValue, { x, y });
 			}
 			else
 			{
 				// First animationtile decides first texturerect
 				auto &animationTile = it->second;
-				loadSpriteTexture(tile, spriteTexture, animationTile[0].tileid, x, y);
+				loadSpriteTexture(tile, spriteTexture, animationTile[0].tileid, { x, y });
 				loadSpriteAnimation(spriteTexture, tile, animationTile);
 			}
 		}
 	}
 }
 
-void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, int x, int y)
+void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int tileid, sf::Vector2i pos)
 {
-	auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
-	auto tileset = tile.tileset;
+	const auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
+	const auto *tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
-	sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
+	sprite.setColor(sf::Color(255U, 255U, 255U, static_cast<sf::Uint8>(255U * opacity) - 1U));
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(coord.x, coord.y, tileset->tileSize.x, tileset->tileSize.y));
-	sprite.setPosition(static_cast<float>(x*tileSize.x + tileSize.x-tileset->tileSize.x), static_cast<float>(y*tileSize.y + tileSize.y - tileset->tileSize.y));
+	sprite.setTextureRect({ coord, { tileset->tileSize.x, tileset->tileSize.y } });
+	sprite.setPosition({ static_cast<float>(pos.x * tileSize.x + tileSize.x - tileset->tileSize.x), static_cast<float>(pos.y * tileSize.y + tileSize.y - tileset->tileSize.y) });
 }
 
 void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const Animation &animation)
 {
-	for (const auto [tileid, duration]: animation)
+	for (const auto &[tileid, duration] : animation)
 	{
-		auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
-		auto rect = sf::IntRect(coord.x, coord.y, tile.tileset->tileSize.x, tile.tileset->tileSize.y);
+		const auto coord = getTileCoords(texture, tileid, tile.tileset->tileSize);
+		const auto rect = sf::IntRect{ coord, { tile.tileset->tileSize.x, tile.tileset->tileSize.y }};
 		tile.animation.data.emplace_back(duration, rect);
 	}
 }
 
-bool TileLayer::containsTextureTileCoords(int x, int y) const
+bool TileLayer::containsTextureTileCoords(sf::Vector2i pos) const
 {
-	if (x >= width || y >= height || x < 0 || y < 0)
+	if (pos.x >= width || pos.y >= height || pos.x < 0 || pos.y < 0)
 		return true; // Out of bounds
 
-	const auto &tile = m_tilemap[x + y * width];
+	const auto &tile = m_tilemap[pos.x + pos.y * width];
 	return static_cast<bool>(tile.id); // if (value is 0) => false, else => true
 }
 
-bool TileLayer::containsTexture(double x, double y) const
+bool TileLayer::containsTexture(sf::Vector2f pos) const
 {
-	if ((x+1) > (width-1) * tileSize.x || (y+1) > (height-1) * tileSize.y || x < 0 || y < 0)
+	if ((pos.x+1) > (width-1) * tileSize.x || (pos.y+1) > (height-1) * tileSize.y || pos.x < 0 || pos.y < 0)
 		return true; // Out of bounds
 
 	// Checks the tile the centre of the player is in
-	return containsTextureTileCoords(static_cast<int>(std::floor(0.5 + x / static_cast<double>(tileSize.x + tileSize.s))), static_cast<int>(std::floor(0.5 + y / static_cast<double>(tileSize.y + tileSize.s))));
+	return containsTextureTileCoords({ static_cast<int>(std::floorf(0.5f + pos.x / static_cast<float>(tileSize.x + tileSize.s))), static_cast<int>(std::floorf(0.5f + pos.y / static_cast<float>(tileSize.y + tileSize.s))) });
 }

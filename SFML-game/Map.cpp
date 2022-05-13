@@ -21,7 +21,7 @@ void Map::clear()
 	m_clock.reset(true);
 }
 
-bool Map::load(const std::filesystem::path &filename, std::map<std::string, sf::Texture> &textures, const ObjectSpriteFactory &spriteFactory)
+bool Map::load(const std::filesystem::path &filename, Textures &textures, const ObjectSpriteFactory &spriteFactory)
 {
 // Fix by swapping jsoncpp with something else
 #pragma warning (push, 0)
@@ -121,7 +121,7 @@ bool Map::save(const std::filesystem::path &filename)
 #pragma warning (pop)
 }
 
-void Map::loadTileSets(const Json::Value& root, std::map<std::string, sf::Texture>& textures) // Loads all the images used by the json file as textures
+void Map::loadTileSets(const Json::Value& root, Textures &textures) // Loads all the images used by the json file as textures
 {
 	for (auto& val : root["tilesets"])
 	{
@@ -131,7 +131,7 @@ void Map::loadTileSets(const Json::Value& root, std::map<std::string, sf::Textur
 	}
 }
 
-void Map::loadLayers(const Json::Value& layers, std::map<std::string, sf::Texture>& textures, const ObjectSpriteFactory& spriteFactory)
+void Map::loadLayers(const Json::Value& layers, Textures &textures, const ObjectSpriteFactory& spriteFactory)
 {
 	for (const Json::Value& layer : layers)
 	{
@@ -168,7 +168,7 @@ void Map::loadObjects(const Json::Value& layer, const ObjectSpriteFactory &sprit
 	m_layers.push_back(std::move(objectLayer));
 }
 
-void Map::loadImageLayer(const Json::Value &layer, std::map<std::string, sf::Texture> &textures)
+void Map::loadImageLayer(const Json::Value &layer, Textures  &textures)
 {
 	// Store info on layer
 	auto imageLayer = std::make_unique<ImageLayer>(tileSize);
@@ -186,7 +186,7 @@ void Map::draw(sf::RenderTarget &target)
 		drawLayer(target, layer.get(), nullptr);
 }
 
-void Map::drawWithFringe(sf::RenderTarget &target, const std::string & splitLayer, FringeDrawer &fringeDrawer)
+void Map::drawWithFringe(sf::RenderTarget &target, const std::string &splitLayer, FringeDrawer &fringeDrawer)
 {
 	if (backgroundColor.has_value())
 		target.draw(maprect);

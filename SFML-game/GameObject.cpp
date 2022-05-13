@@ -44,15 +44,15 @@ sf::Vector2f GameObject::getBottomRightPosition() const
 	auto pos = getPosition();
 	auto bounds = getGlobalBounds();
 
-	return sf::Vector2f(pos.x + bounds.width, pos.y + bounds.height);
+	return pos + bounds.getSize();
 }
 
 #ifdef _DEBUG 
 void GameObject::drawDebugOutline(sf::RenderTarget &target) const
 {
 	// Draw white outline for transformed rec (May be rotated)
-	sf::FloatRect bounds = getLocalBounds();
-	sf::RectangleShape rec(sf::Vector2f(bounds.width, bounds.height));
+	const sf::FloatRect bounds{ getLocalBounds() };
+	sf::RectangleShape rec{ bounds.getSize() };
 
 	rec.setFillColor(sf::Color::Transparent);
 	rec.setOutlineColor(sf::Color::White);
@@ -63,13 +63,13 @@ void GameObject::drawDebugOutline(sf::RenderTarget &target) const
 	target.draw(rec, renderstate);
 
 	// Draw red outline for global bounds (unrotated)
-	sf::FloatRect globals = getGlobalBounds();
-	sf::RectangleShape rec2(sf::Vector2f(globals.width, globals.height));
+	const sf::FloatRect globals{ getGlobalBounds() };
+	sf::RectangleShape rec2{ globals.getSize() };
 
 	rec2.setFillColor(sf::Color::Transparent);
 	rec2.setOutlineColor(sf::Color::Red);
 	rec2.setOutlineThickness(-1.5);
-	rec2.setPosition(globals.left, globals.top);
+	rec2.setPosition(globals.getPosition());
 	
 	target.draw(rec2);
 }

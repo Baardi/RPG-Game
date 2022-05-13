@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include "ObjectSprite.hpp"
+#include "App/ResourceManager.hpp"
 
 class TileLayer;
 class ObjectLayer;
@@ -20,7 +21,7 @@ public:
 	Map &operator=(Map &&) = default;
 	
 	// Load map from Tiled JSON file
-	bool load(const std::filesystem::path &filename, std::map<std::string, sf::Texture> &textures, const ObjectSpriteFactory &spriteFactory = ObjectSpriteFactory());
+	bool load(const std::filesystem::path &filename, Textures &textures, const ObjectSpriteFactory &spriteFactory = ObjectSpriteFactory());
 
 	// Save to from Tiled JSON file
 	bool save(const std::filesystem::path &filename);
@@ -65,10 +66,10 @@ public:
 private:
 
 	std::map<int, TileSet> m_tileSets;
-	void loadTileSets(const Json::Value &root, std::map<std::string, sf::Texture> &textures);
+	void loadTileSets(const Json::Value &root, Textures &textures);
 
 	// Handles group of layers
-	void loadLayers(const Json::Value& layer, std::map<std::string, sf::Texture>& textures, const ObjectSpriteFactory& spriteFactory);
+	void loadLayers(const Json::Value& layer, Textures &textures, const ObjectSpriteFactory& spriteFactory);
 
     // Handles regular layers
 	void loadTileLayer(const Json::Value& layer);
@@ -77,7 +78,7 @@ private:
 	void loadObjects(const Json::Value& layer, const ObjectSpriteFactory &spriteFactory);
 
 	// Handles image layers
-	void loadImageLayer(const Json::Value& layer, std::map<std::string, sf::Texture> &textures);
+	void loadImageLayer(const Json::Value& layer, Textures &textures);
 
 	// Shared clock for all animated tiles
 	sftools::Chronometer m_clock;

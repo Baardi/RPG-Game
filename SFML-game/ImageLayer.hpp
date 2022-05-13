@@ -3,6 +3,7 @@
 #include "Layer.hpp"
 #include <filesystem>
 #include <optional>
+#include "App/ResourceManager.hpp"
 
 class ImageLayer : public Layer
 {
@@ -10,8 +11,8 @@ public:
 	ImageLayer(TileSize tileSize) : Layer(tileSize), x(0), y(0) {}
 	~ImageLayer() = default;
 
-	void load(const Json::Value &layer, const std::filesystem::path &directory, std::map<std::string, sf::Texture> &textures);
-	void save(Json::Value &layers) const;
+	bool load(const Json::Value &layer, const std::filesystem::path &directory, Textures &textures);
+	bool save(Json::Value &layers) const;
 	void draw(sf::RenderTarget &target);
 
 	std::filesystem::path image;

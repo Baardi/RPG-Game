@@ -21,11 +21,11 @@ public:
 	void setSpacing(int spacing);
 	int getSpacing() const;
 
-	void setNextPosition(int x, int y);
-	std::pair<int, int> getNextPosition() const;
+	void setNextPosition(sf::Vector2i pos);
+	sf::Vector2i getNextPosition() const;
 
-	void setDefaultSize(int width, int height);
-	std::pair<int, int> getDefaultSize() const;
+	void setDefaultSize(sf::Vector2i size);
+	sf::Vector2i getDefaultSize() const;
 
 	void setDefaultTextSize(int size);
 	int getDefaultTextSize() const;
@@ -46,18 +46,18 @@ private:
 private:
 
 	// Variables for mouse/key-mode toggling and behaviour
-	InputMode m_inputMode;
+	InputMode m_inputMode{ InputMode::None };
 	sf::Vector2i m_lastMousePos;
-	bool m_enterWasPressed = true;
+	bool m_enterWasPressed{ true };
 	sftools::Chronometer m_clock;
-	sf::Time m_keyUpDownCooldown = sf::milliseconds(100);
+	sf::Time m_keyUpDownCooldown{ sf::milliseconds(100) };
 	
 	// Defaults for buttons
-	int m_defaultWidth = 250, m_defaultHeight = 60;
+	sf::Vector2i m_defaultSize{ 250, 60 };
 	int m_defaultTextSize = 40;
-	int m_xCurr = 0, m_yCurr = 0;
-	int m_spacing = 10;
-	const sf::Font *m_pFont = nullptr;
+	sf::Vector2i m_posCurr;
+	int m_spacing{ 10 };
+	const sf::Font* m_pFont{ nullptr };
 		
 	// Buttons
 	std::list<Button> m_buttons;

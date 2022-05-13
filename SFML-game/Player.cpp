@@ -8,14 +8,16 @@
 #include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-Player::Player([[maybe_unused]]sftools::Chronometer &clock, double x, double y)
+Player::Player([[maybe_unused]]sftools::Chronometer &clock, sf::Vector2f pos)
 {
-	m_texture.loadFromFile("data/Player Sprites/Warrior.png");
+	if (!m_texture.loadFromFile("data/Player Sprites/Warrior.png"))
+		std::cout << "Failed loading player sprite\n";
+
 	m_tilesize.x = m_texture.getSize().x / 4;
 	m_tilesize.y = m_texture.getSize().y / 4;
 
 	m_sprite.setTexture(m_texture);
-	m_sprite.setTextureRect(sf::IntRect(0, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+	m_sprite.setTextureRect({{ 0, static_cast<int>(m_dir) * m_tilesize.y }, { m_tilesize.x, m_tilesize.y }});
 	
 	// Map keys to directions for the player
 	m_dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
@@ -34,19 +36,19 @@ Player::Player([[maybe_unused]]sftools::Chronometer &clock, double x, double y)
 		});
 
 	m_textFighting.setFont(resources().font());
-	m_textFighting.setPosition(0, 0);
+	m_textFighting.setPosition(sf::Vector2f{ 0.0, 0.0 });
 	m_textFighting.setCharacterSize(10);
 	m_textFighting.setString("Fighting");
 
 	m_textStats.setFont(resources().font());
-	m_textStats.setPosition(0, 25);
+	m_textStats.setPosition(sf::Vector2f{ 0.0, 25.0 });
 	m_textFighting.setCharacterSize(10);
 
 	// Put these as default stats temporarily
 	m_stats.HP = 30;
 	m_stats.Damage = 5;
 		
-	Player::setPosition(x, y);
+	Player::setPosition(pos);
 }
 
 Player::~Player()
@@ -88,23 +90,14 @@ sf::Transform Player::getTransform() const
 	return m_sprite.getTransform();
 }
 
-void Player::setPosition(double x, double y)
-{
-	m_x = x;
-	m_y = y;
-	m_sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
-}
-
 void Player::setPosition(sf::Vector2f pos)
 {
-	m_x = pos.x;
-	m_y = pos.y;
 	m_sprite.setPosition(pos);
 }
 
 sf::Vector2f Player::getPosition() const
 {
-	return sf::Vector2f(static_cast<float>(m_x), static_cast<float>(m_y));
+	return m_sprite.getPosition();
 }
 
 void Player::takeItem(std::unique_ptr<GameItem> item)
@@ -140,48 +133,47 @@ void Player::handleKeyInput(appstate::Game &game, Map &map)
 
 	if (isMoving)
 	{
-		auto [newX, newY] = move(m_dir, m_x, m_y);
+		const auto newPos = move(m_dir, getPosition());
 
 		auto collisionLayer = map.getTileLayer("Collision");
-		if ((!collisionLayer || !collisionLayer->containsTexture(newX, newY)))
+		if ((!collisionLayer || !collisionLayer->containsTexture(newPos)))
 		{
-			setPosition(newX, newY);
+			setPosition(newPos);
 			game.updateDrawRect();
 		}
 
 		m_counter = (m_counter + 1) % m_counterMax;
-		m_sprite.setTextureRect(sf::IntRect(int(float(m_counter) / (float(m_counterMax) / 4.0)) * m_tilesize.x, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+		m_sprite.setTextureRect({{ static_cast<int>(static_cast<float>(m_counter) / (static_cast<float>(m_counterMax) / 4.0)) * m_tilesize.x, static_cast<int>(m_dir) * m_tilesize.y }, { m_tilesize.x, m_tilesize.y }});
 	}
 	else
 	{
 		m_counter = m_counter/m_counterMax;
-		m_sprite.setTextureRect(sf::IntRect(0, int(m_dir) * m_tilesize.y, m_tilesize.x, m_tilesize.y));
+		m_sprite.setTextureRect({{ 0, int(m_dir) * m_tilesize.y }, { m_tilesize.x, m_tilesize.y }});
 	}
 }
 
-sf::Vector2f Player::move(Dir dir, const double prevX, const double prevY) const
+sf::Vector2f Player::move(Dir dir, sf::Vector2f prevPos) const
 {
-	double newX = prevX;
-	double newY = prevY;
+	sf::Vector2f newPos = prevPos;
 
 	switch (dir)
 	{
 	case Dir::Down:
-		newY += m_speed;
+		newPos.y += m_speed;
 		break;
 
 	case Dir::Up:
-		newY -= m_speed;
+		newPos.y -= m_speed;
 		break;
 
 	case Dir::Left:
-		newX -= m_speed;
+		newPos.x -= m_speed;
 		break;
 
 	case Dir::Right:
-		newX += m_speed;
+		newPos.x += m_speed;
 		break;
 	}
 
-	return sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY));
+	return newPos;
 }

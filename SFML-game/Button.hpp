@@ -10,19 +10,19 @@ public:
 ////////////////////////////////////////////////
 	// Button
 public:
-	// Usage: button.setPosition(x, y);
-	void setPosition(double x, double y);
+	// Usage: button.setPosition({x, y});
+	void setPosition(sf::Vector2f pos);
 
 	// Usage: auto[x, y] = button.getPosition();
 	sf::Vector2f getPosition() const;
 
-	// Usage: button.setSize(width, height);
-	void setSize(double width, double height);
+	// Usage: button.setSize({width, height});
+	void setSize(sf::Vector2f size);
 	
 	// Usage: auto[width, height] = button.getSize();
 	sf::Vector2f getSize() const;
 
-	bool contains(double x, double y) const; 
+	bool contains(sf::Vector2f pos) const; 
 	sf::FloatRect getGlobalBounds() const;
 
 

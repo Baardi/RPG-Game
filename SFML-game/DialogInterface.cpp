@@ -15,8 +15,7 @@ DialogInterface::~DialogInterface()
 
 void DialogInterface::init()
 {
-	x = 240;
-	y = 780;
+	pos = { 240, 780 };
 	colorSelect = sf::Color::Blue;
 	colorUnselect = sf::Color::Black;
 	m_menuBackground.load("data/Menus/MessageBox.json", resources().textures());
