@@ -174,7 +174,7 @@ bool TileLayer::containsTextureTileCoords(int x, int y) const
 		return true; // Out of bounds
 
 	const auto &tile = m_tilemap[x + y * width];
-	return bool(tile.id); // if (value is 0) => false, else => true
+	return static_cast<bool>(tile.id); // if (value is 0) => false, else => true
 }
 
 bool TileLayer::containsTexture(double x, double y) const

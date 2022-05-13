@@ -2,6 +2,8 @@
 
 namespace appstate {
 
+class StateMachine;
+
 class State
 {
 	friend class StateMachine;
