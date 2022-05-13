@@ -297,4 +297,7 @@
       <Filter>Handlers</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Directory.Build.props" />
+  </ItemGroup>
 </Project>

@@ -200,6 +200,9 @@ copy /Y "$(SolutionDir)..\SFML\extlibs\bin\x64\openal32.dll" "$(TargetDir)"
     <ClCompile Include="Valuable.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Directory.Build.props" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
