@@ -15,7 +15,7 @@ bool TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 	tileSize.m = tilesetVal["margin"].asInt();
 
 	auto imagePath = directory / image;
-	auto [it, inserted] = textures.try_emplace(imagePath.string());
+	auto [it, inserted] = textures.try_emplace(imagePath);
 	if (inserted)
 	{
 		if (!it->second.loadFromFile(imagePath))
@@ -26,6 +26,7 @@ bool TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 		}
 	}
 	
+	texture = &it->second;
 	loadAnimatedTiles(firstgid, tilesetVal["tiles"]);
 	
 	return true;
