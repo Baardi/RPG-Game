@@ -107,7 +107,7 @@ void Player::takeItem(std::unique_ptr<GameItem> item)
 
 void Player::handleKeyInput(appstate::Game &game, Map &map)
 {
-	if (m_fightTimer && m_fightTimer->getElapsedTime_ms() > 300)
+	if (m_fightTimer && m_fightTimer->getElapsedTime() > sf::milliseconds(300))
 		m_fightTimer = std::nullopt;
 
 	m_textStats.setString(m_stats.toString());

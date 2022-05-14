@@ -81,7 +81,7 @@ bool StateMachine::runFrame()
 		sftools::Chronometer clock;
 		clock.reset(true);
 		performTransition();
-		std::cout << clock.getElapsedTime_s() << std::endl;
+		std::cout << clock.getElapsedTime().asSeconds() << std::endl;
 	}
 
 	if (!isRunning())

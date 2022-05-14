@@ -19,7 +19,7 @@ public:
 	void hit(Entity &other, int damage)
 	{
 		// TODO: 
-		if (m_fightTimer.getElapsedTime_s() > 1)
+		if (m_fightTimer.getElapsedTime() > sf::seconds(1.0f))
 		{
 			other.m_stats.HP -= damage;
 			m_fightTimer.reset(true);

@@ -28,199 +28,169 @@
 
 #include <SFML/System/Clock.hpp>
 
-/*!
- @namespace sftools
- @brief Simple and Fast Tools
- */
+ /*!
+  @namespace sftools
+  @brief Simple and Fast Tools
+  */
 namespace sftools
 {
+  /*!
+   @class Chronometer
+   @brief Provide functionalities of a chronometer, aka stop watch
+   */
+  class Chronometer
+  {
+  public:
     /*!
-     @class Chronometer
-     @brief Provide functionalities of a chronometer, aka stop watch
+     @brief Constructor
+
+     @param initialTime Initial time elapsed
      */
-    class Chronometer
+    Chronometer(sf::Time initialTime = sf::Time::Zero)
     {
-    public:
-        /*!
-         @brief Constructor
+      reset();
+      add(initialTime);
+    }
 
-         @param initialTime Initial time elapsed
-         */
-        Chronometer(sf::Time initialTime = sf::Time::Zero)
-        {
-            reset();
-            add(initialTime);
-        }
+    /*!
+     @brief Add some time
 
-        /*!
-         @brief Add some time
+     @param time Time to be added to the time elapsed
+     @return Time elapsed
+     */
+    sf::Time add(sf::Time time)
+    {
+      m_time += time;
 
-         @param time Time to be added to the time elapsed
-         @return Time elapsed
-         */
-        sf::Time add(sf::Time time)
-        {
-            m_time += time;
+      if (m_state == ClockState::Stopped)
+        m_state = ClockState::Paused;
 
-            if (m_state == ClockState::Stopped) 
-				m_state = ClockState::Paused;
+      return getElapsedTime();
+    }
 
-            return getElapsedTime();
-        }
+    /*!
+     @brief Reset the chronometer
 
-        /*!
-         @brief Reset the chronometer
+     @param start if true the chronometer automatically starts
+     @return Time elapsed on the chronometer before the reset
+     */
+    sf::Time reset(bool start = false)
+    {
+      sf::Time time = getElapsedTime();
 
-         @param start if true the chronometer automatically starts
-         @return Time elapsed on the chronometer before the reset
-         */
-        sf::Time reset(bool start = false)
-        {
-            sf::Time time = getElapsedTime();
+      m_time = sf::Time::Zero;
+      m_state = ClockState::Stopped;
 
-            m_time = sf::Time::Zero;
-            m_state = ClockState::Stopped;
+      if (start)
+        resume();
 
-            if (start)
-				resume();
+      return time;
+    }
 
-            return time;
-        }
+    /*!
+     @brief Pause the chronometer
 
-        /*!
-         @brief Pause the chronometer
+     @return Time elapsed
+     @see toggle
+     */
+    sf::Time pause()
+    {
+      if (isRunning())
+      {
+        m_state = ClockState::Paused;
+        m_time += m_clock.getElapsedTime();
+      }
+      return getElapsedTime();
+    }
 
-         @return Time elapsed
-         @see toggle
-         */
-        sf::Time pause()
-        {
-            if (isRunning())
-            {
-                m_state = ClockState::Paused;
-                m_time += m_clock.getElapsedTime();
-            }
-            return getElapsedTime();
-        }
+    /*!
+     @brief Resume the chronometer
 
-        /*!
-         @brief Resume the chronometer
+     @return Time elapsed
 
-         @return Time elapsed
+     @see toggle
+     */
+    sf::Time resume()
+    {
+      if (!isRunning())
+      {
+        m_state = ClockState::Running;
+        m_clock.restart();
+      }
+      return getElapsedTime();
+    }
 
-         @see toggle
-         */
-        sf::Time resume()
-        {
-            if (!isRunning())
-            {
-                m_state = ClockState::Running;
-                m_clock.restart();
-            }
-            return getElapsedTime();
-        }
+    /*!
+     @brief Pause or resume the chronometer
 
-        /*!
-         @brief Pause or resume the chronometer
+     If the chronometer is running then it is paused;
+     otherwise it is resumes.
 
-         If the chronometer is running then it is paused;
-         otherwise it is resumes.
+     @return Time elapsed
+     @see pause
+     @see resume
+     */
+    sf::Time toggle()
+    {
+      return isRunning() ? pause() : resume();
+    }
 
-         @return Time elapsed
-         @see pause
-         @see resume
-         */
-        sf::Time toggle()
-        {
-            return isRunning() ? pause() : resume();
-        }
+    /*!
+     @brief Tell the chronometer is running or not
+     @brief chronometer's status
+     */
+    bool isRunning() const
+    {
+      return m_state == ClockState::Running;
+    }
 
-        /*!
-         @brief Tell the chronometer is running or not
-         @brief chronometer's status
-         */
-        bool isRunning() const
-        {
-            return m_state == ClockState::Running;
-        }
+    /*!
+     @brief Give the amount of time elapsed since the chronometer was started
 
-        /*!
-         @brief Give the amount of time elapsed since the chronometer was started
+     @return Time elapsed
+     */
+    sf::Time getElapsedTime() const
+    {
+      switch (m_state)
+      {
+      case ClockState::Running:	return m_time + m_clock.getElapsedTime();
+      case ClockState::Stopped:	return sf::Time::Zero;
+      case ClockState::Paused:	return m_time;
+      }
 
-         @return Time elapsed
-         */
-        sf::Time getElapsedTime() const
-        {
-            switch (m_state)
-			{
-				case ClockState::Running:	return m_time + m_clock.getElapsedTime();
-                case ClockState::Stopped:	return sf::Time::Zero;
-				case ClockState::Paused:	return m_time;
-            }
+      throw std::runtime_error("Invalid enumerator value");
+    }
 
-			throw std::runtime_error("Invalid enumerator value");
-        }
+    /*!
+     @brief Implicit conversion to sf::Time
+     @return Time elapsed
 
-		/*!
-         @brief Give the amount of time elapsed since the chronometer was started, in seconds
+     @see getElapsedTime
+     */
+    operator sf::Time() const
+    {
+      return getElapsedTime();
+    }
 
-         @return Time elapsed in seconds
-         */
-		float getElapsedTime_s() const
-		{
-			return getElapsedTime().asSeconds();
-		}
+    Chronometer& operator-=(sf::Time const& time)
+    {
+      m_time -= time;
+      return *this;
+    }
 
-		/*!
-		 @brief Give the amount of time elapsed since the chronometer was started, in milliseconds
+  private:
 
-		 @return Time elapsed in milliseconds
-		 */
-		sf::Int32 getElapsedTime_ms() const
-		{
-			return getElapsedTime().asMilliseconds();
-		}
-
-		/*!
-		 @brief Give the amount of time elapsed since the chronometer was started, in microseconds
-
-		 @return Time elapsed in microseconds
-		 */
-		sf::Int64 getElapsedTime_ys() const
-		{
-			return getElapsedTime().asMicroseconds();
-		}
-
-        /*!
-         @brief Implicit conversion to sf::Time
-         @return Time elapsed
-
-         @see getElapsedTime
-         */
-        operator sf::Time() const
-        {
-            return getElapsedTime();
-        }
-
-		Chronometer &operator-=(sf::Time const &time)
-		{
-			m_time -= time;
-			return *this;
-		}
-
-    private:
-
-		enum class ClockState
-		{
-			Stopped,
-			Running,
-			Paused
-		};
-		
-		ClockState m_state = ClockState::Stopped;   //!< state
-        sf::Time m_time;                            //!< time counter
-        sf::Clock m_clock;                          //!< clock
+    enum class ClockState
+    {
+      Stopped,
+      Running,
+      Paused
     };
+
+    ClockState m_state = ClockState::Stopped;   //!< state
+    sf::Time m_time;                            //!< time counter
+    sf::Clock m_clock;                          //!< clock
+  };
 }
 
 
