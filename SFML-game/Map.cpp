@@ -23,9 +23,6 @@ void Map::clear()
 
 bool Map::load(const std::filesystem::path &filename, Textures &textures, const ObjectSpriteFactory &spriteFactory)
 {
-// Fix by swapping jsoncpp with something else
-#pragma warning (push, 0)
-#pragma warning (disable: 4996)
 	clear();
 
 	// Will contain the data we read in
@@ -70,15 +67,10 @@ bool Map::load(const std::filesystem::path &filename, Textures &textures, const 
 	loadLayers(root["layers"], textures, spriteFactory);
 
 	return true;
-#pragma warning (pop)
 }
 
 bool Map::save(const std::filesystem::path &filename)
 {
-// Fix by swapping jsoncpp with something else
-#pragma warning (push, 0)
-#pragma warning (disable: 4996)
-
 	// Will contain the data we save
 	Json::Value value;
 
@@ -118,7 +110,6 @@ bool Map::save(const std::filesystem::path &filename)
 	file.close();
 
 	return file.good();
-#pragma warning (pop)
 }
 
 void Map::loadTileSets(const Json::Value& root, Textures &textures) // Loads all the images used by the json file as textures
