@@ -45,7 +45,7 @@ public:
 		for (unsigned int y = 0; y<tex->getSize().y; y++)
 		{
 			for (unsigned int x = 0; x<tex->getSize().x; x++)
-				mask[x+y*tex->getSize().x] = img.getPixel(x,y).a;
+				mask[x + y * tex->getSize().x] = img.getPixel({ x,y }).a;
 		}
 
 		Bitmasks.insert(std::pair<const sf::Texture*, sf::Uint8*>(tex,mask));

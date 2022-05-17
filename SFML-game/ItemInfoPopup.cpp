@@ -10,7 +10,7 @@ void ItemInfoPopup::init()
 {
 	m_menuBackground.load("data/Menus/Subpopup.json", resources().textures());
 
-	if (!m_renderTexture.create(352u, 352u))
+	if (!m_renderTexture.create({ 352u, 352u }))
 		std::cout << "Failed creating renderTexture";
 
 	m_renderSprite.setPosition(static_cast<sf::Vector2f>(pos - sf::Vector2i{ 20, 20 }));

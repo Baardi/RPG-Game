@@ -164,7 +164,7 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);
 
-	if (!m_renderTexture.create(m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y))
+	if (!m_renderTexture.create({ m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y }))
 		return false;
 
 	m_renderSprite.setTexture(m_renderTexture.getTexture());

@@ -14,7 +14,7 @@ App::~App()
 
 void App::init()
 {
-	m_window.create(sf::VideoMode(960, 960), "RPG");
+	m_window.create(sf::VideoMode({ 960, 960 }), "RPG");
 	m_window.setFramerateLimit(50); // <-- should be a setting
 
 	if (!resources().font().loadFromFile("data/Asul-regular.ttf"))
