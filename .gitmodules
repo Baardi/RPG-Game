@@ -1,6 +1,6 @@
 [submodule "SFML"]
 	path = SFML
-	url = https://github.com/SFML/SFML.git
+	url = https://github.com/Baardi/SFML.git
 [submodule "jsoncpp"]
 	path = jsoncpp
 	url = https://github.com/open-source-parsers/jsoncpp.git
