@@ -156,7 +156,7 @@ void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int ti
 	const auto *tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
-	sprite.setColor(sf::Color(255U, 255U, 255U, static_cast<sf::Uint8>(255U * opacity) - 1U));
+	sprite.setColor(sf::Color(255U, 255U, 255U, static_cast<std::uint8_t>(255U * opacity) - 1U));
 	sprite.setTexture(texture);
 	sprite.setTextureRect({ coord, { tileset->tileSize.x, tileset->tileSize.y } });
 	sprite.setPosition({ static_cast<float>(pos.x * tileSize.x + tileSize.x - tileset->tileSize.x), static_cast<float>(pos.y * tileSize.y + tileSize.y - tileset->tileSize.y) });

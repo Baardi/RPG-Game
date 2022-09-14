@@ -49,7 +49,7 @@ private:
 	float m_speed = 5.5;
 	int m_counter = 0;
 	const int m_counterMax = 25;
-	sf::Int32 m_lastTime;
+	int m_lastTime;
 	std::optional<sftools::Chronometer> m_fightTimer;
 	
 	sf::Text m_textStats;

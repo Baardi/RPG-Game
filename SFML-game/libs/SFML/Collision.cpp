@@ -13,21 +13,21 @@ class BitmaskManager
 {
 public:
 	~BitmaskManager() {
-		std::map<const sf::Texture*, sf::Uint8*>::const_iterator end = Bitmasks.end();
-		for (std::map<const sf::Texture*, sf::Uint8*>::const_iterator iter = Bitmasks.begin(); iter!=end; iter++)
+		std::map<const sf::Texture*, std::uint8_t*>::const_iterator end = Bitmasks.end();
+		for (std::map<const sf::Texture*, std::uint8_t*>::const_iterator iter = Bitmasks.begin(); iter!=end; iter++)
 			delete [] iter->second;
 	}
 
-	sf::Uint8 GetPixel (const sf::Uint8* mask, const sf::Texture* tex, unsigned int x, unsigned int y) {
+	std::uint8_t GetPixel (const std::uint8_t* mask, const sf::Texture* tex, unsigned int x, unsigned int y) {
 		if (x>tex->getSize().x||y>tex->getSize().y)
 			return 0;
 
 		return mask[x+y*tex->getSize().x];
 	}
 
-	sf::Uint8* GetMask (const sf::Texture* tex) {
-		sf::Uint8* mask;
-		std::map<const sf::Texture*, sf::Uint8*>::iterator pair = Bitmasks.find(tex);
+	std::uint8_t* GetMask (const sf::Texture* tex) {
+		std::uint8_t* mask;
+		std::map<const sf::Texture*, std::uint8_t*>::iterator pair = Bitmasks.find(tex);
 		if (pair==Bitmasks.end())
 		{
 			sf::Image img = tex->copyToImage();
@@ -39,8 +39,8 @@ public:
 		return mask;
 	}
 
-	sf::Uint8* CreateMask (const sf::Texture* tex, const sf::Image& img) {
-		sf::Uint8* mask = new sf::Uint8[tex->getSize().y*tex->getSize().x];
+	std::uint8_t* CreateMask (const sf::Texture* tex, const sf::Image& img) {
+		std::uint8_t* mask = new std::uint8_t[tex->getSize().y*tex->getSize().x];
 
 		for (unsigned int y = 0; y<tex->getSize().y; y++)
 		{
@@ -48,24 +48,24 @@ public:
 				mask[x + y * tex->getSize().x] = img.getPixel({ x,y }).a;
 		}
 
-		Bitmasks.insert(std::pair<const sf::Texture*, sf::Uint8*>(tex,mask));
+		Bitmasks.insert(std::pair<const sf::Texture*, std::uint8_t*>(tex,mask));
 
 		return mask;
 	}
 private:
-	std::map<const sf::Texture*, sf::Uint8*> Bitmasks;
+	std::map<const sf::Texture*, std::uint8_t*> Bitmasks;
 };
 	
 BitmaskManager Bitmasks;
  
-bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, sf::Uint8 AlphaLimit) {
+bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, std::uint8_t AlphaLimit) {
 	
 	if (const auto intersection = Object1.getGlobalBounds().findIntersection(Object2.getGlobalBounds())) {
 		sf::IntRect O1SubRect = Object1.getTextureRect();
 		sf::IntRect O2SubRect = Object2.getTextureRect();
 
-		sf::Uint8* mask1 = Bitmasks.GetMask(Object1.getTexture());
-		sf::Uint8* mask2 = Bitmasks.GetMask(Object2.getTexture());
+		std::uint8_t* mask1 = Bitmasks.GetMask(Object1.getTexture());
+		std::uint8_t* mask2 = Bitmasks.GetMask(Object2.getTexture());
 
 		// Loop through our pixels
 		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) {

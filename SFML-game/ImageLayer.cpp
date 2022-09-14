@@ -20,7 +20,7 @@ bool ImageLayer::load(const Json::Value &layer, const std::filesystem::path &dir
 	}
 
 	m_sprite.setPosition(sf::Vector2f{ static_cast<float>(x), static_cast<float>(y) });
-	m_sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
+	m_sprite.setColor(sf::Color(255, 255, 255, static_cast<std::uint8_t>(256 * opacity) - 1));
 
 	const auto imagePath = directory / image;
 	const auto [it, inserted] = textures.try_emplace(imagePath);

@@ -51,7 +51,7 @@ namespace sf::Collision {
 	/// downloading the textures from the graphics card to memory -> SLOW!
 	/// You can avoid this by using the "CreateTextureAndBitmask" function
 	//////
-	bool PixelPerfectTest(const sf::Sprite& Object1 ,const sf::Sprite& Object2, sf::Uint8 AlphaLimit = 0);
+	bool PixelPerfectTest(const sf::Sprite& Object1 ,const sf::Sprite& Object2, std::uint8_t AlphaLimit = 0);
 
 	//////
 	/// Replaces Texture::loadFromFile

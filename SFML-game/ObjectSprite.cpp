@@ -176,7 +176,7 @@ void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 	auto [tilex, tiley] = getTileCoords(texture, tileid, tileset->tileSize);
 	auto textureRect = getTextureRectToUse(tileset->tileSize, tilex, tiley, verflip, horflip);
 
-	sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(256 * opacity) - 1));
+	sprite.setColor(sf::Color(255, 255, 255, static_cast<std::uint8_t>(256 * opacity) - 1));
 	sprite.setTexture(texture);
 	sprite.setTextureRect(textureRect);
 	sprite.setPosition({ x, y });
