@@ -12,35 +12,27 @@ namespace sf::Collision {
 class BitmaskManager
 {
 public:
-	~BitmaskManager() {
-		std::map<const sf::Texture*, std::uint8_t*>::const_iterator end = Bitmasks.end();
-		for (std::map<const sf::Texture*, std::uint8_t*>::const_iterator iter = Bitmasks.begin(); iter!=end; iter++)
-			delete [] iter->second;
-	}
 
-	std::uint8_t GetPixel (const std::uint8_t* mask, const sf::Texture* tex, unsigned int x, unsigned int y) {
+	std::uint8_t GetPixel(const std::uint8_t* mask, const sf::Texture* tex, unsigned int x, unsigned int y)
+	{
 		if (x>tex->getSize().x||y>tex->getSize().y)
 			return 0;
 
 		return mask[x+y*tex->getSize().x];
 	}
 
-	std::uint8_t* GetMask (const sf::Texture* tex) {
-		std::uint8_t* mask;
-		std::map<const sf::Texture*, std::uint8_t*>::iterator pair = Bitmasks.find(tex);
-		if (pair==Bitmasks.end())
-		{
-			sf::Image img = tex->copyToImage();
-			mask = CreateMask (tex, img);
-		}
-		else
-			mask = pair->second;
+	std::uint8_t *GetMask(const sf::Texture* tex)
+	{
+		auto pair = Bitmasks.find(tex);
+		if (pair == Bitmasks.end())
+			return pair->second.get();
 
-		return mask;
+		return CreateMask(tex, tex->copyToImage());
 	}
 
-	std::uint8_t* CreateMask (const sf::Texture* tex, const sf::Image& img) {
-		std::uint8_t* mask = new std::uint8_t[tex->getSize().y*tex->getSize().x];
+	std::uint8_t *CreateMask(const sf::Texture* tex, const sf::Image& img)
+	{
+		auto mask = std::make_unique<std::uint8_t[]>(tex->getSize().y * tex->getSize().x);
 
 		for (unsigned int y = 0; y<tex->getSize().y; y++)
 		{
@@ -48,19 +40,21 @@ public:
 				mask[x + y * tex->getSize().x] = img.getPixel({ x,y }).a;
 		}
 
-		Bitmasks.insert(std::pair<const sf::Texture*, std::uint8_t*>(tex,mask));
+		auto* maskPtr = mask.get();
+		Bitmasks.insert(std::pair<const sf::Texture*, std::unique_ptr<std::uint8_t[]>>(tex, std::move(mask)));
 
-		return mask;
+		return maskPtr;
 	}
 private:
-	std::map<const sf::Texture*, std::uint8_t*> Bitmasks;
+	std::map<const sf::Texture*, std::unique_ptr<std::uint8_t[]>> Bitmasks;
 };
 	
 BitmaskManager Bitmasks;
  
-bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, std::uint8_t AlphaLimit) {
-	
-	if (const auto intersection = Object1.getGlobalBounds().findIntersection(Object2.getGlobalBounds())) {
+bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, std::uint8_t AlphaLimit) 
+{	
+	if (const auto intersection = Object1.getGlobalBounds().findIntersection(Object2.getGlobalBounds())) 
+	{
 		sf::IntRect O1SubRect = Object1.getTextureRect();
 		sf::IntRect O2SubRect = Object2.getTextureRect();
 
@@ -68,25 +62,28 @@ bool PixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, std:
 		std::uint8_t* mask2 = Bitmasks.GetMask(Object2.getTexture());
 
 		// Loop through our pixels
-		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) {
-			for (int j = static_cast<int>(intersection->top); j < static_cast<int>(intersection->top + intersection->height); j++) {
- 
+		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) 
+		{
+			for (int j = static_cast<int>(intersection->top); j < static_cast<int>(intersection->top + intersection->height); j++) 
+			{ 
 				sf::Vector2f o1v = Object1.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
 				sf::Vector2f o2v = Object2.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
  
 				// Make sure pixels fall within the sprite's subrect
 				if (o1v.x > 0 && o1v.y > 0 && o2v.x > 0 && o2v.y > 0 &&
 					o1v.x < O1SubRect.width && o1v.y < O1SubRect.height &&
-					o2v.x < O2SubRect.width && o2v.y < O2SubRect.height) {
-
-						if (Bitmasks.GetPixel(mask1, Object1.getTexture(), static_cast<int>(o1v.x)+O1SubRect.left, static_cast<int>(o1v.y)+O1SubRect.top) > AlphaLimit &&
-							Bitmasks.GetPixel(mask2, Object2.getTexture(), static_cast<int>(o2v.x)+O2SubRect.left, static_cast<int>(o2v.y)+O2SubRect.top) > AlphaLimit)
-							return true;
-
+					o2v.x < O2SubRect.width && o2v.y < O2SubRect.height) 
+				{
+					if (Bitmasks.GetPixel(mask1, Object1.getTexture(), static_cast<int>(o1v.x) + O1SubRect.left, static_cast<int>(o1v.y) + O1SubRect.top) > AlphaLimit &&
+						Bitmasks.GetPixel(mask2, Object2.getTexture(), static_cast<int>(o2v.x) + O2SubRect.left, static_cast<int>(o2v.y) + O2SubRect.top) > AlphaLimit)
+					{
+						return true;
+					}
 				}
 			}
 		}
 	}
+
 	return false;
 }
 
