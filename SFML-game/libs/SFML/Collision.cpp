@@ -123,6 +123,13 @@ bool CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2) {
 	return (Distance.x * Distance.x + Distance.y * Distance.y <= (Radius1 + Radius2) * (Radius1 + Radius2));
 }
 
+template<class T>
+struct MinMax
+{
+	T min;
+	T max;
+};
+
 class OrientedBoundingBox // Used in the BoundingBoxTest
 {
 public:
@@ -136,10 +143,10 @@ public:
 
 	sf::Vector2f Points[4];
 
-	void ProjectOntoAxis (const sf::Vector2f& Axis, float& Min, float& Max) // Project all four points of the OBB onto the given axis and return the dotproducts of the two outermost points
+	MinMax<float> ProjectOntoAxis(const sf::Vector2f& Axis) // Project all four points of the OBB onto the given axis and return the dotproducts of the two outermost points
 	{
-		Min = (Points[0].x*Axis.x+Points[0].y*Axis.y);
-		Max = Min;
+		float Min = (Points[0].x*Axis.x+Points[0].y*Axis.y);
+		float Max = Min;
 		for (int j = 1; j<4; j++)
 		{
 			float Projection = (Points[j].x*Axis.x+Points[j].y*Axis.y);
@@ -149,6 +156,8 @@ public:
 			if (Projection>Max)
 				Max=Projection;
 		}
+
+		return { .min = Min, .max = Max };
 	}
 };
 
@@ -169,13 +178,11 @@ bool BoundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform
 		OBB2.Points[0].y-OBB2.Points[1].y)
 	};
 
-	for (int i = 0; i<4; i++) // For each axis...
+	for (int i = 0; i < 4; i++) // For each axis...
 	{
-		float MinOBB1, MaxOBB1, MinOBB2, MaxOBB2;
-
 		// ... project the points of both OBBs onto the axis ...
-		OBB1.ProjectOntoAxis(Axes[i], MinOBB1, MaxOBB1);
-		OBB2.ProjectOntoAxis(Axes[i], MinOBB2, MaxOBB2);
+		auto [MinOBB1, MaxOBB1] = OBB1.ProjectOntoAxis(Axes[i]);
+		auto [MinOBB2, MaxOBB2] = OBB2.ProjectOntoAxis(Axes[i]);
 
 		// ... and check whether the outermost projected points of both OBBs overlap.
 		// If this is not the case, the Separating Axis Theorem states that there can be no collision between the rectangles
