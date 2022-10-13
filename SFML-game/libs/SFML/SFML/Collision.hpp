@@ -49,31 +49,31 @@ namespace sf::Collision {
 	/// 
 	/// This functions creates bitmasks of the textures of the two sprites by
 	/// downloading the textures from the graphics card to memory -> SLOW!
-	/// You can avoid this by using the "CreateTextureAndBitmask" function
+	/// You can avoid this by using the "createTextureAndBitmask" function
 	//////
-	bool PixelPerfectTest(const sf::Sprite& Object1 ,const sf::Sprite& Object2, std::uint8_t AlphaLimit = 0);
+	bool pixelPerfectTest(const sf::Sprite& Object1 ,const sf::Sprite& Object2, std::uint8_t AlphaLimit = 0);
 
 	//////
 	/// Replaces Texture::loadFromFile
 	/// Load an imagefile into the given texture and create a bitmask for it
-	/// This is much faster than creating the bitmask for a texture on the first run of "PixelPerfectTest"
+	/// This is much faster than creating the bitmask for a texture on the first run of "pixelPerfectTest"
 	/// 
 	/// The function returns false if the file could not be opened for some reason
 	//////
-	bool CreateTextureAndBitmask(sf::Texture &LoadInto, const std::string& Filename);
+	bool createTextureAndBitmask(sf::Texture &LoadInto, const std::string& Filename);
  
 	//////
 	/// Test for collision using circle collision dection
 	/// Radius is averaged from the dimensions of the sprite so
 	/// roughly circular objects will be much more accurate
 	//////
-	bool CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+	bool circleTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
  
 	//////
 	/// Test for bounding box collision using the Separating Axis Theorem
 	/// Supports scaling and rotation
 	//////
-	bool BoundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform transf2, sf::FloatRect bounds2);
+	bool boundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform transf2, sf::FloatRect bounds2);
 }
 
 #endif	/* COLLISION_H */
