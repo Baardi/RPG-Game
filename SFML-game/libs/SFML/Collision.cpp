@@ -112,7 +112,8 @@ static sf::Vector2f GetSpriteSize(const sf::Sprite& Object)
 	return sf::Vector2f (OriginalSize.width*Scale.x, OriginalSize.height*Scale.y);
 }
 
-bool CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2) {
+bool CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2) 
+{
 	sf::Vector2f Obj1Size = GetSpriteSize(Object1);
 	sf::Vector2f Obj2Size = GetSpriteSize(Object2);
 	float Radius1 = (Obj1Size.x + Obj1Size.y) / 4;
@@ -145,16 +146,17 @@ public:
 
 	MinMax<float> ProjectOntoAxis(const sf::Vector2f& Axis) // Project all four points of the OBB onto the given axis and return the dotproducts of the two outermost points
 	{
-		float Min = (Points[0].x*Axis.x+Points[0].y*Axis.y);
+		float Min = Points[0].x * Axis.x + Points[0].y * Axis.y;
 		float Max = Min;
+
 		for (int j = 1; j<4; j++)
 		{
-			float Projection = (Points[j].x*Axis.x+Points[j].y*Axis.y);
+			float Projection = (Points[j].x * Axis.x + Points[j].y * Axis.y);
 
-			if (Projection<Min)
-				Min=Projection;
-			if (Projection>Max)
-				Max=Projection;
+			if (Projection < Min)
+				Min = Projection;
+			if (Projection > Max)
+				Max = Projection;
 		}
 
 		return { .min = Min, .max = Max };
