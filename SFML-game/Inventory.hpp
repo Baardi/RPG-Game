@@ -13,14 +13,11 @@ public:
 
 	auto size() const { return m_items.size(); }
 	
-	auto &operator[](std::size_t idx) 
-	{
-		return m_items[idx];
-	}
 
-	const auto &operator[](std::size_t idx) const 
-	{ 
-		return m_items[idx];
+	template <typename Self>
+	auto& operator[](this Self&& self, size_t index)
+	{
+		return self.m_items[index];
 	}
 
 private:

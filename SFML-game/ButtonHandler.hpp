@@ -34,9 +34,12 @@ public:
 
 	auto &buttons() { return m_buttons; }
 	const auto &buttons() const { return m_buttons; }
-
-	//auto &operator[](size_t index) { return m_buttons[index]; }
-	//const auto &operator[](size_t index) const { return m_buttons[index]; }
+	
+	/*template <typename Self>
+	auto& operator[](this Self&& self, size_t index)
+	{
+		return self.m_buttons[index];
+	}*/
 private:
 	enum class InputMode{ None, Mouse, Keys };
 	InputMode updateInputMode();
