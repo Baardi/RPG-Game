@@ -25,7 +25,7 @@ bool GameObject::intersects(const GameObject &object) const
 	auto transf1 = this->getTransform();
 	auto transf2 = object.getTransform();
 
-	return sf::Collision::boundingBoxTest(transf1, bounds1, transf2, bounds2);
+	return sf::collision::boundingBoxTest(transf1, bounds1, transf2, bounds2);
 }
 
 bool GameObject::contains(sf::Vector2f pos) const
@@ -36,7 +36,7 @@ bool GameObject::contains(sf::Vector2f pos) const
 	auto transf1 = this->getTransform();
 	auto transf2 = sf::Transform().translate(pos);
 
-	return sf::Collision::boundingBoxTest(transf1, bounds1, transf2, bounds2);
+	return sf::collision::boundingBoxTest(transf1, bounds1, transf2, bounds2);
 }
 
 sf::Vector2f GameObject::getBottomRightPosition() const

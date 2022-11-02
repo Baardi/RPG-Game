@@ -7,13 +7,13 @@
 #include "stdafx.h"
 #include "SFML/Collision.hpp"
 
-namespace sf::Collision {
+namespace sf::collision {
 
 class BitmaskManager
 {
 public:
 
-	std::uint8_t getPixel(const std::uint8_t* mask, const sf::Texture* tex, unsigned int x, unsigned int y)
+	std::uint8_t getPixel(const std::uint8_t *mask, const sf::Texture *tex, unsigned int x, unsigned int y)
 	{
 		auto [width, height] = tex->getSize();
 		if (x > width || y > height)
@@ -22,7 +22,7 @@ public:
 		return mask[x + y * width];
 	}
 
-	std::uint8_t *getMask(const sf::Texture* tex)
+	std::uint8_t *getMask(const sf::Texture *tex)
 	{
 		auto pair = m_bitMasks.find(tex);
 		if (pair == m_bitMasks.end())
@@ -31,7 +31,7 @@ public:
 		return createMask(tex, tex->copyToImage());
 	}
 
-	std::uint8_t *createMask(const sf::Texture* tex, const sf::Image& img)
+	std::uint8_t *createMask(const sf::Texture *tex, const sf::Image &img)
 	{
 		auto [width, height] = tex->getSize();
 		auto [maskIter, inserted] = m_bitMasks.emplace(tex, std::make_unique<std::uint8_t[]>(width * height));
@@ -51,31 +51,31 @@ private:
 	
 static BitmaskManager s_bitmasks;
  
-bool pixelPerfectTest(const sf::Sprite& Object1, const sf::Sprite& Object2, std::uint8_t AlphaLimit) 
+bool pixelPerfectTest(const sf::Sprite &object1, const sf::Sprite &object2, std::uint8_t alphaLimit) 
 {	
-	if (const auto intersection = Object1.getGlobalBounds().findIntersection(Object2.getGlobalBounds())) 
+	if (const auto intersection = object1.getGlobalBounds().findIntersection(object2.getGlobalBounds())) 
 	{
-		sf::IntRect O1SubRect = Object1.getTextureRect();
-		sf::IntRect O2SubRect = Object2.getTextureRect();
+		sf::IntRect O1SubRect = object1.getTextureRect();
+		sf::IntRect O2SubRect = object2.getTextureRect();
 
-		std::uint8_t* mask1 = s_bitmasks.getMask(Object1.getTexture());
-		std::uint8_t* mask2 = s_bitmasks.getMask(Object2.getTexture());
+		std::uint8_t* mask1 = s_bitmasks.getMask(object1.getTexture());
+		std::uint8_t* mask2 = s_bitmasks.getMask(object2.getTexture());
 
 		// Loop through our pixels
 		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) 
 		{
 			for (int j = static_cast<int>(intersection->top); j < static_cast<int>(intersection->top + intersection->height); j++) 
 			{ 
-				sf::Vector2f o1v = Object1.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
-				sf::Vector2f o2v = Object2.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
+				sf::Vector2f o1v = object1.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
+				sf::Vector2f o2v = object2.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
  
 				// Make sure pixels fall within the sprite's subrect
 				if (o1v.x > 0 && o1v.y > 0 && o2v.x > 0 && o2v.y > 0 &&
 					o1v.x < O1SubRect.width && o1v.y < O1SubRect.height &&
 					o2v.x < O2SubRect.width && o2v.y < O2SubRect.height) 
 				{
-					if (s_bitmasks.getPixel(mask1, Object1.getTexture(), static_cast<int>(o1v.x) + O1SubRect.left, static_cast<int>(o1v.y) + O1SubRect.top) > AlphaLimit &&
-						s_bitmasks.getPixel(mask2, Object2.getTexture(), static_cast<int>(o2v.x) + O2SubRect.left, static_cast<int>(o2v.y) + O2SubRect.top) > AlphaLimit)
+					if (s_bitmasks.getPixel(mask1, object1.getTexture(), static_cast<int>(o1v.x) + O1SubRect.left, static_cast<int>(o1v.y) + O1SubRect.top) > alphaLimit &&
+						s_bitmasks.getPixel(mask2, object2.getTexture(), static_cast<int>(o2v.x) + O2SubRect.left, static_cast<int>(o2v.y) + O2SubRect.top) > alphaLimit)
 					{
 						return true;
 					}
@@ -100,31 +100,31 @@ bool createTextureAndBitmask(sf::Texture &targetTexture, const std::filesystem::
 	return true;
 }
 
-static sf::Vector2f getSpriteCenter(const sf::Sprite& Object)
+static sf::Vector2f getSpriteCenter(const sf::Sprite &object)
 {
-	sf::FloatRect AABB = Object.getGlobalBounds();
+	sf::FloatRect AABB = object.getGlobalBounds();
 	
 	return sf::Vector2f (AABB.left+AABB.width/2.f, AABB.top+AABB.height/2.f);
 }
 
-static sf::Vector2f getSpriteSize(const sf::Sprite& Object)
+static sf::Vector2f getSpriteSize(const sf::Sprite &object)
 {
-	sf::IntRect OriginalSize = Object.getTextureRect();
-	sf::Vector2f Scale = Object.getScale();
+	sf::IntRect originalSize = object.getTextureRect();
+	sf::Vector2f scale = object.getScale();
 
-	return sf::Vector2f (OriginalSize.width*Scale.x, OriginalSize.height*Scale.y);
+	return sf::Vector2f(originalSize.width * scale.x, originalSize.height * scale.y);
 }
 
-bool circleTest(const sf::Sprite& Object1, const sf::Sprite& Object2) 
+bool circleTest(const sf::Sprite &object1, const sf::Sprite &object2) 
 {
-	sf::Vector2f Obj1Size = getSpriteSize(Object1);
-	sf::Vector2f Obj2Size = getSpriteSize(Object2);
-	float Radius1 = (Obj1Size.x + Obj1Size.y) / 4;
-	float Radius2 = (Obj2Size.x + Obj2Size.y) / 4;
+	sf::Vector2f obj1Size = getSpriteSize(object1);
+	sf::Vector2f obj2Size = getSpriteSize(object2);
+	float radius1 = (obj1Size.x + obj1Size.y) / 4;
+	float radius2 = (obj2Size.x + obj2Size.y) / 4;
 
-	sf::Vector2f Distance = getSpriteCenter(Object1) - getSpriteCenter(Object2);
+	sf::Vector2f distance = getSpriteCenter(object1) - getSpriteCenter(object2);
 
-	return (Distance.x * Distance.x + Distance.y * Distance.y <= (Radius1 + Radius2) * (Radius1 + Radius2));
+	return (distance.x * distance.x + distance.y * distance.y <= (radius1 + radius2) * (radius1 + radius2));
 }
 
 template<class T>
@@ -136,25 +136,30 @@ struct MinMax
 
 class OrientedBoundingBox // Used in the BoundingBoxTest
 {
+	sf::Vector2f m_points[4];
 public:
 	OrientedBoundingBox(sf::Transform transf, sf::FloatRect bounds) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
 	{
-		points[0] = transf.transformPoint({ 0.f, 0.f });
-		points[1] = transf.transformPoint({ bounds.width, 0.f });
-		points[2] = transf.transformPoint({ bounds.width, bounds.height });
-		points[3] = transf.transformPoint({ 0.f, bounds.height });
+		m_points[0] = transf.transformPoint({ 0.f, 0.f });
+		m_points[1] = transf.transformPoint({ bounds.width, 0.f });
+		m_points[2] = transf.transformPoint({ bounds.width, bounds.height });
+		m_points[3] = transf.transformPoint({ 0.f, bounds.height });
 	}
 
-	sf::Vector2f points[4];
-
-	MinMax<float> ProjectOntoAxis(const sf::Vector2f& Axis) // Project all four points of the OBB onto the given axis and return the dotproducts of the two outermost points
+	template <typename Self>
+	auto& operator[](this Self &&self, size_t index) 
 	{
-		float min = points[0].x * Axis.x + points[0].y * Axis.y;
+		return self.m_points[index];
+	}
+
+	MinMax<float> projectOntoAxis(const sf::Vector2f &axis) // Project all four points of the OBB onto the given axis and return the dotproducts of the two outermost points
+	{
+		float min = m_points[0].x * axis.x + m_points[0].y * axis.y;
 		float max = min;
 
 		for (int j = 1; j<4; j++)
 		{
-			float Projection = (points[j].x * Axis.x + points[j].y * Axis.y);
+			float Projection = (m_points[j].x * axis.x + m_points[j].y * axis.y);
 
 			if (Projection < min)
 				min = Projection;
@@ -172,22 +177,19 @@ bool boundingBoxTest(sf::Transform transf1, sf::FloatRect bounds1, sf::Transform
 	OrientedBoundingBox OBB2(transf2, bounds2);
 
 	// Create the four distinct axes that are perpendicular to the edges of the two rectangles
-	sf::Vector2f Axes[4] = {
-		sf::Vector2f (OBB1.points[1].x-OBB1.points[0].x,
-		OBB1.points[1].y-OBB1.points[0].y),
-		sf::Vector2f (OBB1.points[1].x-OBB1.points[2].x,
-		OBB1.points[1].y-OBB1.points[2].y),
-		sf::Vector2f (OBB2.points[0].x-OBB2.points[3].x,
-		OBB2.points[0].y-OBB2.points[3].y),
-		sf::Vector2f (OBB2.points[0].x-OBB2.points[1].x,
-		OBB2.points[0].y-OBB2.points[1].y)
+	std::array<sf::Vector2f, 4> axes
+	{
+		sf::Vector2f (OBB1[1].x-OBB1[0].x, OBB1[1].y-OBB1[0].y),
+		sf::Vector2f (OBB1[1].x-OBB1[2].x, OBB1[1].y-OBB1[2].y),
+		sf::Vector2f (OBB2[0].x-OBB2[3].x, OBB2[0].y-OBB2[3].y),
+		sf::Vector2f (OBB2[0].x-OBB2[1].x, OBB2[0].y-OBB2[1].y)
 	};
 
 	for (int i = 0; i < 4; i++) // For each axis...
 	{
 		// ... project the points of both OBBs onto the axis ...
-		auto [minOBB1, maxOBB1] = OBB1.ProjectOntoAxis(Axes[i]);
-		auto [minOBB2, maxOBB2] = OBB2.ProjectOntoAxis(Axes[i]);
+		auto [minOBB1, maxOBB1] = OBB1.projectOntoAxis(axes[i]);
+		auto [minOBB2, maxOBB2] = OBB2.projectOntoAxis(axes[i]);
 
 		// ... and check whether the outermost projected points of both OBBs overlap.
 		// If this is not the case, the Separating Axis Theorem states that there can be no collision between the rectangles
