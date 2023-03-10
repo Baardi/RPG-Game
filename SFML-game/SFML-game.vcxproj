@@ -141,6 +141,7 @@ xcopy /Y "$(SolutionDir)\SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GamePopupMenu.hpp" />
     <ClInclude Include="ImageLayer.hpp" />
+    <ClInclude Include="InheritCVREF.hpp" />
     <ClInclude Include="IntersectionHandler.hpp" />
     <ClInclude Include="Inventory.hpp" />
     <ClInclude Include="InventoryUI.hpp" />

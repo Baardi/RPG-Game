@@ -35,11 +35,13 @@ public:
 	auto &buttons() { return m_buttons; }
 	const auto &buttons() const { return m_buttons; }
 	
-	/*template <typename Self>
+	template <typename Self>
+		requires (std::is_lvalue_reference_v<Self&&> && !std::is_volatile_v<std::remove_reference_t<Self>>)
 	auto& operator[](this Self&& self, size_t index)
 	{
 		return self.m_buttons[index];
-	}*/
+	}
+
 private:
 	enum class InputMode{ None, Mouse, Keys };
 	InputMode updateInputMode();
