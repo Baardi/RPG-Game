@@ -18,9 +18,9 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 	id = object["id"].asInt();
 
 	unsigned int json_gid = object["gid"].asUInt();
-	verflip = json_gid / (Map::FLIP_MULTIPLIER * 2);
-	horflip = json_gid % (Map::FLIP_MULTIPLIER * 2) > Map::FLIP_MULTIPLIER;
-	gid = json_gid % Map::FLIP_MULTIPLIER;
+	verflip = json_gid / (Map::FLIP_CONSTANT * 2);
+	horflip = json_gid % (Map::FLIP_CONSTANT * 2) > Map::FLIP_CONSTANT;
+	gid = json_gid % Map::FLIP_CONSTANT;
 
 	x = object["x"].asFloat();
 	y = object["y"].asFloat();
@@ -85,8 +85,8 @@ void ObjectSprite::save(Json::Value &objects) const
 	object["y"] = json_y;
 
 	unsigned int json_gid = gid;
-	if (horflip) json_gid += Map::FLIP_MULTIPLIER;
-	if (verflip) json_gid += Map::FLIP_MULTIPLIER * 2;
+	if (horflip) json_gid += Map::FLIP_CONSTANT;
+	if (verflip) json_gid += Map::FLIP_CONSTANT * 2;
 	object["gid"] = json_gid;
 
 	if (text.has_value())

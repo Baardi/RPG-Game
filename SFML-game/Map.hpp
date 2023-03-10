@@ -87,5 +87,5 @@ private:
 	std::filesystem::path m_currentPath;
 
 public:
-	static constexpr unsigned int FLIP_MULTIPLIER = 0b1 << 30; /* 1073741824*/
+	static constexpr std::uint32_t FLIP_CONSTANT = 0b1 << 30; /* 1073741824*/
 };
