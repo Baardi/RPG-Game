@@ -2,7 +2,7 @@
 #include "ObjectSprite.hpp"
 #include "sfUtility.hpp"
 #include <numbers>
-#include "map.hpp"
+#include "Map.hpp"
 #include "App/ResourceManager.hpp"
 
 void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, const std::unordered_map<int, TileSet> &tileSets)
