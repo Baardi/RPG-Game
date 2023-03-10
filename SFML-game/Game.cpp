@@ -73,7 +73,7 @@ void Game::init()
 
 	m_intersectionHandler.registerEvent("Items", [this](ObjectLayer *layer, ObjectSprite *item)
 	{
-		auto createdItem = m_itemFactory.create(item->type);
+		auto createdItem = m_itemFactory.create(item->class_);
 		createdItem->construct(item->gid, item->name, item->sprite);
 		createdItem->applyProperties(*item);
 		m_player.takeItem(std::move(createdItem));

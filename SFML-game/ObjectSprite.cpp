@@ -12,7 +12,7 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 	width = object["width"].asFloat();
 	height = object["height"].asFloat();
 	rotation = object["rotation"].asFloat();
-	type = object["type"].asString();
+	class_ = object["class"].asString();
 	visible = object["visible"].asBool();
 	opacity = layer["opacity"].asFloat();
 	id = object["id"].asInt();
@@ -69,7 +69,7 @@ void ObjectSprite::save(Json::Value &objects) const
 	object["id"] = id;
 	object["name"] = name;
 	object["rotation"] = rotation;
-	object["type"] = type;
+	object["class"] = class_;
 	object["visible"] = visible;
 	object["width"] = width;
 	object["height"] = height;

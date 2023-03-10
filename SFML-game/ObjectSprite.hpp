@@ -31,7 +31,7 @@ public:
 	int gid;
 	sf::Sprite sprite;
 	std::string name;
-	std::string type;
+	std::string class_;
 	bool visible;
 
 	// Tileset used by sprite

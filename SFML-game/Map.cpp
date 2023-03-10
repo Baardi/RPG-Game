@@ -39,6 +39,9 @@ bool Map::load(const std::filesystem::path &filename, Textures &textures, const 
 	if (!parsingSuccessful)
 		return false;
 
+	if (root["version"].asString() != FORMAT_VERSION)
+		return false; // Wrong version. We refuse to read it
+
 	std::error_code ec;
 	m_currentFile = std::filesystem::weakly_canonical(filename, ec); // NOTE: weakly_canonical has some issues with mapped drives. Doesn't matter for me though
 	m_currentPath = m_currentFile.parent_path();
@@ -75,7 +78,8 @@ bool Map::save(const std::filesystem::path &filename)
 	Json::Value value;
 
 	// Store attributes from the map itself
-	value["version"] = 1.2;
+	value["version"] = FORMAT_VERSION;
+	value["compressionlevel"] = -1;
 	value["type"] = "map";
 	value["orientation"] = "orthogonal";
 	value["renderorder"] = "right-down";
