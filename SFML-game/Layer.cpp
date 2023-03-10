@@ -3,7 +3,7 @@
 #include "TileSet.hpp"
 
 
-int getTextureIndex(int tileValue, const std::map<int, TileSet>& tileSets)
+int getTextureIndex(int tileValue, const std::unordered_map<int, TileSet>& tileSets)
 {
 	int tileTextureValue = 0;
 

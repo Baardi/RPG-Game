@@ -30,5 +30,5 @@ protected:
 	void saveProperties(Json::Value &properties) const;
 	void clearProperties();
 
-	std::map<std::string, PropertyType> m_properties;
+	std::unordered_map<std::string, PropertyType> m_properties;
 };

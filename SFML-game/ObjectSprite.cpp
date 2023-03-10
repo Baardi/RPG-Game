@@ -5,7 +5,7 @@
 #include "map.hpp"
 #include "App/ResourceManager.hpp"
 
-void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, const std::map<int, TileSet> &tileSets)
+void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, const std::unordered_map<int, TileSet> &tileSets)
 {
 	// Load basic object info
 	name = object["name"].asString();
@@ -133,7 +133,7 @@ void ObjectSprite::draw(sf::RenderTarget &target)
 #endif // _DEBUG
 }
 
-void ObjectSprite::loadTexture(const std::map<int, TileSet> &tileSets)
+void ObjectSprite::loadTexture(const std::unordered_map<int, TileSet> &tileSets)
 {
 	if (!gid)
 		return;

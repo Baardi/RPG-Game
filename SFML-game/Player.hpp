@@ -59,8 +59,8 @@ private:
 	TileSize m_tilesize;
 	Inventory m_inventory;
 
-	std::map<Dir, sf::Keyboard::Key> m_dirMap;
-	std::map<Action, sf::Keyboard::Key> m_actionMap;
+	std::unordered_map<Dir, sf::Keyboard::Key> m_dirMap;
+	std::unordered_map<Action, sf::Keyboard::Key> m_actionMap;
 	MouseHandler m_mouseHandler;
 	KeyHandler m_keyHandler;
 };

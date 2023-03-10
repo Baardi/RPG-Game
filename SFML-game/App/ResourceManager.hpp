@@ -1,6 +1,6 @@
 #pragma once
 
-using Textures = std::map<std::filesystem::path, sf::Texture>;
+using Textures = std::unordered_map<std::filesystem::path, sf::Texture>;
 
 class ResourceManager
 {

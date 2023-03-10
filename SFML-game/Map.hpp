@@ -44,7 +44,7 @@ public:
 	ObjectLayer *getObjectLayer(const std::string &layerName);
 	const ObjectLayer *getObjectLayer(const std::string &layerName) const;
 	
-	// TODO impl: GetObjectSprite(int id); // map<int, ObjectSprite *>
+	// TODO impl: GetObjectSprite(int id); // unordered_map<int, ObjectSprite *>
 
 	void pause();
 	void resume();
@@ -53,8 +53,8 @@ public:
 	std::vector<std::unique_ptr<Layer>> m_layers; // TODO: Refactor into tree
 
 	// Sorted collection of layers
-	std::map<std::string, ObjectLayer *> m_objectMap;
-	std::map<std::string, TileLayer *> m_tileMap;
+	std::unordered_map<std::string, ObjectLayer *> m_objectMap;
+	std::unordered_map<std::string, TileLayer *> m_tileMap;
 
 	// Map bounds
 	unsigned int width, height;
@@ -65,7 +65,7 @@ public:
 	sf::RectangleShape maprect;
 private:
 
-	std::map<int, TileSet> m_tileSets;
+	std::unordered_map<int, TileSet> m_tileSets;
 	void loadTileSets(const Json::Value &root, Textures &textures);
 
 	// Handles group of layers

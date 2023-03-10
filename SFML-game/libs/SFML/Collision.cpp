@@ -46,7 +46,7 @@ public:
 		return mask;
 	}
 private:
-	std::map<const sf::Texture*, std::unique_ptr<std::uint8_t[]>> m_bitMasks;
+	std::unordered_map<const sf::Texture*, std::unique_ptr<std::uint8_t[]>> m_bitMasks;
 };
 	
 static BitmaskManager s_bitmasks;

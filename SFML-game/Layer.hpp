@@ -13,7 +13,7 @@ struct AnimationFrame
 using Animation = std::vector<AnimationFrame>;
 
 // <gid, animation>
-using AnimationTileMap = std::map<int, Animation>;
+using AnimationTileMap = std::unordered_map<int, Animation>;
 
 struct AnimationTileData
 {
@@ -51,7 +51,7 @@ public:
 	virtual void process([[maybe_unused]]const sftools::Chronometer &clock) {}
 	virtual void draw([[maybe_unused]]sf::RenderTarget &target) {}
 	virtual void drawWithFringe(sf::RenderTarget &target, [[maybe_unused]]FringeDrawer &fringeDrawer) { draw(target); }
-	virtual void loadTexture([[maybe_unused]]const std::map<int, TileSet> &tileSets) {}
+	virtual void loadTexture([[maybe_unused]]const std::unordered_map<int, TileSet> &tileSets) {}
 
 	std::string name;
 	bool visible;
@@ -61,6 +61,6 @@ public:
 	TileSize tileSize;
 };
 
-int getTextureIndex(int tileValue, const std::map<int, TileSet> &tileSets);
+int getTextureIndex(int tileValue, const std::unordered_map<int, TileSet> &tileSets);
 void processAnimation(sf::Sprite &sprite, AnimationTile &animationTile, const sftools::Chronometer& clock);	
 sf::Vector2i getTileCoords(const sf::Texture &texture, int tile, TileSize tileSize);

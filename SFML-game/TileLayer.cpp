@@ -3,7 +3,7 @@
 #include "TileSet.hpp"
 #include "FringeDrawer.hpp"
 
-bool TileLayer::load(const Json::Value &layer, const std::map<int, TileSet> &tileSets)
+bool TileLayer::load(const Json::Value &layer, const std::unordered_map<int, TileSet> &tileSets)
 {
 	type = layer["type"].asString();
 	width = layer["width"].asInt();
@@ -114,7 +114,7 @@ void TileLayer::drawWithFringe(sf::RenderTarget &target, FringeDrawer &fringeDra
 	fringeDrawer.drawBetween(target, height*tileSize.y, (height+1)*tileSize.y);
 }
 
-void TileLayer::loadTexture(const std::map<int, TileSet> &tileSets)
+void TileLayer::loadTexture(const std::unordered_map<int, TileSet> &tileSets)
 {
 	for (int y = 0; y < height; y++)
 	{

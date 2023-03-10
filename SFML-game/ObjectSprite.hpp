@@ -14,7 +14,7 @@ public:
 
 	virtual void applyProperties() {}
 
-	void load(const Json::Value &layer, const Json::Value &object, const std::map<int, TileSet> &tileSets);
+	void load(const Json::Value &layer, const Json::Value &object, const std::unordered_map<int, TileSet> &tileSets);
 	void loadText(const Json::Value &textValue);
 	void save(Json::Value &objects) const;
 	void saveText(Json::Value &textValue) const;
@@ -22,7 +22,7 @@ public:
 	void process(const sftools::Chronometer &clock);
 	void draw(sf::RenderTarget &target) override;
 	
-	void loadTexture(const std::map<int, TileSet> &tileSets);
+	void loadTexture(const std::unordered_map<int, TileSet> &tileSets);
 
 	sf::FloatRect getLocalBounds() const override;
 	sf::Transform getTransform() const override;

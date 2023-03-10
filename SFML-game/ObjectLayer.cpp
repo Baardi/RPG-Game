@@ -3,7 +3,7 @@
 #include "Map.hpp"
 #include <ranges>
 
-bool ObjectLayer::load(const Json::Value& layer, const std::map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
+bool ObjectLayer::load(const Json::Value& layer, const std::unordered_map<int, TileSet> &tileSets, const ObjectSpriteFactory &spriteFactory)
 {
 	name = layer["name"].asString();
 	type = layer["type"].asString();
@@ -62,7 +62,7 @@ void ObjectLayer::draw(sf::RenderTarget &target)
 	}
 }
 
-void ObjectLayer::loadTexture(const std::map<int, TileSet> &tileSets)
+void ObjectLayer::loadTexture(const std::unordered_map<int, TileSet> &tileSets)
 {
 	for (auto &object : objects)
 		object->loadTexture(tileSets);

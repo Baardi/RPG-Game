@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <functional>
 
 template <typename Base>
@@ -31,5 +31,5 @@ public:
 	}
 
 private:
-	std::map<std::string, std::function<std::unique_ptr<Base>(Args...)>> m_map;
+	std::unordered_map<std::string, std::function<std::unique_ptr<Base>(Args...)>> m_map;
 };
