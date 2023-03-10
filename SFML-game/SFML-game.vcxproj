@@ -80,13 +80,13 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PreBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)\.build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
+      <Command>xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.dll" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
+xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -116,13 +116,13 @@ xcopy /Y "$(SolutionDir)\SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)\.build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\.build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)\SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
+      <Command>xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.dll" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
+xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
+xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
