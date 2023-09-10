@@ -6,7 +6,7 @@ using appstate::StateMachine;
 void StateMachine::performTransition()
 {
 	// Completes a queued transition
-	std::cout << std::to_string(size()) + std::string(" -> ");
+	std::print("{} -> ", std::to_string(size()));
 
 	if (isRunning())
 		m_currentState->pause();
@@ -34,7 +34,7 @@ void StateMachine::performTransition()
 		m_currentState->resume();
 	}
 
-	std::cout << std::to_string(size()) << std::endl;
+	std::println("{}", std::to_string(size()));
 }
 
 void StateMachine::handleWindowEvents()
@@ -81,7 +81,7 @@ bool StateMachine::runFrame()
 		sftools::Chronometer clock;
 		clock.reset(true);
 		performTransition();
-		std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+		std::println("{}", std::to_string(clock.getElapsedTime().asSeconds()));
 	}
 
 	if (!isRunning())

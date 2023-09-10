@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "App.hpp"
-#include <iostream>
+#include <print>
 #include "MainMenu.hpp"
 #include "ResourceManager.hpp"
 
@@ -19,7 +19,7 @@ void App::init()
 
 	if (!resources().font().loadFromFile("data/Asul-regular.ttf"))
 	{
-		std::cout << "file can not be loaded, sorry!" << std::endl;
+		std::println("File can not be loaded, sorry!");
 	}
 
 	m_stateMachine.setWindow(m_window);

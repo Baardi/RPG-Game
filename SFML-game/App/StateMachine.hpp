@@ -1,6 +1,6 @@
 #pragma once
 #include "App/State.hpp"
-#include <iostream>
+#include <print>
 
 namespace appstate {
 

@@ -30,10 +30,7 @@ std::string sf::utility::serializeColor(sf::Color color)
 	if (color.a != 0xff)
 		colorSum += (color.a << 24); // Tiled omits the value if alpha-value is 0xff
 
-	std::stringstream stream;
-	stream << "#" << std::hex << colorSum;
-
-	return stream.str();
+	return std::format("#{:x}", colorSum);
 }
 
 unsigned int sf::utility::parseTextStyle(const Json::Value &value)

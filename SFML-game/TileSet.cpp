@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TileSet.hpp"
-#include <iostream>
+#include <print>
 
 bool TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &directory, Textures &textures)
 {
@@ -20,7 +20,7 @@ bool TileSet::load(const Json::Value &tilesetVal, const std::filesystem::path &d
 	{
 		if (!it->second.loadFromFile(imagePath))
 		{
-			std::cout << "Failed loading texture";
+			std::println("Failed loading texture");
 
 			return false;
 		}

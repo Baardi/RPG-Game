@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ImageLayer.hpp"
 #include "SfUtility.hpp"
-#include <iostream>
+#include <print>
 
 bool ImageLayer::load(const Json::Value &layer, const std::filesystem::path &directory, Textures &textures)
 {
@@ -28,7 +28,7 @@ bool ImageLayer::load(const Json::Value &layer, const std::filesystem::path &dir
 	{
 		if (!it->second.loadFromFile(imagePath))
 		{
-			std::cout << "Failed loading texture";
+			std::println("Failed loading texture");
 
 			return false;
 		}
