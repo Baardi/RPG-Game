@@ -11,22 +11,21 @@ sf::Color sf::utility::parseColor(const std::string &colorCode)
 		return sf::Color::Black; // Default color is black
 	
 	const char *colorSumRgbHexStr = &*(colorCode.end() - 6);
-	unsigned int colorSumRgb = std::stoul(colorSumRgbHexStr, nullptr, 16);
+	std::uint32_t colorSumRgb = std::stoul(colorSumRgbHexStr, nullptr, 16);
 
-	unsigned int colorAlphaValue = 0xff;
+	std::uint8_t colorAlphaValue = 0xff;
 	if (colorCode.length() == 9) // Tiled omits the value if alpha-value is 0xff
 	{
 		std::string colorAlpha(colorCode.begin() + 1, colorCode.begin() + 3);
-		colorAlphaValue = std::stoul(colorAlpha.c_str(), nullptr, 16);
+		colorAlphaValue = static_cast<std::uint8_t>(std::stoul(colorAlpha.c_str(), nullptr, 16));
 	}
 
-	sf::Color color((colorSumRgb << 8) + colorAlphaValue);
-	return color;
+	return sf::Color ((colorSumRgb << 8) + colorAlphaValue);
 }
 
 std::string sf::utility::serializeColor(sf::Color color)
 {
-	unsigned int colorSum = color.b + (color.g << 8) + (color.r << 16);
+	std::uint32_t colorSum = color.b + (color.g << 8) + (color.r << 16);
 	if (color.a != 0xff)
 		colorSum += (color.a << 24); // Tiled omits the value if alpha-value is 0xff
 

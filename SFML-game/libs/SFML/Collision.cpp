@@ -13,29 +13,29 @@ class BitmaskManager
 {
 public:
 
-	std::uint8_t getPixel(const std::uint8_t *mask, const sf::Texture *tex, unsigned int x, unsigned int y)
+	std::uint8_t getPixel(const std::vector<std::uint8_t> &mask, const sf::Texture &texture, unsigned int x, unsigned int y)
 	{
-		auto [width, height] = tex->getSize();
+		auto [width, height] = texture.getSize();
 		if (x > width || y > height)
 			return 0;
 
 		return mask[x + y * width];
 	}
 
-	std::uint8_t *getMask(const sf::Texture *tex)
+	std::vector<std::uint8_t> &getMask(const sf::Texture &texture)
 	{
-		auto pair = m_bitMasks.find(tex);
+		auto pair = m_bitMasks.find(&texture);
 		if (pair == m_bitMasks.end())
-			return pair->second.get();
+			return pair->second;
 
-		return createMask(tex, tex->copyToImage());
+		return createMask(texture, texture.copyToImage());
 	}
 
-	std::uint8_t *createMask(const sf::Texture *tex, const sf::Image &img)
+	std::vector<std::uint8_t> &createMask(const sf::Texture &texture, const sf::Image &img)
 	{
-		auto [width, height] = tex->getSize();
-		auto [maskIter, inserted] = m_bitMasks.emplace(tex, std::make_unique<std::uint8_t[]>(width * height));
-		auto *mask = maskIter->second.get();
+		auto [width, height] = texture.getSize();
+		auto [maskIter, inserted] = m_bitMasks.emplace(&texture, std::vector<std::uint8_t>(width * height));
+		auto &mask = maskIter->second;
 
 		for (unsigned int y = 0; y < height; y++)
 		{
@@ -46,7 +46,7 @@ public:
 		return mask;
 	}
 private:
-	std::unordered_map<const sf::Texture*, std::unique_ptr<std::uint8_t[]>> m_bitMasks;
+	std::unordered_map<const sf::Texture*, std::vector<std::uint8_t>> m_bitMasks;
 };
 	
 static BitmaskManager s_bitmasks;
@@ -58,8 +58,8 @@ bool pixelPerfectTest(const sf::Sprite &object1, const sf::Sprite &object2, std:
 		sf::IntRect O1SubRect = object1.getTextureRect();
 		sf::IntRect O2SubRect = object2.getTextureRect();
 
-		std::uint8_t* mask1 = s_bitmasks.getMask(object1.getTexture());
-		std::uint8_t* mask2 = s_bitmasks.getMask(object2.getTexture());
+		std::vector<std::uint8_t> &mask1 = s_bitmasks.getMask(object1.getTexture());
+		std::vector<std::uint8_t> &mask2 = s_bitmasks.getMask(object2.getTexture());
 
 		// Loop through our pixels
 		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) 
@@ -89,14 +89,14 @@ bool pixelPerfectTest(const sf::Sprite &object1, const sf::Sprite &object2, std:
 
 bool createTextureAndBitmask(sf::Texture &targetTexture, const std::filesystem::path &filename)
 {
-	sf::Image img;
-	if (!img.loadFromFile(filename))
+	sf::Image image;
+	if (!image.loadFromFile(filename))
 		return false;
 
-	if (!targetTexture.loadFromImage(img))
+	if (!targetTexture.loadFromImage(image))
 		return false;
 
-	s_bitmasks.createMask(&targetTexture, img);
+	s_bitmasks.createMask(targetTexture, image);
 	return true;
 }
 

@@ -29,7 +29,7 @@ public:
 
 	// Id of first tile
 	int gid;
-	sf::Sprite sprite;
+	std::optional<sf::Sprite> sprite;
 	std::string name;
 	std::string class_;
 	bool visible;

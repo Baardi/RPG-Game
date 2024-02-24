@@ -8,11 +8,14 @@
 #include "App/StateMachine.hpp"
 #include "App/ResourceManager.hpp"
 
-Player::Player([[maybe_unused]]sftools::Chronometer &clock, sf::Vector2f pos)
+Player::Player([[maybe_unused]]sftools::Chronometer &clock, sf::Vector2f pos) :
+	m_textStats{ resources().font() },
+	m_textFighting{ resources().font() },
+	m_sprite{ m_texture }
 {
-	if (!m_texture.loadFromFile("data/Player Sprites/Warrior.png"))
-		std::cout << "Failed loading player sprite\n";
-
+	if (!m_texture.loadFromFile("data/Player Sprites/Engineer.png"))
+		std::println("Failed loading player sprite");
+	
 	m_tilesize.x = m_texture.getSize().x / 4;
 	m_tilesize.y = m_texture.getSize().y / 4;
 
@@ -35,12 +38,10 @@ Player::Player([[maybe_unused]]sftools::Chronometer &clock, sf::Vector2f pos)
 				m_fightTimer.emplace().reset(true);
 		});
 
-	m_textFighting.setFont(resources().font());
 	m_textFighting.setPosition(sf::Vector2f{ 0.0, 0.0 });
 	m_textFighting.setCharacterSize(10);
 	m_textFighting.setString("Fighting");
 
-	m_textStats.setFont(resources().font());
 	m_textStats.setPosition(sf::Vector2f{ 0.0, 25.0 });
 	m_textFighting.setCharacterSize(10);
 

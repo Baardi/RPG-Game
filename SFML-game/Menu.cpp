@@ -45,14 +45,16 @@ Button &Menu::addMenuItem(const std::string &text, const std::function<void()> &
 	button.setTextDeselectionColour(colorUnselect);
 	button.setTextSize(textSize);
 	button.setPosition({static_cast<float>(pos.x), static_cast<float>(pos.y + spacing * index) });
-	
+
 	return button;
 }
 
-Button &Menu::addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action)
+Button &Menu::addMenuItem(const std::string &text, const sf::Sprite *sprite, const std::function<void()>& action)
 {
 	auto &button = addMenuItem(text, action);
-	addMenuSprite(sprite, button);
+	if (sprite)
+		addMenuSprite(*sprite, button);
+
 	return button;
 }
 

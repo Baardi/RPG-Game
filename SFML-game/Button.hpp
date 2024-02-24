@@ -89,8 +89,8 @@ private:
 		m_textColourDeselect = sf::Color::White;
 	const sf::Font *m_pFont;
 	sf::Text m_text;
-	sf::Sprite m_sprite;
 	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	std::function<void()> m_func;
 };
 

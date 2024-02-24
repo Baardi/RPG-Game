@@ -11,7 +11,7 @@ Music::Music() :
 
 bool Music::load(const std::filesystem::path &file)
 {	
-	if (file.has_filename() && m_music.openFromFile(file.string()))
+	if (file.has_filename() && m_music.openFromFile(file))
 	{
 		m_currentFile = std::filesystem::absolute(file);
 		play();

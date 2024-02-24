@@ -57,7 +57,7 @@ public:
 	std::unordered_map<std::string, TileLayer *> m_tileMap;
 
 	// Map bounds
-	unsigned int width, height;
+	std::uint32_t width, height;
 
 	TileSize tileSize;
 

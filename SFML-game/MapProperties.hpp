@@ -6,8 +6,6 @@
 class MapProperties
 {
 public:
-	using PropertyType = std::variant<std::string, std::filesystem::path, sf::Color, int, float, bool>;
-	
 	MapProperties() = default;
 	virtual ~MapProperties() = default;
 	
@@ -30,5 +28,6 @@ protected:
 	void saveProperties(Json::Value &properties) const;
 	void clearProperties();
 
+	using PropertyType = std::variant<std::string, std::filesystem::path, sf::Color, int, float, bool>;
 	std::unordered_map<std::string, PropertyType> m_properties;
 };

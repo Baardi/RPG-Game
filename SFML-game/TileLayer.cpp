@@ -65,12 +65,12 @@ void TileLayer::process(const sftools::Chronometer &clock)
 			auto &tile = m_tilemap[x + y * width];
 
 			// Skip empty tiles
-			if (tile.id == 0)
+			if (!tile.sprite)
 				continue;
 			
 			// Update animation
 			if (!tile.animation.data.empty())
-				processAnimation(tile.sprite, tile.animation, clock);
+				processAnimation(*tile.sprite, tile.animation, clock);
 		}
 	}
 }
@@ -85,10 +85,10 @@ void TileLayer::draw(sf::RenderTarget &target)
 			auto &tile = m_tilemap[x + y * width];
 			
 			// Skip empty tiles
-			if (tile.id == 0)
+			if (!tile.sprite)
 				continue;
 
-			target.draw(tile.sprite);
+			target.draw(*tile.sprite);
 		}
 	}
 }
@@ -104,10 +104,10 @@ void TileLayer::drawWithFringe(sf::RenderTarget &target, FringeDrawer &fringeDra
 			auto &tile = m_tilemap[x + y * width];
 			
 			// Skip empty tiles
-			if (tile.id == 0)
+			if (!tile.sprite)
 				continue;
 
-			target.draw(tile.sprite);
+			target.draw(*tile.sprite);
 		}
 	}
 
@@ -156,10 +156,10 @@ void TileLayer::loadSpriteTexture(Tile &tile, const sf::Texture &texture, int ti
 	const auto *tileset = tile.tileset;
 
 	auto &sprite = tile.sprite;
-	sprite.setColor(sf::Color(255U, 255U, 255U, static_cast<std::uint8_t>(255U * opacity) - 1U));
-	sprite.setTexture(texture);
-	sprite.setTextureRect({ coord, { tileset->tileSize.x, tileset->tileSize.y } });
-	sprite.setPosition({ static_cast<float>(pos.x * tileSize.x + tileSize.x - tileset->tileSize.x), static_cast<float>(pos.y * tileSize.y + tileSize.y - tileset->tileSize.y) });
+	sprite.emplace(texture);
+	sprite->setColor(sf::Color(255U, 255U, 255U, static_cast<std::uint8_t>(255U * opacity) - 1U));
+	sprite->setTextureRect({ coord, { tileset->tileSize.x, tileset->tileSize.y } });
+	sprite->setPosition({ static_cast<float>(pos.x * tileSize.x + tileSize.x - tileset->tileSize.x), static_cast<float>(pos.y * tileSize.y + tileSize.y - tileset->tileSize.y) });
 }
 
 void TileLayer::loadSpriteAnimation(const sf::Texture &texture, Tile &tile, const Animation &animation)

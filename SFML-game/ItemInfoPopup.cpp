@@ -14,7 +14,6 @@ void ItemInfoPopup::init()
 		std::println("Failed creating renderTexture");
 
 	m_renderSprite.setPosition(static_cast<sf::Vector2f>(pos - sf::Vector2i{ 20, 20 }));
-	m_renderSprite.setTexture(m_renderTexture.getTexture());
 
 	addMenuItem("Back", [this] { stateMachine().popState(); });
 

@@ -20,7 +20,7 @@ protected:
 
 	// Methods used by derived classes
 	Button &addMenuItem(const std::string &text, const std::function<void()> &action = []{});
-	Button &addMenuItem(const std::string &text, const sf::Sprite &sprite, const std::function<void()> &action = [] {});
+	Button &addMenuItem(const std::string &text, const sf::Sprite *sprite, const std::function<void()> &actio = []{});
 
 	// Data members changable by derived classes
 	sf::Vector2i pos{ 400, 400 };

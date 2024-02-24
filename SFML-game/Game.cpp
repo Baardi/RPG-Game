@@ -14,7 +14,10 @@
 
 using appstate::Game;
 
-Game::Game() : m_player{ m_clock, { 160, 160 } }, m_pauseText{ "Paused", resources().font(), 50 }
+Game::Game() : 
+	m_player{ m_clock, { 160, 160 } },
+	m_pauseText{ resources().font(), "Paused", 50 }, 
+	m_renderSprite { m_renderTexture.getTexture() }
 {
 	m_pauseText.setPosition({ 400, 450 });
 }

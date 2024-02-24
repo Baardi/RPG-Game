@@ -16,7 +16,7 @@ public:
 	void draw(sf::RenderTarget &target);
 
 	std::filesystem::path image;
-	sf::Sprite m_sprite;
+	std::optional<sf::Sprite> m_sprite;
 	int x, y;
 	std::optional<sf::Color> transparentcolor;
 };

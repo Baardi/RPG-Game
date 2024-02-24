@@ -54,8 +54,8 @@ private:
 	
 	sf::Text m_textStats;
 	sf::Text m_textFighting;
-	sf::Sprite m_sprite;
 	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	TileSize m_tilesize;
 	Inventory m_inventory;
 

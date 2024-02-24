@@ -19,5 +19,5 @@ public:
 	int firstgid;
 	std::string name;
 	const sf::Texture *texture;
-	int width, height;
+	std::uint32_t width, height;
 };

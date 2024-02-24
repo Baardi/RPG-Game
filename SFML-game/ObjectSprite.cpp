@@ -50,12 +50,11 @@ void ObjectSprite::load(const Json::Value& layer, const Json::Value& object, con
 
 void ObjectSprite::loadText(const Json::Value &textValue)
 {
-	text.emplace();
+	text.emplace(resources().font());
 
 	text->setFillColor(sf::utility::parseColor(textValue["color"].asString()));
 	text->setString(textValue["text"].asString());
 	text->setCharacterSize(textValue["pixelsize"].asInt());
-	text->setFont(resources().font());
 	text->setPosition({ x, y });
 	text->setRotation(sf::degrees(rotation));
 	text->setStyle(sf::utility::parseTextStyle(textValue));
@@ -117,14 +116,14 @@ void ObjectSprite::process(const sftools::Chronometer &clock)
 		return;
 
 	// Update animation
-	if (!m_animationTileInfo.data.empty())
-		processAnimation(sprite, m_animationTileInfo, clock);
+	if (sprite && !m_animationTileInfo.data.empty())
+		processAnimation(*sprite, m_animationTileInfo, clock);
 }
 
 void ObjectSprite::draw(sf::RenderTarget &target)
 {
-	if (gid) 
-		target.draw(sprite);
+	if (sprite) 
+		target.draw(*sprite);
 	else if (text)
 		target.draw(*text);
 
@@ -176,12 +175,12 @@ void ObjectSprite::loadSpriteTexture(const sf::Texture &texture, int tileid)
 	auto [tilex, tiley] = getTileCoords(texture, tileid, tileset->tileSize);
 	auto textureRect = getTextureRectToUse(tileset->tileSize, tilex, tiley, verflip, horflip);
 
-	sprite.setColor(sf::Color(255, 255, 255, static_cast<std::uint8_t>(256 * opacity) - 1));
-	sprite.setTexture(texture);
-	sprite.setTextureRect(textureRect);
-	sprite.setPosition({ x, y });
-	sprite.setRotation(sf::degrees(rotation));
-	sprite.setScale({ width / static_cast<float>(tileset->tileSize.x), height / static_cast<float>(tileset->tileSize.y) });
+	sprite.emplace(texture);
+	sprite->setColor(sf::Color(255, 255, 255, static_cast<std::uint8_t>(256 * opacity) - 1));
+	sprite->setTextureRect(textureRect);
+	sprite->setPosition({ x, y });
+	sprite->setRotation(sf::degrees(rotation));
+	sprite->setScale({ width / static_cast<float>(tileset->tileSize.x), height / static_cast<float>(tileset->tileSize.y) });
 }
 
 void ObjectSprite::loadSpriteAnimation(const sf::Texture &texture, const Animation &animation)

@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Button.hpp"
 
-Button::Button(const sf::Font &font) : m_pFont(&font)
+Button::Button(const sf::Font &font) :
+	m_pFont(&font),
+	m_text(font),
+	m_sprite(m_texture)
 {
-	m_text.setFont(font);
-	m_sprite.setTexture(m_texture);
 	deselect();
 }
 

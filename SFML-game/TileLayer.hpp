@@ -5,7 +5,7 @@ struct Tile
 {
 	int id;
 	AnimationTile animation;
-	sf::Sprite sprite;
+	std::optional<sf::Sprite> sprite;
 	const TileSet *tileset;
 };
 
@@ -33,7 +33,7 @@ private:
 		
 	bool containsTextureTileCoords(sf::Vector2i pos) const;
 
-    // Layer representation
-    std::vector<Tile> m_tilemap;
+	// Layer representation
+	std::vector<Tile> m_tilemap;
 	int width, height;
 };
