@@ -1,7 +1,6 @@
 #pragma once
 #include "GameItem.hpp"
 #include "ObjectSprite.hpp"
-#include "InheritCVREF.hpp"
 
 class Inventory
 {
@@ -9,7 +8,11 @@ public:
 	Inventory() = default;
 	~Inventory() = default;
 
-	void takeItem(std::unique_ptr<GameItem> item);
+	void takeItem(std::unique_ptr<GameItem> item)
+	{
+		m_items.push_back(std::move(item));
+	}
+
 	const auto &Items() const { return m_items; }
 
 	auto size() const { return m_items.size(); }
