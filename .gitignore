@@ -263,3 +263,4 @@ __pycache__/
 
 *.exe
 *.sav
+SFML-game/vcpkg_installed

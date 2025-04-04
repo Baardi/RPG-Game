@@ -53,6 +53,9 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -82,13 +85,6 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PreBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,13 +114,6 @@ xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\jsoncpp\bin\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\jsoncpp\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\bin\$(Configuration)\*.dll" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.pdb" "$(TargetDir)"
-xcopy /Y "$(SolutionDir).build\SFML\lib\$(Configuration)\*.lib" "$(TargetDir)"
-xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -221,6 +210,7 @@ xcopy /Y "$(SolutionDir)SFML\extlibs\bin\$(Platform)\openal32.dll" "$(TargetDir)
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Directory.Build.props" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
