@@ -69,7 +69,7 @@ Button &ButtonHandler::addButton(const std::string &text, const std::function<vo
 	button.onClicked(func);
 
 	auto bounds = button.getGlobalBounds();
-	m_posCurr.y = static_cast<int>(bounds.top) + static_cast<int>(bounds.height) + m_spacing;
+	m_posCurr.y = static_cast<int>(bounds.position.y) + static_cast<int>(bounds.size.y) + m_spacing;
 
 	return button;
 }
@@ -89,9 +89,9 @@ ButtonHandler::InputMode ButtonHandler::updateInputMode()
 		m_lastMousePos = currMousePos;
 		m_inputMode = InputMode::Mouse;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
 	{
 		m_inputMode = InputMode::Keys;
 	}
@@ -132,7 +132,7 @@ void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 
 	if (m_clock.getElapsedTime() > m_keyUpDownCooldown)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 		{
 			m_it->deselect();
 			if (m_it == m_buttons.begin())
@@ -141,7 +141,7 @@ void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 				m_it--;
 			m_it->select();
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 		{
 			m_it->deselect();
 			if (m_it == --m_buttons.end())
@@ -154,7 +154,7 @@ void ButtonHandler::handleKeyEvents([[maybe_unused]]sf::Window &window)
 		m_clock -= m_keyUpDownCooldown;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
 	{
 		if (!m_enterWasPressed)
 			m_it->invoke();
@@ -183,6 +183,6 @@ void ButtonHandler::handleMouseEvents(sf::Window &window)
 		}
 	}
 
-	if (m_it != m_buttons.end() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (m_it != m_buttons.end() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		m_it->invoke();
 }

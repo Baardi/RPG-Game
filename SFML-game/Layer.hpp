@@ -34,7 +34,13 @@ struct AnimationTile
 // Small helper struct that contains tile size information
 struct TileSize
 {
-	TileSize() : x(0), y(0), s(0), m(0) {}
+	TileSize(int x = 0, int y = 0, int s = 0, int m = 0) : 
+		x(x), 
+		y(y), 
+		s(s), 
+		m(m) 
+	{}
+
 	int x; // Width
 	int y; // Height
 	int s; // Spacing

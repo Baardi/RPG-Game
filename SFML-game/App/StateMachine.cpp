@@ -39,29 +39,30 @@ void StateMachine::performTransition()
 
 void StateMachine::handleWindowEvents()
 {
-	sf::Event event;
-	while (m_window->pollEvent(event))
+	// TODO: Seems that SFML has a bug, so m_window->handleEvents doesn't work
+	while (auto event = m_window->pollEvent())
 	{
-		switch (event.type)
-		{
-		case sf::Event::Closed:
-			exit();
-			break;
+		event->visit([&](auto&& arg) -> void {
+			using T = std::decay_t<decltype(arg)>;
+			if constexpr (std::is_same_v<T, sf::Event::Closed>)
+			{
+				exit();
+			}
+			else if constexpr (std::is_same_v<T, sf::Event::FocusLost>)
+			{
+				if (m_currentState)
+					m_currentState->pause();
 
-		case sf::Event::LostFocus:
-			if (m_currentState)
-				m_currentState->pause();
+				m_respondable = false;
+			}
+			else if constexpr (std::is_same_v<T, sf::Event::FocusGained>)
+			{
+				m_respondable = true;
+			}
 
-			m_respondable = false;
-			break;
-
-		case sf::Event::GainedFocus:
-			m_respondable = true;
-			break;
-		}
-
-		if (m_respondable)
-			m_currentState->pollEvent(event.type);
+			if (m_respondable)
+				m_currentState->handleEvent(arg);
+			});
 	}
 }
 

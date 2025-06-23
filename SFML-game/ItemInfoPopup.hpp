@@ -8,7 +8,10 @@ class ItemInfoPopup : public appstate::PopupMenu
 {
 public:
 	ItemInfoPopup(GameItem *item, sf::Vector2i pos) :
-		m_item(item), m_pos(pos), m_renderSprite(m_renderTexture.getTexture()) 
+		m_item(item), 
+		m_pos(pos), 
+		m_renderTexture({ 352u, 352u }),
+		m_renderSprite(m_renderTexture.getTexture()) 
 	{}
 
 	virtual ~ItemInfoPopup() = default;

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "builtin-baseline": "0cf34c184ce990471435b5b9c92edcf7424930b1",
   "dependencies": [
     "sfml",
     "jsoncpp"

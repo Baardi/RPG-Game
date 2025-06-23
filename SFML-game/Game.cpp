@@ -16,8 +16,7 @@ using appstate::Game;
 
 Game::Game() : 
 	m_player{ m_clock, { 160, 160 } },
-	m_pauseText{ resources().font(), "Paused", 50 }, 
-	m_renderSprite { m_renderTexture.getTexture() }
+	m_pauseText{ resources().font(), "Paused", 50 }
 {
 	m_pauseText.setPosition({ 400, 450 });
 }
@@ -36,7 +35,7 @@ void Game::init()
 
 	m_fringeDrawer.addObject(m_player);
 	
-	m_keyHandler.onKeyComboPressed({ sf::Keyboard::S, sf::Keyboard::LControl }, [this]
+	m_keyHandler.onKeyComboPressed({ sf::Keyboard::Key::S, sf::Keyboard::Key::LControl }, [this]
 		{
 			m_map.save(getSaveFile(m_map.getFile()));
 		});
@@ -51,10 +50,10 @@ void Game::init()
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Add,			[this] { m_music.incVolume(); });
 	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::Subtract,	[this] { m_music.decVolume(); });
 	
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { m_renderSprite.move({ 0,  7 }); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { m_renderSprite.move({ 7,  0 }); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { m_renderSprite.move({ 0, -7 }); });
-	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { m_renderSprite.move({ -7, 0 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::W, [this] { if (m_renderSprite) m_renderSprite->move({ 0,  7 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::A, [this] { if (m_renderSprite) m_renderSprite->move({ 7,  0 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::S, [this] { if (m_renderSprite) m_renderSprite->move({ 0, -7 }); });
+	m_keyHandler.whileKeyPressed(sf::Keyboard::Key::D, [this] { if (m_renderSprite) m_renderSprite->move({ -7, 0 }); });
 
 	m_intersectionHandler.registerEvent("Enemies", [this](ObjectLayer *layer, ObjectSprite *sprite)
 	{
@@ -141,13 +140,18 @@ void Game::resume()
 void Game::draw(sf::RenderTarget &target)
 {
 	// Draw to renderTexture
-	m_renderTexture.clear(sf::Color::Black);
-	m_fringeDrawer.sortObjects();
-	m_map.drawWithFringe(m_renderTexture, "Fringe", m_fringeDrawer);
-	m_renderTexture.display();
-	
+	if (m_renderSprite.has_value())
+	{
+		m_renderTexture.clear(sf::Color::Black);
+		m_fringeDrawer.sortObjects();
+		m_map.drawWithFringe(m_renderTexture, "Fringe", m_fringeDrawer);
+
+		m_renderTexture.display();
+
+		target.draw(*m_renderSprite);
+	}
+
 	// Draw to target
-	target.draw(m_renderSprite);
 	m_player.drawToWindow(target);
 	if (m_paused && stateMachine().isCurrent(this))
 		target.draw(m_pauseText);
@@ -167,10 +171,16 @@ bool Game::loadMap(const std::filesystem::path &mapFile)
 	m_map = std::move(tmpMap);
 	loadProperties(m_map);
 
-	if (!m_renderTexture.create({ m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y }))
+	try
+	{
+		m_renderTexture = sf::RenderTexture({ m_map.width * m_map.tileSize.x, m_map.height * m_map.tileSize.y });
+		m_renderSprite.emplace(m_renderTexture.getTexture());
+	}
+	catch (const std::exception &)
+	{
 		return false;
-
-	m_renderSprite.setTexture(m_renderTexture.getTexture());
+	}
+	
 	updateDrawRect();
 
 	return true;
@@ -192,11 +202,12 @@ void Game::loadMusic(const MapProperties &properties, Music &music)
 void Game::updateDrawRect()
 {
 	const auto playerPos = m_player.getPosition();
-	const auto playerBounds = m_player.getLocalBounds();
+	const auto playerSize = m_player.getLocalBounds().size;
 	const auto windowSize = window().getSize();
-
-	const float newX = windowSize.x / 2 - playerBounds.width  / 2 - playerPos.x;
-	const float newY = windowSize.y / 2 - playerBounds.height / 2 - playerPos.y;
-
-	m_renderSprite.setPosition({ newX, newY });
+	
+	const float newX = windowSize.x / 2 - playerSize.x / 2 - playerPos.x;
+	const float newY = windowSize.y / 2 - playerSize.y / 2 - playerPos.y;
+	
+	if (m_renderSprite)
+		m_renderSprite->setPosition({ newX, newY });
 }

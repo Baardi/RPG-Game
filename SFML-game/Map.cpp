@@ -2,6 +2,7 @@
 #include "Map.hpp"
 
 #include <fstream>
+#include <print>
 #include "TileLayer.hpp"
 #include "ObjectLayer.hpp"
 #include "ImageLayer.hpp"
@@ -37,10 +38,17 @@ bool Map::load(const std::filesystem::path &filename, Textures &textures, const 
 	// Read data from file into root object
 	bool parsingSuccessful = reader.parse(file, root);
 	if (!parsingSuccessful)
+	{
+		std::println("Parsing failed");
 		return false;
+	}
 
-	if (root["version"].asString() != FORMAT_VERSION)
+	const std::string fileVersionString = root["version"].asString();
+	if (fileVersionString != FORMAT_VERSION)
+	{
+		std::println("Wrong version! Expected: {}, Actual: {}", FORMAT_VERSION, fileVersionString);
 		return false; // Wrong version. We refuse to read it
+	}
 
 	std::error_code ec;
 	m_currentFile = std::filesystem::weakly_canonical(filename, ec); // NOTE: weakly_canonical has some issues with mapped drives. Doesn't matter for me though

@@ -41,10 +41,7 @@ bool GameObject::contains(sf::Vector2f pos) const
 
 sf::Vector2f GameObject::getBottomRightPosition() const
 {
-	auto pos = getPosition();
-	auto bounds = getGlobalBounds();
-
-	return pos + bounds.getSize();
+	return getPosition() + getGlobalBounds().size;
 }
 
 #ifdef _DEBUG 
@@ -52,7 +49,7 @@ void GameObject::drawDebugOutline(sf::RenderTarget &target) const
 {
 	// Draw white outline for transformed rec (May be rotated)
 	const sf::FloatRect bounds{ getLocalBounds() };
-	sf::RectangleShape rec{ bounds.getSize() };
+	sf::RectangleShape rec{ bounds.size };
 
 	rec.setFillColor(sf::Color::Transparent);
 	rec.setOutlineColor(sf::Color::White);
@@ -64,12 +61,12 @@ void GameObject::drawDebugOutline(sf::RenderTarget &target) const
 
 	// Draw red outline for global bounds (unrotated)
 	const sf::FloatRect globals{ getGlobalBounds() };
-	sf::RectangleShape rec2{ globals.getSize() };
+	sf::RectangleShape rec2{ globals.size };
 
 	rec2.setFillColor(sf::Color::Transparent);
 	rec2.setOutlineColor(sf::Color::Red);
 	rec2.setOutlineThickness(-1.5);
-	rec2.setPosition(globals.getPosition());
+	rec2.setPosition(globals.position);
 	
 	target.draw(rec2);
 }

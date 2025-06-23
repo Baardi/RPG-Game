@@ -62,20 +62,20 @@ bool pixelPerfectTest(const sf::Sprite &object1, const sf::Sprite &object2, std:
 		std::vector<std::uint8_t> &mask2 = s_bitmasks.getMask(object2.getTexture());
 
 		// Loop through our pixels
-		for (int i = static_cast<int>(intersection->left); i < static_cast<int>(intersection->left + intersection->width); i++) 
+		for (int i = static_cast<int>(intersection->position.x); i < static_cast<int>(intersection->position.x + intersection->size.x); i++) 
 		{
-			for (int j = static_cast<int>(intersection->top); j < static_cast<int>(intersection->top + intersection->height); j++) 
+			for (int j = static_cast<int>(intersection->position.y); j < static_cast<int>(intersection->position.y + intersection->size.y); j++) 
 			{ 
 				sf::Vector2f o1v = object1.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
 				sf::Vector2f o2v = object2.getInverseTransform().transformPoint({ static_cast<float>(i), static_cast<float>(j) });
  
 				// Make sure pixels fall within the sprite's subrect
 				if (o1v.x > 0 && o1v.y > 0 && o2v.x > 0 && o2v.y > 0 &&
-					o1v.x < O1SubRect.width && o1v.y < O1SubRect.height &&
-					o2v.x < O2SubRect.width && o2v.y < O2SubRect.height) 
+					o1v.x < O1SubRect.size.x && o1v.y < O1SubRect.size.y &&
+					o2v.x < O2SubRect.size.x && o2v.y < O2SubRect.size.y) 
 				{
-					if (s_bitmasks.getPixel(mask1, object1.getTexture(), static_cast<int>(o1v.x) + O1SubRect.left, static_cast<int>(o1v.y) + O1SubRect.top) > alphaLimit &&
-						s_bitmasks.getPixel(mask2, object2.getTexture(), static_cast<int>(o2v.x) + O2SubRect.left, static_cast<int>(o2v.y) + O2SubRect.top) > alphaLimit)
+					if (s_bitmasks.getPixel(mask1, object1.getTexture(), static_cast<int>(o1v.x) + O1SubRect.position.x, static_cast<int>(o1v.y) + O1SubRect.position.y) > alphaLimit &&
+						s_bitmasks.getPixel(mask2, object2.getTexture(), static_cast<int>(o2v.x) + O2SubRect.position.x, static_cast<int>(o2v.y) + O2SubRect.position.y) > alphaLimit)
 					{
 						return true;
 					}
@@ -104,7 +104,7 @@ static sf::Vector2f getSpriteCenter(const sf::Sprite &object)
 {
 	sf::FloatRect AABB = object.getGlobalBounds();
 	
-	return sf::Vector2f (AABB.left+AABB.width/2.f, AABB.top+AABB.height/2.f);
+	return sf::Vector2f (AABB.position.x+AABB.size.x/2.f, AABB.position.y+AABB.size.y/2.f);
 }
 
 static sf::Vector2f getSpriteSize(const sf::Sprite &object)
@@ -112,7 +112,7 @@ static sf::Vector2f getSpriteSize(const sf::Sprite &object)
 	sf::IntRect originalSize = object.getTextureRect();
 	sf::Vector2f scale = object.getScale();
 
-	return sf::Vector2f(originalSize.width * scale.x, originalSize.height * scale.y);
+	return sf::Vector2f(originalSize.size.x * scale.x, originalSize.size.y * scale.y);
 }
 
 bool circleTest(const sf::Sprite &object1, const sf::Sprite &object2) 
@@ -141,9 +141,9 @@ public:
 	OrientedBoundingBox(sf::Transform transf, sf::FloatRect bounds) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
 	{
 		m_points[0] = transf.transformPoint({ 0.f, 0.f });
-		m_points[1] = transf.transformPoint({ bounds.width, 0.f });
-		m_points[2] = transf.transformPoint({ bounds.width, bounds.height });
-		m_points[3] = transf.transformPoint({ 0.f, bounds.height });
+		m_points[1] = transf.transformPoint({ bounds.size.x, 0.f });
+		m_points[2] = transf.transformPoint({ bounds.size.x, bounds.size.y });
+		m_points[3] = transf.transformPoint({ 0.f, bounds.size.y });
 	}
 
 	template <typename Self>

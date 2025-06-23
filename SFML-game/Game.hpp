@@ -49,7 +49,7 @@ private:
 	ObjectSpriteFactory m_spriteFactory;
 
 	sf::RenderTexture m_renderTexture;
-	sf::Sprite m_renderSprite;
+	std::optional<sf::Sprite> m_renderSprite;
 };
 
 }

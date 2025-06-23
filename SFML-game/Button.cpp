@@ -28,8 +28,7 @@ void Button::setSize(sf::Vector2f size)
 {
 	// Scale textbox
 	auto rect = m_sprite.getTextureRect();
-	rect.width = static_cast<int>(size.x);
-	rect.height = static_cast<int>(size.y);
+	rect.size = static_cast<sf::Vector2i>(size);
 	m_sprite.setTextureRect(rect);
 
 	// Always centralize text afterwards	
@@ -39,8 +38,7 @@ void Button::setSize(sf::Vector2f size)
 
 sf::Vector2f Button::getSize() const
 {
-	auto rect = m_sprite.getGlobalBounds();
-	return sf::Vector2f(rect.width, rect.height);
+	return m_sprite.getGlobalBounds().size;
 }
 
 bool Button::contains(sf::Vector2f pos) const
@@ -100,8 +98,8 @@ void Button::centralizeText(sf::IntRect bounds)
 {
 	const auto textHeight = getTextSize();
 
-	const auto newX = bounds.left + 0.1f * static_cast<float>(bounds.width);
-	const auto newY = bounds.top + static_cast<float>(bounds.height) / 2.0f - static_cast<float>(textHeight) / 2.0f;
+	const auto newX = bounds.position.x + 0.1f * static_cast<float>(bounds.size.x);
+	const auto newY = bounds.position.y + static_cast<float>(bounds.size.y) / 2.0f - static_cast<float>(textHeight) / 2.0f;
 	m_text.setPosition({ newX, newY });
 }
 

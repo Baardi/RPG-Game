@@ -6,7 +6,7 @@ Music::Music() :
 	m_muted(false),
 	m_volume(100)
 {
-	m_music.setLoop(true);
+	m_music.setLooping(true);
 }
 
 bool Music::load(const std::filesystem::path &file)

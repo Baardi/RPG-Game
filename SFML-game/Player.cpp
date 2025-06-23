@@ -11,17 +11,10 @@
 Player::Player([[maybe_unused]]sftools::Chronometer &clock, sf::Vector2f pos) :
 	m_textStats{ resources().font() },
 	m_textFighting{ resources().font() },
-	m_sprite{ m_texture }
+	m_texture("data/Player Sprites/Engineer.png"),
+	m_tilesize{ static_cast<int>(m_texture.getSize().x) / 4, static_cast<int>(m_texture.getSize().y / 4) },
+	m_sprite{ m_texture, {{ 0, static_cast<int>(m_dir) * m_tilesize.y }, { m_tilesize.x, m_tilesize.y }} }
 {
-	if (!m_texture.loadFromFile("data/Player Sprites/Engineer.png"))
-		std::println("Failed loading player sprite");
-	
-	m_tilesize.x = m_texture.getSize().x / 4;
-	m_tilesize.y = m_texture.getSize().y / 4;
-
-	m_sprite.setTexture(m_texture);
-	m_sprite.setTextureRect({{ 0, static_cast<int>(m_dir) * m_tilesize.y }, { m_tilesize.x, m_tilesize.y }});
-	
 	// Map keys to directions for the player
 	m_dirMap.emplace(Dir::Left,	 sf::Keyboard::Key::Left);
 	m_dirMap.emplace(Dir::Right, sf::Keyboard::Key::Right);

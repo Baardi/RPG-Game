@@ -10,7 +10,7 @@ Menu::Menu()
 	m_clock.resume();
 
 	m_buttonHandler.setFont(resources().font());
-	m_keyHandler.onKeyPressed(sf::Keyboard::Escape, [this] { stateMachine().popState(); });
+	m_keyHandler.onKeyPressed(sf::Keyboard::Key::Escape, [this] { stateMachine().popState(); });
 }
 
 Menu::~Menu()

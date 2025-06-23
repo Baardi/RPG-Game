@@ -13,7 +13,8 @@ public:
 	
 	virtual void init() {}
 	virtual bool frame() { return true; }
-	virtual void pollEvent([[maybe_unused]]sf::Event::EventType &eventType) {}
+
+	virtual void handleEvent([[maybe_unused]]sf::Event &&event) {}
 	
 	virtual void pause();
 	virtual void resume();
