@@ -298,7 +298,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Directory.Build.props" />
     <None Include="vcpkg.json" />
   </ItemGroup>
 </Project>
