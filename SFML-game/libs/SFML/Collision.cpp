@@ -136,7 +136,7 @@ struct MinMax
 
 class OrientedBoundingBox // Used in the BoundingBoxTest
 {
-	sf::Vector2f m_points[4];
+	std::array<sf::Vector2f, 4> m_points;
 public:
 	OrientedBoundingBox(sf::Transform transf, sf::FloatRect bounds) // Calculate the four points of the OBB from a transformed (scaled, rotated...) sprite
 	{
@@ -147,7 +147,7 @@ public:
 	}
 
 	template <typename Self>
-	auto& operator[](this Self &&self, size_t index) 
+	auto& operator[](this Self &self, size_t index) 
 	{
 		return self.m_points[index];
 	}

@@ -32,7 +32,7 @@ void MapProperties::saveProperties(Json::Value &properties) const
 		Json::Value value;
 		value["name"] = propertyName;
 		value["type"] = std::visit([](auto &&arg) -> Json::Value {
-			using T = std::decay_t<decltype(arg)>;
+			using T = std::remove_cvref_t<decltype(arg)>;
 			if constexpr (std::is_same_v<T, std::string>)
 				return "string";
 			else if constexpr (std::is_same_v<T, std::filesystem::path>)
@@ -48,7 +48,7 @@ void MapProperties::saveProperties(Json::Value &properties) const
 			}, propertyValue);
 
 		value["value"] = std::visit([](auto &&arg) -> Json::Value {
-			using T = std::decay_t<decltype(arg)>;
+			using T = std::remove_cvref_t<decltype(arg)>;
 			if constexpr (std::is_same_v<T, std::filesystem::path>)
 				return arg.string();
 			else if constexpr (std::is_same_v<T, sf::Color>)
